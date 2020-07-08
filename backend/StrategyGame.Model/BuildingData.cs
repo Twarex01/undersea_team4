@@ -12,5 +12,6 @@ namespace StrategyGame.Model
         public int Price { get; set; }
 
 
+
     }
 }
