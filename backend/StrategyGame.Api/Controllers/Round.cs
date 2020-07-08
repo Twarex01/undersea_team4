@@ -5,17 +5,27 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace StrategyGame.Api.Controllers.commons
+namespace StrategyGame.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Register : ControllerBase
+    public class Round : ControllerBase
     {
-        [HttpPost]
-        public void Registration(string name, string pw, string country)
+        //GET api/round
+        [HttpGet]
+        public IActionResult Points()
         {
             throw new Exception("TODO");
         }
+
+        //PUT api/round
+        [HttpPost]
+        public IActionResult NextRound()
+        {
+            throw new Exception("TODO");
+        }
+
+
 
     }
 }

@@ -5,18 +5,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace StrategyGame.Api.Controllers.game
+namespace StrategyGame.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Players : ControllerBase
+    public class Attack : ControllerBase
     {
-
-        [HttpGet]
-        public void PlayerList()
+        // POST api/attack
+        [HttpPost]
+        public IActionResult Battle() // params: (Támadólista: TámadóID, VédőId, Egységlista: ID, db) 
         {
             throw new Exception("TODO");
         }
-
     }
 }

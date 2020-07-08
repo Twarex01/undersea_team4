@@ -5,24 +5,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace StrategyGame.Api.Controllers.game
+namespace StrategyGame.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Round : ControllerBase
+    public class Units : ControllerBase
     {
+        //GET api/units
         [HttpGet]
-        public void Points() {
-            throw new Exception("TODO");
-        }
-
-        [HttpPost]
-        public void NextRound()
+        public IActionResult UnitsData()
         {
             throw new Exception("TODO");
         }
-
-
-
     }
 }

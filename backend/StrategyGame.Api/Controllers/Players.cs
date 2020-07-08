@@ -5,16 +5,18 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace StrategyGame.Api.Controllers.commons
+namespace StrategyGame.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Login : ControllerBase
+    public class Players : ControllerBase
     {
-        [HttpPost]
-        public void SignIn(string name, string pw)
+        //GEt api/players
+        [HttpGet]
+        public IActionResult PlayerList()
         {
             throw new Exception("TODO");
         }
+
     }
 }
