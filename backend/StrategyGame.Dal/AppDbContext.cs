@@ -24,10 +24,10 @@ namespace StrategyGame.Dal
         public DbSet<UpgradeData> UpgradeData { get; set; } 
         public DbSet<UnitData> UnitData { get; set; }
         public DbSet<ResourceData> ResourceData { get; set; }
-        /*
+        
         public DbSet<Battle> Battles { get; set; }
         public DbSet<AttackingUnit> AttackingUnits { get; set; }
-        */
+        
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
 
@@ -76,7 +76,6 @@ namespace StrategyGame.Dal
             builder.Entity<BuildingData>().HasKey(b => b.ID);
             builder.Entity<UpgradeData>().HasKey(u => u.ID);
 
-            /*
            builder.Entity<Battle>().HasKey(b => b.ID);
            builder.Entity<Battle>().HasOne(b => b.DefendingCountry).WithOne().HasForeignKey<Battle>(b => b.DefendingCountryID);
            builder.Entity<Battle>().HasOne(b => b.AttackingCountry).WithOne().HasForeignKey<Battle>(b => b.AttackingCountryID);
@@ -84,7 +83,6 @@ namespace StrategyGame.Dal
            builder.Entity<AttackingUnit>().HasKey(a => a.ID);
            builder.Entity<AttackingUnit>().HasOne(a => a.Battle).WithMany(b => b.AttackingUnits).HasForeignKey(a => a.BattleID);
            builder.Entity<AttackingUnit>().HasOne(a => a.UnitData).WithOne().HasForeignKey<AttackingUnit>(a => a.UnitDataID);
-           */
 
 
         }

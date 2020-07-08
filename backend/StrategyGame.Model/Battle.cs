@@ -13,8 +13,8 @@ namespace StrategyGame.Model
         public Country AttackingCountry { get; set; }
         public Country DefendingCountry { get; set; }
 
-        public int AttackingCountryID { get; set; }
-        public int DefendingCountryID { get; set; }
+        public int? AttackingCountryID { get; set; }
+        public int? DefendingCountryID { get; set; }
 
         public List<AttackingUnit> AttackingUnits { get; set; }
     }

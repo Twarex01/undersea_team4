@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace StrategyGame.Model
@@ -8,7 +9,8 @@ namespace StrategyGame.Model
     {
         public override void applyEffects()
         {
-            throw new NotImplementedException();
+           var countryProds = Productions.Instance.ProductionEntries.Where(p => p.CountryID == this.CoutryID);
+            
         }
     }
 }
