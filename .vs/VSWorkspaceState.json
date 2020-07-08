@@ -1,0 +1,10 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\backend",
+    "\\backend\\StrategyGame.Api",
+    "\\backend\\StrategyGame.Dal"
+  ],
+  "SelectedNode": "\\backend\\StrategyGame.Api\\Startup.cs",
+  "PreviewInSolutionExplorer": false
+}
