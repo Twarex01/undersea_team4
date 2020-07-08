@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: Baloo Regular;
+    src: url(../src/assets/Baloo_2/Baloo2-Regular.ttf);
+}
+
+@font-face {
+    font-family: Baloo Bold;
+    src: url(../src/assets/Baloo_2/Baloo2-Bold.ttf);
+}
