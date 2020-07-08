@@ -3,12 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using StrategyGame.Model;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace StrategyGame.Dal
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext
     {
-        public DbSet<Entity> MyProperty { get; set; }
+        
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
