@@ -7,6 +7,14 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200708085951_NameProperty.cs" />
     <Compile Remove="Migrations\20200708085951_NameProperty.Designer.cs" />
+    <Compile Remove="Migrations\20200708135823_EntitiesAdded_Test.cs" />
+    <Compile Remove="Migrations\20200708135823_EntitiesAdded_Test.Designer.cs" />
+    <Compile Remove="Migrations\20200708140912_EntitiesAdded_NoBattle.cs" />
+    <Compile Remove="Migrations\20200708140912_EntitiesAdded_NoBattle.Designer.cs" />
+    <Compile Remove="Migrations\20200708141017_EntitiesAdded_NoBattle.cs" />
+    <Compile Remove="Migrations\20200708141017_EntitiesAdded_NoBattle.Designer.cs" />
+    <Compile Remove="Migrations\20200708141137_EntitiesAdded_NoBattle.cs" />
+    <Compile Remove="Migrations\20200708141137_EntitiesAdded_NoBattle.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

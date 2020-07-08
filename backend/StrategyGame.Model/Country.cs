@@ -10,13 +10,15 @@ namespace StrategyGame.Model
 
         public string Name { get; set; }
 
-        public Upgrade CurrentlyUpgrading { get; set; }
+        public User User { get; set; }
 
-        public int CurrentlyUpgradingID { get; set; }
+        public string UserID { get; set; }
 
-        public Building CurrentlyBuilding { get; set; }
+        public List<Resource> Resources { get; set; }
+        public List<Building> Buildings { get; set; }
+        public List<Upgrade> Upgrades { get; set; }
 
-        public int CurrentlyBuildingID { get; set; }
+        public List<Unit> Units { get; set; }
 
 
         public int Population { get; set; }
