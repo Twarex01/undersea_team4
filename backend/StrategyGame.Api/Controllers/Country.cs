@@ -27,7 +27,7 @@ namespace StrategyGame.Api.Controllers
         }
 
         //GET api/country/5/upgrades
-        [HttpGet("{id}/upgrades")]
+        [HttpGet("{id}/upgrades")
         public IActionResult CountryUpgrades(int id)
         {
             throw new Exception("TODO");
