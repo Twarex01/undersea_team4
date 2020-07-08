@@ -8,7 +8,8 @@ const routes: Routes = [
   { path: '',
     component: MainLayoutComponent,
     children: [
-      { path: 'attack', loadChildren: () => import('./features/attack/attack.module').then(m => m.AttackModule) }
+      { path: 'attack', loadChildren: () => import('./features/attack/attack.module').then(m => m.AttackModule) },
+      { path: 'buildings', loadChildren: () => import('./features/buildings/buildings.module').then(m => m.BuildingsModule) }
     ]
   },
   { path: 'login', component: LoginComponent },
