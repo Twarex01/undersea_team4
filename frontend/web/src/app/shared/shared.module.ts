@@ -1,13 +1,20 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { AttackModule } from '../features/attack/attack.module';
-import { BattleModule } from '../features/battle/battle.module';
+import { BattlesModule } from '../features/battles/battles.module';
+import { BuildingsModule } from '../features/buildings/buildings.module';
+import { UnitsModule } from '../features/units/units.module';
+import { UpgradesModule } from '../features/upgrades/upgrades.module';
+import { RankingsModule } from '../features/rankings/rankings.module';
 
 @NgModule({
   declarations: [],
   imports: [
     AttackModule,
-    BattleModule
+    BattlesModule,
+    BuildingsModule,
+    UnitsModule,
+    UpgradesModule,
+    RankingsModule
   ]
 })
 export class SharedModule { }

@@ -9,7 +9,11 @@ const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       { path: 'attack', loadChildren: () => import('./features/attack/attack.module').then(m => m.AttackModule) },
-      { path: 'buildings', loadChildren: () => import('./features/buildings/buildings.module').then(m => m.BuildingsModule) }
+      { path: 'buildings', loadChildren: () => import('./features/buildings/buildings.module').then(m => m.BuildingsModule) },
+      { path: 'upgrades', loadChildren: () => import('./features/upgrades/upgrades.module').then(m => m.UpgradesModule) },
+      { path: 'rankings', loadChildren: () => import('./features/rankings/rankings.module').then(m => m.RankingsModule) },
+      { path: 'units', loadChildren: () => import('./features/units/units.module').then(m => m.UnitsModule) },
+      { path: 'battles', loadChildren: () => import('./features/battles/battles.module').then(m => m.BattlesModule) }
     ]
   },
   { path: 'login', component: LoginComponent },

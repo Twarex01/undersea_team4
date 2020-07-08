@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { BuildingsRoutingModule } from './buildings-routing.module';
-import { BuildingsComponent } from './components/buildings/buildings.component';
+import { BuildingsPageComponent } from './pages/buildings.page/buildings.page.component';
 
 
 @NgModule({
-  declarations: [BuildingsComponent],
+  declarations: [BuildingsPageComponent],
   imports: [
     CommonModule,
     BuildingsRoutingModule
