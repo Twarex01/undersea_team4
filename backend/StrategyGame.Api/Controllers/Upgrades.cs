@@ -15,7 +15,7 @@ namespace StrategyGame.Api.Controllers
     {
         //GET api/upgrades
         [HttpGet]
-        public IActionResult UpgradesData()
+        public List<UpgradeDetailsDTO> UpgradesData()
         {
             //return Ok(mapper.Map<UpgradeResultDTO>(upgradeMOdel))
             throw new Exception("TODO");
