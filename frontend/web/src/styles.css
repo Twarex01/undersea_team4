@@ -8,3 +8,7 @@
     font-family: Baloo Bold;
     src: url(../src/assets/Baloo_2/Baloo2-Bold.ttf);
 }
+
+body {
+    margin: 0;
+}
