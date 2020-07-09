@@ -27,7 +27,7 @@ namespace StrategyGame.Api
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
-        {
+        {            
             services.AddRazorPages();
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AppDbContext")));
             services.AddIdentityCore<Model.User>().AddEntityFrameworkStores<AppDbContext>();
