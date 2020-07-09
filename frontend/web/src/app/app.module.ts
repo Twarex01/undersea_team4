@@ -8,6 +8,8 @@ import { LoginComponent } from './core/login/login.component';
 import { RegistrationComponent } from './core/registration/registration.component';
 import { MainLayoutComponent } from './core/main-layout/main-layout.component';
 import { StatusBarComponent } from './core/status-bar/status-bar.component';
+import { MenuComponent } from './core/menu/menu.component';
+import { ProfileComponent } from './core/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,9 @@ import { StatusBarComponent } from './core/status-bar/status-bar.component';
     LoginComponent,
     RegistrationComponent,
     MainLayoutComponent,
-    StatusBarComponent
+    StatusBarComponent,
+    MenuComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

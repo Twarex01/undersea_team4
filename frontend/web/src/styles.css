@@ -13,7 +13,7 @@ body {
     margin: 0;
 }
 
-h1, h2, p, span, a, div {
+h1, h2, p, span, a, div, button {
     font-family: "Baloo Bold";
 }
 
