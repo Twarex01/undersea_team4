@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\DTO\common\**" />
+    <Content Remove="Controllers\DTO\common\**" />
+    <EmbeddedResource Remove="Controllers\DTO\common\**" />
+    <None Remove="Controllers\DTO\common\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
@@ -20,10 +27,6 @@
     <ProjectReference Include="..\StrategyGame.Bll\StrategyGame.Bll.csproj" />
     <ProjectReference Include="..\StrategyGame.Dal\StrategyGame.Dal.csproj" />
     <ProjectReference Include="..\StrategyGame.Model\StrategyGame.Model.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\DTO\common\" />
   </ItemGroup>
 
 </Project>

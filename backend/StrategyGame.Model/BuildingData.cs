@@ -10,6 +10,8 @@ namespace StrategyGame.Model
 
         public string Name { get; set; }
         public int Price { get; set; }
+        public ResourceData PriceUnit { get; set; }
+        public int PriceUnitID { get; set; }
 
 
 
