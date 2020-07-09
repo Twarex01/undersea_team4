@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace StrategyGame.Api.Controllers.DTO.Country
+namespace StrategyGame.Bll.DTO.Country
 {
     public class CountryResourcesDTO
     {
@@ -12,6 +12,8 @@ namespace StrategyGame.Api.Controllers.DTO.Country
         public List<ResourceDTO> Products { get; set; }
         [Range(0, int.MaxValue)]
         public int Population { get; set; }
+        [Range(0, int.MaxValue)]
+        public int ArmyCapacity { get; set; }
         public List<BuildingDTO> Buildings { get; set; }
 
     }

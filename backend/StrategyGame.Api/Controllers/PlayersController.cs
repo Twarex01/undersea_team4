@@ -4,19 +4,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using StrategyGame.Api.Controllers.DTO;
+using StrategyGame.Bll.DTO;
 
 namespace StrategyGame.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Units : ControllerBase
+    public class PlayersController : ControllerBase
     {
-        //GET api/units
+        //GEt api/players
         [HttpGet]
-        public List<UnitDetailsDTO> UnitsData()
+        public List<PlayerDTO> PlayerList()
         {
-            throw new Exception("TODO");
+            throw new NotImplementedException("TODO");
         }
+
     }
 }
