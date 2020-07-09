@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using StrategyGame.Api.Controllers.DTO;
+using StrategyGame.Bll.DTO;
 
 namespace StrategyGame.Api.Controllers
 {
@@ -18,7 +18,7 @@ namespace StrategyGame.Api.Controllers
         [Authorize]
         public IActionResult Attack([FromBody] BattleDTO battleDTO)
         {
-            throw new Exception("TODO");
+            throw new NotImplementedException("TODO");
         }
     }
 }

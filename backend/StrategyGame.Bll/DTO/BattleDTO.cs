@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace StrategyGame.Api.Controllers.DTO.Country
+namespace StrategyGame.Bll.DTO
 {
-    public class CountryBuyUnitsDTO
+    public class BattleDTO
     {
-        public int Id { get; set; }
+        public int IdAtt { get; set; }
+        public int IdDef { get; set; }
         public List<UnitDTO> Army { get; set; }
     }
 }

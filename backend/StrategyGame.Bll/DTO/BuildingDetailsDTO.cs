@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace StrategyGame.Api.Controllers.DTO
+namespace StrategyGame.Bll.DTO
 {
     public class BuildingDetailsDTO: BuildingDTO
     {

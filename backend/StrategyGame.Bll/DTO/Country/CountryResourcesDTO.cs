@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace StrategyGame.Api.Controllers.DTO.Country
+namespace StrategyGame.Bll.DTO.Country
 {
     public class CountryResourcesDTO
     {

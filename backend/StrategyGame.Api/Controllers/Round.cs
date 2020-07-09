@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using StrategyGame.Api.Controllers.DTO;
+using StrategyGame.Bll.DTO;
 
 namespace StrategyGame.Api.Controllers
 {
@@ -16,17 +16,14 @@ namespace StrategyGame.Api.Controllers
         [HttpGet]
         public RoundScoreDTO Points()
         {
-            throw new Exception("TODO");
+            throw new NotImplementedException("TODO");
         }
 
         //PUT api/round
         [HttpPost]
         public IActionResult NextRound()
         {
-            throw new Exception("TODO");
+            throw new NotImplementedException("TODO");
         }
-
-
-
     }
 }

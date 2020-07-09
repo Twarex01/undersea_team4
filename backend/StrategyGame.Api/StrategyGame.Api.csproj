@@ -16,8 +16,4 @@
     <ProjectReference Include="..\StrategyGame.Model\StrategyGame.Model.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\DTO\common\" />
-  </ItemGroup>
-
 </Project>

@@ -4,22 +4,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using StrategyGame.Bll.DTO;
+using StrategyGame.Api.Controllers.DTO.common;
 
 namespace StrategyGame.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Upgrades : ControllerBase
+    public class Login : ControllerBase
     {
-        //GET api/upgrades
-        [HttpGet]
-        public List<UpgradeDetailsDTO> UpgradesData()
+        [HttpPost]
+        public IActionResult PostLogin([FromBody] LoginDTO loginDTO)
         {
-            //return Ok(mapper.Map<UpgradeResultDTO>(upgradeMOdel))
             throw new NotImplementedException("TODO");
         }
-
     }
 }
