@@ -11,6 +11,7 @@ import { StatusBarComponent } from './core/status-bar/status-bar.component';
 import { MenuComponent } from './core/menu/menu.component';
 import { ProfileComponent } from './core/profile/profile.component';
 import { BasicFormCardComponent } from './core/basic-form-card/basic-form-card.component';
+import { IconBoxComponent } from './core/icon-box/icon-box.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { BasicFormCardComponent } from './core/basic-form-card/basic-form-card.c
     StatusBarComponent,
     MenuComponent,
     ProfileComponent,
-    BasicFormCardComponent
+    BasicFormCardComponent,
+    IconBoxComponent
   ],
   imports: [
     BrowserModule,
