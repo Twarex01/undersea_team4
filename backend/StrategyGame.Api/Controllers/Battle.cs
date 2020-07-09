@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using StrategyGame.Api.Controllers.DTO;
 
 namespace StrategyGame.Api.Controllers
 {
@@ -15,7 +16,7 @@ namespace StrategyGame.Api.Controllers
         // POST api/attack
         [HttpPost]
         [Authorize]
-        public IActionResult Attack() // params: (Támadólista: TámadóID, VédőId, Egységlista: ID, db) 
+        public IActionResult Attack([FromBody] BattleDTO battleDTO)
         {
             throw new Exception("TODO");
         }

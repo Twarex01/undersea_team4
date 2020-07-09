@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using StrategyGame.Api.Controllers.DTO;
 
 namespace StrategyGame.Api.Controllers
 {
@@ -13,7 +14,7 @@ namespace StrategyGame.Api.Controllers
     {
         // GET api/buildings
         [HttpGet]
-        public IActionResult BuildingsData()
+        public List<BuildingDetailsDTO> BuildingsData()
         {
             throw new Exception("TODO");
         }
