@@ -6,7 +6,7 @@ namespace StrategyGame.Model.UpgradeTypes
 {
     public class MudTractor : Upgrade
     {
-        public override void applyEffects()
+        public override void ApplyEffects()
         {
             throw new NotImplementedException(); // +10% koral/round
         }

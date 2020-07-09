@@ -6,7 +6,7 @@ namespace StrategyGame.Model.UpgradeTypes
 {
     public class CoralWall : Upgrade
     {
-        public override void applyEffects()
+        public override void ApplyEffects()
         {
             throw new NotImplementedException(); // +20% defense modifier
         }

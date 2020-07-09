@@ -6,7 +6,7 @@ namespace StrategyGame.Model.UpgradeTypes
 {
     public class MartialArts : Upgrade
     {
-        public override void applyEffects()
+        public override void ApplyEffects()
         {
             throw new NotImplementedException(); //+10% attack modifier, +10% defense modifier
         }
