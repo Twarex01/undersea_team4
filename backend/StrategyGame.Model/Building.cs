@@ -13,6 +13,6 @@ namespace StrategyGame.Model
         public int BuildingDataID { get; set; }
         public Country Country { get; set; }
         public int CoutryID { get; set; }
-        public abstract void applyEffect();
+        public abstract void ApplyEffect();
     }
 }

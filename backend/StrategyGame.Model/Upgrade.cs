@@ -14,6 +14,6 @@ namespace StrategyGame.Model
         public Country Country { get; set; }
         public int CoutryID { get; set; }
 
-        public abstract void applyEffects();
+        public abstract void ApplyEffects();
     }
 }
