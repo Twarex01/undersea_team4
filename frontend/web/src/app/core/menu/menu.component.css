@@ -1,3 +1,10 @@
 button {
     color: #001234;
 }
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 50% auto 50% auto;
+}
