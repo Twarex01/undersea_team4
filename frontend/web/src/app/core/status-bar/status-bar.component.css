@@ -1,0 +1,23 @@
+img {
+
+}
+
+.status-bar {
+    background: rgba(255, 255, 255, 0.25) 0% 0% no-repeat padding-box;
+    border-radius: 16px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    filter: brightness(101%);
+}
+
+.status-bar-item {
+    display: inline-block;
+    margin: 1% 5% 1% auto;
+}
+
+.image-box {
+    background: #9FFFF0 0% 0% no-repeat padding-box;
+    border: 2px solid #428DFF;
+    border-radius: 14px;
+    display: inline-block;
+}
