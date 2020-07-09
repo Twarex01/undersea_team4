@@ -4,11 +4,11 @@ using System.Text;
 
 namespace StrategyGame.Model
 {
-    public class ZatonyVar : Building
+    public class ReefFort : Building
     {
         public override void applyEffect()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(); //+200 army capacity, price = 1000 gyöngy
         }
     }
 }
