@@ -41,6 +41,15 @@ input {
     padding: 2%;
 }
 
+input::placeholder {
+    color: #1C3E76;
+    letter-spacing: 0;
+}
+
+input:focus{
+    outline: none;
+}
+
 button {
     background: transparent linear-gradient(258deg, #9FFFF0 0%, #6BEEE9 36%, #0FCFDE 100%) 0% 0% no-repeat padding-box;
     box-shadow: 0px 3px 6px #3B7DBD;
@@ -49,6 +58,10 @@ button {
     border-width: 0;
     padding: 2% 10% 2% 10%;
     margin-top: 5%;
+}
+
+button:focus {
+    outline: none;
 }
 
 .registration-link {
