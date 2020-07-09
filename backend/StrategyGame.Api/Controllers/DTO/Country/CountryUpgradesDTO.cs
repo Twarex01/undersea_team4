@@ -10,6 +10,5 @@ namespace StrategyGame.Api.Controllers.DTO.Country
     {
         public int Id { get; set; }
         public List<UpgradeDetailsDTO> Upgrades { get; set; }
-
     }
 }
