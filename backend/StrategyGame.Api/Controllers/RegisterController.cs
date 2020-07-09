@@ -22,12 +22,17 @@ namespace StrategyGame.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostRegister([FromBody] RegisterDTO registerDTO)
+        public async Task<IActionResult> PostRegister([FromBody] RegisterDTO registerDTO)  
         {
-            User user = new User() { UserName = registerDTO.UserName };
+            Country country = new Country(registerDTO.CountryName);
+            User user = new User() { UserName = registerDTO.UserName, Country=country }; // még nem jó, először le kell küldeni a db-be a countryt hogy kapjon ID-t és utána beállítani a user country propertijét
+            country.User = user;
+            
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
             if (result.Succeeded) return Ok();
             else return BadRequest();
+            
+            
         }
     }
 }
