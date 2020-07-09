@@ -1,11 +1,40 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
+    <Compile Remove="Migrations\20200708085951_NameProperty.cs" />
+    <Compile Remove="Migrations\20200708085951_NameProperty.Designer.cs" />
+    <Compile Remove="Migrations\20200708135823_EntitiesAdded_Test.cs" />
+    <Compile Remove="Migrations\20200708135823_EntitiesAdded_Test.Designer.cs" />
+    <Compile Remove="Migrations\20200708140912_EntitiesAdded_NoBattle.cs" />
+    <Compile Remove="Migrations\20200708140912_EntitiesAdded_NoBattle.Designer.cs" />
+    <Compile Remove="Migrations\20200708141017_EntitiesAdded_NoBattle.cs" />
+    <Compile Remove="Migrations\20200708141017_EntitiesAdded_NoBattle.Designer.cs" />
+    <Compile Remove="Migrations\20200708141137_EntitiesAdded_NoBattle.cs" />
+    <Compile Remove="Migrations\20200708141137_EntitiesAdded_NoBattle.Designer.cs" />
+    <Compile Remove="Migrations\20200708145229_EntitiesAdded.cs" />
+    <Compile Remove="Migrations\20200708145229_EntitiesAdded.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StrategyGame.Model\StrategyGame.Model.csproj" />
   </ItemGroup>
 
 </Project>
