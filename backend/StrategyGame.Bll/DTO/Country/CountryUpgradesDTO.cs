@@ -10,6 +10,5 @@ namespace StrategyGame.Bll.DTO.Country
     {
         public int Id { get; set; }
         public List<UpgradeDetailsDTO> Upgrades { get; set; }
-
     }
 }
