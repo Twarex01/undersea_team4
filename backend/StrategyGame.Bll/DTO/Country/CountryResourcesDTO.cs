@@ -12,6 +12,7 @@ namespace StrategyGame.Bll.DTO.Country
         public List<ResourceDTO> Products { get; set; }
         [Range(0, int.MaxValue)]
         public int Population { get; set; }
+        public int ArmyCapacity { get; set; }
         public List<BuildingDTO> Buildings { get; set; }
 
     }
