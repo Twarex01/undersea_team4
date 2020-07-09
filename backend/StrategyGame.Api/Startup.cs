@@ -31,10 +31,11 @@ namespace StrategyGame.Api
             services.AddRazorPages();
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AppDbContext")));
             services.AddIdentityCore<Model.User>().AddEntityFrameworkStores<AppDbContext>();
-      
+            services.AddControllers();
+            services.AddSwaggerDocument();
             
             
-            
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -49,6 +50,7 @@ namespace StrategyGame.Api
                 app.UseHsts();
             }
 
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -58,8 +60,13 @@ namespace StrategyGame.Api
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
+
+
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
+
         }
     }
 }

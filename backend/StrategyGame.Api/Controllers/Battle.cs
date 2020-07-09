@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -15,10 +16,11 @@ namespace StrategyGame.Api.Controllers
     {
         // POST api/attack
         [HttpPost]
-        [Authorize]
+      //  [Authorize]
+        [Route("attack")]
         public IActionResult Attack([FromBody] BattleDTO battleDTO)
         {
-            throw new Exception("TODO");
+            throw new NotImplementedException("TODO");
         }
     }
 }
