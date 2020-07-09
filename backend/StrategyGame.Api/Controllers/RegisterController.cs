@@ -4,17 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using StrategyGame.Bll.DTO;
+using StrategyGame.Bll.DTO.common;
 
 namespace StrategyGame.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Buildings : ControllerBase
+    public class RegisterController : ControllerBase
     {
-        // GET api/buildings
-        [HttpGet]
-        public List<BuildingDetailsDTO> BuildingsData()
+        [HttpPost]
+        public IActionResult PostRegister([FromBody] RegisterDTO registerDTO)
         {
             throw new NotImplementedException("TODO");
         }

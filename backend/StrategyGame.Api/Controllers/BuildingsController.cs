@@ -10,14 +10,13 @@ namespace StrategyGame.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Players : ControllerBase
+    public class BuildingsController : ControllerBase
     {
-        //GEt api/players
+        // GET api/buildings
         [HttpGet]
-        public List<PlayerDTO> PlayerList()
+        public List<BuildingDetailsDTO> BuildingsData()
         {
             throw new NotImplementedException("TODO");
         }
-
     }
 }

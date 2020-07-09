@@ -10,18 +10,11 @@ namespace StrategyGame.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Round : ControllerBase
+    public class UnitsController : ControllerBase
     {
-        //GET api/round
+        //GET api/units
         [HttpGet]
-        public RoundScoreDTO Points()
-        {
-            throw new NotImplementedException("TODO");
-        }
-
-        //PUT api/round
-        [HttpPost]
-        public IActionResult NextRound()
+        public List<UnitDetailsDTO> UnitsData()
         {
             throw new NotImplementedException("TODO");
         }

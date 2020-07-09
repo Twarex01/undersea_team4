@@ -12,7 +12,7 @@ namespace StrategyGame.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Country : ControllerBase
+    public class CountryController : ControllerBase
     {
         // GET api/Country/5
         [HttpGet("{id}")]
