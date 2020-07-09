@@ -20,7 +20,7 @@ img {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 1% 5% 1% auto;
+    margin: 0.1% 5% 0.1% auto;
 }
 
 .image-with-text {
