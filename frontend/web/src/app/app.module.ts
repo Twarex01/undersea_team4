@@ -10,6 +10,7 @@ import { MainLayoutComponent } from './core/main-layout/main-layout.component';
 import { StatusBarComponent } from './core/status-bar/status-bar.component';
 import { MenuComponent } from './core/menu/menu.component';
 import { ProfileComponent } from './core/profile/profile.component';
+import { BasicFormCardComponent } from './core/basic-form-card/basic-form-card.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ProfileComponent } from './core/profile/profile.component';
     MainLayoutComponent,
     StatusBarComponent,
     MenuComponent,
-    ProfileComponent
+    ProfileComponent,
+    BasicFormCardComponent
   ],
   imports: [
     BrowserModule,
