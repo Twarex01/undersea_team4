@@ -1,3 +1,9 @@
+img {
+    height: 4rem;
+    width: 4rem;
+    padding: 20%;
+}
+
 .status-bar {
     display: flex;
     justify-content: center;
@@ -17,19 +23,21 @@
     margin: 1% 5% 1% auto;
 }
 
+.image-with-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-text {
+    margin: auto 0 auto 20%;
+}
+
 .image-box {
     background: #9FFFF0 0% 0% no-repeat padding-box;
     border: 2px solid #428DFF;
     border-radius: 14px;
     display: flex;
     justify-content: center;
-}
-
-.image-with-text {
-    display: flex;
-    justify-content: center;
-}
-
-.image-text {
-    margin: auto 0 auto 20%;
+    align-items: center;
 }
