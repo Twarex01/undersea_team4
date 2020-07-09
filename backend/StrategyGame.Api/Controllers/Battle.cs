@@ -16,7 +16,7 @@ namespace StrategyGame.Api.Controllers
     {
         // POST api/attack
         [HttpPost]
-      //  [Authorize]
+        [Authorize]
         [Route("attack")]
         public IActionResult Attack([FromBody] BattleDTO battleDTO)
         {
