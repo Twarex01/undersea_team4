@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using StrategyGame.Api.Controllers.DTO.common;
+using StrategyGame.Bll.DTO.common;
 
 namespace StrategyGame.Api.Controllers
 {
