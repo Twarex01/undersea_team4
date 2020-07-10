@@ -34,7 +34,7 @@ img {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 0 10% 0 10%;
+    margin: 0 8% 0 8%;
 }
 
 .image-with-text {
@@ -45,4 +45,5 @@ img {
 
 .image-text {
     margin: auto 0 auto 20%;
+    width: max-content;
 }
