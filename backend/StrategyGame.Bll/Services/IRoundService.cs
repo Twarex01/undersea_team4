@@ -7,8 +7,8 @@ namespace StrategyGame.Bll.Services
 {
     public interface IRoundService
     {
-        
 
+        public void SimulateRound();
         
 
     }
