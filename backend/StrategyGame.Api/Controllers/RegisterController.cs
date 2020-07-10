@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StrategyGame.Bll.DTO.common;
 using StrategyGame.Model;
+using StrategyGame.Bll.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace StrategyGame.Api.Controllers
 {
@@ -14,23 +17,22 @@ namespace StrategyGame.Api.Controllers
     [ApiController]
     public class RegisterController : ControllerBase
     {
-        private UserManager<User> _userManager;
 
-        public RegisterController(UserManager<User> userManager)
+        private IUserService userService;
+
+        public RegisterController(IUserService userService)
         {
-            _userManager = userManager;
+            this.userService = userService;
         }
 
         [HttpPost]
         public async Task<IActionResult> PostRegister([FromBody] RegisterDTO registerDTO)  
         {
-            Country country = new Country(registerDTO.CountryName);
-            User user = new User() { UserName = registerDTO.UserName, Country=country }; // még nem jó, először le kell küldeni a db-be a countryt hogy kapjon ID-t és utána beállítani a user country propertijét
-            country.User = user;
-            
-            var result = await _userManager.CreateAsync(user, registerDTO.Password);
+            if (registerDTO.Password != registerDTO.PasswordConfirmation) return BadRequest("A megadott jelszavak nem egyeznek!");
+            var result = await userService.RegisterUserAsync(registerDTO);
             if (result.Succeeded) return Ok();
-            else return BadRequest();
+            else return BadRequest(result.Errors.First());
+            
             
             
         }

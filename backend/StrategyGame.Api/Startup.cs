@@ -20,6 +20,7 @@ using Microsoft.IdentityModel.Tokens;
 using NSwag;
 using NSwag.Generation.Processors.Security;
 using StrategyGame.Api.Services;
+using StrategyGame.Bll.Services;
 using StrategyGame.Dal;
 
 namespace StrategyGame.Api
@@ -55,6 +56,8 @@ namespace StrategyGame.Api
             });
 
             services.AddScoped<IJwtService, JwtService>();
+            services.AddScoped<IUserService, UserService>();
+
 
             services.AddAuthentication().AddJwtBearer(options =>
             {

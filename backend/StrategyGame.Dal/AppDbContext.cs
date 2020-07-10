@@ -49,8 +49,6 @@ namespace StrategyGame.Dal
             builder.Entity<User>().HasOne(u => u.Country).WithOne(c => c.User).HasForeignKey<Country>(c => c.UserID);
             
             builder.Entity<Country>().HasKey(c => c.ID);
-            builder.Entity<Country>().Property(c => c.Name);
-            builder.Entity<Country>().Property(c => c.Population);
 
             builder.Entity<Resource>().HasKey(r => r.ID);
             builder.Entity<Resource>().HasOne(r => r.Country).WithMany(c => c.Resources).HasForeignKey(r => r.CoutryID);
