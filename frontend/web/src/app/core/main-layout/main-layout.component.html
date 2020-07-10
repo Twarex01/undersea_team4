@@ -3,10 +3,12 @@
         <app-status-bar></app-status-bar>
     </div>
     <div class="row m-0">
-        <div class="col-1 ml-2">
+        <div class="col-1">
             <app-menu></app-menu>
             <app-profile></app-profile>
         </div>
+        <div class="col-11">
+            <router-outlet></router-outlet>
+        </div>
     </div>
 </main>
-<router-outlet></router-outlet>
