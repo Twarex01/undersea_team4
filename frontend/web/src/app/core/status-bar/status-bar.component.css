@@ -5,22 +5,36 @@ img {
 }
 
 .status-bar {
-    display: flex;
-    justify-content: center;
     background: rgba(255, 255, 255, 0.25) 0% 0% no-repeat padding-box;
     border-radius: 16px;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     filter: brightness(101%);
     color: #1C3E76;
-    font-size: 1.3rem;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.status-bar-group {
+    display: flex;
+    justify-content: center;
+    padding: 0.25% 0 0.25% 0;
+}
+
+.left-group {
+    width: 15%;
+}
+
+.right-group {
+    padding-right: 20%;
 }
 
 .status-bar-item {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 0.5% 5% 0.5% auto;
+    margin: 0 10% 0 10%;
 }
 
 .image-with-text {
