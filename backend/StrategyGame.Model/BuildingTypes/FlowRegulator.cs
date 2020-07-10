@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace StrategyGame.Model.BuildingTypes
@@ -8,7 +9,11 @@ namespace StrategyGame.Model.BuildingTypes
     {
         public override void ApplyEffect()
         {
-            Country.Population += 50; //+50 pupulation +200 koral/round price = 1000 gyöngy
+            Country.Population += 50;
+            var coralProd = Country.Resources.SingleOrDefault(r => r.ResourceDataID == ResourceData.Coral.ID);
+            if (coralProd == null) return; //bruh
+            coralProd.ProductionBase += 200;
+               
         }
     }
 }

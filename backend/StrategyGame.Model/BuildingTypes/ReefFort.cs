@@ -8,7 +8,7 @@ namespace StrategyGame.Model
     {
         public override void ApplyEffect()
         {
-            throw new NotImplementedException(); //+200 army capacity, price = 1000 gyöngy
+            Country.ArmyCapacity += 200; //+200 army capacity, price = 1000 gyöngy
         }
     }
 }
