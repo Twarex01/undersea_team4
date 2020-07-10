@@ -6,9 +6,9 @@ namespace StrategyGame.Model
 {
     public class Country
     {
-        public Country(string name)
+        public Country()
         {
-            Name = name;
+          
             Resources = new List<Resource>();
             Buildings = new List<Building>();
             Upgrades = new List<Upgrade>();

@@ -8,7 +8,7 @@ namespace StrategyGame.Model.BuildingTypes
     {
         public override void ApplyEffect()
         {
-            throw new NotImplementedException();  //+50 pupulation +200 koral/round price = 1000 gyöngy
+            Country.Population += 50; //+50 pupulation +200 koral/round price = 1000 gyöngy
         }
     }
 }
