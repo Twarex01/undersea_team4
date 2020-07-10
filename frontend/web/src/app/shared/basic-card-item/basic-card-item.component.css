@@ -10,3 +10,11 @@
     flex-direction: column;
     justify-content: center;
 }
+
+.body-important {
+    font-family: "Baloo Bold";
+}
+
+.body-details {
+    font-family: "Baloo Regular";
+}
