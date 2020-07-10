@@ -1,0 +1,8 @@
+.image-box {
+    background: #9FFFF0 0% 0% no-repeat padding-box;
+    border: 2px solid #428DFF;
+    border-radius: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

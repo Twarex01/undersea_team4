@@ -1,1 +1,83 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: Baloo Regular;
+    src: url(../src/assets/Baloo_2/Baloo2-Regular.ttf);
+}
+
+@font-face {
+    font-family: Baloo Bold;
+    src: url(../src/assets/Baloo_2/Baloo2-Bold.ttf);
+}
+
+body {
+    margin: 0;
+}
+
+h1, h2, p, span, a, button {
+    font-family: "Baloo Bold";
+}
+
+h1 {
+    font-size: 93px;
+    color: #9FFFF0;
+}
+
+h2 {
+    font-size: 32px;
+    color: #1C3E76;
+}
+
+input {
+    border-radius: 20px;
+    border-color: transparent;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    opacity: 0.39;
+    display: block;
+    margin: auto;
+    margin-top: 3%;
+    width: 75%;
+    padding: 2%;
+}
+
+input::placeholder {
+    color: #1C3E76;
+    letter-spacing: 0;
+}
+
+input:focus{
+    outline: none;
+}
+
+button {
+    background: transparent linear-gradient(258deg, #9FFFF0 0%, #6BEEE9 36%, #0FCFDE 100%) 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #3B7DBD;
+    border-radius: 90px;
+    border-color: transparent;
+    border-width: 0;
+    padding: 2% 10% 2% 10%;
+    margin-top: 10%;
+}
+
+button:focus {
+    outline: none;
+}
+
+form {
+    text-align: center;
+}
+
+.login-reg-link {
+    display: block;
+    color: #9FFFF0;
+    padding-bottom: 5%;
+    text-decoration: none;
+    margin-top: 5%;
+}
+
+.form-content {
+    padding-top: 2%;
+}
+
+.button-text {
+    margin: 0 auto 0 auto;
+}

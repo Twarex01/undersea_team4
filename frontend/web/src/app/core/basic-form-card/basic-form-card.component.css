@@ -1,0 +1,20 @@
+h1 {
+    margin-top: 0;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+h2 {
+    padding-top: 5%;
+    margin-bottom: 5%;
+}
+
+.login-reg-form {
+    background: rgba(255, 255, 255, 0.25) 0% 0% no-repeat padding-box;
+    border-radius: 16px;
+    backdrop-filter: blur(8px);
+    filter: brightness(101%);
+    -webkit-backdrop-filter: blur(8px);
+    width: 25%;
+    margin: auto;
+}

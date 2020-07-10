@@ -1,0 +1,11 @@
+button {
+    color: #001234;
+    font-size: 1.3rem;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 50% auto 50% auto;
+}
