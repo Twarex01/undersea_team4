@@ -1,2 +1,20 @@
-<p>buildings works!</p>
-<router-outlet></router-outlet>
+<app-basic-card>
+    <p class="header">Épületek</p>
+    <p>Kattints rá, amelyiket szeretnéd megvenni.</p>
+    <p>Egyszerre csak egy épület épülhet!</p>
+    <div class="card-items">
+        <app-basic-card-item>
+            <img class="item-image" src="../../../../../assets/buildings/zatonyvar.png">
+            <p class="item-header">Zátonyvár</p>
+            <div class="item-body">
+                <p>50 ember-t ad a népességhez</p>
+                <p>200 krumplit termel körönként</p>
+            </div>
+        </app-basic-card-item>
+        <app-basic-card-item>
+            <img class="item-image" src="../../../../../assets/buildings/aramlasiranyito.png">
+            <p class="item-header">Áramlásirányító</p>
+            <p class="item-body">200 egység nyújt szállást</p>
+        </app-basic-card-item>
+    </div>
+</app-basic-card>

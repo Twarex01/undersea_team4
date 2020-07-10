@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { BuildingsRoutingModule } from './buildings-routing.module';
 import { BuildingsPageComponent } from './pages/buildings.page/buildings.page.component';
+import { SharedModule } from '../../shared/shared.module';
 
 
 @NgModule({
   declarations: [BuildingsPageComponent],
   imports: [
-    CommonModule,
-    BuildingsRoutingModule
+    BuildingsRoutingModule,
+    SharedModule
   ]
 })
 export class BuildingsModule { }
