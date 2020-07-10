@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using StrategyGame.Api.Services;
+using StrategyGame.Bll.Services;
 using StrategyGame.Dal;
 
 namespace StrategyGame.Api
@@ -40,6 +41,8 @@ namespace StrategyGame.Api
             services.AddSwaggerDocument();
 
             services.AddScoped<IJwtService, JwtService>();
+            services.AddScoped<IUserService, UserService>();
+
 
             services.AddAuthentication().AddJwtBearer(options =>
             {
