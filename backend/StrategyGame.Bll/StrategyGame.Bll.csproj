@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="NSwag.AspNetCore" Version="13.6.2" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.7.1" />
   </ItemGroup>
 
   <ItemGroup>
