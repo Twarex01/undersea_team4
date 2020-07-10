@@ -5,6 +5,21 @@ main {
     width: 100%;
 }
 
+.layout-body {
+    display: flex;
+    margin-top: 5%;
+    margin-left: 1%;
+}
+
+.layout-left {
+    margin-right: 1%;
+    width: 10%;
+}
+
+.layout-right {
+    margin: auto;
+}
+
 .status-bar {
     padding: 1%;
 }
