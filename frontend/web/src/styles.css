@@ -74,16 +74,6 @@ form {
     margin-top: 5%;
 }
 
-.login-reg-form {
-    background: rgba(255, 255, 255, 0.25) 0% 0% no-repeat padding-box;
-    border-radius: 16px;
-    backdrop-filter: blur(8px);
-    filter: brightness(101%);
-    -webkit-backdrop-filter: blur(8px);
-    width: 25%;
-    margin: auto;
-}
-
 .form-content {
     padding-top: 2%;
 }
