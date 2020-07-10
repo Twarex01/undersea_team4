@@ -27,7 +27,8 @@ img {
 }
 
 .right-group {
-    padding-right: 20%;
+    width: 65%;
+    margin-left: 10%;
 }
 
 .status-bar-item {
