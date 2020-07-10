@@ -7,13 +7,6 @@ using System.Text;
 
 namespace StrategyGame.Api.Services
 {
-
-
-    public interface IJwtService
-    {
-        public string GenerateSecurityToken(Model.User user);
-    }
-
     public class JwtService : IJwtService
     {
 
@@ -35,6 +28,5 @@ namespace StrategyGame.Api.Services
 
             return tokenHandler.WriteToken(token);
         }
-
     }
 }
