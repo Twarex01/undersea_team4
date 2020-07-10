@@ -5,6 +5,7 @@ img {
 }
 
 .status-bar {
+    font-family: "Baloo Bold";
     background: rgba(255, 255, 255, 0.25) 0% 0% no-repeat padding-box;
     border-radius: 16px;
     backdrop-filter: blur(8px);

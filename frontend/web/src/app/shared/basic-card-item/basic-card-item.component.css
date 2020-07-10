@@ -1,9 +1,12 @@
 .basic-card-item {
     font-size: 1rem;
-    font-family: "Open Sans";
+    font-family: "Baloo Bold";
     letter-spacing: 0;
     color: #ffffff;
     text-align: center;
     line-height: 0.4;
-    width: 15rem;
+    width: 20rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
