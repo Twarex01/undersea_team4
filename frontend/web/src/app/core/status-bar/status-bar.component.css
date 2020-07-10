@@ -1,6 +1,6 @@
 img {
-    height: 4rem;
-    width: 4rem;
+    height: 3.5rem;
+    width: 3.5rem;
     padding: 20%;
 }
 
@@ -13,14 +13,14 @@ img {
     -webkit-backdrop-filter: blur(8px);
     filter: brightness(101%);
     color: #1C3E76;
-    font-size: 32px;
+    font-size: 1.3rem;
 }
 
 .status-bar-item {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 0.1% 5% 0.1% auto;
+    margin: 0.5% 5% 0.5% auto;
 }
 
 .image-with-text {
