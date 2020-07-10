@@ -17,6 +17,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using NSwag;
+using NSwag.Generation.Processors.Security;
 using StrategyGame.Api.Services;
 using StrategyGame.Dal;
 
@@ -37,7 +39,20 @@ namespace StrategyGame.Api
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AppDbContext")));
             services.AddIdentityCore<Model.User>().AddEntityFrameworkStores<AppDbContext>();
             services.AddControllers();
-            services.AddSwaggerDocument();
+
+            services.AddSwaggerDocument(document =>
+            {
+                document.DocumentProcessors.Add(
+                    new SecurityDefinitionAppender("JWT",
+                    new OpenApiSecurityScheme
+                    {
+                        Type = OpenApiSecuritySchemeType.ApiKey,
+                        Name = "Authorization",
+                        In = OpenApiSecurityApiKeyLocation.Header,
+                        Description = "Type into the textbox: Bearer {your JWT token}."
+                    }));
+                document.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
+            });
 
             services.AddScoped<IJwtService, JwtService>();
 
