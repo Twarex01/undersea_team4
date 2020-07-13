@@ -15,6 +15,7 @@ namespace StrategyGame.Bll.Services
     {
 
         private AppDbContext _context;
+        private Random moraleGenerator = new Random();
 
         public BattleService(AppDbContext context)
         {
@@ -133,11 +134,10 @@ namespace StrategyGame.Bll.Services
         public void CommenceBattle(int battleId) 
         {
 
-            double maximum = 1.05;
-            double minimum = 0.95;
+            
 
-            Random random = new Random();
-            double multiplier = random.NextDouble() * (maximum - minimum) + minimum;
+            double multiplier = moraleGenerator.Next(0, 1) > 0 ? 1.05 : 0.95;
+            
 
 
             var ATKPower = CountAttackPowerInBattleAsync(battleId).Result * multiplier;
