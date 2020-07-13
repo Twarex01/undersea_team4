@@ -86,7 +86,7 @@ namespace StrategyGame.Bll.Services
 			// 3 - not enough resources
 			if (country.Resources.Find(r => r.ID == buildingData.PriceUnitID).Amount < buildingData.Price) return await new Task<int>(() => 3);
 			country.Resources.Find(r => r.ID == buildingData.PriceUnitID).Amount -= buildingData.Price;
-			building.Progress = 5; //todo: check it
+			building.Progress = buildingData.BuildTime;
 			
 			await _appDbContext.SaveChangesAsync();
 
@@ -96,10 +96,31 @@ namespace StrategyGame.Bll.Services
 
 		public async Task<int> PurchaseCountryUnitsAsync(int countryId, List<UnitDTO> army)
 		{
-            foreach (var unitDto in army)
+			List<int> costs = new List<int>();
+			var resourcesData = await _appDbContext.ResourceData.ToListAsync();
+            foreach (var resourceData in resourcesData)
             {
-				unitDto.
+				costs.Add(0);
             }
+			foreach (var unitDto in army)
+            {
+				var unit = await _appDbContext.UnitData.Where(u => u.ID == unitDto.Id).SingleOrDefaultAsync();
+				// 1 - Unit not found 
+				if (unit == null) return await new Task<int>(() => 1);
+				costs[(int)unit.PriceUnitID - 1] += unit.Price * unitDto.Count;
+			}
+			var costIndex = 0;
+			var countryResource = await _appDbContext.Resources.Where(r => r.CoutryID == countryId).ToListAsync();
+			foreach (var resourceData in resourcesData)
+			{
+				if (costs[costIndex] == 0) {
+					costIndex++;
+					continue; 
+				}
+				var resourceAmount = countryResource.Where(r => r.ID == resourceData.ID).SingleOrDefault().Amount;
+				// 2 - not enough resources
+				if (resourceAmount < costs[costIndex]) return await new Task<int>(() => 2);
+			}
 
 			throw new NotImplementedException("TODO");
 		}
@@ -168,7 +189,7 @@ namespace StrategyGame.Bll.Services
 				await _appDbContext.Upgrades.AddAsync(upgrade);
             }
 
-			upgrade.Progress = 15;
+			upgrade.Progress = upgradeData.UpgradeTime;
 
 			// 0 - ok
 			return await new Task<int>(() => 0);
