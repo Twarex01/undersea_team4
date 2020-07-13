@@ -1,0 +1,18 @@
+hr {
+    opacity: 0.25;
+    margin-top: 10%;
+    margin-bottom: 10%;
+}
+
+.country {
+    display: inline-block;
+    margin-right: 10rem;
+}
+
+.units {
+    display: inline-block;
+}
+
+.unit {
+    margin-right: 1rem;
+}
