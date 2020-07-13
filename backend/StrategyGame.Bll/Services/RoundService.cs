@@ -95,7 +95,7 @@ namespace StrategyGame.Bll.Services
             //Harc
             foreach (var battle in battles)
             {
-                _battleService.CommenceBattle(battle.ID); //baj lehet az includeokkal
+                await _battleService.CommenceBattle(battle.ID); //baj lehet az includeokkal
             }
 
             //pont számolás

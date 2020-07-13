@@ -13,7 +13,7 @@ namespace StrategyGame.Bll.Services
 
         public Task<int> CountAttackPowerInBattleAsync(int battleId);
 
-        public void CommenceBattle(int battleId);
+        public Task CommenceBattle(int battleId);
 
     }
 }

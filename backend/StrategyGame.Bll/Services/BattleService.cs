@@ -131,7 +131,7 @@ namespace StrategyGame.Bll.Services
             }
         }
 
-        public void CommenceBattle(int battleId) 
+        public async Task CommenceBattle(int battleId) 
         {
 
             
@@ -140,7 +140,7 @@ namespace StrategyGame.Bll.Services
             
 
 
-            var ATKPower = CountAttackPowerInBattleAsync(battleId).Result * multiplier;
+            var ATKPower = await CountAttackPowerInBattleAsync(battleId) * multiplier;
             var DEFPower = CountDefensePowerInBattle(battleId);
 
             var defCountryId = _context.Battles.Where(b => b.ID == battleId).SingleOrDefault().ID;
@@ -189,7 +189,7 @@ namespace StrategyGame.Bll.Services
                 }
             }
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }
