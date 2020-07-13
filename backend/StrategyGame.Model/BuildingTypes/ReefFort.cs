@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace StrategyGame.Model
@@ -8,7 +9,10 @@ namespace StrategyGame.Model
     {
         public override void ApplyEffect()
         {
-            throw new NotImplementedException(); //+200 army capacity, price = 1000 gyöngy
+            Country.ArmyCapacity += 200; //+200 army capacity, price = 1000 gyöngy
+            var coralProd = Country.Resources.SingleOrDefault(r => r.ResourceDataID == ResourceData.Coral.ID);
+            if (coralProd == null) return; //bruh
+            coralProd.ProductionBase += 200*25;
         }
     }
 }

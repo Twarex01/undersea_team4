@@ -6,9 +6,9 @@ namespace StrategyGame.Model
 {
     public class Country
     {
-        public Country(string name)
+        public Country()
         {
-            Name = name;
+          
             Resources = new List<Resource>();
             Buildings = new List<Building>();
             Upgrades = new List<Upgrade>();
@@ -27,8 +27,8 @@ namespace StrategyGame.Model
         public List<Unit> Units { get; set; }
         public int Population { get; set; }
         public int ArmyCapacity { get; set; }
-        public int AttackModifier { get; set; } = 1;
-        public int DefenseModifier { get; set; } = 1;
+        public double AttackModifier { get; set; } = 1;
+        public double DefenseModifier { get; set; } = 1;
 
     }
 }

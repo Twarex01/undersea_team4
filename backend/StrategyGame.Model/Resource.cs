@@ -13,6 +13,6 @@ namespace StrategyGame.Model
         public Country Country { get; set; }
         public int CoutryID { get; set; }
         public int ProductionBase { get; set; }
-        public int ProductionMultiplier { get; set; } = 1;
+        public double ProductionMultiplier { get; set; } = 1;
     }
 }

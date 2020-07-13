@@ -17,10 +17,17 @@ namespace StrategyGame.Bll.Services
             _userManager = userManager;
         }
 
+        public async Task<bool> AuthenticateUser(LoginDTO loginDTO)
+        {
+            var user = await _userManager.FindByNameAsync(loginDTO.UserName);
+            if (user == null) return false;
+            return await _userManager.CheckPasswordAsync(user, loginDTO.Password);
+        }
+
         public async Task<IdentityResult> RegisterUserAsync(RegisterDTO registerDTO)
         {
             
-            Country country = new Country(registerDTO.CountryName);
+            Country country = new Country() { Name = registerDTO.CountryName};
             User user = new User() { UserName = registerDTO.UserName, Country = country };
             country.User = user;
 

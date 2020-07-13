@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StrategyGame.Dal;
 
 namespace StrategyGame.Dal.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200710143736_Undersea_v4_with_seeds")]
+    partial class Undersea_v4_with_seeds
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -288,11 +290,11 @@ namespace StrategyGame.Dal.Migrations
                     b.Property<int>("ArmyCapacity")
                         .HasColumnType("int");
 
-                    b.Property<double>("AttackModifier")
-                        .HasColumnType("float");
+                    b.Property<int>("AttackModifier")
+                        .HasColumnType("int");
 
-                    b.Property<double>("DefenseModifier")
-                        .HasColumnType("float");
+                    b.Property<int>("DefenseModifier")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -328,8 +330,8 @@ namespace StrategyGame.Dal.Migrations
                     b.Property<int>("ProductionBase")
                         .HasColumnType("int");
 
-                    b.Property<double>("ProductionMultiplier")
-                        .HasColumnType("float");
+                    b.Property<int>("ProductionMultiplier")
+                        .HasColumnType("int");
 
                     b.Property<int>("ResourceDataID")
                         .HasColumnType("int");
