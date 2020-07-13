@@ -16,6 +16,7 @@ namespace StrategyGame.Bll.Services
     {
 
         private AppDbContext _context;
+        private Random moraleGenerator = new Random();
 
         public BattleService(AppDbContext context)
         {
@@ -23,7 +24,7 @@ namespace StrategyGame.Bll.Services
         }
 
 
-        public async Task<int> CountUnitsOfTypeNotAtHomeAsync(int? countryId, int unitDataId)
+        public async Task<int> CountUnitsOfTypeNotAtHomeAsync(int countryId, int unitDataId)
         {
 
             var count = await _context.AttackingUnits.Where(a => a.UnitDataID == unitDataId && a.Battle.AttackingCountryID == countryId)
@@ -33,7 +34,7 @@ namespace StrategyGame.Bll.Services
             return count;
         }
 
-        public async Task<int> CountUnitsOfTypeAtHomeAsync(int? countryId, int unitDataId)
+        public async Task<int> CountUnitsOfTypeAtHomeAsync(int countryId, int unitDataId)
         {
 
             var count = await _context.Units.Where(u => u.UnitDataID == unitDataId && u.CountryID == countryId)
@@ -145,21 +146,20 @@ namespace StrategyGame.Bll.Services
             }
         }
 
-        public void CommenceBattle(int battleId) 
+        public async Task CommenceBattle(int battleId) 
         {
 
-            double maximum = 1.05;
-            double minimum = 0.95;
+            
 
-            Random random = new Random();
-            double multiplier = random.NextDouble() * (maximum - minimum) + minimum;
+            double multiplier = moraleGenerator.Next(0, 1) > 0 ? 1.05 : 0.95;
+            
 
 
-            var ATKPower = CountAttackPowerInBattleAsync(battleId).Result * multiplier;
+            var ATKPower = await CountAttackPowerInBattleAsync(battleId) * multiplier;
             var DEFPower = CountDefensePowerInBattle(battleId);
 
-            var defCountryId = _context.Battles.Where(b => b.ID == battleId).Select(b => b.DefendingCountryID).First();
-            var atkCountryId = _context.Battles.Where(b => b.ID == battleId).Select(b => b.AttackingCountryID).First();
+            var defCountryId = _context.Battles.Where(b => b.ID == battleId).SingleOrDefault().ID;
+            var atkCountryId = _context.Battles.Where(b => b.ID == battleId).SingleOrDefault().ID;
 
             if (ATKPower > DEFPower)
             {
@@ -204,7 +204,7 @@ namespace StrategyGame.Bll.Services
                 }
             }
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }
