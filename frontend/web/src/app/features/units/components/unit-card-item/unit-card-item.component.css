@@ -1,4 +1,4 @@
-button {
+.steppers button {
     margin-right: 5%;
     margin-left: 5%;
     font-family: "Baloo Regular";
@@ -12,7 +12,9 @@ button {
 }
 
 img {
-    padding: 20%;
+    height: 4rem;
+    width: 4rem;
+    padding: 15%;
 }
 
 .unit-card-item {
