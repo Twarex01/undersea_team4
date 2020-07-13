@@ -1,3 +1,8 @@
+button {
+    margin-right: 5%;
+    margin-left: 5%;
+}
+
 .unit-card-item {
     font-size: 1rem;
     font-family: "Baloo Regular";
@@ -26,4 +31,9 @@
     display: inline-block;
     text-align: right;
     width: 30%;
+}
+
+.steppers {
+    text-align: center;
+    margin: 10% auto 10% auto;
 }
