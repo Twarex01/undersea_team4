@@ -1,0 +1,14 @@
+hr {
+    opacity: 0.25;
+    margin-top: 10%;
+    margin-bottom: 10%;
+}
+
+.player {
+    display: inline-block;
+    width: 30rem;
+}
+
+.points {
+    display: inline-block;
+}

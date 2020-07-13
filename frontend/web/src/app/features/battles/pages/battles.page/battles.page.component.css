@@ -6,7 +6,7 @@ hr {
 
 .country {
     display: inline-block;
-    margin-right: 10rem;
+    width: 20rem;
 }
 
 .units {
