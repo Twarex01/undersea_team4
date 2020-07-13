@@ -63,7 +63,7 @@ namespace StrategyGame.Dal
             builder.Entity<Upgrade>().HasOne(u => u.UpgradeData).WithMany().HasForeignKey(u => u.UpgradeDataID);
            
             builder.Entity<Unit>().HasKey(u => u.ID);
-            builder.Entity<Unit>().HasOne(u => u.Country).WithMany(c => c.Units).HasForeignKey(u => u.CoutryID);
+            builder.Entity<Unit>().HasOne(u => u.Country).WithMany(c => c.Units).HasForeignKey(u => u.CountryID);
             builder.Entity<Unit>().HasOne(u => u.UnitData).WithMany().HasForeignKey(u => u.UnitDataID);
             builder.Entity<Unit>().Property(u => u.Count);
 
@@ -87,7 +87,20 @@ namespace StrategyGame.Dal
             builder.Entity<AttackingUnit>().HasOne(a => a.Battle).WithMany(b => b.AttackingUnits).HasForeignKey(a => a.BattleID);
             builder.Entity<AttackingUnit>().HasOne(a => a.UnitData).WithOne().HasForeignKey<AttackingUnit>(a => a.UnitDataID);
 
-            
+            builder.Entity<ResourceData>().HasData(new ResourceData[] { StrategyGame.Model.ResourceData.Pearl, StrategyGame.Model.ResourceData.Coral });
+            builder.Entity<BuildingData>().HasData(new BuildingData[] { StrategyGame.Model.BuildingData.FlowRequlator, StrategyGame.Model.BuildingData.RiftFort });
+            builder.Entity<UpgradeData>().HasData(new UpgradeData[] { 
+                StrategyGame.Model.UpgradeData.Alchemy,
+                StrategyGame.Model.UpgradeData.CoralWall,
+                StrategyGame.Model.UpgradeData.MartialArts,
+                StrategyGame.Model.UpgradeData.MudHarvester,
+                StrategyGame.Model.UpgradeData.MudTractor,
+                StrategyGame.Model.UpgradeData.SonarCannon
+            });
+            builder.Entity<UnitData>().HasData(new UnitData[] { StrategyGame.Model.UnitData.AssaultSeal, StrategyGame.Model.UnitData.BattleSeaHorse, StrategyGame.Model.UnitData.LaserShark });
+
+
+
         }
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StrategyGame.Dal;
 
 namespace StrategyGame.Dal.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200710145628_Undersea_v4_1_with_seeds")]
+    partial class Undersea_v4_1_with_seeds
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -246,9 +248,6 @@ namespace StrategyGame.Dal.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BuildTime")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -268,7 +267,6 @@ namespace StrategyGame.Dal.Migrations
                         new
                         {
                             ID = 1,
-                            BuildTime = 5,
                             Name = "Áramlásirányító",
                             Price = 1000,
                             PriceUnitID = 2
@@ -276,7 +274,6 @@ namespace StrategyGame.Dal.Migrations
                         new
                         {
                             ID = 2,
-                            BuildTime = 5,
                             Name = "Zátonyvár",
                             Price = 1000,
                             PriceUnitID = 2
@@ -385,7 +382,7 @@ namespace StrategyGame.Dal.Migrations
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
-                    b.Property<int>("CountryID")
+                    b.Property<int>("CoutryID")
                         .HasColumnType("int");
 
                     b.Property<int>("UnitDataID")
@@ -393,7 +390,7 @@ namespace StrategyGame.Dal.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("CountryID");
+                    b.HasIndex("CoutryID");
 
                     b.HasIndex("UnitDataID");
 
@@ -421,9 +418,6 @@ namespace StrategyGame.Dal.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PointValue")
-                        .HasColumnType("int");
 
                     b.Property<int>("Price")
                         .HasColumnType("int");
@@ -456,7 +450,6 @@ namespace StrategyGame.Dal.Migrations
                             ConsumptionUnitID = 1,
                             DEF = 2,
                             Name = "Roham Fóka",
-                            PointValue = 5,
                             Price = 50,
                             PriceUnitID = 2,
                             Salary = 1,
@@ -470,7 +463,6 @@ namespace StrategyGame.Dal.Migrations
                             ConsumptionUnitID = 1,
                             DEF = 6,
                             Name = "Csata Csikó",
-                            PointValue = 5,
                             Price = 50,
                             PriceUnitID = 2,
                             Salary = 1,
@@ -484,7 +476,6 @@ namespace StrategyGame.Dal.Migrations
                             ConsumptionUnitID = 1,
                             DEF = 5,
                             Name = "Lézer Cápa",
-                            PointValue = 10,
                             Price = 100,
                             PriceUnitID = 2,
                             Salary = 3,
@@ -533,9 +524,6 @@ namespace StrategyGame.Dal.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UpgradeTime")
-                        .HasColumnType("int");
-
                     b.HasKey("ID");
 
                     b.ToTable("UpgradeData");
@@ -544,38 +532,32 @@ namespace StrategyGame.Dal.Migrations
                         new
                         {
                             ID = 1,
-                            Name = "Alkímia",
-                            UpgradeTime = 15
+                            Name = "Alkímia"
                         },
                         new
                         {
                             ID = 2,
-                            Name = "Korall fal",
-                            UpgradeTime = 15
+                            Name = "Korall fal"
                         },
                         new
                         {
                             ID = 3,
-                            Name = "Vízalatti harcművészetek",
-                            UpgradeTime = 15
+                            Name = "Vízalatti harcművészetek"
                         },
                         new
                         {
                             ID = 4,
-                            Name = "Iszap Kombájn",
-                            UpgradeTime = 15
+                            Name = "Iszap Kombájn"
                         },
                         new
                         {
                             ID = 5,
-                            Name = "Iszap Traktor",
-                            UpgradeTime = 15
+                            Name = "Iszap Traktor"
                         },
                         new
                         {
                             ID = 6,
-                            Name = "Szonár ágyú",
-                            UpgradeTime = 15
+                            Name = "Szonár ágyú"
                         });
                 });
 
@@ -827,7 +809,7 @@ namespace StrategyGame.Dal.Migrations
                 {
                     b.HasOne("StrategyGame.Model.Country", "Country")
                         .WithMany("Units")
-                        .HasForeignKey("CountryID")
+                        .HasForeignKey("CoutryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

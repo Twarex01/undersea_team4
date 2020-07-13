@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace StrategyGame.Model.UpgradeTypes
@@ -8,7 +9,9 @@ namespace StrategyGame.Model.UpgradeTypes
     {
         public override void ApplyEffects()
         {
-            throw new NotImplementedException(); // +15% koral/round
+            var coralProd = Country.Resources.SingleOrDefault(r => r.ResourceDataID == ResourceData.Coral.ID);// +15% koral/round
+            if (coralProd == null) return;
+            coralProd.ProductionMultiplier += 0.15;
         }
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StrategyGame.Dal;
 
 namespace StrategyGame.Dal.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200713100443_Undersea_v4_2_upgrade_times")]
+    partial class Undersea_v4_2_upgrade_times
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -385,7 +387,7 @@ namespace StrategyGame.Dal.Migrations
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
-                    b.Property<int>("CountryID")
+                    b.Property<int>("CoutryID")
                         .HasColumnType("int");
 
                     b.Property<int>("UnitDataID")
@@ -393,7 +395,7 @@ namespace StrategyGame.Dal.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("CountryID");
+                    b.HasIndex("CoutryID");
 
                     b.HasIndex("UnitDataID");
 
@@ -827,7 +829,7 @@ namespace StrategyGame.Dal.Migrations
                 {
                     b.HasOne("StrategyGame.Model.Country", "Country")
                         .WithMany("Units")
-                        .HasForeignKey("CountryID")
+                        .HasForeignKey("CoutryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

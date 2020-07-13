@@ -18,6 +18,7 @@ namespace StrategyGame.Api.Controllers
         [HttpGet("{id}")]
         public CountryNameDTO GetCountryName(int id) { 
             throw new NotImplementedException("TODO");
+        
         }
 
         // GET api/Country/5/resources

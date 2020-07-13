@@ -8,7 +8,9 @@ namespace StrategyGame.Model.UpgradeTypes
     {
         public override void ApplyEffects()
         {
-            throw new NotImplementedException(); //+10% attack modifier, +10% defense modifier
+            Country.AttackModifier += 0.1;
+            Country.DefenseModifier += 0.1;
+            //+10% attack modifier, +10% defense modifier
         }
     }
 }

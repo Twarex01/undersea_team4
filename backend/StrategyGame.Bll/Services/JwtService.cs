@@ -1,21 +1,12 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿
+using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace StrategyGame.Api.Services
 {
-
-
-    public interface IJwtService
-    {
-        public string GenerateSecurityToken(Model.User user);
-    }
-
     public class JwtService : IJwtService
     {
 
@@ -37,6 +28,5 @@ namespace StrategyGame.Api.Services
 
             return tokenHandler.WriteToken(token);
         }
-
     }
 }
