@@ -9,19 +9,12 @@ hr {
     color: #ffffff;
     padding: 5%;
     width: 100%;
-    line-height: 0;
-}
-
-.card-items {
-    max-width: 60rem;
-    display: flex;
-    flex-wrap: wrap;
+    max-width: 1260px;
 }
 
 .header {
     font-size: 1.5rem;
     font-family: "Baloo Bold";
-    margin-bottom: 6%;
 }
 
 .short-description {
@@ -34,6 +27,12 @@ hr {
 }
 
 .footer {
-    margin: 5% 0 1.5% 0;
+    margin: 3% 0 0 0;
     text-align: center;
+}
+
+.card-items {
+    max-width: 60rem;
+    display: flex;
+    flex-wrap: wrap;
 }
