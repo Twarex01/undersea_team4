@@ -59,7 +59,7 @@ namespace StrategyGame.Bll.Services
 
         public int QueryCountryScore(int countryId)
         {
-
+            /*
             var populationscore = _context.Countries.Where(c => c.ID == countryId).Select(c => c.Population).FirstOrDefault();
             var buildingscore = _context.Countries.Where(c => c.ID == countryId).Sum(x => x.Buildings.Count);
 
@@ -76,11 +76,25 @@ namespace StrategyGame.Bll.Services
             var upgradescore = _context.Upgrades.Include(c => c.Country).Where(u => u.ID == countryId && u.Progress == 0).Count();
 
             var score = 1*populationscore + 50*buildingscore + unitscore + 100*upgradescore;
+            */
 
-            return score;
+            var countryScore = _context.Countries.Where(c => c.ID == countryId).Select(c => c.Score).FirstOrDefault();
+
+            return countryScore;
         }
 
+        public List<UnitDetailsDTO> QueryUnitDetails()
+        {
+            var unitData = _context.UnitData.Distinct().ToList();
+            List<UnitDetailsDTO> unitDetails = new List<UnitDetailsDTO>();
 
+            foreach (UnitData ud in unitData) 
+            {
+                unitDetails.Add(new UnitDetailsDTO(ud.ATK, ud.DEF, ud.Salary, ud.Consumption, ud.Price););
+            }
+
+            return unitDetails;
+        }
 
         public List<PlayerDTO> QueryCountryRank()
         {       
