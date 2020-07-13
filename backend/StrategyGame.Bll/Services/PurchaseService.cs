@@ -20,19 +20,24 @@ namespace StrategyGame.Bll.Services
 			_appDbContext = appDbContext;
 		}
 
-		public async Task<bool> PurchaseCountryBuildingAsync(int countryId, int buildingId) //TODO
+		public async Task<int> PurchaseCountryBuildingAsync(int countryId, int buildingId) //TODO
 		{
+			var country = await _appDbContext.Countries.Where(c => c.ID == countryId).SingleOrDefaultAsync();
+			var buildingInprogress = country.Buildings.Where(b => b.CoutryID == countryId).Any(u => u.Progress > 0);
+			// There is a building inprogress
+			if (buildingInprogress) return await new Task<int>(() => 1);
+
 			var building = await _appDbContext.Buildings.Where(b => countryId == b.CoutryID && buildingId == b.BuildingDataID).SingleOrDefaultAsync();
 			var buildingData = await _appDbContext.BuildingData.Where(data => data.ID == buildingId).SingleOrDefaultAsync();
 			if (building == null)
 			{
-				if (buildingData == null ) return await new Task<bool>(() => false);
+				// Building type not found
+				if (buildingData == null ) return await new Task<int>(() => 2);
 				switch (buildingId) {
 					case 1: // Áramlásirányító
 						building = new FlowRegulator
 						{
 							Count = 0,
-							//Progress = 5, buildingData.progress, Nem kell progress a BuildingData?
 							BuildingDataID = buildingData.ID,
 							CoutryID = countryId
 						};
@@ -52,8 +57,9 @@ namespace StrategyGame.Bll.Services
 				await _appDbContext.Buildings.AddAsync(building);
 				
 			}
-			var country = await _appDbContext.Countries.Where(c => c.ID == countryId).SingleOrDefaultAsync();
-			if(country.Resources.Find(r => r.ID == buildingData.PriceUnitID).Amount < buildingData.Price) return await new Task<bool>(() => false);
+
+			//not enough resources
+			if (country.Resources.Find(r => r.ID == buildingData.PriceUnitID).Amount < buildingData.Price) return await new Task<int>(() => 3);
 			country.Resources.Find(r => r.ID == buildingData.PriceUnitID).Amount -= buildingData.Price;
 			building.Progress = 5; //todo: check it
 			
@@ -61,12 +67,12 @@ namespace StrategyGame.Bll.Services
 			throw new NotImplementedException("TODO");
 		}
 
-		public async Task<bool> PurchaseCountryUnitsAsync(int countryId, List<UnitDTO> army)
+		public async Task<int> PurchaseCountryUnitsAsync(int countryId, List<UnitDTO> army)
 		{
 			throw new NotImplementedException("TODO");
 		}
 
-		public async Task<bool> PurchaseCountryUpgradeAsync(int countryId, int BuildingId)
+		public async Task<int> PurchaseCountryUpgradeAsync(int countryId, int BuildingId)
 		{
 			throw new NotImplementedException("TODO");
 		}
