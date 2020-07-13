@@ -1,0 +1,49 @@
+.component-container{
+    display: flex;
+}
+
+.description{
+    font-family: "Baloo Bold";
+}
+.player-scroll-bar{
+    overflow: auto;
+    height: 406px;
+    
+}
+.player-scroll-bar > p {
+    font-size: larger;
+}
+hr{
+    border: 1px solid #3F68AE;
+    width: 95%;
+    size: 1px;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px; 
+ }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #03255F;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #3F68AE;
+    border-radius: 5px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3F68AE;
+  }
+
+  .palyer-list-container{
+      margin: 11px;
+  }
+
+  .choose-unit-container{
+      margin: 11px;
+  }
