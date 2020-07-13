@@ -20,7 +20,7 @@ namespace StrategyGame.Bll.Services
 
         public void SendAllTypesToAttack(BattleDTO battleDto);
 
-        public void CommenceBattle(int battleId);
+        public Task CommenceBattle(int battleId);
 
     }
 }
