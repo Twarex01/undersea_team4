@@ -31,7 +31,7 @@ namespace StrategyGame.Api.Controllers
             if (registerDTO.Password != registerDTO.PasswordConfirmation) return BadRequest("A megadott jelszavak nem egyeznek!");
             var result = await userService.RegisterUserAsync(registerDTO);
             if (result.Succeeded) return Ok();
-            else return BadRequest(result.Errors.First());
+            else return BadRequest(result.Errors.First().Description);
             
             
             

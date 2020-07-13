@@ -2,13 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace StrategyGame.Bll.Services
 {
     public interface IRoundService
     {
 
-        public void SimulateRound();
+        public Task SimulateRound();
         
 
     }

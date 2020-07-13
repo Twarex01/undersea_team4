@@ -12,7 +12,7 @@ namespace StrategyGame.Model
             Country.ArmyCapacity += 200; //+200 army capacity, price = 1000 gyöngy
             var coralProd = Country.Resources.SingleOrDefault(r => r.ResourceDataID == ResourceData.Coral.ID);
             if (coralProd == null) return; //bruh
-            coralProd.ProductionBase += 200*25;
+            coralProd.ProductionBase += 200*ResourceData.TaxAmount; 
         }
     }
 }
