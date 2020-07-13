@@ -6,7 +6,7 @@ namespace StrategyGame.Model
 {
     public class UnitData
     {
-        public static UnitData AssaultSeal = new UnitData { 
+        public static UnitData AssaultSeal = new UnitData {
             ID = 1, Name = "Roham Fóka",
             Salary = 1,
             SalaryUnitID = ResourceData.Pearl.ID,
@@ -15,7 +15,8 @@ namespace StrategyGame.Model
             Consumption = 1,
             ConsumptionUnitID = ResourceData.Coral.ID,
             ATK = 6,
-            DEF=2
+            DEF = 2,
+            PointValue =5
         };
 
         public static UnitData BattleSeaHorse = new UnitData
@@ -29,7 +30,8 @@ namespace StrategyGame.Model
             Consumption = 1,
             ConsumptionUnitID = ResourceData.Coral.ID,
             ATK = 2,
-            DEF = 6
+            DEF = 6,
+            PointValue = 5
         };
 
         public static UnitData LaserShark = new UnitData
@@ -43,7 +45,8 @@ namespace StrategyGame.Model
             Consumption = 2,
             ConsumptionUnitID = ResourceData.Coral.ID,
             ATK = 5,
-            DEF = 5
+            DEF = 5,
+            PointValue = 10
         };
 
         public int ID { get; set; }
@@ -59,6 +62,7 @@ namespace StrategyGame.Model
         public int Consumption { get; set; }
         public ResourceData ConsumptionUnit { get; set; }
         public int? ConsumptionUnitID { get; set; }
+        public int PointValue {get; set;}
 
     }
 }

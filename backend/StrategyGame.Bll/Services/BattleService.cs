@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using StrategyGame.Dal;
 using StrategyGame.Model;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -66,9 +68,25 @@ namespace StrategyGame.Bll.Services
             return count;
         }
 
-        public void SendUnitsToAttack(int homeCountryId, int countryId, int numberOfUnits, int unitDataId)
+        public void SendUnitsToAttack(int attackingCountryId, int defendingCountryId, int numberOfUnits, int unitDataId)
         {
-            var count = CountUnitsOfTypeAtHomeAsync(countryId, unitDataId).Result;
+            var attackingCountry = _context.Countries.Where(c => c.ID == attackingCountryId).FirstOrDefault();
+            var defendingCountry = _context.Countries.Where(c => c.ID == defendingCountryId).FirstOrDefault();
+            var unitData = _context.UnitData.Where(u => u.ID == unitDataId).FirstOrDefault();
+            if (attackingCountry == null)
+            {
+                throw new Exception("Attacking country is invalid");
+            }
+            if (defendingCountry == null)
+            {
+                throw new Exception("Defending country is invalid");
+            }
+            if (unitData == null)
+            {
+                throw new Exception("Unit Data is invalid");
+            }
+
+            var count = CountUnitsOfTypeAtHomeAsync(attackingCountryId, unitDataId).Result;
 
             if (numberOfUnits > count)
             {
@@ -76,19 +94,41 @@ namespace StrategyGame.Bll.Services
             }
             else 
             {
-                for (int i = 0; i < numberOfUnits; i++) 
-                { 
-                    //_context.Units.Include(u => u.UnitData).Where(u => u.CoutryID =)
                 
+                var battle = _context.Battles.Where(b => b.AttackingCountryID == attackingCountryId && b.DefendingCountryID == defendingCountryId).FirstOrDefault();
+
+                if (battle == null)
+                {
+                    battle = new Battle
+                    {
+                        AttackingCountry = attackingCountry,
+                        DefendingCountry = defendingCountry,
+                        AttackingUnits = new List<AttackingUnit>(),
+                        Round = 0 //TEMP
+                    };
+
+                    battle.AttackingUnits.Add(new AttackingUnit { Battle = battle, Count = numberOfUnits, UnitData = unitData });
+
+                    _context.Battles.Add(battle);
+
                 }
-            
-            
+
+                    var unit = battle.AttackingUnits.Where(a => a.UnitDataID == unitDataId).FirstOrDefault();
+
+                    if (unit != null)
+                    {
+                        battle.AttackingUnits.Add(new AttackingUnit { Battle = battle, Count = numberOfUnits, UnitData = unitData });
+
+                    }
+                    else
+                    {
+                        unit.Count += numberOfUnits;    
+                    }
+
+                _context.SaveChanges();
+       
             }
         }
-
-
-
-
 
     }
 }

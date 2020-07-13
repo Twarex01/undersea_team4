@@ -15,7 +15,7 @@ namespace StrategyGame.Bll.Services
 
         public double CountDefensePowerInBattle(int countryId);
 
-        public void SendUnitsToAttack(int countryId, int numberOfUnits, int unitDataId);
+        public void SendUnitsToAttack(int attackingCountryId, int defendingCountryId, int numberOfUnits, int unitDataId);
 
     }
 }
