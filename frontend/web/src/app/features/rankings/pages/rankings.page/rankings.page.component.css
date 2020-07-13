@@ -12,3 +12,12 @@ hr {
 .points {
     display: inline-block;
 }
+
+.search {
+    width: 95%;
+}
+
+.position {
+    display: inline-block;
+    width: 10%;
+}
