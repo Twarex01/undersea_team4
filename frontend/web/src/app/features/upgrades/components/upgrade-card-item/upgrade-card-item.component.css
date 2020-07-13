@@ -1,0 +1,19 @@
+.upgrade-card-item {
+    font-size: 1rem;
+    letter-spacing: 0;
+    color: #ffffff;
+    text-align: center;
+    line-height: 1;
+    width: 20rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.header {
+    font-family: "Baloo Bold";
+}
+
+.details {
+    font-family: "Baloo Regular";
+}
