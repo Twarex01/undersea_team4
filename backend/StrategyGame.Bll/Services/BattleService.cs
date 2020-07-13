@@ -15,6 +15,7 @@ namespace StrategyGame.Bll.Services
     {
 
         private AppDbContext _context;
+        private Random moraleGenerator = new Random();
 
         public BattleService(AppDbContext context)
         {
@@ -35,7 +36,7 @@ namespace StrategyGame.Bll.Services
         public async Task<int> CountUnitsOfTypeAtHomeAsync(int countryId, int unitDataId)
         {
 
-            var count = await _context.Units.Where(u => u.UnitDataID == unitDataId && u.CoutryID == countryId)
+            var count = await _context.Units.Where(u => u.UnitDataID == unitDataId && u.CountryID == countryId)
                 .SumAsync(k => k.Count).ConfigureAwait(false);
 
             count -= CountUnitsOfTypeNotAtHomeAsync(countryId, unitDataId).Result;
@@ -130,5 +131,65 @@ namespace StrategyGame.Bll.Services
             }
         }
 
+        public async Task CommenceBattle(int battleId) 
+        {
+
+            
+
+            double multiplier = moraleGenerator.Next(0, 1) > 0 ? 1.05 : 0.95;
+            
+
+
+            var ATKPower = await CountAttackPowerInBattleAsync(battleId) * multiplier;
+            var DEFPower = CountDefensePowerInBattle(battleId);
+
+            var defCountryId = _context.Battles.Where(b => b.ID == battleId).SingleOrDefault().ID;
+            var atkCountryId = _context.Battles.Where(b => b.ID == battleId).SingleOrDefault().ID;
+
+            if (ATKPower > DEFPower)
+            {
+               
+                var distinctUnitDataIds = _context.UnitData.Select(u => u.ID).Distinct();
+
+                
+
+                foreach (int unitDataId in distinctUnitDataIds)
+                {
+
+                    int unitAtHomeLost = CountUnitsOfTypeAtHomeAsync(defCountryId, unitDataId).Result;
+                    unitAtHomeLost = (int)Math.Ceiling(unitAtHomeLost * 0.9);
+                    _context.Units.Where(u => u.CountryID == defCountryId && u.UnitDataID == unitDataId).ToList().ForEach(c => c.Count = c.Count - unitAtHomeLost);
+                }
+
+                var distinctResourceDataIds = _context.ResourceData.Select(u => u.ID).Distinct();
+
+                foreach (int resourceDataId in distinctResourceDataIds)
+                {
+                    int resourcesTaken = _context.Resources.Include(r => r.Country).Where(r => r.ResourceDataID == resourceDataId && r.CoutryID == defCountryId).Select(r => r.Amount).First();
+                    resourcesTaken = (int)Math.Ceiling(resourcesTaken * 0.5);
+                    _context.Resources.Include(r => r.Country).Where(u => u.CoutryID == atkCountryId && u.ResourceDataID == resourceDataId).ToList().ForEach(r => r.Amount = r.Amount + resourcesTaken);
+                    _context.Resources.Include(r => r.Country).Where(u => u.CoutryID == defCountryId && u.ResourceDataID == resourceDataId).ToList().ForEach(r => r.Amount = r.Amount - resourcesTaken);
+                }
+            }
+            else 
+            {
+                var attackingUnits = _context.AttackingUnits.Include(a => a.Battle).Where(a => a.BattleID == battleId).ToList();
+
+                var distinctUnitDataIds = _context.UnitData.Select(u => u.ID).Distinct();
+
+                
+
+                foreach (int unitDataId in distinctUnitDataIds)
+                {
+                    int unitAttackingLost = CountUnitsOfTypeAtHomeAsync(atkCountryId, unitDataId).Result;
+                    unitAttackingLost = (int)Math.Ceiling(unitAttackingLost * 0.9);
+                    _context.Units.Where(u => u.CountryID == atkCountryId && u.UnitDataID == unitDataId).ToList().ForEach(c => c.Count = c.Count - unitAttackingLost);
+                    _context.AttackingUnits.Include(a => a.Battle).ThenInclude(b => b.AttackingCountry).Where(a => a.Battle.AttackingCountryID == atkCountryId)
+                        .ToList().ForEach(c => c.Count = c.Count - unitAttackingLost);
+                }
+            }
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

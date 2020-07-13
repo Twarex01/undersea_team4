@@ -29,6 +29,7 @@ namespace StrategyGame.Model
         public int ArmyCapacity { get; set; }
         public double AttackModifier { get; set; } = 1;
         public double DefenseModifier { get; set; } = 1;
+        public int Score { get; set; } = 0;
 
     }
 }

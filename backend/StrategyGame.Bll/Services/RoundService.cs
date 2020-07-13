@@ -17,11 +17,13 @@ namespace StrategyGame.Bll.Services
         private AppDbContext _dbContext;
         private UserManager<User> _userManager;
         private Random soldierMoraleGenerator = new Random();
+        private IBattleService _battleService;
 
-        public RoundService(AppDbContext dbContext, UserManager<User> userManager)
+        public RoundService(AppDbContext dbContext, UserManager<User> userManager , IBattleService battleService)
         {
             _dbContext = dbContext;
             _userManager = userManager;
+            _battleService = battleService;
         }
 
         private void GeneratePearlIncome(Country country)
@@ -41,7 +43,6 @@ namespace StrategyGame.Bll.Services
             
             foreach(var unit in country.Units)
             {
-
                 country.Resources.Where(c => c.ResourceDataID == unit.UnitData.SalaryUnitID).FirstOrDefault().Amount -= unit.UnitData.Salary;  //TESZTELNI!! a FoD miatt null pointer exception veszély
             }
             
@@ -77,6 +78,8 @@ namespace StrategyGame.Bll.Services
                 .Include(b => b.AttackingUnits).ThenInclude(u=> u.UnitData)
                 .ToListAsync();
 
+            
+
 
             // változások az egyes országokban
             foreach( var country in countryList)
@@ -90,7 +93,16 @@ namespace StrategyGame.Bll.Services
             }
 
             //Harc
-            
+            foreach (var battle in battles)
+            {
+                await _battleService.CommenceBattle(battle.ID); //baj lehet az includeokkal
+            }
+
+            //pont számolás
+            foreach(var country in countryList)
+            {
+                country.Score = country.Buildings.Sum(b => b.Progress > 0 ? 0 : b.Count * 50) + country.Upgrades.Sum(u => u.Progress>0 ? 0 : 100) + country.Population + country.Units.Sum(u => u.UnitData.PointValue);
+            }
 
 
         }
