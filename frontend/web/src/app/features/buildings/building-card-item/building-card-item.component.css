@@ -1,0 +1,20 @@
+.building-card-item {
+    font-size: 1rem;
+    letter-spacing: 0;
+    color: #ffffff;
+    text-align: center;
+    width: 20rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.header {
+    font-family: "Baloo Bold";
+    line-height: 0.5;
+}
+
+.details {
+    font-family: "Baloo Regular";
+    line-height: 1;
+}
