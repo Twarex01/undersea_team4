@@ -11,6 +11,10 @@ button {
     line-height: 0.05;
 }
 
+img {
+    padding: 20%;
+}
+
 .unit-card-item {
     font-size: 1rem;
     font-family: "Baloo Regular";
