@@ -26,6 +26,7 @@ namespace StrategyGame.Bll.Services
             var count = await _context.AttackingUnits.Where(a => a.UnitDataID == unitDataId && a.Battle.AttackingCountryID == countryId)
                 .SumAsync(k => k.Count).ConfigureAwait(false);
 
+
             return count;
         }
 
@@ -44,10 +45,47 @@ namespace StrategyGame.Bll.Services
         {
 
             var count = await _context.AttackingUnits.Include(a => a.Battle).Include(a => a.UnitData).Where(a => a.BattleID == battleId)
-                .SumAsync(x => x.Count * x.UnitData.ATK).ConfigureAwait(false); ;            
+                .SumAsync(x => x.Count * x.UnitData.ATK).ConfigureAwait(false);       
 
             return count;
         }
+
+        public double CountDefensePowerInBattle(int countryId)
+        {
+
+
+            var distinctUnitDataIds = _context.Units.Select(u => u.UnitDataID).Distinct();
+
+            double count = 0;
+
+            foreach (int unitDataId in distinctUnitDataIds)
+            {
+                count += CountUnitsOfTypeAtHomeAsync(countryId, unitDataId).Result * _context.UnitData.Where(u => u.ID == unitDataId).Select(u => u.DEF).First();
+            }
+
+            return count;
+        }
+
+        public void SendUnitsToAttack(int homeCountryId, int countryId, int numberOfUnits, int unitDataId)
+        {
+            var count = CountUnitsOfTypeAtHomeAsync(countryId, unitDataId).Result;
+
+            if (numberOfUnits > count)
+            {
+                throw new Exception("Not enough units available");
+            }
+            else 
+            {
+                for (int i = 0; i < numberOfUnits; i++) 
+                { 
+                    //_context.Units.Include(u => u.UnitData).Where(u => u.CoutryID =)
+                
+                }
+            
+            
+            }
+        }
+
 
 
 
