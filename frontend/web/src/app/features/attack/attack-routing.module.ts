@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AttackPageComponent } from './pages/attack.page/attack.page.component';
 import { PlayerListComponent } from './components/player-list/player-list.component';
-import { ChooseUnitComponent } from './components/choose-unit/choose-unit.component';
 
 
 const routes: Routes = [
@@ -10,14 +9,8 @@ const routes: Routes = [
     component: AttackPageComponent,
     children: [
       {
-        path: '',
-        component: PlayerListComponent,
-        children: [
-          {
-            path: ':id',
-            component: ChooseUnitComponent
-          }
-        ]
+        path: ':id',
+        component: AttackPageComponent
       }
     ]
   }
