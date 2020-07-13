@@ -4,7 +4,7 @@
     letter-spacing: 0;
     color: #ffffff;
     text-align: center;
-    line-height: 0.4;
+    line-height: 1;
     width: 20rem;
     display: flex;
     flex-direction: column;
@@ -17,4 +17,8 @@
 
 .body-details {
     font-family: "Baloo Regular";
+}
+
+.item-image {
+    margin: auto;
 }
