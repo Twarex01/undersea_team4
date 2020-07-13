@@ -1,6 +1,14 @@
 button {
     margin-right: 5%;
     margin-left: 5%;
+    font-family: "Baloo Regular";
+    box-shadow: none;
+    width: 2.4rem;
+    height: 1rem;
+    padding: 1rem 0;
+    font-size: 1.5rem;
+    border-radius: 50%;
+    line-height: 0.05;
 }
 
 .unit-card-item {
