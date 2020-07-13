@@ -63,7 +63,7 @@ namespace StrategyGame.Dal
             builder.Entity<Upgrade>().HasOne(u => u.UpgradeData).WithMany().HasForeignKey(u => u.UpgradeDataID);
            
             builder.Entity<Unit>().HasKey(u => u.ID);
-            builder.Entity<Unit>().HasOne(u => u.Country).WithMany(c => c.Units).HasForeignKey(u => u.CoutryID);
+            builder.Entity<Unit>().HasOne(u => u.Country).WithMany(c => c.Units).HasForeignKey(u => u.CountryID);
             builder.Entity<Unit>().HasOne(u => u.UnitData).WithMany().HasForeignKey(u => u.UnitDataID);
             builder.Entity<Unit>().Property(u => u.Count);
 

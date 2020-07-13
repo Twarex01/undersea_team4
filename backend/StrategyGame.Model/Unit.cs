@@ -14,6 +14,6 @@ namespace StrategyGame.Model
 
         public int Count { get; set; }
         public Country Country { get; set; }
-        public int CoutryID { get; set; }
+        public int CountryID { get; set; }
     }
 }
