@@ -131,7 +131,7 @@ namespace StrategyGame.Bll.Services
 					{
 						UnitDataID = unitDto.Id,
 						Count = unitDto.Count,
-						CoutryID = countryId
+						CountryID = countryId
 					};
                 }
                 else
