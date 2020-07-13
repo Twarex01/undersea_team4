@@ -1,0 +1,29 @@
+.unit-card-item {
+    font-size: 1rem;
+    font-family: "Baloo Regular";
+    letter-spacing: 0;
+    color: #ffffff;
+    width: 20rem;
+    line-height: 0.5;
+}
+
+.item-image {
+    width: 50%;
+    margin: auto;
+}
+
+.header {
+    font-family: "Baloo Bold";
+    text-align: center;
+}
+
+.labels {
+    display: inline-block;
+    width: 60%;
+}
+
+.values {
+    display: inline-block;
+    text-align: right;
+    width: 30%;
+}
