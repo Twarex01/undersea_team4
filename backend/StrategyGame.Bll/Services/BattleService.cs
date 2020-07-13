@@ -43,7 +43,8 @@ namespace StrategyGame.Bll.Services
         public async Task<int> CountAttackPowerInBattleAsync(int battleId)
         {
 
-            var count = _context.AttackingUnits.Include(a => a.Battle).Include(a => a.UnitData).Where(a => a.BattleID == battleId).Sum(x => x.Count * x.UnitData.ATK);            
+            var count = await _context.AttackingUnits.Include(a => a.Battle).Include(a => a.UnitData).Where(a => a.BattleID == battleId)
+                .SumAsync(x => x.Count * x.UnitData.ATK).ConfigureAwait(false); ;            
 
             return count;
         }
