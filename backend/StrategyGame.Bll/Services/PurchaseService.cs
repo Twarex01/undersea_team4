@@ -7,6 +7,7 @@ using StrategyGame.Model.UpgradeTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,13 +30,6 @@ namespace StrategyGame.Bll.Services
 			MUD_TRACTOR_ID,
 			SONAR_CANNON_ID
 		}
-
-        private enum UnitsIds
-        {
-			ASSAULT_SEAL_ID = 1,
-			BATTLE_SEAHORSE_ID,
-			LASER_SHARK_ID
-        }
 
         private readonly AppDbContext _appDbContext = null;
 
@@ -98,6 +92,7 @@ namespace StrategyGame.Bll.Services
 		{
 			List<int> costs = new List<int>();
 			var resourcesData = await _appDbContext.ResourceData.ToListAsync();
+			var country = await _appDbContext.Countries.Where(c => c.ID == countryId).SingleOrDefaultAsync();
             foreach (var resourceData in resourcesData)
             {
 				costs.Add(0);
@@ -110,7 +105,7 @@ namespace StrategyGame.Bll.Services
 				costs[(int)unit.PriceUnitID - 1] += unit.Price * unitDto.Count;
 			}
 			var costIndex = 0;
-			var countryResource = await _appDbContext.Resources.Where(r => r.CoutryID == countryId).ToListAsync();
+			var countryResource = country.Resources;
 			foreach (var resourceData in resourcesData)
 			{
 				if (costs[costIndex] == 0) {
@@ -121,7 +116,31 @@ namespace StrategyGame.Bll.Services
 				// 2 - not enough resources
 				if (resourceAmount < costs[costIndex]) return await new Task<int>(() => 2);
 			}
+			costIndex = 0;
+			foreach (var resourceData in resourcesData)
+            {
+				var resource = countryResource.Where(r => r.ID == resourceData.ID).SingleOrDefault();
+				resource.Amount -= costs[costIndex++];
+			}
+			foreach (var unitDto in army)
+            {
+				var countryUnit = country.Units.Where(u => u.ID == unitDto.Id).SingleOrDefault();
+				if (countryUnit == null)
+				{
+					countryUnit = new Unit
+					{
+						UnitDataID = unitDto.Id,
+						Count = unitDto.Count,
+						CoutryID = countryId
+					};
+                }
+                else
+                {
+					countryUnit.Count += unitDto.Count;
 
+				}
+            }
+			await _appDbContext.SaveChangesAsync();
 			throw new NotImplementedException("TODO");
 		}
 
