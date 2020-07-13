@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Namotion.Reflection;
 using StrategyGame.Bll.DTO;
+using StrategyGame.Bll.DTO.Country;
 using StrategyGame.Dal;
 using StrategyGame.Model;
 using System;
@@ -22,12 +23,14 @@ namespace StrategyGame.Bll.Services
             _context = context;
         }
 
-        public String QueryCountryName(int countryId)
+        public CountryNameDTO QueryCountryName(int countryId)
         {
 
             var name = _context.Countries.Where(c => c.ID == countryId).Select(c => c.Name).FirstOrDefault();
 
-            return name;
+            CountryNameDTO countryName = new CountryNameDTO(countryId, name);
+
+            return countryName;
         }
         public List<Resource> QueryCountryResources(int countryId)
         {
@@ -36,12 +39,22 @@ namespace StrategyGame.Bll.Services
 
             return resources;
         }
-        public List<Upgrade> QueryCountryUpgrades(int countryId)
+        public CountryUpgradesDTO QueryCountryUpgrades(int countryId)
         {
-
+            List<UpgradeDetailsDTO> upgradeDetailsDTO = new List<UpgradeDetailsDTO>();
             var upgrades = _context.Countries.Where(c => c.ID == countryId).Select(c => c.Upgrades).FirstOrDefault();
 
-            return upgrades;
+            foreach (Upgrade u in upgrades) 
+            {
+
+                var upData = _context.UpgradeData.Where(up => up.ID == u.ID).Select(x => new {x.Name}).FirstOrDefault();
+                UpgradeDetailsDTO upgradeDetailDTO = new UpgradeDetailsDTO(u.ID, upData.Name, "TODO", u.Progress);
+                upgradeDetailsDTO.Add(upgradeDetailDTO);
+            
+            
+            }
+
+            return new CountryUpgradesDTO(countryId, upgradeDetailsDTO);
         }
 
         public int QueryCountryScore(int countryId)

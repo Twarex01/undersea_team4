@@ -1,4 +1,5 @@
 ﻿using StrategyGame.Bll.DTO;
+using StrategyGame.Bll.DTO.Country;
 using StrategyGame.Model;
 using System;
 using System.Collections.Generic;
@@ -8,11 +9,11 @@ namespace StrategyGame.Bll.Services
 {
     interface IDataService
     {
-        public String QueryCountryName(int countryId);
+        public CountryNameDTO QueryCountryName(int countryId);
 
         public List<Resource> QueryCountryResources(int countryId);
 
-        public List<Upgrade> QueryCountryUpgrades(int countryId);
+        public CountryUpgradesDTO QueryCountryUpgrades(int countryId);
 
         public int QueryCountryScore(int countryId);
 

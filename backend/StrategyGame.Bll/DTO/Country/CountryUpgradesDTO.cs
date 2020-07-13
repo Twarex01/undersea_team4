@@ -8,6 +8,12 @@ namespace StrategyGame.Bll.DTO.Country
 {
     public class CountryUpgradesDTO
     {
+        public CountryUpgradesDTO(int id, List<UpgradeDetailsDTO> upgrades)
+        {
+            Id = id;
+            Upgrades = upgrades;
+        }
+
         public int Id { get; set; }
         public List<UpgradeDetailsDTO> Upgrades { get; set; }
     }
