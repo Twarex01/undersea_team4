@@ -1,6 +1,6 @@
 <main>
     <div [formGroup]="loginForm" class="form-container">
-        <app-basic-form-card title="Belépés">
+        <app-basic-form-card [form]="loginForm" (submitted)="onSubmit()" title="Belépés">
             <input type="text" placeholder="Felhasználónév" formControlName="userName">
             <input type="password" placeholder="Jelszó" formControlName="password">
             <a routerLink="/registration" class="login-reg-link">Regisztráció</a>

@@ -12,6 +12,7 @@ import { StatusBarComponent } from './core/status-bar/status-bar.component';
 import { MenuComponent } from './core/menu/menu.component';
 import { ProfileComponent } from './core/profile/profile.component';
 import { BasicFormCardComponent } from './core/basic-form-card/basic-form-card.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { BasicFormCardComponent } from './core/basic-form-card/basic-form-card.c
     BrowserModule,
     AppRoutingModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

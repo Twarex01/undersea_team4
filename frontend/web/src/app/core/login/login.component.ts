@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { LoginClient, LoginDTO } from '../../shared/clients';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -14,10 +15,16 @@ export class LoginComponent implements OnInit {
     password: new FormControl('')
   });
 
-
-  constructor() { }
+  constructor(private client: LoginClient, private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  onSubmit() {
+    console.log(this.loginForm.value);
+    this.client.postLogin(new LoginDTO(this.loginForm.value)).subscribe(() => {
+      this.router.navigate(["/"]);
+    })
   }
 
 }

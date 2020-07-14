@@ -92,6 +92,15 @@ namespace StrategyGame.Api
                 options.Password.RequiredUniqueChars = 1;
             });
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "OriginsToAllow",
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
+                                  });
+            });
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -111,6 +120,9 @@ namespace StrategyGame.Api
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseCors("OriginsToAllow");
+
             app.UseAuthentication();
             app.UseAuthorization();
 
