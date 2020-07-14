@@ -32,9 +32,9 @@ namespace StrategyGame.Bll.Services
             return countryName;
         }
 
-        public CountryResourcesDTO QueryCountryResourcesDTO(int countryId)
+        public async Task<CountryResourcesDTO> QueryCountryResourcesDTO(int countryId)
         {
-            List<UnitDTO> army = QueryCountryUnits(countryId);
+            List<UnitDTO> army = await QueryCountryUnits(countryId);
             List<ResourceDTO> products = QueryCountryResources(countryId);
             List<BuildingDTO> buildings = QueryCountryBuildings(countryId);
 
@@ -45,40 +45,38 @@ namespace StrategyGame.Bll.Services
             return crDTO;
         }
 
-        public List<UnitDTO> QueryCountryUnits(int countryId)
+        public async Task<List<UnitDTO>> QueryCountryUnits(int countryId)
         {
-            var distinctUnitData = _context.UnitData.ToList();
-            List<UnitDTO> unitList = new List<UnitDTO>();
-
-            foreach (UnitData u in distinctUnitData) 
+            Country country = await _context.Countries.Include(c => c.Units).ThenInclude(u => u.UnitData).SingleOrDefaultAsync(c => c.ID == countryId);
+            List<UnitDTO> output = new List<UnitDTO>();
+            foreach(var unit in country.Units)
             {
-                var units = _context.Units.Include(u => u.Country).Include(u => u.UnitData).Where(u => u.CountryID == countryId && u.UnitDataID == u.ID)
-                    .Select(x => new { x.ID, x.UnitData.Name, x.Count, x.UnitData.ATK, x.UnitData.DEF, x.UnitData.Salary, x.UnitData.Consumption, x.UnitData.Price}).FirstOrDefault();
-                
-                if (units != null)
+                output.Add(new UnitDTO()
                 {
-                    UnitDTO unit = new UnitDTO(units.ID, units.Name, units.Count, units.ATK, units.DEF, units.Salary, units.Consumption, units.Price);
-                    unitList.Add(unit);
-                }  
+                     Attack = unit.UnitData.ATK,
+                     Count = unit.Count,
+                     Def = unit.UnitData.DEF,
+                     Name = unit.UnitData.Name,
+                     Pay = unit.UnitData.Salary,
+                     Price = unit.UnitData.Price,
+                     Supply = unit.UnitData.Consumption
+                });
             }
-            
-            return unitList;
+
+            return output;
+           
         }
     
 
-        public CountryUpgradesDTO QueryCountryUpgrades(int countryId)
+        public async Task<CountryUpgradesDTO> QueryCountryUpgrades(int countryId)
         {
-            List<UpgradeDetailsDTO> upgradeDetailsDTO = new List<UpgradeDetailsDTO>();
-            var upgrades = _context.Countries.Where(c => c.ID == countryId).Select(c => c.Upgrades).FirstOrDefault();
-
-            foreach (Upgrade u in upgrades) 
+            Country country = await _context.Countries.Include(c => c.Upgrades).ThenInclude(u => u.UpgradeData).SingleOrDefaultAsync(c => c.ID == countryId);
+            CountryUpgradesDTO output = new CountryUpgradesDTO();
+            foreach(var upgrade in country.Upgrades)
             {
-                var upData = _context.UpgradeData.Where(up => up.ID == u.ID).Select(x => new {x.Name}).FirstOrDefault();
-                UpgradeDetailsDTO upgradeDetailDTO = new UpgradeDetailsDTO(u.ID, upData.Name, "TODO", u.Progress);
-                upgradeDetailsDTO.Add(upgradeDetailDTO);         
+                output.Upgrades.Add(new UpgradeDetailsDTO() { Effect = "Todo", Name = upgrade.UpgradeData.Name, Progress = upgrade.Progress });
             }
-
-            return new CountryUpgradesDTO(countryId, upgradeDetailsDTO);
+            return output;
         }
 
         public int QueryCountryScore(int countryId)
@@ -114,7 +112,14 @@ namespace StrategyGame.Bll.Services
 
             foreach (UnitData ud in unitData) 
             {
-                unitDetails.Add(new UnitDetailsDTO(ud.ATK, ud.DEF, ud.Salary, ud.Consumption, ud.Price));
+                unitDetails.Add(new UnitDetailsDTO()
+                {
+                     Attack = ud.ATK,
+                     Def = ud.DEF,
+                     Pay = ud.Salary,
+                     Price = ud.Price,
+                     Supply = ud.Consumption
+                });
             }
 
             return unitDetails;

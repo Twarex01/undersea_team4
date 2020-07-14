@@ -106,7 +106,7 @@ namespace StrategyGame.Bll.Services
                         AttackingUnits = new List<AttackingUnit>(),
                         Round = 0 //TEMP
                     };
-                    battle.AttackingUnits.Add(new AttackingUnit { Battle = battle, Count = numberOfUnits, UnitData = unitData });
+                    battle.AttackingUnits.Add(new AttackingUnit { Count = numberOfUnits, UnitData = unitData });
                     _context.Battles.Add(battle);
 
                 }
