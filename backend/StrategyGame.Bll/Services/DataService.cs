@@ -47,8 +47,9 @@ namespace StrategyGame.Bll.Services
 
             foreach (UnitData u in distinctUnitData) 
             {
-                var units = _context.Units.Include(u => u.Country).Include(u => u.UnitData).Where(u => u.CountryID == countryId).Select(x => new { x.ID, x.UnitData.Name, x.Count }).FirstOrDefault();
-                UnitDTO unit = new UnitDTO(units.ID, units.Name, units.Count);
+                var units = _context.Units.Include(u => u.Country).Include(u => u.UnitData).Where(u => u.CountryID == countryId)
+                    .Select(x => new { x.ID, x.UnitData.Name, x.Count, x.UnitData.ATK, x.UnitData.DEF, x.UnitData.Salary, x.UnitData.Consumption, x.UnitData.Price}).FirstOrDefault();
+                UnitDTO unit = new UnitDTO(units.ID, units.Name, units.Count, units.ATK, units.DEF, units.Salary, units.Consumption, units.Price);
                 unitList.Add(unit);
             }
             
@@ -107,7 +108,7 @@ namespace StrategyGame.Bll.Services
 
             foreach (UnitData ud in unitData) 
             {
-                //unitDetails.Add(new UnitDetailsDTO(ud.ATK, ud.DEF, ud.Salary, ud.Consumption, ud.Price));
+                unitDetails.Add(new UnitDetailsDTO(ud.ATK, ud.DEF, ud.Salary, ud.Consumption, ud.Price));
             }
 
             return unitDetails;

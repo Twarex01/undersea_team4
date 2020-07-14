@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace StrategyGame.Bll.DTO
 {
-    public class UnitDetailsDTO: UnitDTO
+    public class UnitDetailsDTO
     {
-        public UnitDetailsDTO(int id, string name, int count, int attack, int def, int pay, int supply, int price) : base(id, name, count)
+        public UnitDetailsDTO(int attack, int def, int pay, int supply, int price)
         {
             Attack = attack;
             Def = def;
