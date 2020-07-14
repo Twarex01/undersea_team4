@@ -1,5 +1,7 @@
-.component-container{
-    display: flex;
+.player-scroll-bar > input {
+    width: 90%;
+    padding: 3%;
+    margin: 0;
 }
 
 .description{
@@ -7,21 +9,23 @@
 }
 .player-scroll-bar{
     overflow: auto;
-    height: 406px;
-    
+    height: 25rem;
 }
 .player-scroll-bar > p {
-    font-size: larger;
+    font: 16px/22px;
+    font-family: "Baloo";
 }
 hr{
     border: 1px solid #3F68AE;
+    border-radius: 5px;
     width: 95%;
     size: 1px;
+    margin-left: 0;
 }
 
 /* width */
 ::-webkit-scrollbar {
-    width: 5px; 
+    width: 2%; 
  }
   
   /* Track */
@@ -38,12 +42,4 @@ hr{
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
     background: #3F68AE;
-  }
-
-  .palyer-list-container{
-      margin: 11px;
-  }
-
-  .choose-unit-container{
-      margin: 11px;
   }
