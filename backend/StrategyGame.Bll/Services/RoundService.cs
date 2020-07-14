@@ -76,15 +76,6 @@ namespace StrategyGame.Bll.Services
                 .Include(c => c.Resources).ThenInclude(r => r.ResourceData)
                 .ToListAsync();
 
-            var battles = await _dbContext.Battles
-                .Include(b=> b.AttackingCountry)
-                .Include(b => b.DefendingCountry)
-                .Include(b => b.AttackingUnits).ThenInclude(u=> u.UnitData)
-                .ToListAsync();
-
-            
-
-
             // változások az egyes országokban
             foreach( var country in countryList)
             {
@@ -97,9 +88,9 @@ namespace StrategyGame.Bll.Services
             }
 
             //Harc
-            foreach (var battle in battles)
+            foreach (var battleID in _dbContext.Battles.Select(b=> b.ID))
             {
-                await _battleService.CommenceBattle(battle.ID); //baj lehet az includeokkal
+                await _battleService.CommenceBattle(battleID);
             }
 
             //pont számolás

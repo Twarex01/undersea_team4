@@ -45,9 +45,9 @@ namespace StrategyGame.Api.Controllers
         [HttpPut("{id}/buildings/{buildingId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult BuyBuilding( int id, int buildingId) 
+        public async Task<IActionResult> BuyBuilding( int id, int buildingId) 
         {
-            var results = _purchaseService.PurchaseCountryBuildingAsync(id, buildingId).Result;
+            var results = await _purchaseService.PurchaseCountryBuildingAsync(id, buildingId);
 
             if (results == 0)
                 return Ok();

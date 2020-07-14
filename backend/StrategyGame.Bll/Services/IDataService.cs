@@ -4,6 +4,7 @@ using StrategyGame.Model;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace StrategyGame.Bll.Services
 {
@@ -11,9 +12,9 @@ namespace StrategyGame.Bll.Services
     {
         public CountryNameDTO QueryCountryName(int countryId);
 
-        public List<UnitDTO> QueryCountryUnits(int countryId);
+        public Task<List<UnitDTO>> QueryCountryUnits(int countryId);
 
-        public CountryUpgradesDTO QueryCountryUpgrades(int countryId);
+        public Task<CountryUpgradesDTO> QueryCountryUpgrades(int countryId);
 
         public int QueryCountryScore(int countryId);
 
@@ -23,7 +24,7 @@ namespace StrategyGame.Bll.Services
 
         public List<BuildingDTO> QueryCountryBuildings(int countryId);
 
-        public CountryResourcesDTO QueryCountryResourcesDTO(int countryId);
+        public Task<CountryResourcesDTO> QueryCountryResourcesDTO(int countryId);
 
         public List<PlayerDTO> QueryCountryRank();
 
