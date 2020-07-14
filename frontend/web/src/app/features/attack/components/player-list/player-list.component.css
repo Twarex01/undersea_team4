@@ -6,6 +6,7 @@
 
 .description{
     font-family: "Baloo Bold";
+    padding-right: 7rem;
 }
 .player-scroll-bar{
     overflow: auto;
@@ -25,7 +26,7 @@ hr{
 
 /* width */
 ::-webkit-scrollbar {
-    width: 2%; 
+    width: 5px; 
  }
   
   /* Track */
