@@ -60,6 +60,7 @@ namespace StrategyGame.Api
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoundService, RoundService>();
             services.AddScoped<IBattleService, BattleService>();
+            services.AddScoped<IDataService, DataService>();
             services.AddScoped<IPurchaseService, PurchaseService>();
 
             services.AddAuthentication().AddJwtBearer(options =>

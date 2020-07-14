@@ -157,7 +157,8 @@ namespace StrategyGame.Bll.Services
             foreach (Country c in distinctcountry)
             {
                 var score = QueryCountryScore(c.ID);
-                PlayerDTO tempPlayer = new PlayerDTO(Int32.Parse(c.UserID), c.User.UserName, score);
+                int.TryParse(c.UserID, out int idResult);
+                PlayerDTO tempPlayer = new PlayerDTO(idResult, c.User.UserName, score);
                 rank.Add(tempPlayer);
 
             }
@@ -168,7 +169,5 @@ namespace StrategyGame.Bll.Services
 
             return rank;
         }
-
-
     }
 }

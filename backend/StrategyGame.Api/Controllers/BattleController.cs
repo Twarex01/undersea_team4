@@ -13,9 +13,9 @@ namespace StrategyGame.Api.Controllers
     {
 
 
-        private BattleService _battleService;
+        private IBattleService _battleService;
 
-        public BattleController(BattleService battleService)
+        public BattleController(IBattleService battleService)
         {
             _battleService = battleService;
         }

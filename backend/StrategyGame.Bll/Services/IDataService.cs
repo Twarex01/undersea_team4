@@ -7,7 +7,7 @@ using System.Text;
 
 namespace StrategyGame.Bll.Services
 {
-    interface IDataService
+    public interface IDataService
     {
         public CountryNameDTO QueryCountryName(int countryId);
 
