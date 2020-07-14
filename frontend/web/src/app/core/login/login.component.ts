@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { LoginClient, LoginDTO } from '../../shared/clients';
 import { Router } from '@angular/router';
+import { AccountService } from '../services/account.service';
 
 @Component({
   selector: 'app-login',
@@ -17,20 +18,19 @@ export class LoginComponent implements OnInit {
     password: new FormControl('')
   });
 
-  constructor(private client: LoginClient, private router: Router) { }
+  constructor(private accountService: AccountService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   onSubmit() {
-    console.log(this.loginForm.value);
     this.error = false;
-    this.client.postLogin(new LoginDTO(this.loginForm.value)).subscribe(() => {
+    this.accountService.login(new LoginDTO(this.loginForm.value)).subscribe(() => {
       this.router.navigate(["/"]);
     },
     () => {
       this.error = true;
-    })
+    });
   }
 
 }
