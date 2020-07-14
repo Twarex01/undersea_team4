@@ -49,7 +49,7 @@ namespace StrategyGame.Bll.Services
 
         public List<UnitDTO> QueryCountryUnits(int countryId)
         {
-            var distinctUnitData = _context.UnitData.Distinct().ToList();
+            var distinctUnitData = _context.UnitData.ToList();
             List<UnitDTO> unitList = new List<UnitDTO>();
 
             foreach (UnitData u in distinctUnitData) 
@@ -110,7 +110,7 @@ namespace StrategyGame.Bll.Services
 
         public List<UnitDetailsDTO> QueryUnitDetails()
         {
-            var unitData = _context.UnitData.Distinct().ToList();
+            var unitData = _context.UnitData.ToList();
             List<UnitDetailsDTO> unitDetails = new List<UnitDetailsDTO>();
 
             foreach (UnitData ud in unitData) 
