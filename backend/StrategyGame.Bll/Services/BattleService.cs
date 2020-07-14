@@ -2,11 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using StrategyGame.Bll.DTO;
 using StrategyGame.Dal;
 using StrategyGame.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace StrategyGame.Bll.Services
@@ -15,6 +17,7 @@ namespace StrategyGame.Bll.Services
     {
 
         private AppDbContext _context;
+        private Random moraleGenerator = new Random();
 
         public BattleService(AppDbContext context)
         {
@@ -22,7 +25,7 @@ namespace StrategyGame.Bll.Services
         }
 
 
-        public async Task<int> CountUnitsOfTypeNotAtHomeAsync(int? countryId, int unitDataId)
+        public async Task<int> CountUnitsOfTypeNotAtHomeAsync(int countryId, int unitDataId)
         {
 
             var count = await _context.AttackingUnits.Where(a => a.UnitDataID == unitDataId && a.Battle.AttackingCountryID == countryId)
@@ -32,7 +35,7 @@ namespace StrategyGame.Bll.Services
             return count;
         }
 
-        public async Task<int> CountUnitsOfTypeAtHomeAsync(int? countryId, int unitDataId)
+        public async Task<int> CountUnitsOfTypeAtHomeAsync(int countryId, int unitDataId)
         {
 
             var count = await _context.Units.Where(u => u.UnitDataID == unitDataId && u.CountryID == countryId)
@@ -54,8 +57,6 @@ namespace StrategyGame.Bll.Services
 
         public double CountDefensePowerInBattle(int countryId)
         {
-
-
             var distinctUnitDataIds = _context.Units.Select(u => u.UnitDataID).Distinct();
 
             double count = 0;
@@ -68,23 +69,39 @@ namespace StrategyGame.Bll.Services
             return count;
         }
 
-        public void SendUnitsToAttack(int attackingCountryId, int defendingCountryId, int numberOfUnits, int unitDataId)
+        public void SendAllTypesToAttack(BattleDTO battleDto) 
         {
-            var attackingCountry = _context.Countries.Where(c => c.ID == attackingCountryId).FirstOrDefault();
-            var defendingCountry = _context.Countries.Where(c => c.ID == defendingCountryId).FirstOrDefault();
-            var unitData = _context.UnitData.Where(u => u.ID == unitDataId).FirstOrDefault();
+
+            var attackingCountry = _context.Countries.Where(c => c.ID == battleDto.IdAtt).FirstOrDefault();
+            var defendingCountry = _context.Countries.Where(c => c.ID == battleDto.IdDef).FirstOrDefault();
             if (attackingCountry == null)
             {
-                throw new Exception("Attacking country is invalid");
+                throw new Exception("Attacking country is not found");
             }
             if (defendingCountry == null)
             {
-                throw new Exception("Defending country is invalid");
+                throw new Exception("Defending country is not found");
             }
+
+            foreach (UnitDTO unitDto in battleDto.Army) 
+            {
+                var unitDataId = _context.UnitData.Where(u => u.Name == unitDto.Name).Select(u => u.ID).FirstOrDefault();  
+                SendUnitsOfTypeToAttack(battleDto.IdAtt, battleDto.IdDef, unitDto.Count, unitDataId);
+            }
+        
+        }
+
+        public void SendUnitsOfTypeToAttack(int attackingCountryId, int defendingCountryId, int numberOfUnits, int unitDataId)
+        {
+
+            var attackingCountry = _context.Countries.Where(c => c.ID == attackingCountryId).FirstOrDefault();
+            var defendingCountry = _context.Countries.Where(c => c.ID == defendingCountryId).FirstOrDefault();
+            var unitData = _context.UnitData.Where(u => u.ID == unitDataId).FirstOrDefault();
             if (unitData == null)
             {
-                throw new Exception("Unit Data is invalid");
+                throw new Exception("Unit Data is not found");
             }
+
 
             var count = CountUnitsOfTypeAtHomeAsync(attackingCountryId, unitDataId).Result;
 
@@ -130,21 +147,20 @@ namespace StrategyGame.Bll.Services
             }
         }
 
-        public void CommenceBattle(int battleId) 
+        public async Task CommenceBattle(int battleId) 
         {
 
-            double maximum = 1.05;
-            double minimum = 0.95;
+            
 
-            Random random = new Random();
-            double multiplier = random.NextDouble() * (maximum - minimum) + minimum;
+            double multiplier = moraleGenerator.Next(0, 1) > 0 ? 1.05 : 0.95;
+            
 
 
-            var ATKPower = CountAttackPowerInBattleAsync(battleId).Result * multiplier;
+            var ATKPower = await CountAttackPowerInBattleAsync(battleId) * multiplier;
             var DEFPower = CountDefensePowerInBattle(battleId);
 
-            var defCountryId = _context.Battles.Where(b => b.ID == battleId).Select(b => b.DefendingCountryID).First();
-            var atkCountryId = _context.Battles.Where(b => b.ID == battleId).Select(b => b.AttackingCountryID).First();
+            var defCountryId = _context.Battles.Where(b => b.ID == battleId).SingleOrDefault().ID;
+            var atkCountryId = _context.Battles.Where(b => b.ID == battleId).SingleOrDefault().ID;
 
             if (ATKPower > DEFPower)
             {
@@ -189,7 +205,7 @@ namespace StrategyGame.Bll.Services
                 }
             }
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace StrategyGame.Bll.DTO
 {
-    public class BuildingDetailsDTO: BuildingDTO
+    public class BuildingDetailsDTO
     {
+        public BuildingDetailsDTO(string effect, int price)
+        {
+            Effect = effect;
+            Price = price;
+        }
+
         [StringLength(300, ErrorMessage = "{0} must be less than {1} characters!")]
         public string Effect { get; set; }
         [Range(0, int.MaxValue)]

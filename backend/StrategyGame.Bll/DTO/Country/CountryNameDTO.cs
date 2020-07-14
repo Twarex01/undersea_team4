@@ -8,6 +8,12 @@ namespace StrategyGame.Bll.DTO.Country
 {
     public class CountryNameDTO
     {
+        public CountryNameDTO(int id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
+
         public int Id { get; set; }
         [StringLength(100, ErrorMessage = "{0} must be less than {1} characters!")]
         public string Name { get; set; }

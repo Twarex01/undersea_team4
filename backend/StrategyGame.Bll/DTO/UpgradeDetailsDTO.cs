@@ -9,6 +9,14 @@ namespace StrategyGame.Bll.DTO
 {
     public class UpgradeDetailsDTO
     {
+        public UpgradeDetailsDTO(int id, string name, string effect, int progress)
+        {
+            Id = id;
+            Name = name;
+            Effect = effect;
+            Progress = progress;
+        }
+
         public int Id { get; set; }
         [StringLength(100, ErrorMessage = "{0} must be less than {1} characters!")]
         public string Name { get; set; }
