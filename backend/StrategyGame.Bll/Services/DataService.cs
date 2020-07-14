@@ -107,7 +107,7 @@ namespace StrategyGame.Bll.Services
 
             foreach (UnitData ud in unitData) 
             {
-                unitDetails.Add(new UnitDetailsDTO(ud.ATK, ud.DEF, ud.Salary, ud.Consumption, ud.Price););
+                //unitDetails.Add(new UnitDetailsDTO(ud.ATK, ud.DEF, ud.Salary, ud.Consumption, ud.Price));
             }
 
             return unitDetails;

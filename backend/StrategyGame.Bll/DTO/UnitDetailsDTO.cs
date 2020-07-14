@@ -9,7 +9,7 @@ namespace StrategyGame.Bll.DTO
 {
     public class UnitDetailsDTO: UnitDTO
     {
-        public UnitDetailsDTO(int attack, int def, int pay, int supply, int price)
+        public UnitDetailsDTO(int id, string name, int count, int attack, int def, int pay, int supply, int price) : base(id, name, count)
         {
             Attack = attack;
             Def = def;
@@ -17,6 +17,7 @@ namespace StrategyGame.Bll.DTO
             Supply = supply;
             Price = price;
         }
+
 
         [Range(0, int.MaxValue)]
         public int Attack { get; set; }
