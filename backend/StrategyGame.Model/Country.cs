@@ -6,16 +6,7 @@ namespace StrategyGame.Model
 {
     public class Country
     {
-        public Country()
-        {
-          
-            Resources = new List<Resource>();
-            Buildings = new List<Building>();
-            Upgrades = new List<Upgrade>();
-            Population = 50;
-            ArmyCapacity = 100;
-
-        }
+      
 
         public int ID { get; set; }
         public string Name { get; set; }
