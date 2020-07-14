@@ -15,21 +15,7 @@ namespace StrategyGame.Bll.Services
 {
 	public class PurchaseService : IPurchaseService
 	{
-        private enum BuildingIds
-        {
-			FLOW_REGULATOR_ID = 1,
-			REEF_FORT_ID
-        }
-
-		private enum UpgradesIds
-        {
-			ALCHEMY_ID = 1,
-			CORALL_WALL_ID,
-			MARTIAL_ARTS_ID,
-			MUD_HARVESTER_ID,
-			MUD_TRACTOR_ID,
-			SONAR_CANNON_ID
-		}
+       
 
         private readonly AppDbContext _appDbContext = null;
 
