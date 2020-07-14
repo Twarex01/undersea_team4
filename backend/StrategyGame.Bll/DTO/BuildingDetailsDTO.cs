@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace StrategyGame.Bll.DTO
 {
-    public class BuildingDetailsDTO
+    public class BuildingDetailsDTO : BuildingDTO
     {
-        public BuildingDetailsDTO(string effect, int price)
+        public BuildingDetailsDTO(int id, string name, int progress, int count, string effect, int price) 
+            : base(id, name, progress, count)
         {
             Effect = effect;
             Price = price;

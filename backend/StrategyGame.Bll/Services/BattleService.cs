@@ -28,7 +28,7 @@ namespace StrategyGame.Bll.Services
         public async Task<int> CountUnitsOfTypeNotAtHomeAsync(int countryId, int unitDataId)
         {
 
-            var count = await _context.AttackingUnits.Where(a => a.UnitDataID == unitDataId && a.Battle.AttackingCountryID == countryId)
+            var count = await _context.AttackingUnits.Include(a => a.Battle).Where(a => a.UnitDataID == unitDataId && a.Battle.AttackingCountryID == countryId)
                 .SumAsync(k => k.Count).ConfigureAwait(false);
 
 
@@ -124,7 +124,7 @@ namespace StrategyGame.Bll.Services
                         Round = 0 //TEMP
                     };
 
-                    battle.AttackingUnits.Add(new AttackingUnit { Battle = battle, Count = numberOfUnits, UnitData = unitData });
+                    battle.AttackingUnits.Add(new AttackingUnit { Count = numberOfUnits, UnitData = unitData });
 
                     _context.Battles.Add(battle);
 
@@ -132,9 +132,9 @@ namespace StrategyGame.Bll.Services
 
                     var unit = battle.AttackingUnits.Where(a => a.UnitDataID == unitDataId).FirstOrDefault();
 
-                    if (unit != null)
+                    if (unit == null)
                     {
-                        battle.AttackingUnits.Add(new AttackingUnit { Battle = battle, Count = numberOfUnits, UnitData = unitData });
+                        battle.AttackingUnits.Add(new AttackingUnit { Count = numberOfUnits, UnitData = unitData });
 
                     }
                     else

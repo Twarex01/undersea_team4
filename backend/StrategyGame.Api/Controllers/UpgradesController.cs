@@ -22,15 +22,5 @@ namespace StrategyGame.Api.Controllers
         
         }
 
-        //GET api/upgrades
-        [HttpGet]
-        public List<UpgradeDetailsDTO> UpgradesData()
-        {
-
-
-            //return Ok(mapper.Map<UpgradeResultDTO>(upgradeMOdel))
-            throw new NotImplementedException("TODO");
-        }
-
     }
 }

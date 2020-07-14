@@ -55,8 +55,8 @@ namespace StrategyGame.Bll.Services
             foreach (UnitData u in distinctUnitData) 
             {
                 var units = _context.Units.Include(u => u.Country).Include(u => u.UnitData).Where(u => u.CountryID == countryId && u.UnitDataID == u.ID)
-                    .Select(x => new { x.ID, x.UnitData.Name, x.Count, x.UnitData.ATK, x.UnitData.DEF, x.UnitData.Salary, x.UnitData.Consumption, x.UnitData.Price}).FirstOrDefault();
-                UnitDTO unit = new UnitDTO(units.ID, units.Name, units.Count, units.ATK, units.DEF, units.Salary, units.Consumption, units.Price);
+                    .Select(x => new { x.ID, x.UnitData.Name, x.Count}).FirstOrDefault();
+                UnitDTO unit = new UnitDTO(units.ID, units.Name, units.Count);
                 unitList.Add(unit);
             }
             
@@ -108,18 +108,7 @@ namespace StrategyGame.Bll.Services
             return countryScore;
         }
 
-        public List<UnitDetailsDTO> QueryUnitDetails()
-        {
-            var unitData = _context.UnitData.Distinct().ToList();
-            List<UnitDetailsDTO> unitDetails = new List<UnitDetailsDTO>();
 
-            foreach (UnitData ud in unitData) 
-            {
-                unitDetails.Add(new UnitDetailsDTO(ud.ATK, ud.DEF, ud.Salary, ud.Consumption, ud.Price));
-            }
-
-            return unitDetails;
-        }
 
         public List<ResourceDTO> QueryCountryResources(int countryId)
         {
@@ -146,9 +135,9 @@ namespace StrategyGame.Bll.Services
             foreach (BuildingData b in building)
             {
                 var buildings = _context.Buildings.Include(b => b.Country).Include(b => b.BuildingData).Where(r => r.CoutryID == countryId && b.ID == r.BuildingDataID)
-                    .Select(x => new { x.ID, x.BuildingData.Name, x.Progress, x.Count, x.BuildingData.Price })
+                    .Select(x => new { x.ID, x.BuildingData.Name, x.Progress, x.Count})
                     .FirstOrDefault();
-                BuildingDTO buildingDTO = new BuildingDTO(buildings.ID, buildings.Name, buildings.Progress, buildings.Count, "TODO", buildings.Price);//Ezt nem tudom így fogjuk e használni
+                BuildingDTO buildingDTO = new BuildingDTO(buildings.ID, buildings.Name, buildings.Progress, buildings.Count);
                 buildingList.Add(buildingDTO);
             }
 
@@ -174,6 +163,19 @@ namespace StrategyGame.Bll.Services
             return rank;
         }
 
+        public List<UpgradeDetailsDTO> QueryUpgradesData()
+        {
+            throw new NotImplementedException();
+        }
 
+        public List<UnitDetailsDTO> QueryUnitsData()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<BuildingDetailsDTO> QueryBuildingsData()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
