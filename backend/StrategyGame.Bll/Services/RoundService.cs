@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace StrategyGame.Bll.Services
 {
-    class RoundService : IRoundService
+    public class RoundService : IRoundService
     {
 
         private AppDbContext _dbContext;

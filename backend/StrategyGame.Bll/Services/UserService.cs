@@ -21,11 +21,12 @@ namespace StrategyGame.Bll.Services
             _dbContext = dbContext;
         }
 
-        public async Task<bool> AuthenticateUser(LoginDTO loginDTO)
+        public async Task<User> AuthenticateUser(LoginDTO loginDTO)
         {
             var user = await _userManager.FindByNameAsync(loginDTO.UserName);
-            if (user == null) return false;
-            return await _userManager.CheckPasswordAsync(user, loginDTO.Password);
+            if (user == null) return null;
+            if (await _userManager.CheckPasswordAsync(user, loginDTO.Password)) return user;
+            else return null;
         }
 
         public async Task<IdentityResult> RegisterUserAsync(RegisterDTO registerDTO)
