@@ -10,6 +10,13 @@ namespace StrategyGame.Bll.DTO
 {
     public class UnitDTO
     {
+        public UnitDTO(int id, string name, int count)
+        {
+            Id = id;
+            Name = name;
+            Count = count;
+        }
+
         public int Id { get; set; }
         [StringLength(100, ErrorMessage = "{0} must be less than {1} characters!")]
         public string Name { get; set; }

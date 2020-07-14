@@ -38,7 +38,24 @@ namespace StrategyGame.Bll.Services
             var resources = _context.Countries.Where(c => c.ID == countryId).Select(c => c.Resources).FirstOrDefault();
 
             return resources;
+        }       
+        
+        public List<UnitDTO> QueryCountryUnits(int countryId)
+        {
+            var distinctUnitData = _context.UnitData.Distinct().ToList();
+            List<UnitDTO> unitList = new List<UnitDTO>();
+
+            foreach (UnitData u in distinctUnitData) 
+            {
+                var units = _context.Units.Include(u => u.Country).Include(u => u.UnitData).Where(u => u.CountryID == countryId).Select(x => new { x.ID, x.UnitData.Name, x.Count }).FirstOrDefault();
+                UnitDTO unit = new UnitDTO(units.ID, units.Name, units.Count);
+                unitList.Add(unit);
+            }
+            
+            return unitList;
         }
+    
+
         public CountryUpgradesDTO QueryCountryUpgrades(int countryId)
         {
             List<UpgradeDetailsDTO> upgradeDetailsDTO = new List<UpgradeDetailsDTO>();
