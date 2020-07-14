@@ -11,8 +11,13 @@ p, a {
     line-height: 0.75;
 }
 
+a {
+    text-decoration: none;
+}
+
 a:hover {
     cursor: pointer;
+    color: #9FFFF0;
 }
 
 .profile-box {
