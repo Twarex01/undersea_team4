@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
+  error: boolean = false;
+
   loginForm = new FormGroup({
     userName: new FormControl(''),
     password: new FormControl('')
@@ -22,8 +24,12 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     console.log(this.loginForm.value);
+    this.error = false;
     this.client.postLogin(new LoginDTO(this.loginForm.value)).subscribe(() => {
       this.router.navigate(["/"]);
+    },
+    () => {
+      this.error = true;
     })
   }
 
