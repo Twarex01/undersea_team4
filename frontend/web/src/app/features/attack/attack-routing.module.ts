@@ -6,13 +6,7 @@ import { PlayerListComponent } from './components/player-list/player-list.compon
 
 const routes: Routes = [
   { path: '',
-    component: AttackPageComponent,
-    children: [
-      {
-        path: ':id',
-        component: AttackPageComponent
-      }
-    ]
+    component: AttackPageComponent
   }
 ];
 
