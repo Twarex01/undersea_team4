@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UpgradesPageComponent implements OnInit {
 
+  upgradeSelected: number = -1;
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  selectUpgrade(id: number) {
+    this.upgradeSelected = id;
+    console.log("Upgrade:" + this.upgradeSelected);
   }
 
 }
