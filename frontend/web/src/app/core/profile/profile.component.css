@@ -4,10 +4,15 @@ img {
     padding: 20%;
 }
 
-p {
+p, a {
     color: white;
     margin: 10% auto 0 auto;
     font-family: "Baloo Bold";
+    line-height: 0.75;
+}
+
+a:hover {
+    cursor: pointer;
 }
 
 .profile-box {
