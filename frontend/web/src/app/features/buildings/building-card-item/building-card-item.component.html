@@ -1,4 +1,4 @@
-<div class="building-card-item">
+<div class="building-card-item" [ngClass]="{ 'building-card-item-selected': isSelected }">
     <div class="item-image">
         <ng-content select=".item-image"></ng-content>
     </div>

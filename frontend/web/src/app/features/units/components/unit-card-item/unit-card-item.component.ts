@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-unit-card-item',
@@ -7,9 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UnitCardItemComponent implements OnInit {
 
+  numberOfUnitsToBuy = 0;
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  changeNumberOfUnitsToBuy(num: number){
+    if(this.numberOfUnitsToBuy === 0 && num < 0)
+      return;
+    this.numberOfUnitsToBuy += num;
   }
 
 }

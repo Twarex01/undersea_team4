@@ -16,3 +16,8 @@ hr {
 .unit {
     margin-right: 1rem;
 }
+
+.card {
+    position: relative;
+    right: 15%;
+}

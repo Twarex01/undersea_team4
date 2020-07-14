@@ -3,11 +3,15 @@ button {
     padding: 1% 4% 1% 4%;
 }
 
-
 .short-description {
     margin-bottom: 0;
 }
 
 .details {
     margin-top: 0;
+}
+
+.card {
+    position: relative;
+    right: 15%;
 }

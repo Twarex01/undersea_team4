@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-building-card-item',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./building-card-item.component.css']
 })
 export class BuildingCardItemComponent implements OnInit {
+
+  @Input() isSelected: boolean = false;
 
   constructor() { }
 

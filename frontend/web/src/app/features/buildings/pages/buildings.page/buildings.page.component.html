@@ -1,15 +1,15 @@
-<app-basic-card>
+<app-basic-card class="card">
   <p class="header">Épületek</p>
   <p class="short-description">Kattints rá, amelyiket szeretnéd megvenni.</p>
   <p class="details">Egyszerre csak egy épület épülhet!</p>
 
-    <app-building-card-item class="card-item">
+    <app-building-card-item class="card-item" (click)="selectBuilding(0)">
       <img
       class="item-image"
       src="../../../../../assets/buildings/zatonyvar.png"/>
     </app-building-card-item>
   
-    <app-building-card-item class="card-item">
+    <app-building-card-item class="card-item" (click)="selectBuilding(1)">
       <img
         class="item-image"
         src="../../../../../assets/buildings/aramlasiranyito.png"
@@ -17,6 +17,6 @@
     </app-building-card-item>
   
   <div class="footer">
-    <button>Megveszem</button>
+    <button [ngClass]="{ 'button-not-selected': selectedBuilding === -1}" >Megveszem</button>
   </div>
 </app-basic-card>

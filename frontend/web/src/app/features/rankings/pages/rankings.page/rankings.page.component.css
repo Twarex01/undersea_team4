@@ -14,10 +14,15 @@ hr {
 }
 
 .search {
-    width: 95%;
+    width: 30rem;
 }
 
 .position {
     display: inline-block;
     width: 10%;
+}
+
+.card {
+    position: relative;
+    right: 15%;
 }
