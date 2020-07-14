@@ -25,7 +25,6 @@ namespace StrategyGame.Bll.Services
 
         public CountryNameDTO QueryCountryName(int countryId)
         {
-
             var name = _context.Countries.Where(c => c.ID == countryId).Select(c => c.Name).FirstOrDefault();
 
             CountryNameDTO countryName = new CountryNameDTO(countryId, name);
@@ -35,7 +34,6 @@ namespace StrategyGame.Bll.Services
 
         public CountryResourcesDTO QueryCountryResourcesDTO(int countryId)
         {
-
             List<UnitDTO> army = QueryCountryUnits(countryId);
             List<ResourceDTO> products = QueryCountryResources(countryId);
             List<BuildingDTO> buildings = QueryCountryBuildings(countryId);
@@ -49,15 +47,19 @@ namespace StrategyGame.Bll.Services
 
         public List<UnitDTO> QueryCountryUnits(int countryId)
         {
-            var distinctUnitData = _context.UnitData.Distinct().ToList();
+            var distinctUnitData = _context.UnitData.ToList();
             List<UnitDTO> unitList = new List<UnitDTO>();
 
             foreach (UnitData u in distinctUnitData) 
             {
                 var units = _context.Units.Include(u => u.Country).Include(u => u.UnitData).Where(u => u.CountryID == countryId && u.UnitDataID == u.ID)
                     .Select(x => new { x.ID, x.UnitData.Name, x.Count, x.UnitData.ATK, x.UnitData.DEF, x.UnitData.Salary, x.UnitData.Consumption, x.UnitData.Price}).FirstOrDefault();
-                UnitDTO unit = new UnitDTO(units.ID, units.Name, units.Count, units.ATK, units.DEF, units.Salary, units.Consumption, units.Price);
-                unitList.Add(unit);
+                
+                if (units != null)
+                {
+                    UnitDTO unit = new UnitDTO(units.ID, units.Name, units.Count, units.ATK, units.DEF, units.Salary, units.Consumption, units.Price);
+                    unitList.Add(unit);
+                }  
             }
             
             return unitList;
@@ -71,12 +73,9 @@ namespace StrategyGame.Bll.Services
 
             foreach (Upgrade u in upgrades) 
             {
-
                 var upData = _context.UpgradeData.Where(up => up.ID == u.ID).Select(x => new {x.Name}).FirstOrDefault();
                 UpgradeDetailsDTO upgradeDetailDTO = new UpgradeDetailsDTO(u.ID, upData.Name, "TODO", u.Progress);
-                upgradeDetailsDTO.Add(upgradeDetailDTO);
-            
-            
+                upgradeDetailsDTO.Add(upgradeDetailDTO);         
             }
 
             return new CountryUpgradesDTO(countryId, upgradeDetailsDTO);
@@ -110,7 +109,7 @@ namespace StrategyGame.Bll.Services
 
         public List<UnitDetailsDTO> QueryUnitDetails()
         {
-            var unitData = _context.UnitData.Distinct().ToList();
+            var unitData = _context.UnitData.ToList();
             List<UnitDetailsDTO> unitDetails = new List<UnitDetailsDTO>();
 
             foreach (UnitData ud in unitData) 
@@ -148,8 +147,11 @@ namespace StrategyGame.Bll.Services
                 var buildings = _context.Buildings.Include(b => b.Country).Include(b => b.BuildingData).Where(r => r.CoutryID == countryId && b.ID == r.BuildingDataID)
                     .Select(x => new { x.ID, x.BuildingData.Name, x.Progress, x.Count, x.BuildingData.Price })
                     .FirstOrDefault();
-                BuildingDTO buildingDTO = new BuildingDTO(buildings.ID, buildings.Name, buildings.Progress, buildings.Count, "TODO", buildings.Price);//Ezt nem tudom így fogjuk e használni
-                buildingList.Add(buildingDTO);
+                if (buildings != null)
+                {
+                    BuildingDTO buildingDTO = new BuildingDTO(buildings.ID, buildings.Name, buildings.Progress, buildings.Count, "TODO", buildings.Price);//Ezt nem tudom így fogjuk e használni
+                    buildingList.Add(buildingDTO);
+                }
             }
 
             return buildingList;
@@ -162,7 +164,8 @@ namespace StrategyGame.Bll.Services
             foreach (Country c in distinctcountry)
             {
                 var score = QueryCountryScore(c.ID);
-                PlayerDTO tempPlayer = new PlayerDTO(Int32.Parse(c.UserID), c.User.UserName, score);
+                int.TryParse(c.UserID, out int idResult);
+                PlayerDTO tempPlayer = new PlayerDTO(idResult, c.User.UserName, score);
                 rank.Add(tempPlayer);
 
             }
@@ -173,7 +176,5 @@ namespace StrategyGame.Bll.Services
 
             return rank;
         }
-
-
     }
 }

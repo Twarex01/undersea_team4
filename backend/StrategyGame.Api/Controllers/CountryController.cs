@@ -18,18 +18,13 @@ namespace StrategyGame.Api.Controllers
     public class CountryController : ControllerBase
     {
 
-        PurchaseService _purchaseService;
+        private IPurchaseService _purchaseService;
 
-        CountryController(PurchaseService purchaseService) 
-        {
-            _purchaseService = purchaseService;
-        }
-
-
-        private DataService _dataService;
-        public CountryController(DataService dataService)
+        private IDataService _dataService;
+        public CountryController(IDataService dataService, IPurchaseService purchaseService)
         {
             _dataService = dataService;
+            _purchaseService = purchaseService;
         }
 
         // GET api/Country/5
@@ -43,7 +38,7 @@ namespace StrategyGame.Api.Controllers
         [HttpGet("{id}/resources")]
         public CountryResourcesDTO GetCountryResources(int id) 
         {
-               return _dataService.QueryCountryResourcesDTO(id);
+           return _dataService.QueryCountryResourcesDTO(id);
         }
 
         // PUT api/Country/5/buildings/1
