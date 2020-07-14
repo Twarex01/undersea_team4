@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StrategyGame.Bll.DTO
 {
-    public class UnitDetailsDTO: UnitDTO
+    public class UnitDetailsDTO
     {
         public UnitDetailsDTO(int attack, int def, int pay, int supply, int price)
         {
@@ -17,6 +17,7 @@ namespace StrategyGame.Bll.DTO
             Supply = supply;
             Price = price;
         }
+
 
         [Range(0, int.MaxValue)]
         public int Attack { get; set; }
