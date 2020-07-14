@@ -23,7 +23,7 @@
       <p>200 Gyöngy</p>
     </div>
     <div class="steppers">
-      <button>-</button>3<button>+</button>
+      <button (click)="changeNumberOfUnitsToBuy(-1)">-</button>{{numberOfUnitsToBuy}}<button (click)="changeNumberOfUnitsToBuy(1)">+</button>
     </div>
   </div>
 </div>
