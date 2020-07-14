@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StrategyGame.Bll.DTO;
 using StrategyGame.Bll.DTO.Country;
@@ -11,10 +12,19 @@ using StrategyGame.Bll.Services;
 
 namespace StrategyGame.Api.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class CountryController : ControllerBase
     {
+
+        PurchaseService _purchaseService;
+
+        CountryController(PurchaseService purchaseService) 
+        {
+            _purchaseService = purchaseService;
+        }
+
 
         private DataService _dataService;
         public CountryController(DataService dataService)
@@ -41,13 +51,21 @@ namespace StrategyGame.Api.Controllers
 
         // PUT api/Country/5/buildings/1
         [HttpPut("{id}/buildings/{buildingId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult BuyBuilding( int id, int buildingId) 
         {
-            throw new NotImplementedException("TODO");
+            var results = _purchaseService.PurchaseCountryBuildingAsync(id, buildingId).Result;
+
+            if (results == 0)
+                return Ok();
+            else
+                return BadRequest();
         }
 
         //GET api/country/5/upgrades
         [HttpGet("{id}/upgrades")]
+
         public CountryUpgradesDTO CountryUpgrades(int id)
         {
             return _dataService.QueryCountryUpgrades(id);
@@ -55,16 +73,30 @@ namespace StrategyGame.Api.Controllers
 
         //PUT api/country/5/upgrades/2
         [HttpPut("{id}/upgrades/{upgradeId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult BuyUpgrade(int id, int upgradeId)
         {
-            throw new NotImplementedException("TODO");
+            var results = _purchaseService.PurchaseCountryUpgradeAsync(id, upgradeId).Result;
+
+            if (results == 0)
+                return Ok();
+            else
+                return BadRequest();
         }
 
         //PUT api/country/5/units/3
         [HttpPut("{id}/units")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult BuyUnits(int id,[FromBody] List<UnitDTO> army) // CountyBuyUnitDTO lehet nem kell
         {
-            throw new NotImplementedException("TODO");
+            var results = _purchaseService.PurchaseCountryUnitsAsync(id, army).Result;
+
+            if (results == 0)
+                return Ok();
+            else
+                return BadRequest();
         }
     }
 }
