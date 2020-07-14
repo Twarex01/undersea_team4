@@ -1,8 +1,8 @@
 <main>
-    <div class="form-container">
+    <div [formGroup]="loginForm" class="form-container">
         <app-basic-form-card title="Belépés">
-            <input type="text" placeholder="Felhasználónév" [formControl]="username">
-            <input type="password" placeholder="Jelszó" [formControl]="password">
+            <input type="text" placeholder="Felhasználónév" formControlName="userName">
+            <input type="password" placeholder="Jelszó" formControlName="password">
             <a routerLink="/registration" class="login-reg-link">Regisztráció</a>
         </app-basic-form-card>
     </div>

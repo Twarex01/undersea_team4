@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
+import { LoginClient, LoginDTO } from '../../shared/clients';
 
 @Component({
   selector: 'app-login',
@@ -8,8 +9,11 @@ import { FormControl } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
 
-  username = new FormControl();
-  password = new FormControl();
+  loginForm = new FormGroup({
+    userName: new FormControl(''),
+    password: new FormControl('')
+  });
+
 
   constructor() { }
 
