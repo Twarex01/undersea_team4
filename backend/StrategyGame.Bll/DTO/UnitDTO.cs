@@ -16,7 +16,6 @@ namespace StrategyGame.Bll.DTO
             Name = name;
             Count = count;
         }
-
         public int Id { get; set; }
         [StringLength(100, ErrorMessage = "{0} must be less than {1} characters!")]
         public string Name { get; set; }
