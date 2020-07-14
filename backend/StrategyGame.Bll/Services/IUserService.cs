@@ -12,6 +12,6 @@ namespace StrategyGame.Bll.Services
     {
         public Task<IdentityResult> RegisterUserAsync(RegisterDTO registerDTO);
 
-        public Task<bool> AuthenticateUser(LoginDTO loginDTO);
+        public Task<User> AuthenticateUser(LoginDTO loginDTO);
     }
 }

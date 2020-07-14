@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -57,12 +58,18 @@ namespace StrategyGame.Api
 
             services.AddScoped<IJwtService, JwtService>();
             services.AddScoped<IUserService, UserService>();
-			services.AddScoped<IPurchaseService, PurchaseService>();
+            services.AddScoped<IRoundService, RoundService>();
+            services.AddScoped<IBattleService, BattleService>();
+            services.AddScoped<IPurchaseService, PurchaseService>();
 
             services.AddAuthentication().AddJwtBearer(options =>
             {
-                options.Audience = "http://localhost:5001/";
-                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidIssuer = Configuration.GetValue<string>("JwtConfig:issuer"),
+                    ValidAudience = Configuration.GetValue<string>("JwtConfig:audience"),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("JwtConfig:secret")))
+                };
             });
 
             services.AddAuthorization(options =>

@@ -20,7 +20,8 @@ namespace StrategyGame.Api.Controllers
         [Route("attack")]
         public IActionResult Attack([FromBody] BattleDTO battleDTO)
         {
-            throw new NotImplementedException("TODO");
+            
+            return Ok();
         }
     }
 }
