@@ -24,11 +24,5 @@ namespace StrategyGame.Bll.Services
         public List<BuildingDTO> QueryCountryBuildings(int countryId);
 
         public List<PlayerDTO> QueryCountryRank();
-
-        public List<UpgradeDetailsDTO> QueryUpgradesData();
-
-        public List<UnitDetailsDTO> QueryUnitsData();
-
-        public List<BuildingDetailsDTO> QueryBuildingsData();
     }
 }

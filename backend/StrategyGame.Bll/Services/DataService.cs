@@ -162,20 +162,5 @@ namespace StrategyGame.Bll.Services
 
             return rank;
         }
-
-        public List<UpgradeDetailsDTO> QueryUpgradesData()
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<UnitDetailsDTO> QueryUnitsData()
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<BuildingDetailsDTO> QueryBuildingsData()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
