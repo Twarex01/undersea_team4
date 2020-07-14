@@ -52,7 +52,7 @@ namespace StrategyGame.Bll.Services
         {
             var currentlyUpgrading = country.Upgrades.Where(u => u.Progress > 0).SingleOrDefault(); //elvileg nem lehet 1-nél több eredmény
             currentlyUpgrading.Progress--;
-            if (currentlyUpgrading.Progress == 0) currentlyUpgrading.ApplyEffects();
+            if (currentlyUpgrading.Progress == 0) currentlyUpgrading.UpgradeData.ApplyEffects(country);
             
           
         }
@@ -60,7 +60,11 @@ namespace StrategyGame.Bll.Services
         {
             var currentlyBuilding = country.Buildings.Where(u => u.Progress > 0).SingleOrDefault(); //elvileg nem lehet 1-nél több eredmény
             currentlyBuilding.Progress--;
-            if (currentlyBuilding.Progress == 0) currentlyBuilding.ApplyEffect();
+            if (currentlyBuilding.Progress == 0)
+            {
+                currentlyBuilding.Count++;
+                currentlyBuilding.BuildingData.ApplyEffect(country);
+            }
         }
         public async Task SimulateRound() 
         {

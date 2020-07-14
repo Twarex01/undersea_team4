@@ -5,11 +5,11 @@ using System.Text;
 
 namespace StrategyGame.Model.UpgradeTypes
 {
-    public class MudTractor : Upgrade
+    public class MudTractor : UpgradeData
     {
-        public override void ApplyEffects()
+        public override void ApplyEffects(Country country)
         {
-            var coralProd = Country.Resources.SingleOrDefault(r => r.ResourceDataID == ResourceData.Coral.ID);// +15% koral/round
+            var coralProd = country.Resources.SingleOrDefault(r => r.ResourceDataID == ResourceData.Coral.ID);// +15% koral/round
             if (coralProd == null) return;
             coralProd.ProductionMultiplier += 0.1;
         }
