@@ -37,6 +37,7 @@ input {
     padding: 2% 4% 2% 4%;
 }
 
+
 input::placeholder {
     color: #1C3E76;
     letter-spacing: 0;
