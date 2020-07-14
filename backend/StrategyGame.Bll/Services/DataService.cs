@@ -25,7 +25,6 @@ namespace StrategyGame.Bll.Services
 
         public CountryNameDTO QueryCountryName(int countryId)
         {
-
             var name = _context.Countries.Where(c => c.ID == countryId).Select(c => c.Name).FirstOrDefault();
 
             CountryNameDTO countryName = new CountryNameDTO(countryId, name);
@@ -35,7 +34,6 @@ namespace StrategyGame.Bll.Services
 
         public CountryResourcesDTO QueryCountryResourcesDTO(int countryId)
         {
-
             List<UnitDTO> army = QueryCountryUnits(countryId);
             List<ResourceDTO> products = QueryCountryResources(countryId);
             List<BuildingDTO> buildings = QueryCountryBuildings(countryId);
@@ -75,12 +73,9 @@ namespace StrategyGame.Bll.Services
 
             foreach (Upgrade u in upgrades) 
             {
-
                 var upData = _context.UpgradeData.Where(up => up.ID == u.ID).Select(x => new {x.Name}).FirstOrDefault();
                 UpgradeDetailsDTO upgradeDetailDTO = new UpgradeDetailsDTO(u.ID, upData.Name, "TODO", u.Progress);
-                upgradeDetailsDTO.Add(upgradeDetailDTO);
-            
-            
+                upgradeDetailsDTO.Add(upgradeDetailDTO);         
             }
 
             return new CountryUpgradesDTO(countryId, upgradeDetailsDTO);
