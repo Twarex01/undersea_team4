@@ -29,7 +29,7 @@ namespace StrategyGame.Api.Controllers
 
 
             //return Ok(mapper.Map<UpgradeResultDTO>(upgradeMOdel))
-            throw new NotImplementedException("TODO");
+            throw new NotImplementedException("Ez végül nem kell elvileg");
         }
 
     }

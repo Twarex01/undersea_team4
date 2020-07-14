@@ -26,5 +26,7 @@ namespace StrategyGame.Bll.Services
         public CountryResourcesDTO QueryCountryResourcesDTO(int countryId);
 
         public List<PlayerDTO> QueryCountryRank();
+
+        public RoundScoreDTO QueryRoundScore(int id);
     }
 }

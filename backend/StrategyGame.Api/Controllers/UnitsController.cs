@@ -12,9 +12,9 @@ namespace StrategyGame.Api.Controllers
     [ApiController]
     public class UnitsController : ControllerBase
     {
-        //GET api/units
-        [HttpGet]
-        public List<UnitDetailsDTO> UnitsData()
+        //POST api/units
+        [HttpPost]
+        public List<UnitDetailsDTO> UnitsData([FromBody] int id)
         {
             throw new NotImplementedException("TODO");
         }

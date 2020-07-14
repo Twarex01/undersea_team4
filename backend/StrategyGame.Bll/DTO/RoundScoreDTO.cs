@@ -8,6 +8,14 @@ namespace StrategyGame.Bll.DTO
 {
     public class RoundScoreDTO
     {
+        public RoundScoreDTO(int id, int round, int score, int rank)
+        {
+            Id = id;
+            Round = round;
+            Score = score;
+            Rank = rank;
+        }
+
         public int Id { get; set; }
         [Range(0, int.MaxValue)]
         public int Round { get; set; }

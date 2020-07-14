@@ -50,32 +50,32 @@ namespace StrategyGame.Bll.Services
             var distinctUnitData = _context.UnitData.ToList();
             List<UnitDTO> unitList = new List<UnitDTO>();
 
-            foreach (UnitData u in distinctUnitData) 
+            foreach (UnitData u in distinctUnitData)
             {
                 var units = _context.Units.Include(u => u.Country).Include(u => u.UnitData).Where(u => u.CountryID == countryId && u.UnitDataID == u.ID)
-                    .Select(x => new { x.ID, x.UnitData.Name, x.Count, x.UnitData.ATK, x.UnitData.DEF, x.UnitData.Salary, x.UnitData.Consumption, x.UnitData.Price}).FirstOrDefault();
-                
+                    .Select(x => new { x.ID, x.UnitData.Name, x.Count, x.UnitData.ATK, x.UnitData.DEF, x.UnitData.Salary, x.UnitData.Consumption, x.UnitData.Price }).FirstOrDefault();
+
                 if (units != null)
                 {
                     UnitDTO unit = new UnitDTO(units.ID, units.Name, units.Count, units.ATK, units.DEF, units.Salary, units.Consumption, units.Price);
                     unitList.Add(unit);
-                }  
+                }
             }
-            
+
             return unitList;
         }
-    
+
 
         public CountryUpgradesDTO QueryCountryUpgrades(int countryId)
         {
             List<UpgradeDetailsDTO> upgradeDetailsDTO = new List<UpgradeDetailsDTO>();
             var upgrades = _context.Countries.Where(c => c.ID == countryId).Select(c => c.Upgrades).FirstOrDefault();
 
-            foreach (Upgrade u in upgrades) 
+            foreach (Upgrade u in upgrades)
             {
-                var upData = _context.UpgradeData.Where(up => up.ID == u.ID).Select(x => new {x.Name}).FirstOrDefault();
+                var upData = _context.UpgradeData.Where(up => up.ID == u.ID).Select(x => new { x.Name }).FirstOrDefault();
                 UpgradeDetailsDTO upgradeDetailDTO = new UpgradeDetailsDTO(u.ID, upData.Name, "TODO", u.Progress);
-                upgradeDetailsDTO.Add(upgradeDetailDTO);         
+                upgradeDetailsDTO.Add(upgradeDetailDTO);
             }
 
             return new CountryUpgradesDTO(countryId, upgradeDetailsDTO);
@@ -112,7 +112,7 @@ namespace StrategyGame.Bll.Services
             var unitData = _context.UnitData.ToList();
             List<UnitDetailsDTO> unitDetails = new List<UnitDetailsDTO>();
 
-            foreach (UnitData ud in unitData) 
+            foreach (UnitData ud in unitData)
             {
                 unitDetails.Add(new UnitDetailsDTO(ud.ATK, ud.DEF, ud.Salary, ud.Consumption, ud.Price));
             }
@@ -128,7 +128,7 @@ namespace StrategyGame.Bll.Services
             foreach (ResourceData res in resource)
             {
                 var resources = _context.Resources.Include(c => c.Country).Where(r => r.CoutryID == countryId && res.ID == r.ResourceDataID)
-                    .Select(x => new { x.ID, x.Amount, x.ProductionBase, x.ProductionMultiplier})
+                    .Select(x => new { x.ID, x.Amount, x.ProductionBase, x.ProductionMultiplier })
                     .FirstOrDefault();
                 ResourceDTO resourceDTO = new ResourceDTO(resources.ID, resources.Amount, resources.ProductionBase * resources.ProductionMultiplier);//Ezt nem tudom így fogjuk e használni
                 resourcelist.Add(resourceDTO);
@@ -158,7 +158,7 @@ namespace StrategyGame.Bll.Services
         }
 
         public List<PlayerDTO> QueryCountryRank()
-        {       
+        {
             List<PlayerDTO> rank = new List<PlayerDTO>();
             var distinctcountry = _context.Countries.Include(c => c.User).Distinct();
             foreach (Country c in distinctcountry)
@@ -176,5 +176,23 @@ namespace StrategyGame.Bll.Services
 
             return rank;
         }
+
+        public RoundScoreDTO QueryRoundScore(int id) 
+        {
+
+            List<PlayerDTO> rankingList = QueryCountryRank();
+
+            var result = rankingList
+            .Select((x, i) => new { Id = x.Id, Score = x.Score, Index = i })
+            .Where(itemWithIndex => itemWithIndex.Id == id)
+            .FirstOrDefault();
+
+            if (result != null)
+                return new RoundScoreDTO(result.Id, 0, result.Score, result.Index + 1); //Round TODO
+
+            throw new Exception("Country is not found");
+
+        }
+
     }
 }

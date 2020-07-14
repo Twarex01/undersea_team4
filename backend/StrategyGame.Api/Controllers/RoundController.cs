@@ -15,13 +15,18 @@ namespace StrategyGame.Api.Controllers
     public class RoundController : ControllerBase
     {
 
+        private IDataService _dataService;
+        public RoundController(IDataService dataService)
+        {
+            _dataService = dataService;
 
+        }
 
         //GET api/round
-        [HttpGet]
-        public RoundScoreDTO Points()
+        [HttpGet("{id}")]
+        public RoundScoreDTO Points(int id)
         {
-            throw new NotImplementedException("TODO");
+            return _dataService.QueryRoundScore(id);
         }
 
         //PUT api/round
