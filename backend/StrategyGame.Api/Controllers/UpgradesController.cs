@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using StrategyGame.Bll.DTO;
+using StrategyGame.Bll.Services;
 
 namespace StrategyGame.Api.Controllers
 {
@@ -13,10 +14,20 @@ namespace StrategyGame.Api.Controllers
     [ApiController]
     public class UpgradesController : ControllerBase
     {
+
+        private DataService _dataService;
+        public UpgradesController(DataService dataService) 
+        {
+            _dataService = dataService;
+        
+        }
+
         //GET api/upgrades
         [HttpGet]
         public List<UpgradeDetailsDTO> UpgradesData()
         {
+
+
             //return Ok(mapper.Map<UpgradeResultDTO>(upgradeMOdel))
             throw new NotImplementedException("TODO");
         }

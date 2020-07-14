@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Namotion.Reflection;
 using StrategyGame.Bll.DTO;
+using StrategyGame.Bll.DTO.Country;
 using StrategyGame.Dal;
 using StrategyGame.Model;
 using System;
@@ -22,31 +23,54 @@ namespace StrategyGame.Bll.Services
             _context = context;
         }
 
-        public String QueryCountryName(int countryId)
+        public CountryNameDTO QueryCountryName(int countryId)
         {
 
             var name = _context.Countries.Where(c => c.ID == countryId).Select(c => c.Name).FirstOrDefault();
 
-            return name;
+            CountryNameDTO countryName = new CountryNameDTO(countryId, name);
+
+            return countryName;
         }
-        public List<Resource> QueryCountryResources(int countryId)
+        
+        public List<UnitDTO> QueryCountryUnits(int countryId)
         {
+            var distinctUnitData = _context.UnitData.Distinct().ToList();
+            List<UnitDTO> unitList = new List<UnitDTO>();
 
-            var resources = _context.Countries.Where(c => c.ID == countryId).Select(c => c.Resources).FirstOrDefault();
-
-            return resources;
+            foreach (UnitData u in distinctUnitData) 
+            {
+                var units = _context.Units.Include(u => u.Country).Include(u => u.UnitData).Where(u => u.CountryID == countryId)
+                    .Select(x => new { x.ID, x.UnitData.Name, x.Count, x.UnitData.ATK, x.UnitData.DEF, x.UnitData.Salary, x.UnitData.Consumption, x.UnitData.Price}).FirstOrDefault();
+                UnitDTO unit = new UnitDTO(units.ID, units.Name, units.Count, units.ATK, units.DEF, units.Salary, units.Consumption, units.Price);
+                unitList.Add(unit);
+            }
+            
+            return unitList;
         }
-        public List<Upgrade> QueryCountryUpgrades(int countryId)
-        {
+    
 
+        public CountryUpgradesDTO QueryCountryUpgrades(int countryId)
+        {
+            List<UpgradeDetailsDTO> upgradeDetailsDTO = new List<UpgradeDetailsDTO>();
             var upgrades = _context.Countries.Where(c => c.ID == countryId).Select(c => c.Upgrades).FirstOrDefault();
 
-            return upgrades;
+            foreach (Upgrade u in upgrades) 
+            {
+
+                var upData = _context.UpgradeData.Where(up => up.ID == u.ID).Select(x => new {x.Name}).FirstOrDefault();
+                UpgradeDetailsDTO upgradeDetailDTO = new UpgradeDetailsDTO(u.ID, upData.Name, "TODO", u.Progress);
+                upgradeDetailsDTO.Add(upgradeDetailDTO);
+            
+            
+            }
+
+            return new CountryUpgradesDTO(countryId, upgradeDetailsDTO);
         }
 
         public int QueryCountryScore(int countryId)
         {
-
+            /*
             var populationscore = _context.Countries.Where(c => c.ID == countryId).Select(c => c.Population).FirstOrDefault();
             var buildingscore = _context.Countries.Where(c => c.ID == countryId).Sum(x => x.Buildings.Count);
 
@@ -63,11 +87,43 @@ namespace StrategyGame.Bll.Services
             var upgradescore = _context.Upgrades.Include(c => c.Country).Where(u => u.ID == countryId && u.Progress == 0).Count();
 
             var score = 1*populationscore + 50*buildingscore + unitscore + 100*upgradescore;
+            */
 
-            return score;
+            var countryScore = _context.Countries.Where(c => c.ID == countryId).Select(c => c.Score).FirstOrDefault();
+
+            return countryScore;
         }
 
+        public List<UnitDetailsDTO> QueryUnitDetails()
+        {
+            var unitData = _context.UnitData.Distinct().ToList();
+            List<UnitDetailsDTO> unitDetails = new List<UnitDetailsDTO>();
 
+            foreach (UnitData ud in unitData) 
+            {
+                unitDetails.Add(new UnitDetailsDTO(ud.ATK, ud.DEF, ud.Salary, ud.Consumption, ud.Price));
+            }
+
+            return unitDetails;
+        }
+
+        public List<ResourceDTO> QueryCountryResource(int countryId)
+        {
+            var resource = _context.Resources.Distinct().ToList();
+            List<ResourceDTO> resourcelist = new List<ResourceDTO>();
+
+            foreach (Resource res in resource)
+            {
+                resourcelist.Add(new ResourceDTO(res.ID, res.Amount, res.ProductionBase));
+
+                var resources = _context.Resources.Include(c => c.Country).Where(r => r.CoutryID == countryId)
+                    .Select(x => new { x.ID, x.Amount, x.ProductionBase }).FirstOrDefault();
+                ResourceDTO resourceDTO = new ResourceDTO(resources.ID, resources.Amount, resources.ProductionBase);
+                resourcelist.Add(resourceDTO);
+            }
+
+            return resourcelist;
+        }
 
         public List<PlayerDTO> QueryCountryRank()
         {       

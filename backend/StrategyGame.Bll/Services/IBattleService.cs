@@ -1,4 +1,5 @@
-﻿using StrategyGame.Model;
+﻿using StrategyGame.Bll.DTO;
+using StrategyGame.Model;
 using System.Threading.Tasks;
 
 namespace StrategyGame.Bll.Services
@@ -12,6 +13,12 @@ namespace StrategyGame.Bll.Services
 
 
         public Task<int> CountAttackPowerInBattleAsync(int battleId);
+
+        public double CountDefensePowerInBattle(int countryId);
+
+        public void SendUnitsOfTypeToAttack(int attackingCountryId, int defendingCountryId, int numberOfUnits, int unitDataId);
+
+        public void SendAllTypesToAttack(BattleDTO battleDto);
 
         public Task CommenceBattle(int battleId);
 

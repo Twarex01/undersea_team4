@@ -2,11 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using StrategyGame.Bll.DTO;
 using StrategyGame.Dal;
 using StrategyGame.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace StrategyGame.Bll.Services
@@ -55,8 +57,6 @@ namespace StrategyGame.Bll.Services
 
         public double CountDefensePowerInBattle(int countryId)
         {
-
-
             var distinctUnitDataIds = _context.Units.Select(u => u.UnitDataID).Distinct();
 
             double count = 0;
@@ -69,23 +69,39 @@ namespace StrategyGame.Bll.Services
             return count;
         }
 
-        public void SendUnitsToAttack(int attackingCountryId, int defendingCountryId, int numberOfUnits, int unitDataId)
+        public void SendAllTypesToAttack(BattleDTO battleDto) 
         {
-            var attackingCountry = _context.Countries.Where(c => c.ID == attackingCountryId).FirstOrDefault();
-            var defendingCountry = _context.Countries.Where(c => c.ID == defendingCountryId).FirstOrDefault();
-            var unitData = _context.UnitData.Where(u => u.ID == unitDataId).FirstOrDefault();
+
+            var attackingCountry = _context.Countries.Where(c => c.ID == battleDto.IdAtt).FirstOrDefault();
+            var defendingCountry = _context.Countries.Where(c => c.ID == battleDto.IdDef).FirstOrDefault();
             if (attackingCountry == null)
             {
-                throw new Exception("Attacking country is invalid");
+                throw new Exception("Attacking country is not found");
             }
             if (defendingCountry == null)
             {
-                throw new Exception("Defending country is invalid");
+                throw new Exception("Defending country is not found");
             }
+
+            foreach (UnitDTO unitDto in battleDto.Army) 
+            {
+                var unitDataId = _context.UnitData.Where(u => u.Name == unitDto.Name).Select(u => u.ID).FirstOrDefault();  
+                SendUnitsOfTypeToAttack(battleDto.IdAtt, battleDto.IdDef, unitDto.Count, unitDataId);
+            }
+        
+        }
+
+        public void SendUnitsOfTypeToAttack(int attackingCountryId, int defendingCountryId, int numberOfUnits, int unitDataId)
+        {
+
+            var attackingCountry = _context.Countries.Where(c => c.ID == attackingCountryId).FirstOrDefault();
+            var defendingCountry = _context.Countries.Where(c => c.ID == defendingCountryId).FirstOrDefault();
+            var unitData = _context.UnitData.Where(u => u.ID == unitDataId).FirstOrDefault();
             if (unitData == null)
             {
-                throw new Exception("Unit Data is invalid");
+                throw new Exception("Unit Data is not found");
             }
+
 
             var count = CountUnitsOfTypeAtHomeAsync(attackingCountryId, unitDataId).Result;
 
