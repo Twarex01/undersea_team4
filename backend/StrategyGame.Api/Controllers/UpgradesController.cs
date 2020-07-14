@@ -15,8 +15,8 @@ namespace StrategyGame.Api.Controllers
     public class UpgradesController : ControllerBase
     {
 
-        private DataService _dataService;
-        public UpgradesController(DataService dataService) 
+        private IDataService _dataService;
+        public UpgradesController(IDataService dataService) 
         {
             _dataService = dataService;
         

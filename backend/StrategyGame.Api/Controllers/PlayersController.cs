@@ -14,8 +14,8 @@ namespace StrategyGame.Api.Controllers
     public class PlayersController : ControllerBase
     {
 
-        private DataService _dataService;
-        public PlayersController(DataService dataService) 
+        private IDataService _dataService;
+        public PlayersController(IDataService dataService) 
         {
             _dataService = dataService;   
         }
