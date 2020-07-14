@@ -107,10 +107,23 @@ namespace StrategyGame.Bll.Services
 
             foreach (UnitData ud in unitData) 
             {
-                unitDetails.Add(new UnitDetailsDTO(ud.ATK, ud.DEF, ud.Salary, ud.Consumption, ud.Price););
+                unitDetails.Add(new UnitDetailsDTO(ud.ATK, ud.DEF, ud.Salary, ud.Consumption, ud.Price));
             }
 
             return unitDetails;
+        }
+
+        public List<ResourceDTO> QueryResource()
+        {
+            var resource = _context.Resources.Distinct().ToList();
+            List<ResourceDTO> resourcelist = new List<ResourceDTO>();
+
+            foreach (Resource res in resource)
+            {
+                resourcelist.Add(new ResourceDTO(res.ID, res.Amount, res.ProductionBase));
+            }
+
+            return resourcelist;
         }
 
         public List<PlayerDTO> QueryCountryRank()
