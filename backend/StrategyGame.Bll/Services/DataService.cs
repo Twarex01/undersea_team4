@@ -40,7 +40,7 @@ namespace StrategyGame.Bll.Services
 
             foreach (UnitData u in distinctUnitData) 
             {
-                var units = _context.Units.Include(u => u.Country).Include(u => u.UnitData).Where(u => u.CountryID == countryId)
+                var units = _context.Units.Include(u => u.Country).Include(u => u.UnitData).Where(u => u.CountryID == countryId && u.UnitDataID == u.ID)
                     .Select(x => new { x.ID, x.UnitData.Name, x.Count, x.UnitData.ATK, x.UnitData.DEF, x.UnitData.Salary, x.UnitData.Consumption, x.UnitData.Price}).FirstOrDefault();
                 UnitDTO unit = new UnitDTO(units.ID, units.Name, units.Count, units.ATK, units.DEF, units.Salary, units.Consumption, units.Price);
                 unitList.Add(unit);
@@ -109,16 +109,15 @@ namespace StrategyGame.Bll.Services
 
         public List<ResourceDTO> QueryCountryResource(int countryId)
         {
-            var resource = _context.Resources.Distinct().ToList();
+            var resource = _context.ResourceData.Distinct().ToList();
             List<ResourceDTO> resourcelist = new List<ResourceDTO>();
 
-            foreach (Resource res in resource)
+            foreach (ResourceData res in resource)
             {
-                resourcelist.Add(new ResourceDTO(res.ID, res.Amount, res.ProductionBase));
-
-                var resources = _context.Resources.Include(c => c.Country).Where(r => r.CoutryID == countryId)
-                    .Select(x => new { x.ID, x.Amount, x.ProductionBase }).FirstOrDefault();
-                ResourceDTO resourceDTO = new ResourceDTO(resources.ID, resources.Amount, resources.ProductionBase);
+                var resources = _context.Resources.Include(c => c.Country).Where(r => r.CoutryID == countryId && res.ID == r.ResourceDataID)
+                    .Select(x => new { x.ID, x.Amount, x.ProductionBase, x.ProductionMultiplier})
+                    .FirstOrDefault();
+                ResourceDTO resourceDTO = new ResourceDTO(resources.ID, resources.Amount, resources.ProductionBase * resources.ProductionMultiplier);//Ezt nem tudom így fogjuk e használni
                 resourcelist.Add(resourceDTO);
             }
 
