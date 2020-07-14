@@ -32,13 +32,6 @@ namespace StrategyGame.Bll.Services
 
             return countryName;
         }
-        public List<Resource> QueryCountryResources(int countryId)
-        {
-
-            var resources = _context.Countries.Where(c => c.ID == countryId).Select(c => c.Resources).FirstOrDefault();
-
-            return resources;
-        }       
         
         public List<UnitDTO> QueryCountryUnits(int countryId)
         {
@@ -114,7 +107,7 @@ namespace StrategyGame.Bll.Services
             return unitDetails;
         }
 
-        public List<ResourceDTO> QueryResource()
+        public List<ResourceDTO> QueryCountryResource(int countryId)
         {
             var resource = _context.Resources.Distinct().ToList();
             List<ResourceDTO> resourcelist = new List<ResourceDTO>();
@@ -122,6 +115,11 @@ namespace StrategyGame.Bll.Services
             foreach (Resource res in resource)
             {
                 resourcelist.Add(new ResourceDTO(res.ID, res.Amount, res.ProductionBase));
+
+                var resources = _context.Resources.Include(c => c.Country).Where(r => r.CoutryID == countryId)
+                    .Select(x => new { x.ID, x.Amount, x.ProductionBase }).FirstOrDefault();
+                ResourceDTO resourceDTO = new ResourceDTO(resources.ID, resources.Amount, resources.ProductionBase);
+                resourcelist.Add(resourceDTO);
             }
 
             return resourcelist;
