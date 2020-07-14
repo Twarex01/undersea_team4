@@ -19,7 +19,11 @@ namespace StrategyGame.Bll.Services
 
         public List<UnitDetailsDTO> QueryUnitDetails();
 
-        public List<ResourceDTO> QueryCountryResource(int countryId);
+        public List<ResourceDTO> QueryCountryResources(int countryId);
+
+        public List<BuildingDTO> QueryCountryBuildings(int countryId);
+
+        public CountryResourcesDTO QueryCountryResourcesDTO(int countryId);
 
         public List<PlayerDTO> QueryCountryRank();
     }

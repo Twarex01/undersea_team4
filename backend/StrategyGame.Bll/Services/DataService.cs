@@ -32,7 +32,21 @@ namespace StrategyGame.Bll.Services
 
             return countryName;
         }
-        
+
+        public CountryResourcesDTO QueryCountryResourcesDTO(int countryId)
+        {
+
+            List<UnitDTO> army = QueryCountryUnits(countryId);
+            List<ResourceDTO> products = QueryCountryResources(countryId);
+            List<BuildingDTO> buildings = QueryCountryBuildings(countryId);
+
+            var country = _context.Countries.Where(c => c.ID == countryId).Select(x => new { x.Population, x.ArmyCapacity }).FirstOrDefault();
+
+            CountryResourcesDTO crDTO = new CountryResourcesDTO(army, products, country.Population, country.ArmyCapacity, buildings);
+
+            return crDTO;
+        }
+
         public List<UnitDTO> QueryCountryUnits(int countryId)
         {
             var distinctUnitData = _context.UnitData.Distinct().ToList();
@@ -107,7 +121,7 @@ namespace StrategyGame.Bll.Services
             return unitDetails;
         }
 
-        public List<ResourceDTO> QueryCountryResource(int countryId)
+        public List<ResourceDTO> QueryCountryResources(int countryId)
         {
             var resource = _context.ResourceData.Distinct().ToList();
             List<ResourceDTO> resourcelist = new List<ResourceDTO>();
@@ -122,6 +136,23 @@ namespace StrategyGame.Bll.Services
             }
 
             return resourcelist;
+        }
+
+        public List<BuildingDTO> QueryCountryBuildings(int countryId)
+        {
+            var building = _context.BuildingData.Distinct().ToList();
+            List<BuildingDTO> buildingList = new List<BuildingDTO>();
+
+            foreach (BuildingData b in building)
+            {
+                var buildings = _context.Buildings.Include(b => b.Country).Include(b => b.BuildingData).Where(r => r.CoutryID == countryId && b.ID == r.BuildingDataID)
+                    .Select(x => new { x.ID, x.BuildingData.Name, x.Progress, x.Count, x.BuildingData.Price })
+                    .FirstOrDefault();
+                BuildingDTO buildingDTO = new BuildingDTO(buildings.ID, buildings.Name, buildings.Progress, buildings.Count, "TODO", buildings.Price);//Ezt nem tudom így fogjuk e használni
+                buildingList.Add(buildingDTO);
+            }
+
+            return buildingList;
         }
 
         public List<PlayerDTO> QueryCountryRank()

@@ -43,10 +43,7 @@ namespace StrategyGame.Api.Controllers
         [HttpGet("{id}/resources")]
         public CountryResourcesDTO GetCountryResources(int id) 
         {
-
-
-            throw new NotImplementedException("TODO");
-            //return _dataService.QueryCountryResources(id);
+               return _dataService.QueryCountryResourcesDTO(id);
         }
 
         // PUT api/Country/5/buildings/1
