@@ -1,1 +1,52 @@
-<p>upgrades.page works!</p>
+<div class="card-container">
+  <app-basic-card>
+    <p class="header">Fejlesztések</p>
+    <p class="short-description">
+      Kattints rá, amelyiket szeretnéd megvenni.
+    </p>
+    <div class="details">
+      Minden fejlesztés 15 kört vesz igénybe, egyszerre csak egy dolog fejleszthető és minden csak egyszer fejleszthető ki (nem lehet két kombájn).
+    </div>
+  
+      <app-upgrade-card-item class="card-item" (click)="selectUpgrade(0)">
+        <img
+        class="item-image"
+        src="../../../../../assets/upgrades/iszaptraktor.png"/>
+      </app-upgrade-card-item>
+    
+      <app-upgrade-card-item class="card-item" (click)="selectUpgrade(0)">
+        <img
+          class="item-image"
+          src="../../../../../assets/upgrades/iszapkombajn.png"
+        />
+      </app-upgrade-card-item>
+      <app-upgrade-card-item class="card-item" (click)="selectUpgrade(0)">
+        <img
+          class="item-image"
+          src="../../../../../assets/upgrades/korallfal.PNG"
+        />
+      </app-upgrade-card-item>
+      <app-upgrade-card-item class="card-item" (click)="selectUpgrade(0)">
+        <img
+          class="item-image"
+          src="../../../../../assets/upgrades/szonaragyu.png"
+        />
+      </app-upgrade-card-item>
+      <app-upgrade-card-item class="card-item" (click)="selectUpgrade(0)">
+        <img
+          class="item-image"
+          src="../../../../../assets/upgrades/vizalatti-harcmuveszetek.PNG"
+        />
+      </app-upgrade-card-item>
+      <app-upgrade-card-item class="card-item" (click)="selectUpgrade(0)">
+        <img
+          class="item-image"
+          src="../../../../../assets/upgrades/alkimia.PNG"
+        />
+      </app-upgrade-card-item>
+      
+    <div class="footer">
+      <button [ngClass]="{'button-not-selected': upgradeSelected === -1}">Megveszem</button>
+    </div>
+  </app-basic-card>
+</div>

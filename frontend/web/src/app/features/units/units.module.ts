@@ -3,13 +3,16 @@ import { CommonModule } from '@angular/common';
 
 import { UnitsRoutingModule } from './units-routing.module';
 import { UnitsPageComponent } from './pages/units.page/units.page.component';
+import { SharedModule } from '../../shared/shared.module';
+import { UnitCardItemComponent } from './components/unit-card-item/unit-card-item.component';
 
 
 @NgModule({
-  declarations: [UnitsPageComponent],
+  declarations: [UnitsPageComponent, UnitCardItemComponent],
   imports: [
     CommonModule,
-    UnitsRoutingModule
+    UnitsRoutingModule,
+    SharedModule
   ]
 })
 export class UnitsModule { }

@@ -1,0 +1,23 @@
+button {
+    font-size: 1.1rem;
+    padding: 1% 4% 1% 4%;
+}
+
+.data-labels {
+    display: inline-block;
+    text-align: left;
+}
+
+.data-values {
+    display: inline-block;
+    text-align: right;
+}
+
+.short-description {
+    margin-bottom: 5%;
+}
+
+.card {
+    position: relative;
+    right: 10%;
+}

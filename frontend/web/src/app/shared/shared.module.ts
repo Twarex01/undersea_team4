@@ -1,20 +1,11 @@
 import { NgModule } from '@angular/core';
-import { AttackModule } from '../features/attack/attack.module';
-import { BattlesModule } from '../features/battles/battles.module';
-import { BuildingsModule } from '../features/buildings/buildings.module';
-import { UnitsModule } from '../features/units/units.module';
-import { UpgradesModule } from '../features/upgrades/upgrades.module';
-import { RankingsModule } from '../features/rankings/rankings.module';
+import { CommonModule } from '@angular/common';
+import { BasicCardComponent } from './basic-card/basic-card.component';
+import { IconBoxComponent } from './icon-box/icon-box.component';
 
 @NgModule({
-  declarations: [],
-  imports: [
-    AttackModule,
-    BattlesModule,
-    BuildingsModule,
-    UnitsModule,
-    UpgradesModule,
-    RankingsModule
-  ]
+  declarations: [BasicCardComponent, IconBoxComponent],
+  imports: [CommonModule],
+  exports: [CommonModule, BasicCardComponent, IconBoxComponent]
 })
 export class SharedModule { }

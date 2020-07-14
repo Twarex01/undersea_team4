@@ -13,16 +13,14 @@ body {
     margin: 0;
 }
 
-h1, h2, p, span, a, button {
-    font-family: "Baloo Bold";
-}
-
 h1 {
+    font-family: "Baloo Bold";
     font-size: 93px;
     color: #9FFFF0;
 }
 
 h2 {
+    font-family: "Baloo Bold";
     font-size: 32px;
     color: #1C3E76;
 }
@@ -36,7 +34,7 @@ input {
     margin: auto;
     margin-top: 3%;
     width: 75%;
-    padding: 2%;
+    padding: 2% 4% 2% 4%;
 }
 
 input::placeholder {
@@ -49,13 +47,14 @@ input:focus{
 }
 
 button {
+    font-family: "Baloo Bold";
     background: transparent linear-gradient(258deg, #9FFFF0 0%, #6BEEE9 36%, #0FCFDE 100%) 0% 0% no-repeat padding-box;
     box-shadow: 0px 3px 6px #3B7DBD;
     border-radius: 90px;
     border-color: transparent;
     border-width: 0;
     padding: 2% 10% 2% 10%;
-    margin-top: 10%;
+    cursor: pointer;
 }
 
 button:focus {
@@ -80,4 +79,8 @@ form {
 
 .button-text {
     margin: 0 auto 0 auto;
+}
+
+.button-not-selected {
+    opacity: 0.3;
 }

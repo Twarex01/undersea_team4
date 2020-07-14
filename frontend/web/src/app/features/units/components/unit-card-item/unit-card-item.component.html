@@ -1,0 +1,29 @@
+<div class="unit-card-item">
+  <div class="item-image">
+    <app-icon-box>
+        <img src="../../../../../assets/icons/shark.svg">
+    </app-icon-box>
+  </div>
+  <div class="header">
+    <p>Lézercápa</p>
+  </div>
+  <div class="details">
+    <div class="labels">
+      <p>Birtokodban:</p>
+      <p>Támadás/Védekezés</p>
+      <p>Zsold (/kör/példány)</p>
+      <p>Ellátmány (/kör/példány)</p>
+      <p>Ár</p>
+    </div>
+    <div class="values">
+      <p>0 db</p>
+      <p>5/5</p>
+      <p>1 Gyöngy</p>
+      <p>1 Korall</p>
+      <p>200 Gyöngy</p>
+    </div>
+    <div class="steppers">
+      <button (click)="changeNumberOfUnitsToBuy(-1)">-</button>{{numberOfUnitsToBuy}}<button (click)="changeNumberOfUnitsToBuy(1)">+</button>
+    </div>
+  </div>
+</div>

@@ -9,6 +9,10 @@ h2 {
     margin-bottom: 5%;
 }
 
+button {
+    margin-top: 5%;
+}
+
 .login-reg-form {
     background: rgba(255, 255, 255, 0.25) 0% 0% no-repeat padding-box;
     border-radius: 16px;

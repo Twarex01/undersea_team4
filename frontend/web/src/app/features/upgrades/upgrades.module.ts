@@ -2,15 +2,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { UpgradesRoutingModule } from './upgrades-routing.module';
-import { UpgradesComponent } from './components/upgrades/upgrades.component';
 import { UpgradesPageComponent } from './pages/upgrades.page/upgrades.page.component';
+import { SharedModule } from '../../shared/shared.module';
+import { UpgradeCardItemComponent } from './components/upgrade-card-item/upgrade-card-item.component';
 
 
 @NgModule({
-  declarations: [UpgradesComponent, UpgradesPageComponent],
+  declarations: [UpgradesPageComponent, UpgradeCardItemComponent],
   imports: [
     CommonModule,
-    UpgradesRoutingModule
+    UpgradesRoutingModule,
+    SharedModule
   ]
 })
 export class UpgradesModule { }
