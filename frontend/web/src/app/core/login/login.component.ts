@@ -25,7 +25,10 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.error = false;
-    this.accountService.login(new LoginDTO(this.loginForm.value)).subscribe(() => {
+    this.accountService.login(new LoginDTO(this.loginForm.value)).subscribe((data) => {
+      const reader = new FileReader();
+      reader.onload = () => localStorage.setItem("token", reader.result!.toString());
+      reader.readAsText(data!.data);
       this.router.navigate(["/"]);
     },
     () => {

@@ -12,7 +12,8 @@ import { StatusBarComponent } from './core/status-bar/status-bar.component';
 import { MenuComponent } from './core/menu/menu.component';
 import { ProfileComponent } from './core/profile/profile.component';
 import { BasicFormCardComponent } from './core/basic-form-card/basic-form-card.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from './jwt-interceptor';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,7 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
