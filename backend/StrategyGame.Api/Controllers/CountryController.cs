@@ -36,9 +36,9 @@ namespace StrategyGame.Api.Controllers
 
         // GET api/Country/5/resources
         [HttpGet("{id}/resources")]
-        public CountryResourcesDTO GetCountryResources(int id) 
+        public async Task<CountryResourcesDTO> GetCountryResources(int id) 
         {
-           return _dataService.QueryCountryResourcesDTO(id);
+           return await _dataService.QueryCountryResourcesDTO(id);
         }
 
         // PUT api/Country/5/buildings/1
@@ -58,9 +58,9 @@ namespace StrategyGame.Api.Controllers
         //GET api/country/5/upgrades
         [HttpGet("{id}/upgrades")]
 
-        public CountryUpgradesDTO CountryUpgrades(int id)
+        public async Task<CountryUpgradesDTO> CountryUpgrades(int id)
         {
-            return _dataService.QueryCountryUpgrades(id);
+            return await _dataService.QueryCountryUpgrades(id);
         }
 
         //PUT api/country/5/upgrades/2
