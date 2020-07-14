@@ -40,52 +40,26 @@ namespace StrategyGame.Bll.Services
 
 		public async Task<int> PurchaseCountryBuildingAsync(int countryId, int buildingId) //TODO
 		{
-			var country = await _appDbContext.Countries.Where(c => c.ID == countryId).SingleOrDefaultAsync();
-			var buildingInprogress = country.Buildings.Where(b => b.CoutryID == countryId).Any(u => u.Progress > 0);
-			// 1 - There is a building inprogress
-			if (buildingInprogress) return await new Task<int>(() => 1);
-
-			var building = await _appDbContext.Buildings.Where(b => countryId == b.CoutryID && buildingId == b.BuildingDataID).SingleOrDefaultAsync();
-			var buildingData = await _appDbContext.BuildingData.Where(data => data.ID == buildingId).SingleOrDefaultAsync();
-			// 2 - Building not found
-			if (buildingData == null) return await new Task<int>(() => 2);
-
-			if (building == null)
+			if (await _appDbContext.Buildings.Where(b => b.CoutryID == countryId).AnyAsync(b => b.Progress > 0)) return 1; //már épül valami
+			Country country = await _appDbContext.Countries.Where(c => c.ID == countryId).Include(c => c.Resources).ThenInclude(r => r.ResourceData).SingleOrDefaultAsync();
+			if (country == null) return 2; //nincs ilyen ID-jű country
+			BuildingData toBuild = await _appDbContext.BuildingData.Where(b => b.ID == buildingId).SingleOrDefaultAsync();
+			if (toBuild == null) return 2; //nincs iylen ID-jű épület
+			if (country.Resources.Where(r => r.ResourceDataID == toBuild.PriceUnitID).SingleOrDefault().Amount < toBuild.Price) return 3; // nincs elég erőforrás
+			Building alreadyPresent = await _appDbContext.Buildings.Where(b => b.CoutryID == country.ID && b.BuildingDataID == toBuild.ID).SingleOrDefaultAsync();
+			if (alreadyPresent != null)
 			{
-				switch ((BuildingIds)buildingId) {
-					case BuildingIds.FLOW_REGULATOR_ID: // Áramlásirányító
-						building = new FlowRegulator
-						{
-							Count = 0,
-							BuildingDataID = buildingData.ID,
-							CoutryID = countryId
-						};
-						break;
-					case BuildingIds.REEF_FORT_ID: // Zátonyvár
-						building = new ReefFort
-						{
-							Count = 0,
-							BuildingDataID = buildingData.ID,
-							CoutryID = countryId
-						};
-						break;
-					default:
-						break;
-				} 
-				
-				await _appDbContext.Buildings.AddAsync(building);
-				
+				alreadyPresent.Progress = toBuild.BuildTime;
+				await _appDbContext.SaveChangesAsync();
+				return 0;
 			}
-
-			// 3 - not enough resources
-			if (country.Resources.Find(r => r.ID == buildingData.PriceUnitID).Amount < buildingData.Price) return await new Task<int>(() => 3);
-			country.Resources.Find(r => r.ID == buildingData.PriceUnitID).Amount -= buildingData.Price;
-			building.Progress = buildingData.BuildTime;
-			
-			await _appDbContext.SaveChangesAsync();
-
-			// 0 - ok
-			return await new Task<int>(() => 0);
+			else
+			{
+				Building newBuilding = new Building() { BuildingDataID = toBuild.ID, Count = 0, Progress = toBuild.BuildTime, CoutryID = country.ID, };
+				_appDbContext.Buildings.Add(newBuilding);
+				await _appDbContext.SaveChangesAsync();
+				return 0;
+			}
 		}
 
 		public async Task<int> PurchaseCountryUnitsAsync(int countryId, List<UnitDTO> army)
@@ -146,72 +120,15 @@ namespace StrategyGame.Bll.Services
 
 		public async Task<int> PurchaseCountryUpgradeAsync(int countryId, int upgradeId)
 		{
-			var country = await _appDbContext.Countries.Where(c => c.ID == countryId).SingleOrDefaultAsync();
-			var upgradeInprogress = country.Upgrades.Where(b => b.CoutryID == countryId).Any(u => u.Progress > 0);
-			// 1 - There is a upgrade inprogress
-			if (upgradeInprogress) return await new Task<int>(() => 1);
-
-			var upgrade = await _appDbContext.Upgrades.Where(b => countryId == b.CoutryID && upgradeId == b.UpgradeDataID).SingleOrDefaultAsync();
-			var upgradeData = await _appDbContext.UpgradeData.Where(data => data.ID == upgradeId).SingleOrDefaultAsync();
-			// 2 - Upgrade not found
-			if (upgradeData == null) return await new Task<int>(() => 2);
-
-			if (upgrade == null) {
-                switch ((UpgradesIds)upgradeId)
-                {
-					case UpgradesIds.ALCHEMY_ID:
-						upgrade = new Alchemy
-						{
-							CoutryID = countryId,
-							UpgradeDataID = upgradeId
-						};
-						break;
-					case UpgradesIds.CORALL_WALL_ID:
-						upgrade = new CoralWall
-						{
-							CoutryID = countryId,
-							UpgradeDataID = upgradeId
-						};
-						break;
-					case UpgradesIds.MARTIAL_ARTS_ID:
-						upgrade = new MartialArts
-						{
-							CoutryID = countryId,
-							UpgradeDataID = upgradeId
-						};
-						break;
-					case UpgradesIds.MUD_HARVESTER_ID:
-						upgrade = new MudHarvester
-						{
-							CoutryID = countryId,
-							UpgradeDataID = upgradeId
-						};
-						break;
-					case UpgradesIds.MUD_TRACTOR_ID:
-						upgrade = new MudTractor
-						{
-							CoutryID = countryId,
-							UpgradeDataID = upgradeId
-						};
-						break;
-					case UpgradesIds.SONAR_CANNON_ID:
-						upgrade = new SonarCannon
-						{
-							CoutryID = countryId,
-							UpgradeDataID = upgradeId
-						};
-						break;
-					default:
-                        break;
-                }
-
-				await _appDbContext.Upgrades.AddAsync(upgrade);
-            }
-
-			upgrade.Progress = upgradeData.UpgradeTime;
-
-			// 0 - ok
-			return await new Task<int>(() => 0);
+			if (await _appDbContext.Upgrades.Where(b => b.CoutryID == countryId).AnyAsync(b => b.Progress > 0)) return 1; //már fejlődik valami
+			Country country = await _appDbContext.Countries.Where(c => c.ID == countryId).SingleOrDefaultAsync();
+			if (country == null) return 2; //nincs ilyen ID-jű country
+			var toUpgrade = await _appDbContext.UpgradeData.Where(u => u.ID == upgradeId).SingleOrDefaultAsync();
+			if (toUpgrade == null) return 2; //nincs ilyen ID - jű upgrade
+			var newUpgrade = new Upgrade() { Progress = toUpgrade.UpgradeTime, UpgradeDataID = toUpgrade.ID, CoutryID = country.ID };
+			_appDbContext.Upgrades.Add(newUpgrade);
+			await _appDbContext.SaveChangesAsync();
+			return 0;
 		}
 	}
 }

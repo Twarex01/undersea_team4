@@ -4,7 +4,7 @@ using System.Text;
 
 namespace StrategyGame.Model
 {
-    public abstract class Building
+    public class Building
     {
         public int ID { get; set; }
         public int Count { get; set; }
@@ -13,6 +13,6 @@ namespace StrategyGame.Model
         public int BuildingDataID { get; set; }
         public Country Country { get; set; }
         public int CoutryID { get; set; }
-        public abstract void ApplyEffect();
+        
     }
 }

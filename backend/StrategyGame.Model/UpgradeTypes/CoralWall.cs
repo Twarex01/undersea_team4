@@ -4,13 +4,13 @@ using System.Text;
 
 namespace StrategyGame.Model.UpgradeTypes
 {
-    public class CoralWall : Upgrade
+    public class CoralWall : UpgradeData
     {
-        public override void ApplyEffects()
+        public override void ApplyEffects(Country country)
         {
             // +20% defense modifier
 
-            Country.DefenseModifier += 0.2;
+            country.DefenseModifier += 0.2;
         }
     }
 }

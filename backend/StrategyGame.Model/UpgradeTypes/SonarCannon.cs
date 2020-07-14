@@ -4,11 +4,11 @@ using System.Text;
 
 namespace StrategyGame.Model.UpgradeTypes
 {
-    public class SonarCannon : Upgrade
+    public class SonarCannon : UpgradeData
     {
-        public override void ApplyEffects()
+        public override void ApplyEffects(Country country)
         {
-            Country.AttackModifier += 0.2; // +20% attack modifier
+            country.AttackModifier += 0.2; // +20% attack modifier
         }
     }
 }
