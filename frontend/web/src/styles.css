@@ -80,3 +80,7 @@ form {
 .button-text {
     margin: 0 auto 0 auto;
 }
+
+.button-not-selected {
+    opacity: 0.3;
+}

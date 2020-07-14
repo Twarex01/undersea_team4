@@ -17,6 +17,6 @@
     </app-building-card-item>
   
   <div class="footer">
-    <button>Megveszem</button>
+    <button [ngClass]="{ 'button-not-selected': selectedBuilding === -1}" >Megveszem</button>
   </div>
 </app-basic-card>

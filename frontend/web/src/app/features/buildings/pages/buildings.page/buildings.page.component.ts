@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BuildingsPageComponent implements OnInit {
 
-  selectedBuilding: number = 0;
+  selectedBuilding: number = -1;
 
   constructor() { }
 
