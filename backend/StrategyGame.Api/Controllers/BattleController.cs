@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,10 +15,12 @@ namespace StrategyGame.Api.Controllers
 
 
         private IBattleService _battleService;
+        private IUserService _userService;
 
-        public BattleController(IBattleService battleService)
+        public BattleController(IBattleService battleService, UserService userService)
         {
             _battleService = battleService;
+            _userService = userService;
         }
 
 
@@ -29,12 +32,14 @@ namespace StrategyGame.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public IActionResult Attack([FromBody] BattleDTO battleDTO)
+        public async Task<IActionResult> AttackAsync([FromBody] BattleDTO battleDTO)
         {
+            var atkCountry = await _userService.GetCountryByUserID(User.Identity.Name);
+            battleDTO.IdAtt = atkCountry.ID;
 
             try
             {
-                _battleService.SendAllTypesToAttack(battleDTO);
+                await _battleService.SendAllTypesToAttack(battleDTO);
             }
             catch(Exception ex) 
             {
