@@ -7,6 +7,7 @@ import { PlayerListComponent } from './components/player-list/player-list.compon
 import { ChooseUnitComponent } from './components/choose-unit/choose-unit.component';
 import { SharedModule } from '../../shared/shared.module';
 import { AttackComponent } from './components/attack/attack.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { AttackComponent } from './components/attack/attack.component';
   imports: [
     CommonModule,
     AttackRoutingModule,
-    SharedModule
+    SharedModule,
+    FormsModule
   ]
 })
 export class AttackModule { }

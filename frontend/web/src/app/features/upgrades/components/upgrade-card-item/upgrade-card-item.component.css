@@ -18,10 +18,19 @@
     margin: auto 2rem auto 2rem;
 }
 
+.upgrade-card-item-selected {
+    border-radius: 16px;
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
 .header {
     font-family: "Baloo Bold";
 }
 
 .details {
     font-family: "Baloo Regular";
+}
+
+.top {
+    display: flex;
 }
