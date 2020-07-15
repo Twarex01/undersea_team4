@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StrategyGame.Bll.DTO;
@@ -21,33 +22,49 @@ namespace StrategyGame.Api.Controllers
         private IPurchaseService _purchaseService;
 
         private IDataService _dataService;
-        public CountryController(IDataService dataService, IPurchaseService purchaseService)
+
+        private IUserService _userService;
+
+        public CountryController(IDataService dataService, IPurchaseService purchaseService, IUserService userService)
         {
             _dataService = dataService;
             _purchaseService = purchaseService;
+            _userService = userService;
         }
 
         // GET api/Country/5
-        [HttpGet("{id}")]
-        public CountryNameDTO GetCountryName(int id)
+        [HttpGet]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<CountryNameDTO> GetCountryNameAsync()
         {
-            return _dataService.QueryCountryName(id);
+            var country = await _userService.GetCountryByUserID(User.Identity.Name);
+            return _dataService.QueryCountryName(country.ID);
         }
 
         // GET api/Country/5/resources
-        [HttpGet("{id}/resources")]
-        public async Task<CountryResourcesDTO> GetCountryResources(int id) 
+        [HttpGet("resources")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<CountryResourcesDTO> GetCountryResources() 
         {
-           return await _dataService.QueryCountryResourcesDTO(id);
+            var country = await _userService.GetCountryByUserID(User.Identity.Name);
+            return await _dataService.QueryCountryResourcesDTO(country.ID);
         }
 
         // PUT api/Country/5/buildings/1
-        [HttpPut("{id}/buildings/{buildingId}")]
+        [HttpPut("buildings/{buildingId}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> BuyBuilding( int id, int buildingId) 
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<IActionResult> BuyBuilding(int buildingId) 
         {
-            var results = await _purchaseService.PurchaseCountryBuildingAsync(id, buildingId);
+            var country = await _userService.GetCountryByUserID(User.Identity.Name);
+            var results = await _purchaseService.PurchaseCountryBuildingAsync(country.ID, buildingId);
 
             if (results == 0)
                 return Ok();
@@ -56,20 +73,27 @@ namespace StrategyGame.Api.Controllers
         }
 
         //GET api/country/5/upgrades
-        [HttpGet("{id}/upgrades")]
-
-        public async Task<CountryUpgradesDTO> CountryUpgrades(int id)
+        [HttpGet("upgrades")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<CountryUpgradesDTO> CountryUpgrades()
         {
-            return await _dataService.QueryCountryUpgrades(id);
+            var country = await _userService.GetCountryByUserID(User.Identity.Name);
+            return await _dataService.QueryCountryUpgrades(country.ID);
         }
 
         //PUT api/country/5/upgrades/2
-        [HttpPut("{id}/upgrades/{upgradeId}")]
+        [HttpPut("upgrades/{upgradeId}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult BuyUpgrade(int id, int upgradeId)
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<IActionResult> BuyUpgradeAsync(int upgradeId)
         {
-            var results = _purchaseService.PurchaseCountryUpgradeAsync(id, upgradeId).Result;
+            var country = await _userService.GetCountryByUserID(User.Identity.Name);
+            var results = _purchaseService.PurchaseCountryUpgradeAsync(country.ID, upgradeId).Result;
 
             if (results == 0)
                 return Ok();
@@ -78,12 +102,16 @@ namespace StrategyGame.Api.Controllers
         }
 
         //PUT api/country/5/units/3
-        [HttpPut("{id}/units")]
+        [HttpPut("units")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult BuyUnits(int id,[FromBody] List<UnitDTO> army) // CountyBuyUnitDTO lehet nem kell
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<IActionResult> BuyUnitsAsync([FromBody] List<UnitDTO> army) // CountyBuyUnitDTO lehet nem kell
         {
-            var results = _purchaseService.PurchaseCountryUnitsAsync(id, army).Result;
+            var country = await _userService.GetCountryByUserID(User.Identity.Name);
+            var results = _purchaseService.PurchaseCountryUnitsAsync(country.ID, army).Result;
 
             if (results == 0)
                 return Ok();

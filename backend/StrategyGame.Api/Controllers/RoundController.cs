@@ -16,22 +16,31 @@ namespace StrategyGame.Api.Controllers
     {
 
         private IDataService _dataService;
-        public RoundController(IDataService dataService)
+        private IUserService _userService;
+
+
+        public RoundController(IDataService dataService, IUserService userService)
         {
             _dataService = dataService;
-
+            _userService = userService;
         }
 
         //GET api/round
-        [HttpGet("{id}")]
-        public RoundScoreDTO Points(int id)
+        [HttpGet]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<RoundScoreDTO> PointsAsync()
         {
-            return _dataService.QueryRoundScore(id);
+            var country = await _userService.GetCountryByUserID(User.Identity.Name);
+            return _dataService.QueryRoundScore(country.ID);
         }
 
         //PUT api/round
         [HttpPost]
         [Authorize]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public IActionResult NextRound()
         {
             return Ok();
