@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RankingsService } from '../../services/rankings.service';
 import { Observable } from 'rxjs';
-import { PlayerDTO } from '../../../../shared/clients';
 import { Player } from '../../palyer';
 
 @Component({

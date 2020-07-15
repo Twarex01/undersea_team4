@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BuildingsClient, CountryClient } from '../../../shared/clients';
+import { CountryClient } from '../../../shared/clients';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BuildingsService {
 
-  constructor(private buildingsClient: BuildingsClient, private countryClient: CountryClient) { }
+  constructor(private countryClient: CountryClient) { }
 
   getBuildingsData(){
     //TODO
