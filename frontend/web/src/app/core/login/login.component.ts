@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(["/"]);
         };
         reader.readAsText(data!.data);
+        localStorage.setItem('playerName', this.loginForm.value.userName);
       },
       () => {
         this.error = true;

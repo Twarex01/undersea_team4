@@ -12,4 +12,8 @@ export class PlayerInfoService {
     return this.client.getCountryResources(0);
   }
 
+  getPlayerName(): string {
+    return localStorage.getItem("playerName") ?? '';
+  }
+
 }
