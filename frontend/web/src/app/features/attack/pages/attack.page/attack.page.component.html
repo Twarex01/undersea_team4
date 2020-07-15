@@ -1,9 +1,9 @@
 <app-basic-card>
     <p class="header">Támadás</p>
 
-   <app-attack class="card-item"></app-attack>      
+   <app-attack [units]="units" [players]="players" (selectedPlayerChanged)="onSelectedPlayerChanged($event)" class="card-item"></app-attack>      
 
     <div class="footer">
-        <button>Megtámadom!</button>
+        <button [ngClass]="{'button-not-selected': !isReadyToBuy()}" (click)="onAttack()">Megtámadom!</button>
     </div>
 </app-basic-card>

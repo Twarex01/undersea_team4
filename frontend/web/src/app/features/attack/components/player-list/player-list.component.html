@@ -3,36 +3,9 @@
 </div>
 
 <div class="player-scroll-bar">
-    <input type="text" placeholder="Felhasználónév">
-    <p>józsiiwinner12</p>
-    <hr>
-    <p>kiscsiko1990</p>
-    <hr>
-    <p>józsiiwinner12</p>
-    <hr>
-    <p>kiscsiko1990</p>
-    <hr>
-    <p>józsiiwinner12</p>
-    <hr>
-    <p>kiscsiko1990</p>
-    <hr>
-    <p>józsiiwinner12</p>
-    <hr>
-    <p>kiscsiko1990</p>
-    <hr>
-    <p>józsiiwinner12</p>
-    <hr>
-    <p>kiscsiko1990</p>
-    <hr>
-    <p>józsiiwinner12</p>
-    <hr>
-    <p>kiscsiko1990</p>
-    <hr>
-    <p>józsiiwinner12</p>
-    <hr>
-    <p>kiscsiko1990</p>
-    <hr>
-    <p>józsiiwinner12</p>
-    <hr>
-    <p>kiscsiko1990</p>
+    <input [(ngModel)]="playerNameInput" type="text" placeholder="Felhasználónév">
+    <div class="player" *ngFor="let player of getPlayerList(); let i = index" (click)="onPlayerClick(i)">
+        <hr>
+        <p class="player-name">{{player.name}}<span *ngIf="player.isSelected" class="fa fa-check-circle check"></span></p>
+    </div>
 </div>
