@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { UpgradeDetailsDTO } from '../../../../shared/clients';
 import { Upgrade } from '../../upgrade';
 import { UpgradeService } from '../../services/upgrade.service';
 

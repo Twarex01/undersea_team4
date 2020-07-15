@@ -30,3 +30,7 @@
 .details {
     font-family: "Baloo Regular";
 }
+
+.top {
+    display: flex;
+}
