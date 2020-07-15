@@ -9,7 +9,7 @@ import { UpgradeService } from '../../services/upgrade.service';
 })
 export class UpgradesPageComponent implements OnInit {
 
-  upgradeSelected: number = -1;
+  upgradeIndex: number = -1;
   upgrades: Upgrade[] = new Array<Upgrade>(
     { id: 0, imageSrc: "../../../../../assets/upgrades/iszaptraktor.png", name: "Iszaptraktor", description: "növeli a krumpli termesztést 10%-kal", roundsLeft: 3, isDone: false, isSelected: false},
     { id: 1, imageSrc: "../../../../../assets/upgrades/iszaptraktor.png", name: "Iszaptraktor", description: "növeli a krumpli termesztést 10%-kal", roundsLeft: 15, isDone: false, isSelected: false},
@@ -26,17 +26,17 @@ export class UpgradesPageComponent implements OnInit {
     //this.upgradeService.getCountryUpgrades().subscribe();
   }
 
-  selectUpgrade(id: number) {
-    if(this.upgradeSelected !== -1)
-      this.upgrades[this.upgradeSelected].isSelected = false;
-    this.upgradeSelected = id;
-    this.upgrades[id].isSelected = true;
+  selectUpgrade(index: number) {
+    if(this.upgradeIndex !== -1)
+      this.upgrades[this.upgradeIndex].isSelected = false;
+    this.upgradeIndex = index;
+    this.upgrades[index].isSelected = true;
   }
 
   buySelectedUpgrade() {
     //TODO
-    this.upgradeService.buyUpgrade(this.upgradeSelected);
-    console.log("Upgrade megvásárolva: " + this.upgradeSelected);
+    this.upgradeService.buyUpgrade(this.upgrades[this.upgradeIndex].id);
+    console.log("Upgrade megvásárolva: " + this.upgradeIndex);
   }
 
 }
