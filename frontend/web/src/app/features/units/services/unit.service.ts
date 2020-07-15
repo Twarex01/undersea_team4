@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { UnitsClient } from '../../../shared/clients';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UnitService {
 
-  constructor(private unitsClient: UnitsClient) { }
+  constructor() { }
 
   getCountryUnits() {
     //TODO

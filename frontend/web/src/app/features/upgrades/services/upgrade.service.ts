@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UpgradesClient, CountryClient, UpgradeDetailsDTO } from '../../../shared/clients';
+import { CountryClient, UpgradeDetailsDTO } from '../../../shared/clients';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class UpgradeService {
 
-  constructor(private upgradesClient: UpgradesClient, private countryClient: CountryClient) { }
+  constructor(private countryClient: CountryClient) { }
 
   getCountryUpgrades(): Observable<UpgradeDetailsDTO> {
     //TODO
