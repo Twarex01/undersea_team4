@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { LoginClient, LoginDTO } from '../../shared/clients';
+import { LoginDTO } from '../../shared/clients';
 import { Router } from '@angular/router';
 import { AccountService } from '../services/account.service';
 
