@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RankingsRoutingModule } from './rankings-routing.module';
 import { RankingsPageComponent } from './pages/rankings.page/rankings.page.component';
 import { SharedModule } from '../../shared/shared.module';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { SharedModule } from '../../shared/shared.module';
   imports: [
     CommonModule,
     RankingsRoutingModule,
-    SharedModule
+    SharedModule,
+    FormsModule
   ]
 })
 export class RankingsModule { }
