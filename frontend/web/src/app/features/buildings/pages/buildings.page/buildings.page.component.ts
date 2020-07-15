@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { BuildingsService } from '../../services/buildings.service';
-import { BuildingDetailsDTO, BuildingDTO } from '../../../../shared/clients';
 import { Observable } from 'rxjs';
 import { Building } from '../../building';
 

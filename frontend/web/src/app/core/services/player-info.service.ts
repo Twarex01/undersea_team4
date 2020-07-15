@@ -9,7 +9,8 @@ export class PlayerInfoService {
   constructor(private client: CountryClient) { }
 
   getResources() {
-    return this.client.getCountryResources(0);
+    //TODO
+    //return this.client.getCountryResources();
   }
 
   getPlayerName(): string {
