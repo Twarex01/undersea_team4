@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StrategyGame.Bll.DTO;
-using StrategyGame.Bll.DTO.Country;
 using StrategyGame.Bll.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -21,33 +21,51 @@ namespace StrategyGame.Api.Controllers
         private IPurchaseService _purchaseService;
 
         private IDataService _dataService;
-        public CountryController(IDataService dataService, IPurchaseService purchaseService)
+
+        private IUserService _userService;
+
+        public CountryController(IDataService dataService, IPurchaseService purchaseService, IUserService userService)
         {
             _dataService = dataService;
             _purchaseService = purchaseService;
+            _userService = userService;
         }
 
-        // GET api/Country/5
-        [HttpGet("{id}")]
-        public CountryNameDTO GetCountryName(int id)
+        // GET api/Country/Details
+        [HttpGet("Details")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<CountryDetailsDTO>> GetCountryDeatilsAsync()
         {
-            return _dataService.QueryCountryName(id);
+            var country = await _userService.GetCountryByUserID(User.Identity.Name);
+            var details =  await _dataService.GetCountryDetailsAsync(country.ID);
+            return Ok(details);
         }
 
-        // GET api/Country/5/resources
-        [HttpGet("{id}/resources")]
-        public CountryResourcesDTO GetCountryResources(int id) 
+        // GET api/Country/Resources
+        [HttpGet("Resources")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<List<ResourceDTO>>> GetCountryResources() 
         {
-           return _dataService.QueryCountryResourcesDTO(id);
+            var country = await _userService.GetCountryByUserID(User.Identity.Name);
+            var resources =  await _dataService.GetCountryResourcesAsync(country.ID);
+            return Ok(resources);
         }
 
-        // PUT api/Country/5/buildings/1
-        [HttpPut("{id}/buildings/{buildingId}")]
+        // PUT api/Country/Buildings/1
+        [HttpPut("Buildings/{buildingId}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult BuyBuilding( int id, int buildingId) 
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        
+        public async Task<ActionResult> BuyBuilding(int buildingId) 
         {
-            var results = _purchaseService.PurchaseCountryBuildingAsync(id, buildingId).Result;
+            var country = await _userService.GetCountryByUserID(User.Identity.Name);
+            var results = await _purchaseService.PurchaseCountryBuildingAsync(country.ID, buildingId);
 
             if (results == 0)
                 return Ok();
@@ -55,21 +73,29 @@ namespace StrategyGame.Api.Controllers
                 return BadRequest();
         }
 
-        //GET api/country/5/upgrades
-        [HttpGet("{id}/upgrades")]
-
-        public CountryUpgradesDTO CountryUpgrades(int id)
+        //GET api/Country/Upgrades
+        [HttpGet("Upgrades")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<List<UpgradeDTO>>> CountryUpgrades()
         {
-            return _dataService.QueryCountryUpgrades(id);
+            var country = await _userService.GetCountryByUserID(User.Identity.Name);
+            var upgrades = await _dataService.GetCountryUpgradesAsync(country.ID);
+            return Ok(upgrades);
         }
 
-        //PUT api/country/5/upgrades/2
-        [HttpPut("{id}/upgrades/{upgradeId}")]
+        //PUT api/Country/Upgrades/2
+        [HttpPut("Upgrades/{upgradeId}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult BuyUpgrade(int id, int upgradeId)
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        
+        public async Task<ActionResult> BuyUpgradeAsync(int upgradeId)
         {
-            var results = _purchaseService.PurchaseCountryUpgradeAsync(id, upgradeId).Result;
+            var country = await _userService.GetCountryByUserID(User.Identity.Name);
+            var results = await _purchaseService.PurchaseCountryUpgradeAsync(country.ID, upgradeId);
 
             if (results == 0)
                 return Ok();
@@ -77,13 +103,17 @@ namespace StrategyGame.Api.Controllers
                 return BadRequest();
         }
 
-        //PUT api/country/5/units/3
-        [HttpPut("{id}/units")]
+        //PUT api/Country/Units/3
+        [HttpPut("Units")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult BuyUnits(int id,[FromBody] List<UnitDTO> army) // CountyBuyUnitDTO lehet nem kell
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        
+        public async Task<ActionResult> BuyUnitsAsync([FromBody] List<UnitDTO> army) 
         {
-            var results = _purchaseService.PurchaseCountryUnitsAsync(id, army).Result;
+            var country = await _userService.GetCountryByUserID(User.Identity.Name);
+            var results = await _purchaseService.PurchaseCountryUnitsAsync(country.ID, army);
 
             if (results == 0)
                 return Ok();

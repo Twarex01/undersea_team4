@@ -13,5 +13,7 @@ namespace StrategyGame.Bll.Services
         public Task<IdentityResult> RegisterUserAsync(RegisterDTO registerDTO);
 
         public Task<User> AuthenticateUser(LoginDTO loginDTO);
+
+        public Task<Country> GetCountryByUserID(string userID);
     }
 }

@@ -52,7 +52,7 @@ namespace StrategyGame.Bll.Services
         {
             var currentlyUpgrading = country.Upgrades.Where(u => u.Progress > 0).SingleOrDefault(); //elvileg nem lehet 1-nél több eredmény
             currentlyUpgrading.Progress--;
-            if (currentlyUpgrading.Progress == 0) currentlyUpgrading.ApplyEffects();
+            if (currentlyUpgrading.Progress == 0) currentlyUpgrading.UpgradeData.ApplyEffects(country);
             
           
         }
@@ -60,7 +60,11 @@ namespace StrategyGame.Bll.Services
         {
             var currentlyBuilding = country.Buildings.Where(u => u.Progress > 0).SingleOrDefault(); //elvileg nem lehet 1-nél több eredmény
             currentlyBuilding.Progress--;
-            if (currentlyBuilding.Progress == 0) currentlyBuilding.ApplyEffect();
+            if (currentlyBuilding.Progress == 0)
+            {
+                currentlyBuilding.Count++;
+                currentlyBuilding.BuildingData.ApplyEffect(country);
+            }
         }
         public async Task SimulateRound() 
         {
@@ -71,15 +75,6 @@ namespace StrategyGame.Bll.Services
                 .Include(c => c.Units).ThenInclude(u => u.UnitData)
                 .Include(c => c.Resources).ThenInclude(r => r.ResourceData)
                 .ToListAsync();
-
-            var battles = await _dbContext.Battles
-                .Include(b=> b.AttackingCountry)
-                .Include(b => b.DefendingCountry)
-                .Include(b => b.AttackingUnits).ThenInclude(u=> u.UnitData)
-                .ToListAsync();
-
-            
-
 
             // változások az egyes országokban
             foreach( var country in countryList)
@@ -93,9 +88,9 @@ namespace StrategyGame.Bll.Services
             }
 
             //Harc
-            foreach (var battle in battles)
+            foreach (var battleID in _dbContext.Battles.Select(b=> b.ID))
             {
-                await _battleService.CommenceBattle(battle.ID); //baj lehet az includeokkal
+                await _battleService.CommenceBattle(battleID);
             }
 
             //pont számolás

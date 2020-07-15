@@ -15,21 +15,34 @@ namespace StrategyGame.Api.Controllers
     public class RoundController : ControllerBase
     {
 
+        private IRoundService _roundService;
+        private IUserService _userService;
 
 
-        //GET api/round
-        [HttpGet]
-        public RoundScoreDTO Points()
+        public RoundController(IRoundService roundService, IUserService userService)
         {
-            throw new NotImplementedException("TODO");
+            _roundService = roundService;
+            _userService = userService;
         }
 
         //PUT api/round
         [HttpPost]
         [Authorize]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult NextRound()
         {
+            _roundService.SimulateRound();
             return Ok();
+        }
+        //GET api/round
+        [HttpGet]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<int> GetRound()
+        {
+            return Ok(0);
         }
     }
 }

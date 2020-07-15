@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StrategyGame.Dal;
 
 namespace StrategyGame.Dal.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200714121050_Undersea_v5_Apply_Effects")]
+    partial class Undersea_v5_Apply_Effects
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -245,9 +247,6 @@ namespace StrategyGame.Dal.Migrations
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Effect")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -516,9 +515,6 @@ namespace StrategyGame.Dal.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Effect")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -608,7 +604,6 @@ namespace StrategyGame.Dal.Migrations
                         {
                             ID = 1,
                             BuildTime = 5,
-                            Effect = "50 lakost ad a népességhez és 200 korallt termel körönként",
                             Name = "Áramlásirányító",
                             Price = 1000,
                             PriceUnitID = 2
@@ -626,7 +621,6 @@ namespace StrategyGame.Dal.Migrations
                         {
                             ID = 2,
                             BuildTime = 5,
-                            Effect = "200 egység katonának nyújt szállást",
                             Name = "Zátonyvár",
                             Price = 1000,
                             PriceUnitID = 2
@@ -643,7 +637,6 @@ namespace StrategyGame.Dal.Migrations
                         new
                         {
                             ID = 1,
-                            Effect = "Növeli a beszedett adót 30%-kal",
                             Name = "Alkímia",
                             UpgradeTime = 15
                         });
@@ -659,7 +652,6 @@ namespace StrategyGame.Dal.Migrations
                         new
                         {
                             ID = 2,
-                            Effect = "Növeli a védelmi pontokat 20%-kal",
                             Name = "Korall fal",
                             UpgradeTime = 15
                         });
@@ -675,7 +667,6 @@ namespace StrategyGame.Dal.Migrations
                         new
                         {
                             ID = 3,
-                            Effect = "Növeli a védelmi és támadóerőt 10%-kal",
                             Name = "Vízalatti harcművészetek",
                             UpgradeTime = 15
                         });
@@ -691,7 +682,6 @@ namespace StrategyGame.Dal.Migrations
                         new
                         {
                             ID = 4,
-                            Effect = "Növeli a korall termesztést 15%-kal",
                             Name = "Iszap Kombájn",
                             UpgradeTime = 15
                         });
@@ -707,7 +697,6 @@ namespace StrategyGame.Dal.Migrations
                         new
                         {
                             ID = 5,
-                            Effect = "Növeli a korall termesztést 10%-kal",
                             Name = "Iszap Traktor",
                             UpgradeTime = 15
                         });
@@ -723,7 +712,6 @@ namespace StrategyGame.Dal.Migrations
                         new
                         {
                             ID = 6,
-                            Effect = "Növeli a támadópontokat 20%-kal",
                             Name = "Szonár ágyú",
                             UpgradeTime = 15
                         });
