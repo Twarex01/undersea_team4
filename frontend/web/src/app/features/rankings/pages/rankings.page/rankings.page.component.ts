@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { RankingsService } from '../../services/rankings.service';
+import { Observable } from 'rxjs';
+import { PlayerDTO } from '../../../../shared/clients';
 
 @Component({
   selector: 'app-rankings.page',
@@ -7,9 +10,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RankingsPageComponent implements OnInit {
 
-  constructor() { }
+  
+  palyers$: Observable<PlayerDTO[]> | undefined;
+
+  constructor(private rankingsService: RankingsService) { }
 
   ngOnInit(): void {
+  }
+
+  getPlayes(){
+    //this.rankingsService.getPlayerList().subscribe(palyers => this.palyers$ = palyers)
   }
 
 }
