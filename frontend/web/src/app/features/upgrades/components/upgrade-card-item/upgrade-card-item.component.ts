@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Upgrade } from '../../upgrade';
 
 @Component({
   selector: 'app-upgrade-card-item',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./upgrade-card-item.component.css']
 })
 export class UpgradeCardItemComponent implements OnInit {
+
+  @Input() upgrade: Upgrade;
 
   constructor() { }
 
