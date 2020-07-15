@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -50,58 +51,27 @@ namespace StrategyGame.Bll.Services
 
 		public async Task<int> PurchaseCountryUnitsAsync(int countryId, List<UnitDTO> army)
 		{
-			List<int> costs = new List<int>();
-			var resourcesData = await _appDbContext.ResourceData.ToListAsync();
-			var country = await _appDbContext.Countries.Where(c => c.ID == countryId).SingleOrDefaultAsync();
-            foreach (var resourceData in resourcesData)
-            {
-				costs.Add(0);
-            }
-			foreach (var unitDto in army)
-            {
-				var unit = await _appDbContext.UnitData.Where(u => u.ID == unitDto.Id).SingleOrDefaultAsync();
-				// 1 - Unit not found 
-				if (unit == null) return await new Task<int>(() => 1);
-				costs[(int)unit.PriceUnitID - 1] += unit.Price * unitDto.Count;
-			}
-			var costIndex = 0;
-			var countryResource = country.Resources;
-			foreach (var resourceData in resourcesData)
-			{
-				if (costs[costIndex] == 0) {
-					costIndex++;
-					continue; 
-				}
-				var resourceAmount = countryResource.Where(r => r.ID == resourceData.ID).SingleOrDefault().Amount;
-				// 2 - not enough resources
-				if (resourceAmount < costs[costIndex]) return await new Task<int>(() => 2);
-			}
-			costIndex = 0;
-			foreach (var resourceData in resourcesData)
-            {
-				var resource = countryResource.Where(r => r.ID == resourceData.ID).SingleOrDefault();
-				resource.Amount -= costs[costIndex++];
-			}
-			foreach (var unitDto in army)
-            {
-				var countryUnit = country.Units.Where(u => u.ID == unitDto.Id).SingleOrDefault();
-				if (countryUnit == null)
-				{
-					countryUnit = new Unit
-					{
-						UnitDataID = unitDto.Id,
-						Count = unitDto.Count,
-						CountryID = countryId
-					};
-                }
-                else
-                {
-					countryUnit.Count += unitDto.Count;
+			Country country = await _appDbContext.Countries
+				.Include(c=> c.Resources).ThenInclude(r=> r.ResourceData)
+				.Include(c=>c.Units)
+				.SingleOrDefaultAsync(c => c.ID == countryId);
 
-				}
+			var totalCost = new List<Resource>();
+			var unitsToBuy = new List<Unit>();
+			foreach (var unit in army)
+            {
+				var unitdata = _appDbContext.UnitData.Single(u => u.ID == unit.UnitTypeID);
+				totalCost.Add(new Resource { Amount = unitdata.Price, ResourceDataID = (int)unitdata.PriceUnitID });
+				unitsToBuy.Add(new Unit() { UnitDataID = unit.UnitTypeID, Count = unit.Count, CountryID = countryId, });
+			}
+			foreach(var resource in country.Resources)
+            {
+				var cost = totalCost.Single(r => r.ResourceDataID == resource.ResourceDataID).Amount;
+				if (resource.Amount < cost) return 1; //nics elég pénz
             }
-			await _appDbContext.SaveChangesAsync();
-			throw new NotImplementedException("TODO");
+			country.Units.AddRange(unitsToBuy);
+			return 0;
+		
 		}
 
 		public async Task<int> PurchaseCountryUpgradeAsync(int countryId, int upgradeId)

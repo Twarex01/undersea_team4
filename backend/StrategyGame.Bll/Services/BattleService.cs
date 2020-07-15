@@ -72,8 +72,8 @@ namespace StrategyGame.Bll.Services
 
             foreach (UnitDTO unitDto in battleDto.Army) 
             {
-                var unitDataId = _context.UnitData.Where(u => u.Name == unitDto.Name).Select(u => u.ID).FirstOrDefault();  
-                await SendUnitsOfTypeToAttack(battleDto.IdAtt, battleDto.IdDef, unitDto.Count, unitDataId);
+                  
+                await SendUnitsOfTypeToAttack(battleDto.IdAtt, battleDto.IdDef, unitDto.Count, unitDto.UnitTypeID);
             }
             _context.SaveChanges();
         }
@@ -165,6 +165,11 @@ namespace StrategyGame.Bll.Services
                 }
             }
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<Battle>> GetCountryBattles(int countryId)
+        {
+            return await _context.Battles.Where(b=> b.AttackingCountryID==countryId).ToListAsync();
         }
     }
 }

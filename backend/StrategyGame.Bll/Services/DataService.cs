@@ -22,8 +22,6 @@ namespace StrategyGame.Bll.Services
             _context = context;
         }
 
-       
-
         public async Task<List<ResourceDTO>> GetCountryResourcesAsync(int countryId)
         {
             Country country = await _context.Countries.Include(c => c.Resources).ThenInclude(r => r.ResourceData).SingleOrDefaultAsync(c => c.ID == countryId);
@@ -96,7 +94,7 @@ namespace StrategyGame.Bll.Services
             {
                 upgradeDetails.Add(new UpgradeDetailsDTO
                 {
-                    Effect = "TODO",
+                    Effect = upgradeData.Effect,
                     Name = upgradeData.Name,
                     UpgradeTypeID = upgradeData.ID
 
@@ -131,7 +129,7 @@ namespace StrategyGame.Bll.Services
                 {
                     BuildingTypeID = buildingData.ID,
                     BuildTime = buildingData.BuildTime,
-                    Effect = "todo",
+                    Effect = buildingData.Effect,
                     Name = buildingData.Name,
                     Price = buildingData.Price,
                     PriceTypeName = resourceTypes.SingleOrDefault(r=> r.ID == buildingData.PriceUnitID).Name

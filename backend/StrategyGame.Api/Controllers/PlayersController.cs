@@ -24,7 +24,7 @@ namespace StrategyGame.Api.Controllers
         [HttpGet]
         public List<RankDTO> PlayerList()
         {
-            return _dataService.QueryCountryRank();
+            return _dataService.GetPlayerRanks();
         }
 
     }
