@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { LoginClient, RegisterClient, ILoginDTO, LoginDTO, FileResponse, RegisterDTO } from '../../shared/clients';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { LoginClient, RegisterClient, LoginDTO, RegisterDTO } from '../../shared/clients';
 
 @Injectable({
   providedIn: 'root'

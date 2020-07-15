@@ -15,6 +15,7 @@ import { BasicFormCardComponent } from './core/basic-form-card/basic-form-card.c
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './jwt-interceptor';
 import { AuthGuardService } from './core/services/auth-guard.service';
+import { LoginClient, RegisterClient, CountryClient } from './shared/clients';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,7 @@ import { AuthGuardService } from './core/services/auth-guard.service';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }, AuthGuardService],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }, AuthGuardService, LoginClient, RegisterClient],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
