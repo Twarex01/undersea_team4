@@ -33,7 +33,7 @@ namespace StrategyGame.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        
         public async Task<IActionResult> AttackAsync([FromBody] BattleDTO battleDTO)
         {
             var atkCountry = await _userService.GetCountryByUserID(User.Identity.Name);
@@ -51,10 +51,14 @@ namespace StrategyGame.Api.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<List<Battle>>> GetCountryBattles()
         {
             var atkCountry = await _userService.GetCountryByUserID(User.Identity.Name);
-            return await _battleService.GetCountryBattles(atkCountry.ID);
+            return Ok(await _battleService.GetCountryBattles(atkCountry.ID));
 
         }
     }

@@ -35,22 +35,24 @@ namespace StrategyGame.Api.Controllers
         [HttpGet("Details")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<CountryDetailsDTO> GetCountryDeatilsAsync()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<CountryDetailsDTO>> GetCountryDeatilsAsync()
         {
             var country = await _userService.GetCountryByUserID(User.Identity.Name);
-            return await _dataService.GetCountryDetailsAsync(country.ID);
+            var details =  await _dataService.GetCountryDetailsAsync(country.ID);
+            return Ok(details);
         }
 
         // GET api/Country/Resources
         [HttpGet("Resources")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<List<ResourceDTO>> GetCountryResources() 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<List<ResourceDTO>>> GetCountryResources() 
         {
             var country = await _userService.GetCountryByUserID(User.Identity.Name);
-            return await _dataService.GetCountryResourcesAsync(country.ID);
+            var resources =  await _dataService.GetCountryResourcesAsync(country.ID);
+            return Ok(resources);
         }
 
         // PUT api/Country/Buildings/1
@@ -59,8 +61,8 @@ namespace StrategyGame.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<IActionResult> BuyBuilding(int buildingId) 
+        
+        public async Task<ActionResult> BuyBuilding(int buildingId) 
         {
             var country = await _userService.GetCountryByUserID(User.Identity.Name);
             var results = await _purchaseService.PurchaseCountryBuildingAsync(country.ID, buildingId);
@@ -75,11 +77,12 @@ namespace StrategyGame.Api.Controllers
         [HttpGet("Upgrades")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<List<UpgradeDTO>> CountryUpgrades()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<List<UpgradeDTO>>> CountryUpgrades()
         {
             var country = await _userService.GetCountryByUserID(User.Identity.Name);
-            return await _dataService.GetCountryUpgradesAsync(country.ID);
+            var upgrades = await _dataService.GetCountryUpgradesAsync(country.ID);
+            return Ok(upgrades);
         }
 
         //PUT api/Country/Upgrades/2
@@ -88,8 +91,8 @@ namespace StrategyGame.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<IActionResult> BuyUpgradeAsync(int upgradeId)
+        
+        public async Task<ActionResult> BuyUpgradeAsync(int upgradeId)
         {
             var country = await _userService.GetCountryByUserID(User.Identity.Name);
             var results = await _purchaseService.PurchaseCountryUpgradeAsync(country.ID, upgradeId);
@@ -106,8 +109,8 @@ namespace StrategyGame.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<IActionResult> BuyUnitsAsync([FromBody] List<UnitDTO> army) 
+        
+        public async Task<ActionResult> BuyUnitsAsync([FromBody] List<UnitDTO> army) 
         {
             var country = await _userService.GetCountryByUserID(User.Identity.Name);
             var results = await _purchaseService.PurchaseCountryUnitsAsync(country.ID, army);

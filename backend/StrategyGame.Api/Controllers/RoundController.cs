@@ -35,5 +35,14 @@ namespace StrategyGame.Api.Controllers
             _roundService.SimulateRound();
             return Ok();
         }
+        //GET api/round
+        [HttpGet]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<int> GetRound()
+        {
+            return Ok(0);
+        }
     }
 }

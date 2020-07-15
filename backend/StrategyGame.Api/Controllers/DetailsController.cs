@@ -27,7 +27,7 @@ namespace StrategyGame.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public ActionResult<List<UpgradeDetailsDTO>> GetAllUpgradeDetails()
         {
-            return _dataService.GetUpgradeDetails();
+            return Ok(_dataService.GetUpgradeDetails());
         }
 
         [HttpGet("Buildings")]
@@ -36,7 +36,7 @@ namespace StrategyGame.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<List<BuildingDetailsDTO>>> GetAllBuildingDetails()
         {
-            return await _dataService.GetBuildingDetailsAsync();
+            return Ok(await _dataService.GetBuildingDetailsAsync());
         }
 
         [HttpGet("Units")]
@@ -45,7 +45,7 @@ namespace StrategyGame.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<List<UnitDetailsDTO>>> GetAllUnitDetails()
         {
-            return await _dataService.GetUnitDetailsAsync();
+            return Ok(await _dataService.GetUnitDetailsAsync());
         }
     }
 }
