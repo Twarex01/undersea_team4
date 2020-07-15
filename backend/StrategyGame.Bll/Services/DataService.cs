@@ -63,6 +63,7 @@ namespace StrategyGame.Bll.Services
             {
                 unitDetails.Add(new UnitDetailsDTO()
                 {
+                    Name = unitData.Name,
                     ATK = unitData.ATK,
                     DEF = unitData.DEF,
                     UnitTypeID = unitData.ID,

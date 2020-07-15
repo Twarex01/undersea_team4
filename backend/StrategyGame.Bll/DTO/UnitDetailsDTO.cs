@@ -9,6 +9,7 @@ namespace StrategyGame.Bll.DTO
 {
     public class UnitDetailsDTO
     {
+        public string Name { get; set; }
         public int UnitTypeID { get; set; }
         public int ATK { get; set; }
         public int DEF { get; set; }
