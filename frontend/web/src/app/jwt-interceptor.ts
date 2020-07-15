@@ -3,7 +3,6 @@ import {
   HttpEvent, HttpInterceptor, HttpHandler, HttpRequest
 } from '@angular/common/http';
 
-/** Pass untouched request through to the next request handler. */
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
 

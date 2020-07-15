@@ -25,4 +25,8 @@ export class AccountService {
     return false;
   }
 
+  logout() {
+    localStorage.removeItem("token");
+  }
+
 }
