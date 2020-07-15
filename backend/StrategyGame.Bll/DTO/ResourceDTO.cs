@@ -8,16 +8,11 @@ namespace StrategyGame.Bll.DTO
 {
     public class ResourceDTO
     {
-        public ResourceDTO(int id, int count, double output)
-        {
-            Id = id;
-            Count = count;
-            Output = output;
-        }
+        
+        public int ResourceTypeID { get; set; }
+        public int Amount { get; set; }
+        public string Name { get; set; }
+        public int Production { get; set; }
 
-        public int Id { get; set; }
-        [Range(0, int.MaxValue)]
-        public int Count { get; set; }
-        public double Output { get; set; }
     }
 }

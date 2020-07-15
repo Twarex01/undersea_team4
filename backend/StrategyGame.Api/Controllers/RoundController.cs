@@ -24,7 +24,7 @@ namespace StrategyGame.Api.Controllers
 
         //GET api/round
         [HttpGet("{id}")]
-        public RoundScoreDTO Points(int id)
+        public CountryDetailsDTO Points(int id)
         {
             return _dataService.QueryRoundScore(id);
         }

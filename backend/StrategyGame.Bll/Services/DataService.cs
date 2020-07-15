@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Namotion.Reflection;
 using StrategyGame.Bll.DTO;
-using StrategyGame.Bll.DTO.Country;
 using StrategyGame.Dal;
 using StrategyGame.Model;
 using System;
@@ -23,181 +22,144 @@ namespace StrategyGame.Bll.Services
             _context = context;
         }
 
-        public CountryNameDTO QueryCountryName(int countryId)
+       
+
+        public async Task<List<ResourceDTO>> GetCountryResourcesAsync(int countryId)
         {
-            var name = _context.Countries.Where(c => c.ID == countryId).Select(c => c.Name).FirstOrDefault();
+            Country country = await _context.Countries.Include(c => c.Resources).ThenInclude(r => r.ResourceData).SingleOrDefaultAsync(c => c.ID == countryId);
+            var output = new List<ResourceDTO>();
 
-            CountryNameDTO countryName = new CountryNameDTO(countryId, name);
 
-            return countryName;
+            foreach (var resource in country.Resources)
+            {
+                output.Add(new ResourceDTO()
+                {
+                    ResourceTypeID = resource.ResourceDataID,
+                    Amount = resource.Amount,
+                    Name = resource.ResourceData.Name,
+                    Production = (int)Math.Floor(resource.ProductionBase * resource.ProductionMultiplier)
+                });
+            }
+            return output;
+
         }
-
-        public async Task<CountryResourcesDTO> QueryCountryResourcesDTO(int countryId)
+        public async Task<List<UnitDTO>> GetCountryUnitsAsync(int countryId)
         {
-            List<UnitDTO> army = await QueryCountryUnits(countryId);
-            List<ResourceDTO> products = QueryCountryResources(countryId);
-            List<BuildingDTO> buildings = QueryCountryBuildings(countryId);
-
-            var country = _context.Countries.Where(c => c.ID == countryId).Select(x => new { x.Population, x.ArmyCapacity }).FirstOrDefault();
-
-            CountryResourcesDTO crDTO = new CountryResourcesDTO(army, products, country.Population, country.ArmyCapacity, buildings);
-
-            return crDTO;
-        }
-
-        public async Task<List<UnitDTO>> QueryCountryUnits(int countryId)
-        {
-
-            Country country = await _context.Countries.Include(c => c.Units).ThenInclude(u => u.UnitData).SingleOrDefaultAsync(c => c.ID == countryId);
+            Country country = await _context.Countries.Include(c => c.Units).SingleOrDefaultAsync(c => c.ID == countryId);
             List<UnitDTO> output = new List<UnitDTO>();
             foreach(var unit in country.Units)
             {
                 output.Add(new UnitDTO()
                 {
-                     Attack = unit.UnitData.ATK,
-                     Count = unit.Count,
-                     Def = unit.UnitData.DEF,
-                     Name = unit.UnitData.Name,
-                     Pay = unit.UnitData.Salary,
-                     Price = unit.UnitData.Price,
-                     Supply = unit.UnitData.Consumption
+                    Count = unit.Count,
+                    UnitTypeID = unit.UnitDataID
                 });
             }
-
             return output;
         }
-
-
-        public async Task<CountryUpgradesDTO> QueryCountryUpgrades(int countryId)
+        public async Task<List<UnitDetailsDTO>> GetUnitDetailsAsync()
         {
-            Country country = await _context.Countries.Include(c => c.Upgrades).ThenInclude(u => u.UpgradeData).SingleOrDefaultAsync(c => c.ID == countryId);
-            CountryUpgradesDTO output = new CountryUpgradesDTO();
-            foreach(var upgrade in country.Upgrades)
-            {
-                output.Upgrades.Add(new UpgradeDetailsDTO() { Effect = "Todo", Name = upgrade.UpgradeData.Name, Progress = upgrade.Progress });
-            }
-            return output;
-        }
-
-        public int QueryCountryScore(int countryId)
-        {
-            /*
-            var populationscore = _context.Countries.Where(c => c.ID == countryId).Select(c => c.Population).FirstOrDefault();
-            var buildingscore = _context.Countries.Where(c => c.ID == countryId).Sum(x => x.Buildings.Count);
-
-            var distinctUnitDataIds = _context.Units.Select(u => u.UnitDataID).Distinct();
-            var unitscore = 0;
-            foreach (int unitDataId in distinctUnitDataIds) 
-            {
-                unitscore += _context.Units.Include(u => u.Country).Include(u => u.UnitData)
-                    .Where(u => u.Country.ID == countryId && u.UnitDataID == unitDataId)
-                    .Select(x => new { x.UnitData.PointValue, x.Count })
-                    .Sum(x => x.PointValue * x.Count);
-            }
-
-            var upgradescore = _context.Upgrades.Include(c => c.Country).Where(u => u.ID == countryId && u.Progress == 0).Count();
-
-            var score = 1*populationscore + 50*buildingscore + unitscore + 100*upgradescore;
-            */
-
-            var countryScore = _context.Countries.Where(c => c.ID == countryId).Select(c => c.Score).FirstOrDefault();
-
-            return countryScore;
-        }
-
-        public List<UnitDetailsDTO> QueryUnitDetails()
-        {
-            var unitData = _context.UnitData.ToList();
             List<UnitDetailsDTO> unitDetails = new List<UnitDetailsDTO>();
-
-            foreach (UnitData ud in unitData)
+            var resourceTypes = await _context.ResourceData.ToListAsync();
+            foreach (UnitData unitData in _context.UnitData)
             {
                 unitDetails.Add(new UnitDetailsDTO()
                 {
-                     Attack = ud.ATK,
-                     Def = ud.DEF,
-                     Pay = ud.Salary,
-                     Price = ud.Price,
-                     Supply = ud.Consumption
+                    ATK = unitData.ATK,
+                    DEF = unitData.DEF,
+                    UnitTypeID = unitData.ID,
+                    Consumption = unitData.Consumption,
+                    Salary = unitData.Salary,
+                    Price = unitData.Price,
+                    PriceTypeName = resourceTypes.SingleOrDefault(r => r.ID == unitData.PriceUnitID).Name,
+                    ConsumptionTypeName = resourceTypes.SingleOrDefault(r => r.ID == unitData.ConsumptionUnitID).Name,
+                    SalaryTypeName = resourceTypes.SingleOrDefault(r => r.ID == unitData.SalaryUnitID).Name
                 });
             }
-
             return unitDetails;
         }
-
-        public List<ResourceDTO> QueryCountryResources(int countryId)
+        public async Task<List<UpgradeDTO>> GetCountryUpgradesAsync(int countryId)
         {
-            var resource = _context.ResourceData.Distinct().ToList();
-            List<ResourceDTO> resourcelist = new List<ResourceDTO>();
-
-            foreach (ResourceData res in resource)
+            Country country = await _context.Countries.Include(c => c.Upgrades).SingleOrDefaultAsync(c => c.ID == countryId);
+            var output = new List<UpgradeDTO>();
+            foreach(var upgrade in country.Upgrades)
             {
-                var resources = _context.Resources.Include(c => c.Country).Where(r => r.CoutryID == countryId && res.ID == r.ResourceDataID)
-                    .Select(x => new { x.ID, x.Amount, x.ProductionBase, x.ProductionMultiplier })
-                    .FirstOrDefault();
-                ResourceDTO resourceDTO = new ResourceDTO(resources.ID, resources.Amount, resources.ProductionBase * resources.ProductionMultiplier);//Ezt nem tudom így fogjuk e használni
-                resourcelist.Add(resourceDTO);
+                output.Add(new UpgradeDTO() { Progress = upgrade.Progress, UpgradeTypeID = upgrade.UpgradeDataID });
             }
-
-            return resourcelist;
+            return output;
         }
-
-        public List<BuildingDTO> QueryCountryBuildings(int countryId)
+        public List<UpgradeDetailsDTO> GetUpgradeDetails()
         {
-            var building = _context.BuildingData.Distinct().ToList();
-            List<BuildingDTO> buildingList = new List<BuildingDTO>();
+            List<UpgradeDetailsDTO> upgradeDetails = new List<UpgradeDetailsDTO>();
 
-            foreach (BuildingData b in building)
+            foreach (UpgradeData upgradeData in _context.UpgradeData)
             {
-                var buildings = _context.Buildings.Include(b => b.Country).Include(b => b.BuildingData).Where(r => r.CoutryID == countryId && b.ID == r.BuildingDataID)
-                    .Select(x => new { x.ID, x.BuildingData.Name, x.Progress, x.Count, x.BuildingData.Price })
-                    .FirstOrDefault();
-                if (buildings != null)
+                upgradeDetails.Add(new UpgradeDetailsDTO
                 {
-                    BuildingDTO buildingDTO = new BuildingDTO(buildings.ID, buildings.Name, buildings.Progress, buildings.Count, "TODO", buildings.Price);//Ezt nem tudom így fogjuk e használni
-                    buildingList.Add(buildingDTO);
-                }
+                    Effect = "TODO",
+                    Name = upgradeData.Name,
+                    UpgradeTypeID = upgradeData.ID
+
+                });
             }
-
-            return buildingList;
+            return upgradeDetails;
         }
-
-        public List<PlayerDTO> QueryCountryRank()
+        public async Task<List<BuildingDTO>> GetCountryBuildingsAsync(int countryId)
         {
-            List<PlayerDTO> rank = new List<PlayerDTO>();
-            var distinctcountry = _context.Countries.Include(c => c.User).Distinct();
-            foreach (Country c in distinctcountry)
-            {
-                var score = QueryCountryScore(c.ID);
-                int.TryParse(c.UserID, out int idResult);
-                PlayerDTO tempPlayer = new PlayerDTO(idResult, c.User.UserName, score);
-                rank.Add(tempPlayer);
+            Country country = await _context.Countries.Include(c=>c.Buildings).SingleOrDefaultAsync(c => c.ID == countryId);
+            var output = new List<BuildingDTO>();
+            
 
+            foreach(var building in country.Buildings)
+            {
+                output.Add(new BuildingDTO()
+                {
+                    BuildingTypeID = building.BuildingDataID,
+                    Count = building.Count,
+                    Progress = building.Progress
+                });
             }
-            rank.Sort((player1, player2) =>
-            {
-                return player1.Score.CompareTo(player2.Score);
-            });
-
-            return rank;
+            return output;
         }
-
-        public RoundScoreDTO QueryRoundScore(int id) 
+        public async Task<List<BuildingDetailsDTO>> GetBuildingDetailsAsync()
         {
-
-            List<PlayerDTO> rankingList = QueryCountryRank();
-
-            var result = rankingList
-            .Select((x, i) => new { Id = x.Id, Score = x.Score, Index = i })
-            .Where(itemWithIndex => itemWithIndex.Id == id)
-            .FirstOrDefault();
-
-            if (result != null)
-                return new RoundScoreDTO(result.Id, 0, result.Score, result.Index + 1); //Round TODO
-
-            throw new Exception("Country is not found");
-
+            List<BuildingDetailsDTO> buildingDetails = new List<BuildingDetailsDTO>();
+            var resourceTypes = await _context.ResourceData.ToListAsync();
+            foreach (BuildingData buildingData in _context.BuildingData)
+            {
+                buildingDetails.Add(new BuildingDetailsDTO()
+                {
+                    BuildingTypeID = buildingData.ID,
+                    BuildTime = buildingData.BuildTime,
+                    Effect = "todo",
+                    Name = buildingData.Name,
+                    Price = buildingData.Price,
+                    PriceTypeName = resourceTypes.SingleOrDefault(r=> r.ID == buildingData.PriceUnitID).Name
+                });
+            }
+            return buildingDetails;
         }
-
+        public List<RankDTO> GetPlayerRanks()
+        {
+            var output = new List<RankDTO>();
+            foreach(var country in _context.Countries)
+            {
+                output.Add(new RankDTO { CountryID = country.ID, Name = country.Name, Score = country.Score });
+            }
+            output.Sort((x, y) => x.Score.CompareTo(y.Score));
+            return output;
+        }
+        public async Task<CountryDetailsDTO> GetCountryDetailsAsync(int countryId)
+        {
+            Country country = await _context.Countries.SingleOrDefaultAsync(c => c.ID == countryId);
+            return new CountryDetailsDTO()
+            {
+                ArmyCapacity = country.ArmyCapacity,
+                ID = country.ID,
+                Name = country.Name,
+                Population = country.Population,
+                Score = country.Score
+            };
+        }
     }
 }

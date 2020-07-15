@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 
 namespace StrategyGame.Bll.DTO
 {
-    public class BuildingDetailsDTO
+    public class RankDTO
     {
-        public int BuildingTypeID { get; set; }
+        public int CountryID { get; set; }
         public string Name { get; set; }
-        public int Price { get; set; }
-        public string PriceTypeName { get; set; }
-        public string Effect { get; set; }
-        public int BuildTime { get; set; }
+        public int Score { get; set; }
     }
+
+
 }

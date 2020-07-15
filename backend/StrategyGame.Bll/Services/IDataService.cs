@@ -1,5 +1,4 @@
 ﻿using StrategyGame.Bll.DTO;
-using StrategyGame.Bll.DTO.Country;
 using StrategyGame.Model;
 using System;
 using System.Collections.Generic;
@@ -10,24 +9,18 @@ namespace StrategyGame.Bll.Services
 {
     public interface IDataService
     {
-        public CountryNameDTO QueryCountryName(int countryId);
+        public Task<CountryDetailsDTO> GetCountryDetailsAsync(int countryId);
 
-        public Task<List<UnitDTO>> QueryCountryUnits(int countryId);
+        public Task<List<UnitDTO>> GetCountryUnitsAsync(int countryId);
+        public Task<List<UpgradeDTO>> GetCountryUpgradesAsync(int countryId);
+        public Task<List<BuildingDTO>> GetCountryBuildingsAsync(int countryId);
+        public Task<List<ResourceDTO>> GetCountryResourcesAsync(int countryId);
+        public Task<List<UnitDetailsDTO>> GetUnitDetailsAsync();
+        public List<UpgradeDetailsDTO> GetUpgradeDetails();
+        public Task<List<BuildingDetailsDTO>> GetBuildingDetailsAsync();
+        public List<RankDTO> GetPlayerRanks();
+        
 
-        public Task<CountryUpgradesDTO> QueryCountryUpgrades(int countryId);
 
-        public int QueryCountryScore(int countryId);
-
-        public List<UnitDetailsDTO> QueryUnitDetails();
-
-        public List<ResourceDTO> QueryCountryResources(int countryId);
-
-        public List<BuildingDTO> QueryCountryBuildings(int countryId);
-
-        public Task<CountryResourcesDTO> QueryCountryResourcesDTO(int countryId);
-
-        public List<PlayerDTO> QueryCountryRank();
-
-        public RoundScoreDTO QueryRoundScore(int id);
     }
 }
