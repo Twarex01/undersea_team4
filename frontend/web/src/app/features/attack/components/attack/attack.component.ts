@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Unit } from '../../unit';
+import { Player } from '../../player';
 
 @Component({
   selector: 'app-attack',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AttackComponent implements OnInit {
 
+  @Input() units: Unit[];
+  @Input() players: Player[];
+  @Output() selectedPlayerChanged = new EventEmitter();
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onSelectedPlayerChanged(id: number) {
+    this.selectedPlayerChanged.emit(id);
   }
 
 }

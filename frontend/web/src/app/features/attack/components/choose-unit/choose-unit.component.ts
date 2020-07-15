@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Unit } from '../../unit';
 
 @Component({
   selector: 'app-choose-unit',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./choose-unit.component.css']
 })
 export class ChooseUnitComponent implements OnInit {
+
+  @Input() units: Unit[];
 
   constructor() { }
 
