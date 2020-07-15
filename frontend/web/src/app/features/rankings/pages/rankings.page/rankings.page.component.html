@@ -1,8 +1,8 @@
 <app-basic-card class="card">
     <p class="header">Ranglista</p>
     <div class="details">
-        <input class="search" type="text" placeholder="Felhasználónév">
-        <div class="line" *ngFor="let player of players; let i = index">
+        <input [(ngModel)]="searchInput" class="search" type="text" placeholder="Felhasználónév">
+        <div class="line" *ngFor="let player of getPlayerList(); let i = index">
             <hr>
             <div class="player"><span class="position">{{i+1}}.</span>{{player.name}}</div>
             <div class="points">{{player.score}}</div>
