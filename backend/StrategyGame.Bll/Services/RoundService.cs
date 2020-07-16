@@ -38,7 +38,6 @@ namespace StrategyGame.Bll.Services
             _battleService = battleService;
             _roundHubContext = roundHubContext;
             _dataService = dataService;
-            _backgroundJobs = backgroundJobs;
         }
 
         private void GeneratePearlIncome(Country country)
