@@ -15,6 +15,9 @@ using StrategyGame.Api.Services;
 using StrategyGame.Bll.Hubs;
 using StrategyGame.Bll.Services;
 using StrategyGame.Dal;
+using Hangfire;
+using Hangfire.SqlServer;
+using System;
 
 namespace StrategyGame.Api
 {
@@ -28,7 +31,23 @@ namespace StrategyGame.Api
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
-        {            
+        {
+
+            services.AddHangfire(configuration => configuration
+                .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseRecommendedSerializerSettings()
+                .UseSqlServerStorage(Configuration.GetConnectionString("HangfireConnection"), new SqlServerStorageOptions
+                {
+                    CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+                    SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+                    QueuePollInterval = TimeSpan.Zero,
+                    UseRecommendedIsolationLevel = true,
+                    DisableGlobalLocks = true
+                }));
+
+            services.AddHangfireServer();
+
             services.AddRazorPages();
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AppDbContext")));
             services.AddIdentityCore<Model.User>().AddEntityFrameworkStores<AppDbContext>();
@@ -97,7 +116,7 @@ namespace StrategyGame.Api
 
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IBackgroundJobClient backgroundJobs, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -112,6 +131,9 @@ namespace StrategyGame.Api
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseHangfireDashboard();
+            backgroundJobs.Enqueue(() => Console.WriteLine("Hello world from Hangfire!"));
 
             app.UseRouting();
 
