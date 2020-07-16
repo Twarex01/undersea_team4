@@ -34,6 +34,7 @@ export class AttackPageComponent implements OnInit {
   constructor(private attackService: AttackService) { }
 
   ngOnInit(): void {
+    this.attackService.getPlayerList().subscribe(players => this.players = players);
   }
 
   onAttack() {

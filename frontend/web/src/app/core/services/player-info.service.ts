@@ -10,7 +10,6 @@ export class PlayerInfoService {
 
   getResources() {
     //TODO
-    //return this.client.getCountryResources();
   }
 
   getPlayerName(): string {
