@@ -37,6 +37,7 @@ namespace StrategyGame.Bll.Services
 			if (alreadyPresent != null)
 			{
 				alreadyPresent.Progress = toBuild.BuildTime;
+				country.Resources.SingleOrDefault(r => r.ResourceDataID == toBuild.PriceUnitID).Amount -= toBuild.Price;
 				await _appDbContext.SaveChangesAsync();
 				return 0;
 			}
@@ -44,6 +45,7 @@ namespace StrategyGame.Bll.Services
 			{
 				Building newBuilding = new Building() { BuildingDataID = toBuild.ID, Count = 0, Progress = toBuild.BuildTime, CoutryID = country.ID, };
 				_appDbContext.Buildings.Add(newBuilding);
+				country.Resources.SingleOrDefault(r => r.ResourceDataID == toBuild.PriceUnitID).Amount -= toBuild.Price;
 				await _appDbContext.SaveChangesAsync();
 				return 0;
 			}

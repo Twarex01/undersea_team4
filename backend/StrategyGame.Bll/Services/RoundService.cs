@@ -54,6 +54,7 @@ namespace StrategyGame.Bll.Services
         private void ProceedWithUpgrade(Country country)
         {
             var currentlyUpgrading = country.Upgrades.Where(u => u.Progress > 0).SingleOrDefault(); //elvileg nem lehet 1-nél több eredmény
+            if (currentlyUpgrading == null) return;
             currentlyUpgrading.Progress--;
             if (currentlyUpgrading.Progress == 0) currentlyUpgrading.UpgradeData.ApplyEffects(country);
             
@@ -62,6 +63,7 @@ namespace StrategyGame.Bll.Services
         private void ProceedWithBuilding(Country country)
         {
             var currentlyBuilding = country.Buildings.Where(u => u.Progress > 0).SingleOrDefault(); //elvileg nem lehet 1-nél több eredmény
+            if (currentlyBuilding == null) return;
             currentlyBuilding.Progress--;
             if (currentlyBuilding.Progress == 0)
             {
@@ -72,12 +74,12 @@ namespace StrategyGame.Bll.Services
         public async Task SimulateRound() 
         {
             
-            var countryList = await _dbContext.Countries
+            var countryList = _dbContext.Countries
                 .Include(c => c.Buildings).ThenInclude(b => b.BuildingData)
                 .Include(c => c.Upgrades).ThenInclude(u => u.UpgradeData)
                 .Include(c => c.Units).ThenInclude(u => u.UnitData)
                 .Include(c => c.Resources).ThenInclude(r => r.ResourceData)
-                .ToListAsync();
+                .ToList();
 
             // változások az egyes országokban
             foreach( var country in countryList)
