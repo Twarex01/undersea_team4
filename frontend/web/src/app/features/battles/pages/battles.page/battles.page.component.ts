@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BattlesService } from '../../services/battles.service';
-import { Battle } from '../../battle';
+import { Battle } from '../../models/battle';
 
 @Component({
   selector: 'app-battles.page',

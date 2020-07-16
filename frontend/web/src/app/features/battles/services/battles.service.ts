@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BattleClient } from '../../../shared/clients';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Battle } from '../battle';
+import { Battle } from '../models/battle';
 
 @Injectable({
   providedIn: 'root'

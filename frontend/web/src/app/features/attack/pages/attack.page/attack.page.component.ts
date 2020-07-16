@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Unit } from '../../unit';
+import { Unit } from '../../models/unit';
 import { AttackService } from '../../services/attack.service';
-import { Player } from '../../player';
+import { Player } from '../../models/player';
 import { forkJoin } from 'rxjs';
-import { Battle } from '../../battle';
-import { CountryUnit } from '../../country-unit';
+import { Battle } from '../../models/battle';
+import { CountryUnit } from '../../models/country-unit';
 
 @Component({
   selector: 'app-attack.page',

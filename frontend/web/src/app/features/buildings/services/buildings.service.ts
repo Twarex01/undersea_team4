@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CountryClient, DetailsClient } from '../../../shared/clients';
 import { Observable } from 'rxjs';
-import { CountryBuilding } from '../country-building';
+import { CountryBuilding } from '../models/country-building';
 import { map } from 'rxjs/operators';
-import { BuildingDetails } from '../building-details';
+import { BuildingDetails } from '../models/building-details';
 
 @Injectable({
   providedIn: 'root'

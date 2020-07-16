@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BuildingsService } from '../../services/buildings.service';
 import { Observable, forkJoin } from 'rxjs';
-import { Building } from '../../building';
+import { Building } from '../../models/building';
 
 @Component({
   selector: 'app-buildings',

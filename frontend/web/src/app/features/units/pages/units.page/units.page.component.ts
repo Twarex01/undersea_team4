@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Unit } from '../../unit';
 import { UnitService } from '../../services/unit.service';
-import { UnitToBuy } from '../../unitToBuy';
+import { UnitToBuy } from '../../models/unitToBuy';
+import { Unit } from '../../models/unit';
 
 @Component({
   selector: 'app-units.page',

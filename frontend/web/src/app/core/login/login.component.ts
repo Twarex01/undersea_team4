@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoginDTO } from '../../shared/clients';
 import { Router } from '@angular/router';
 import { AccountService } from '../services/account.service';
@@ -13,8 +13,8 @@ export class LoginComponent implements OnInit {
   error: boolean = false;
 
   loginForm = new FormGroup({
-    userName: new FormControl(''),
-    password: new FormControl(''),
+    userName: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required),
   });
 
   constructor(private accountService: AccountService, private router: Router) {}
@@ -22,6 +22,9 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit() {
+    if(this.loginForm.invalid) {
+      return;
+    }
     this.error = false;
     this.accountService.login(new LoginDTO(this.loginForm.value)).subscribe(
       (data) => {

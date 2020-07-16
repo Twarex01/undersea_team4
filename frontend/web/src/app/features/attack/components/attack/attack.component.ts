@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Unit } from '../../unit';
-import { Player } from '../../player';
+import { Unit } from '../../models/unit';
+import { Player } from '../../models/player';
 
 @Component({
   selector: 'app-attack',

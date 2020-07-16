@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { PlayersClient, CountryClient, DetailsClient, BattleClient, UnitDTO, BattleDTO } from '../../../shared/clients';
 import { map } from 'rxjs/operators';
-import { Player } from '../player';
+import { Player } from '../models/player';
 import { Observable } from 'rxjs';
-import { CountryUnit } from '../country-unit';
-import { UnitDetails } from '../unit-details';
-import { Battle } from '../battle';
+import { CountryUnit } from '../models/country-unit';
+import { UnitDetails } from '../models/unit-details';
+import { Battle } from '../models/battle';
 
 @Injectable({
   providedIn: 'root'
