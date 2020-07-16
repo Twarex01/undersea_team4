@@ -158,6 +158,8 @@ namespace StrategyGame.Bll.Services
                 Name = country.Name,
                 Population = country.Population,
                 Score = country.Score
+               
+                
             };
         }
     }

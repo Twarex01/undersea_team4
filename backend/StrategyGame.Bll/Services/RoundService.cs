@@ -19,15 +19,15 @@ namespace StrategyGame.Bll.Services
     public class RoundService : IRoundService
     {
 
-        public int Round { get; set; }
+        public int Round { get; set; } = 0;
 
         private AppDbContext _dbContext;
         private UserManager<User> _userManager;
-        private Random soldierMoraleGenerator = new Random();
+        
         private IBattleService _battleService;
         private IHubContext<RoundHub, IRoundHubClient> _roundHubContext;
         private IDataService _dataService;
-        private IBackgroundJobClient _backgroundJobs;
+        
 
         public RoundService(AppDbContext dbContext, UserManager<User> userManager , 
             IBattleService battleService, IDataService dataService, IHubContext<RoundHub, 
@@ -123,7 +123,7 @@ namespace StrategyGame.Bll.Services
             Round++;
 
             //Klienseken frissítés
-            _roundHubContext.Clients.All.RefreshInfo();  
+            await _roundHubContext.Clients.All.RefreshInfo();  
 
         }
 
@@ -132,7 +132,7 @@ namespace StrategyGame.Bll.Services
             var rankList = _dataService.GetPlayerRanks();
             rankList.SingleOrDefault(r => r.CountryID == countryId);
             int rank = rankList.IndexOf(rankList.SingleOrDefault(r => r.CountryID == countryId))+1;
-            return new CountryRoundDTO() { Rank = rank, Round = Round }; //actual round pls
+            return new CountryRoundDTO() { Rank = rank, Round = Round }; 
         }
     }
 }
