@@ -17,6 +17,7 @@ namespace StrategyGame.Model
         public int PriceUnitID { get; set; }
         public int BuildTime { get; set; }
         public string Effect { get; set; }
+        public string ImageURL { get; set; }
         public abstract void ApplyEffect(Country country);
         
 

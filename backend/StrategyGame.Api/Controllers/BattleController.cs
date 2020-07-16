@@ -51,11 +51,12 @@ namespace StrategyGame.Api.Controllers
             return Ok();
         }
 
+        //GET api/Battle
         [HttpGet]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<List<Battle>>> GetCountryBattles()
+        public async Task<ActionResult<List<BattleDetailsDTO>>> GetCountryBattles()
         {
             var atkCountry = await _userService.GetCountryByUserID(User.Identity.Name);
             return Ok(await _battleService.GetCountryBattles(atkCountry.ID));

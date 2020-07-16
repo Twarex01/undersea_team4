@@ -36,7 +36,7 @@ namespace StrategyGame.Api.Controllers
         [Authorize]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<CountryDetailsDTO>> GetCountryDeatilsAsync()
+        public async Task<ActionResult<CountryDetailsDTO>> GetCountryDeatils()
         {
             var country = await _userService.GetCountryByUserID(User.Identity.Name);
             var details =  await _dataService.GetCountryDetailsAsync(country.ID);
@@ -78,7 +78,7 @@ namespace StrategyGame.Api.Controllers
         [Authorize]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<List<UpgradeDTO>>> CountryUpgrades()
+        public async Task<ActionResult<List<UpgradeDTO>>> GetCountryUpgrades()
         {
             var country = await _userService.GetCountryByUserID(User.Identity.Name);
             var upgrades = await _dataService.GetCountryUpgradesAsync(country.ID);
@@ -120,5 +120,29 @@ namespace StrategyGame.Api.Controllers
             else
                 return BadRequest();
         }
+
+        [HttpGet("Units")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+
+        public async Task<ActionResult<List<UnitDTO>>> GetCountryUnits()
+        {
+            var country = await _userService.GetCountryByUserID(User.Identity.Name);
+            return Ok(await _dataService.GetCountryUnitsAsync(country.ID));
+        }
+
+        [HttpGet("Buildings")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+
+        public async Task<ActionResult<List<BuildingDTO>>> GetCountryBuildings()
+        {
+            var country = await _userService.GetCountryByUserID(User.Identity.Name);
+            return Ok(await _dataService.GetCountryBuildingsAsync(country.ID));
+        }
+
+
     }
 }

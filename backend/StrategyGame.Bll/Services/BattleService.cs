@@ -167,9 +167,23 @@ namespace StrategyGame.Bll.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Battle>> GetCountryBattles(int countryId)
+        public async Task<List<BattleDetailsDTO>> GetCountryBattles(int countryId)
         {
-            return await _context.Battles.Where(b=> b.AttackingCountryID==countryId).ToListAsync();
+            var output = new List<BattleDetailsDTO>();
+            var battles =  await _context.Battles
+                .Include(b=> b.AttackingUnits).ThenInclude(a=> a.UnitData)
+                .Include(b=> b.DefendingCountry)
+                .Where(b=> b.AttackingCountryID==countryId).ToListAsync();
+            foreach(var battle in battles)
+            {
+                var namedArmy = new List<UnitWithName>();
+                foreach(var unit in battle.AttackingUnits)
+                {
+                    namedArmy.Add(new UnitWithName() { Count = unit.Count, Name = unit.UnitData.Name });
+                }
+                output.Add(new BattleDetailsDTO() { DefenderName = battle.DefendingCountry.Name, Units = namedArmy });
+            }
+            return output;
         }
     }
 }

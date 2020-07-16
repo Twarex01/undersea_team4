@@ -1,4 +1,5 @@
-﻿using StrategyGame.Dal;
+﻿using StrategyGame.Bll.DTO;
+using StrategyGame.Dal;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,6 +11,8 @@ namespace StrategyGame.Bll.Services
     {
 
         public Task SimulateRound();
+
+        public CountryRoundDTO GetCountryRound(int countryId);
         
 
     }

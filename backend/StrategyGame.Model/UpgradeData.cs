@@ -18,6 +18,7 @@ namespace StrategyGame.Model
         public string Name { get; set; }
         public int UpgradeTime { get; set; }
         public string Effect { get; set; }
+        public string ImageURL { get; set; }
 
         public abstract void ApplyEffects(Country country);
         
