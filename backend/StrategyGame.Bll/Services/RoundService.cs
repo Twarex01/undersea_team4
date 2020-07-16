@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using StrategyGame.Bll.Hubs;
 using StrategyGame.Dal;
 using StrategyGame.Model;
 using System;
@@ -18,12 +19,14 @@ namespace StrategyGame.Bll.Services
         private UserManager<User> _userManager;
         private Random soldierMoraleGenerator = new Random();
         private IBattleService _battleService;
+        private RoundHub _roundHub;
 
-        public RoundService(AppDbContext dbContext, UserManager<User> userManager , IBattleService battleService)
+        public RoundService(AppDbContext dbContext, UserManager<User> userManager , IBattleService battleService, RoundHub roundHub)
         {
             _dbContext = dbContext;
             _userManager = userManager;
             _battleService = battleService;
+            _roundHub = roundHub;
         }
 
         private void GeneratePearlIncome(Country country)
@@ -98,6 +101,10 @@ namespace StrategyGame.Bll.Services
             {
                 country.Score = country.Buildings.Sum(b => b.Progress > 0 ? 0 : b.Count * 50) + country.Upgrades.Sum(u => u.Progress>0 ? 0 : 100) + country.Population + country.Units.Sum(u => u.UnitData.PointValue);
             }
+
+            //Klienseken frissítés
+            _roundHub.RefreshData();
+
 
 
         }
