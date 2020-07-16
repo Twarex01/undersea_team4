@@ -2,6 +2,13 @@
   cursor: pointer;
 }
 
+.fa-check-circle{
+  float: right;
+  color: #9FFFF0;
+  margin-right: 2rem;
+  font-size: large;
+}
+
 .player-name {
   margin: 0;
   padding: 2% 0 2% 0;
