@@ -12,23 +12,20 @@ export class RankingsPageComponent implements OnInit {
 
   searchInput: string = "";
 
-  players: Player[] = new Array<Player>(
-    { name: "Jani", id: 0, score: 222 },
-    { name: "Jani2", id: 1, score: 122 },
-    { name: "Jani233", id: 1, score: 12 }
-  );
+  players: Player[];
 
   constructor(private rankingsService: RankingsService) { }
 
   ngOnInit(): void {
+    this.getPlayers() 
   }
 
-  getPlayerList(){
+  filterPlayerList() : Player[] {
     return this.players.filter((player) => player.name.includes(this.searchInput.trim()));
   }
 
   getPlayers() {
-    // this.rankingsService.getPlayerList().subscribe(list => this.players = list);
+    this.rankingsService.getPlayerList().subscribe(list => this.players = list);
   }
 
 }
