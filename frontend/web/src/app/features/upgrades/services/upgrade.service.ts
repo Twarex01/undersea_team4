@@ -1,21 +1,47 @@
 import { Injectable } from '@angular/core';
-import { CountryClient, UpgradeDetailsDTO } from '../../../shared/clients';
+import {
+  CountryClient,
+  DetailsClient,
+} from '../../../shared/clients';
 import { Observable } from 'rxjs';
+import { CountryUpgrade } from '../models/country-upgrade';
+import { map } from 'rxjs/operators';
+import { UpgradeDetails } from '../models/upgrade-details';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UpgradeService {
+  constructor(
+    private countryClient: CountryClient,
+    private detailsClient: DetailsClient
+  ) {}
 
-  constructor(private countryClient: CountryClient) { }
+  getUpgradeDetails(): Observable<UpgradeDetails[]> {
+    return this.detailsClient.getAllUpgradeDetails().pipe(
+      map((upgradeDetailsDTOArray) => {
+        return upgradeDetailsDTOArray.map((upgradeDetailsDTO) => ({
+          id: upgradeDetailsDTO.upgradeTypeID,
+          name: upgradeDetailsDTO.name!,
+          description: upgradeDetailsDTO.effect!,
+          imageSrc: '../../../../../assets/upgrades/iszaptraktor.png',
+        }));
+      })
+    );
+  }
 
-  getCountryUpgrades(): Observable<UpgradeDetailsDTO> {
-    //TODO
-    return;
+  getCountryUpgrades(): Observable<CountryUpgrade[]> {
+    return this.countryClient.getCountryUpgrades().pipe(
+      map((upgradeDTOArrray) => {
+        return upgradeDTOArrray.map((upgradeDTO) => ({
+          id: upgradeDTO.upgradeTypeID,
+          roundsLeft: upgradeDTO.progress
+        }));
+      })
+    );
   }
 
   buyUpgrade(id: number) {
-    //TODO
+    return this.countryClient.buyUpgrade(id);
   }
-
 }

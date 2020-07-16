@@ -1,19 +1,45 @@
 import { Injectable } from '@angular/core';
-import { CountryClient } from '../../../shared/clients';
+import { CountryClient, DetailsClient } from '../../../shared/clients';
+import { Observable } from 'rxjs';
+import { CountryBuilding } from '../models/country-building';
+import { map } from 'rxjs/operators';
+import { BuildingDetails } from '../models/building-details';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BuildingsService {
 
-  constructor(private countryClient: CountryClient) { }
+  constructor(private countryClient: CountryClient, private detailsClient: DetailsClient) { }
 
-  getBuildingsData(){
-    //TODO
+  getCountryBuildings(): Observable<CountryBuilding[]> {
+    return this.countryClient.getCountryBuildings().pipe(
+      map((buildingDTOArray) => {
+        return buildingDTOArray.map((buildingDTO) => ({
+          id: buildingDTO.buildingTypeID,
+          count: buildingDTO.count
+        }))
+      })
+    );
   }
 
-  buyBuilding(id: number, buildingId: number){
-    //TODO
+  getBuildingsData(): Observable<BuildingDetails[]>{
+    return this.detailsClient.getAllBuildingDetails().pipe(
+      map((buildingDetailsArrayDTO) => {
+        return buildingDetailsArrayDTO.map((buildingDetailsDTO) => ({
+          id: buildingDetailsDTO.buildingTypeID,
+          name: buildingDetailsDTO.name!,
+          imageSrc: "../../../../../assets/buildings/zatonyvar.png",
+          description: buildingDetailsDTO.effect!,
+          price: buildingDetailsDTO.price,
+          priceType: buildingDetailsDTO.priceTypeName!
+        }))
+      })
+    )
+  }
+
+  buyBuilding(buildingId: number){
+    return this.countryClient.buyBuilding(buildingId);
   }
 
 }

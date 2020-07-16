@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TestRoundService } from '../services/test-round.service';
 
 @Component({
   selector: 'app-menu',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuComponent implements OnInit {
 
-  constructor() { }
+  constructor(private testRoundServcie: TestRoundService) { }
 
   ngOnInit(): void {
+  }
+
+  nextRound(){
+    this.testRoundServcie.testNextRound();
+    window.location.reload();
   }
 
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { BattlesService } from '../../services/battles.service';
+import { Battle } from '../../models/battle';
 
 @Component({
   selector: 'app-battles.page',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BattlesPageComponent implements OnInit {
 
-  constructor() { }
+  battles: Battle[];
+  
+  constructor(private battleService: BattlesService) { }
 
   ngOnInit(): void {
+    this.battleService.getCountryBattles().subscribe((battles) => {
+      this.battles = battles;
+    })
   }
 
 }

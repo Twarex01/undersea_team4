@@ -31,6 +31,15 @@
     font-family: "Baloo Regular";
 }
 
-.top {
-    display: flex;
+.indicator{
+    position: absolute;
+    color: #9FFFF0;
+}
+
+.fa-check-circle{
+    font-size: large;
+}
+
+.item-image > img{
+    margin-top: 1rem;
 }

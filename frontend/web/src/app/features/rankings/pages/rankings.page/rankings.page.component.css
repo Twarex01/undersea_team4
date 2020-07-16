@@ -14,12 +14,17 @@ hr {
 }
 
 .search {
-    width: 30rem;
+    width: 28rem;
+    margin-top: 1rem;
 }
 
 .position {
     display: inline-block;
     width: 10%;
+}
+
+p.header{
+    width: 30rem
 }
 
 .card {

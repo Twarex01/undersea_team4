@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Unit } from '../../unit';
+import { AttackUnit } from '../../models/attack-unit';
 import { AttackService } from '../../services/attack.service';
-import { Player } from '../../player';
+import { AttackPlayer } from '../../models/attack-player';
+import { forkJoin } from 'rxjs';
+import { AttackBattle } from '../../models/attack-battle';
+import { CountryUnit } from '../../models/country-unit';
 
 @Component({
   selector: 'app-attack.page',
@@ -10,15 +13,17 @@ import { Player } from '../../player';
 })
 export class AttackPageComponent implements OnInit {
 
+  countryName: string = "";
+
   selectedPlayerId: number = -1;
 
-  units: Unit[] = new Array<Unit>(
+  units: AttackUnit[] = new Array<AttackUnit>(
     {id: 0, name: "Lézercápa", imageSrc: "../../../../assets/icons/shark.svg", count: 20, countToAttack: 0},
     {id: 1, name: "Rohamóka", imageSrc: "../../../../assets/icons/seal.svg", count: 50, countToAttack: 0},
     {id: 2, name: "Csatacsikó", imageSrc: "../../../../assets/icons/seahorse.svg", count: 70, countToAttack: 0}
   );
 
-  players: Player[] = new Array<Player>(
+  players: AttackPlayer[] = new Array<AttackPlayer>(
     {id: 0, name: "józsiiwinner12", isSelected: false },
     {id: 1, name: "kiscsiko1990", isSelected: false },
     {id: 2, name: "józsiiwinner12", isSelected: false },
@@ -34,11 +39,39 @@ export class AttackPageComponent implements OnInit {
   constructor(private attackService: AttackService) { }
 
   ngOnInit(): void {
+    forkJoin(
+      this.attackService.getPlayerList(),
+      this.attackService.getCountryName()
+    ).subscribe(([playerList, countryName]) => {
+      this.players = playerList.filter((player) => player.name !== countryName)
+    })
+    forkJoin(
+      this.attackService.getCountryUnits(),
+      this.attackService.getUnitDetails(),
+    ).subscribe(([countryUnits, unitDetails]) => {
+      this.units = [];
+      unitDetails.forEach((unitDetail) => {
+        const countryUnit = countryUnits.find((cu) => cu.id == unitDetail.id)!;
+        this.units.push({
+          id: unitDetail.id,
+          imageSrc: unitDetail.imageSrc,
+          name: unitDetail.name,
+          count: countryUnit?.count ?? 0,
+          countToAttack: 0
+        })
+      })
+    })
   }
 
   onAttack() {
-    //TODO
-    this.attackService.attack();
+    const battle: AttackBattle = {
+      defenderId: this.selectedPlayerId,
+      army: this.units.map((unit) => ({id: unit.id, count: unit.countToAttack}))
+    }
+    console.log(battle);
+    this.attackService.attack(battle).subscribe(() => {
+      console.log("OK");
+    })
   }
 
   onSelectedPlayerChanged(id: number) {

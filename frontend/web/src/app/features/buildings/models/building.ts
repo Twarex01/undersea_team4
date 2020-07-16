@@ -3,8 +3,8 @@ export interface Building {
     imgSrc: string;
     name: string;
     description: string;
-    progress: number;
     count: number;
     price: number;
+    priceType: string;
     isSelected: boolean;
 }

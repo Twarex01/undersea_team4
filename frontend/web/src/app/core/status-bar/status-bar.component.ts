@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { PlayerInfoService } from '../services/player-info.service';
-import { Resources } from './resources';
+import { CountryBuilding } from './country-building';
+import { CountryUnit } from './country-unit';
+import { CountryResource } from './country-resource';
+import { forkJoin } from 'rxjs';
+import { CountryRound } from './country-round';
+
 
 @Component({
   selector: 'app-status-bar',
@@ -9,58 +14,63 @@ import { Resources } from './resources';
 })
 export class StatusBarComponent implements OnInit {
 
-  resources: Resources = {
-    army: new Array(
-      {
-      id: 0,
-      name: "lézercápa",
-      count: 5
-      },
-      {
-        id: 1,
-        name: "rohamfóka",
-        count: 7
-      },
-      {
-        id: 2,
-        name: "csatacsikó",
-        count: 8
-      }
-    ),
-    products: new Array(
-      {
-        id: 0,
-        count: 230,
-        output: 20
-      },
-      {
-        id: 1,
-        count: 320,
-        output: 30
-      }
-    ),
-    population: 500,
-    armyCapacity: 300,
-    buildings: new Array(
-      {
-        id: 0,
-        name: "Zátonyvár",
-        progress: 0,
-        count: 2
-      },
-      {
-        id: 1,
-        name: "Áramlásirányító",
-        progress: 1,
-        count: 1
-      }
-    )
-  };
+  buildings: CountryBuilding[];
+
+  units: CountryUnit[];
+
+  resources: CountryResource[];
+
+  countryRound: CountryRound;
 
   constructor(private playerInfo: PlayerInfoService) { }
 
   ngOnInit(): void {
-    this.playerInfo.getResources();
+    forkJoin(
+      this.playerInfo.getCountryBuildings(),
+      this.playerInfo.getCountryResources(),
+      this.playerInfo.getCountryUnits(),
+      this.playerInfo.getUnitDetails(),
+      this.playerInfo.getBuildingDetails(),
+      this.playerInfo.getCountryRound()
+    ).subscribe(([buildings, resources, units, unitDetails, buildingDetails, countryRound]) => {
+      this.buildings = buildings;
+      buildingDetails.forEach((buildingDetail) => {
+        const building = this.buildings.find(building => building.id === buildingDetail.id);
+        if (building) {
+          building.imgSrc = buildingDetail.imgSrc;
+        }
+        else {
+          this.buildings.push({
+            id: buildingDetail.id,
+            progress: 0,
+            count: 0,
+            imgSrc: buildingDetail.imgSrc
+          })
+        }
+      })
+      this.units = units;
+      unitDetails.forEach((unitDetail) => {
+        const unit = this.units.find(unit => unit.id === unitDetail.id);
+        if (unit) {
+          unit.imgSrc = unitDetail.imgSrc;
+        }
+        else {
+          this.units.push({
+            id: unitDetail.id,
+            count: 0,
+            imgSrc: unitDetail.imgSrc
+          })
+        }
+      })
+      this.countryRound = countryRound;
+      this.resources = resources;
+      //missing endpont:(
+      resources.forEach((resource) => {
+        if (resource.id == 1) { resource.imgSrc = "../../../assets/icons/coral.svg";}
+        if (resource.id == 2) { resource.imgSrc = "../../../assets/icons/shell.svg";}
+      })
+
+    })
   }
 
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
-import { Unit } from '../../unit';
 import { UnitService } from '../../services/unit.service';
+import { Unit } from '../../models/unit';
 
 @Component({
   selector: 'app-unit-card-item',
