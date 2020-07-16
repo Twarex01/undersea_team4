@@ -86,6 +86,14 @@ namespace StrategyGame.Api
             });
 
             services.AddSignalR();
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "OriginsToAllow",
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
+                                  });
+            });
 
         }
 
@@ -106,6 +114,9 @@ namespace StrategyGame.Api
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseCors("OriginsToAllow");
+
             app.UseAuthentication();
             app.UseAuthorization();
 

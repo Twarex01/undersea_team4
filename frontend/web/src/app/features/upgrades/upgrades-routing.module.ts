@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { UpgradesComponent } from './components/upgrades/upgrades.component';
+import { UpgradesPageComponent } from './pages/upgrades.page/upgrades.page.component'
 
 
 const routes: Routes = [
   { 
     path: '',
-    component: UpgradesComponent
+    component: UpgradesPageComponent
   }
 ];
 

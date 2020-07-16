@@ -1,0 +1,13 @@
+.component-container{
+    display: flex;
+}
+
+.palyer-list-container{
+    margin: 0.5rem;
+    margin-left: 0;
+}
+
+.choose-unit-container{
+    margin: 0.5rem;
+    margin-right: 0;
+}

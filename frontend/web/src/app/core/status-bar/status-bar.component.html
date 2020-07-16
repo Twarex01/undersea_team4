@@ -5,79 +5,39 @@
     </div>
     
     <div class="status-bar-group right-group">
-        <div class="status-bar-item">
+
+        <div *ngFor="let unit of resources.army" class="status-bar-item">
             <div class="image-with-text">
                 <app-icon-box>
-                    <img src="../../../assets/main-layout/shark.svg">
+                    <img src="../../../assets/icons/shark.svg">
                 </app-icon-box>
-                <p class="image-text">0</p>
+                <p class="image-text">{{unit.count}}</p>
             </div>
         </div>
 
-        <div class="status-bar-item">
+        <div *ngFor="let product of resources.products" class="status-bar-item">
             <div class="image-with-text">
                 <app-icon-box>
-                    <img src="../../../assets/main-layout/seal.svg">
-                </app-icon-box>
-                <p class="image-text">3</p>
-            </div>
-        </div>
-
-        <div class="status-bar-item">
-            <div class="image-with-text">
-                <app-icon-box>
-                    <img src="../../../assets/main-layout/seahorse.svg">
-                </app-icon-box>
-                <p class="image-text">4</p>
-            </div>
-        </div>
-
-        <div class="status-bar-item">
-            <div class="image-with-text">
-                <app-icon-box>
-                    <img src="../../../assets/main-layout/shell.svg">
+                    <img src="../../../assets/icons/shell.svg">
                 </app-icon-box>
                 <div>
-                    <p class="image-text">122</p>
-                    <p class="image-text">20/kör</p>
+                    <p class="image-text">{{product.count}}</p>
+                    <p class="image-text">{{product.output}}/kör</p>
                 </div>
             </div>
         </div>
 
-        <div class="status-bar-item">
+        <div *ngFor="let building of resources.buildings" class="status-bar-item">
             <div class="image-with-text">
                 <app-icon-box>
-                    <img  src="../../../assets/main-layout/coral.svg">
+                    <img  src="../../../assets/icons/coral.svg">
                 </app-icon-box>
                 <div>
-                    <p class="image-text">230</p>
-                    <p class="image-text">12/kör</p>
+                    <p class="image-text">{{building.count}}</p>
+                    <p class="image-text">{{building.progress !== 0 ? "1" : "0"}} épül</p>
                 </div>
             </div>
         </div>
 
-        <div class="status-bar-item">
-            <div class="image-with-text">
-                <app-icon-box>
-                    <img  src="../../../assets/main-layout/coral.svg">
-                </app-icon-box>
-                <div>
-                    <p class="image-text">0</p>
-                    <p class="image-text">0 épül</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="status-bar-item">
-            <div class="image-with-text">
-                <app-icon-box>
-                    <img  src="../../../assets/main-layout/coral.svg">
-                </app-icon-box>
-                <div>
-                    <p class="image-text">0</p>
-                    <p class="image-text">0 épül</p>
-                </div>
-            </div>
-        </div>
     </div>
 </div>

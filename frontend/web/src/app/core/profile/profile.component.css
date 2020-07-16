@@ -1,12 +1,23 @@
 img {
-    height: 5rem;
-    width: 5rem;
-    padding: 20%;
+    height: 3rem;
+    width: 3rem;
+    padding: 15px;
 }
 
-p {
+p, a {
     color: white;
     margin: 10% auto 0 auto;
+    font-family: "Baloo Bold";
+    line-height: 0.75;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    cursor: pointer;
+    color: #9FFFF0;
 }
 
 .profile-box {

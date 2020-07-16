@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { SharedModule } from './shared/shared.module';
+import {ReactiveFormsModule} from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,7 +12,10 @@ import { StatusBarComponent } from './core/status-bar/status-bar.component';
 import { MenuComponent } from './core/menu/menu.component';
 import { ProfileComponent } from './core/profile/profile.component';
 import { BasicFormCardComponent } from './core/basic-form-card/basic-form-card.component';
-import { IconBoxComponent } from './core/icon-box/icon-box.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from './jwt-interceptor';
+import { AuthGuardService } from './core/services/auth-guard.service';
+import { LoginClient, RegisterClient, CountryClient } from './shared/clients';
 
 @NgModule({
   declarations: [
@@ -22,15 +26,16 @@ import { IconBoxComponent } from './core/icon-box/icon-box.component';
     StatusBarComponent,
     MenuComponent,
     ProfileComponent,
-    BasicFormCardComponent,
-    IconBoxComponent
+    BasicFormCardComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }, AuthGuardService, LoginClient, RegisterClient],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

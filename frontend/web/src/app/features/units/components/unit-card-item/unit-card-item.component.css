@@ -1,0 +1,53 @@
+.steppers button {
+    margin-right: 5%;
+    margin-left: 5%;
+    font-family: "Baloo Regular";
+    box-shadow: none;
+    width: 2.4rem;
+    height: 1rem;
+    padding: 1rem 0;
+    font-size: 1.5rem;
+    border-radius: 50%;
+    line-height: 0.05;
+}
+
+img {
+    height: 4rem;
+    width: 4rem;
+    padding: 15px;
+}
+
+.unit-card-item {
+    font-size: 1rem;
+    font-family: "Baloo Regular";
+    letter-spacing: 0;
+    color: #ffffff;
+    width: 20rem;
+    line-height: 0.5;
+}
+
+.item-image {
+    display: flex;
+    justify-content: center;
+}
+
+.header {
+    font-family: "Baloo Bold";
+    text-align: center;
+}
+
+.labels {
+    display: inline-block;
+    width: 60%;
+}
+
+.values {
+    display: inline-block;
+    text-align: right;
+    width: 30%;
+}
+
+.steppers {
+    text-align: center;
+    margin: 10% auto 10% auto;
+}

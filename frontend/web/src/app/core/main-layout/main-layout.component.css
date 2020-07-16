@@ -5,6 +5,20 @@ main {
     width: 100%;
 }
 
+.layout-body {
+    display: flex;
+    margin-top: 2%;
+    margin-left: 1%;
+}
+
+.layout-left {
+    width: 10%;
+}
+
+.layout-right {
+    margin: auto;
+}
+
 .status-bar {
     padding: 1%;
 }

@@ -9,6 +9,6 @@ namespace StrategyGame.Bll.DTO
     {
         public int IdAtt { get; set; }
         public int IdDef { get; set; }
-        public List<UnitDTO> Army { get; set; }
+        public List<UnitDTO> Army { get; set; } = new List<UnitDTO>();
     }
 }

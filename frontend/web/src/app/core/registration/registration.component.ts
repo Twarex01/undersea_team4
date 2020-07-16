@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { RegisterDTO } from '../../shared/clients';
+import { Router } from '@angular/router';
+import { AccountService } from '../services/account.service';
 
 @Component({
   selector: 'app-registration',
@@ -7,9 +11,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegistrationComponent implements OnInit {
 
-  constructor() { }
+  registerForm = new FormGroup({
+    userName: new FormControl(),
+    password: new FormControl(),
+    passwordConfirmation: new FormControl(),
+    countryName: new FormControl()
+  });
+
+
+  constructor(private accountService: AccountService, private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  onSubmit() {
+    this.accountService.register(new RegisterDTO(this.registerForm.value)).subscribe(() => {
+      this.router.navigate(["/login"])
+    });
   }
 
 }

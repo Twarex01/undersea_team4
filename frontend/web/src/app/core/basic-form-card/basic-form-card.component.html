@@ -1,8 +1,8 @@
 <h1>Undersea</h1>
-<form class="login-reg-form">
+<form [formGroup]="form" class="login-reg-form" (ngSubmit)="onSubmit()">
   <h2>{{ title }}</h2>
   <ng-content></ng-content>
-  <button>
+  <button type="submit">
     <p class="button-text">{{ title }}</p>
   </button>
   <ng-content select="a"></ng-content>

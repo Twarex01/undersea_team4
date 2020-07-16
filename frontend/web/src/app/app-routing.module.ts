@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { MainLayoutComponent } from './core/main-layout/main-layout.component';
 import { LoginComponent } from './core/login/login.component';
 import { RegistrationComponent } from './core/registration/registration.component';
+import { AuthGuardService } from './core/services/auth-guard.service';
 
 const routes: Routes = [
   { path: '',
@@ -14,7 +15,8 @@ const routes: Routes = [
       { path: 'rankings', loadChildren: () => import('./features/rankings/rankings.module').then(m => m.RankingsModule) },
       { path: 'units', loadChildren: () => import('./features/units/units.module').then(m => m.UnitsModule) },
       { path: 'battles', loadChildren: () => import('./features/battles/battles.module').then(m => m.BattlesModule) }
-    ]
+    ],
+    canActivate: [AuthGuardService]
   },
   { path: 'login', component: LoginComponent },
   { path: 'registration', component: RegistrationComponent }

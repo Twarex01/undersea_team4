@@ -1,0 +1,17 @@
+<div class="upgrade-card-item" *ngIf="upgrade" [ngClass]="{'upgrade-card-item-selected': upgrade.isSelected}">
+    <div class="top">
+        <div class="indicator">
+            <span *ngIf="upgrade.roundsLeft != 15 && upgrade.roundsLeft != 0">még {{upgrade.roundsLeft}} kör</span>
+            <p *ngIf="upgrade.isDone" class="fa fa-check-circle"></p>
+        </div>
+        <div class="item-image">
+            <ng-content select=".item-image"></ng-content>
+        </div>
+    </div>
+    <div class="header">
+        <p>{{upgrade.name}}</p>
+    </div>
+    <div class="details">
+        <p>{{upgrade.description}}</p>
+    </div>
+</div>

@@ -27,10 +27,10 @@ namespace StrategyGame.Api.Controllers
 
         //PUT api/round
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult NextRound()
+        public ActionResult NextRound()
         {
             _roundService.SimulateRound();
             return Ok();
@@ -40,9 +40,10 @@ namespace StrategyGame.Api.Controllers
         [Authorize]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<int> GetRound()
+        public async Task<ActionResult<CountryRoundDTO>> GetCountryRound()
         {
-            return Ok(0);
+            var Country = await _userService.GetCountryByUserID(User.Identity.Name);
+            return Ok(_roundService.GetCountryRound(Country.ID));
         }
     }
 }

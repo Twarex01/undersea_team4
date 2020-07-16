@@ -10,4 +10,5 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    font-family: "Baloo Bold";
 }

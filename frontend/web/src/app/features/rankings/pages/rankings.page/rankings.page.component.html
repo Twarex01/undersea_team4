@@ -1,2 +1,11 @@
-<p>rankings.page works!</p>
-<router-outlet></router-outlet>
+<app-basic-card class="card">
+    <p class="header">Ranglista</p>
+    <div class="details">
+        <input [(ngModel)]="searchInput" class="search" type="text" placeholder="Felhasználónév">
+        <div class="line" *ngFor="let player of getPlayerList(); let i = index">
+            <hr>
+            <div class="player"><span class="position">{{i+1}}.</span>{{player.name}}</div>
+            <div class="points">{{player.score}}</div>
+        </div>
+    </div>
+</app-basic-card>

@@ -1,8 +1,8 @@
 <div class="profile-box">
     <app-icon-box>
-        <img src="../../../assets/main-layout/profile.svg">
+        <img src="../../../assets/icons/profile.svg">
     </app-icon-box>
-    <p>jatekos</p>
+    <p>{{getPlayerName()}}</p>
     <p>Profil</p>
-    <p>Kijelentkezés</p>
+    <a routerLink="/login" class="logout-link" (click)="onLogout()">Kijelentkezés</a>
 </div>

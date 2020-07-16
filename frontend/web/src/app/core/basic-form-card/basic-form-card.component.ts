@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-basic-form-card',
@@ -8,10 +9,16 @@ import { Component, OnInit, Input } from '@angular/core';
 export class BasicFormCardComponent implements OnInit {
 
   @Input() title: string = "";
+  @Input() form: FormGroup;
+  @Output() submitted = new EventEmitter();
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onSubmit() {
+    this.submitted.emit();
   }
 
 }

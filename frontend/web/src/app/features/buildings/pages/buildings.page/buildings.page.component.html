@@ -1,2 +1,13 @@
-<p>buildings works!</p>
-<router-outlet></router-outlet>
+<app-basic-card class="card">
+  <p class="header">Épületek</p>
+  <p class="short-description">Kattints rá, amelyiket szeretnéd megvenni.</p>
+  <p class="details">Egyszerre csak egy épület épülhet!</p>
+
+  <app-building-card-item class="card-item" *ngFor="let building of buildings; let i = index" [building]="building" (click)="selectBuilding(i)">
+    <img class="item-image" src="{{building.imgSrc}}" />
+  </app-building-card-item>
+
+  <div class="footer">
+    <button [ngClass]="{ 'button-not-selected': selectedIndex === -1}">Megveszem</button>
+  </div>
+</app-basic-card>

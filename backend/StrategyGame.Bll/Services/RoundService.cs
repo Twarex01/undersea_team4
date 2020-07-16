@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using StrategyGame.Bll.Hubs;
+using StrategyGame.Bll.DTO;
 using StrategyGame.Dal;
 using StrategyGame.Model;
 using System;
@@ -20,13 +21,15 @@ namespace StrategyGame.Bll.Services
         private Random soldierMoraleGenerator = new Random();
         private IBattleService _battleService;
         private RoundHub _roundHub;
+        private IDataService _dataService;
 
-        public RoundService(AppDbContext dbContext, UserManager<User> userManager , IBattleService battleService, RoundHub roundHub)
+        public RoundService(AppDbContext dbContext, UserManager<User> userManager , IBattleService battleService, IDataService dataService, RoundHub roundHub)
         {
             _dbContext = dbContext;
             _userManager = userManager;
             _battleService = battleService;
             _roundHub = roundHub;
+            _dataService = dataService;
         }
 
         private void GeneratePearlIncome(Country country)
@@ -54,6 +57,7 @@ namespace StrategyGame.Bll.Services
         private void ProceedWithUpgrade(Country country)
         {
             var currentlyUpgrading = country.Upgrades.Where(u => u.Progress > 0).SingleOrDefault(); //elvileg nem lehet 1-nél több eredmény
+            if (currentlyUpgrading == null) return;
             currentlyUpgrading.Progress--;
             if (currentlyUpgrading.Progress == 0) currentlyUpgrading.UpgradeData.ApplyEffects(country);
             
@@ -62,6 +66,7 @@ namespace StrategyGame.Bll.Services
         private void ProceedWithBuilding(Country country)
         {
             var currentlyBuilding = country.Buildings.Where(u => u.Progress > 0).SingleOrDefault(); //elvileg nem lehet 1-nél több eredmény
+            if (currentlyBuilding == null) return;
             currentlyBuilding.Progress--;
             if (currentlyBuilding.Progress == 0)
             {
@@ -72,12 +77,12 @@ namespace StrategyGame.Bll.Services
         public async Task SimulateRound() 
         {
             
-            var countryList = await _dbContext.Countries
+            var countryList = _dbContext.Countries
                 .Include(c => c.Buildings).ThenInclude(b => b.BuildingData)
                 .Include(c => c.Upgrades).ThenInclude(u => u.UpgradeData)
                 .Include(c => c.Units).ThenInclude(u => u.UnitData)
                 .Include(c => c.Resources).ThenInclude(r => r.ResourceData)
-                .ToListAsync();
+                .ToList();
 
             // változások az egyes országokban
             foreach( var country in countryList)
@@ -107,6 +112,14 @@ namespace StrategyGame.Bll.Services
 
 
 
+        }
+
+        public CountryRoundDTO GetCountryRound(int countryId)
+        {
+            var rankList = _dataService.GetPlayerRanks();
+            rankList.SingleOrDefault(r => r.CountryID == countryId);
+            int rank = rankList.IndexOf(rankList.SingleOrDefault(r => r.CountryID == countryId))+1;
+            return new CountryRoundDTO() { Rank = rank, Round = 0 }; //actual round pls
         }
     }
 }

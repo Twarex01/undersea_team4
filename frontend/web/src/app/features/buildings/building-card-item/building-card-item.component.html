@@ -1,0 +1,13 @@
+<div class="building-card-item" *ngIf="building" [ngClass]="{ 'building-card-item-selected': building.isSelected }">
+    <div class="item-image">
+        <ng-content select=".item-image"></ng-content>
+    </div>
+    <div class="header">
+        <p>{{building.name}}</p>
+        <p>{{building.description}}</p>
+    </div>
+    <div class="details">
+        <p>{{building.count}} db</p>
+        <p>{{building.price}} Gyöngy / db</p>
+    </div>
+</div>
