@@ -42,6 +42,6 @@ export class UpgradeService {
   }
 
   buyUpgrade(id: number) {
-    //TODO
+    return this.countryClient.buyUpgrade(id);
   }
 }

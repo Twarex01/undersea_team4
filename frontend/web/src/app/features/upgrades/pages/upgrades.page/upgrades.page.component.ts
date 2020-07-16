@@ -89,6 +89,7 @@ export class UpgradesPageComponent implements OnInit {
           isSelected: false,
         });
       });
+      console.log(this.upgrades);
     });
   }
 
@@ -100,8 +101,6 @@ export class UpgradesPageComponent implements OnInit {
   }
 
   buySelectedUpgrade() {
-    //TODO
-    //this.upgradeService.buyUpgrade(this.upgrades[this.upgradeIndex].id);
-    console.log('Upgrade megvásárolva: ' + this.selectedUpgradeIndex);
+    this.upgradeService.buyUpgrade(this.upgrades[this.selectedUpgradeIndex].id).subscribe(() => {console.log('Upgrade megvásárolva: ' + this.selectedUpgradeIndex);});
   }
 }
