@@ -49,10 +49,11 @@ export class AttackPageComponent implements OnInit {
           id: unitDetail.id,
           imageSrc: unitDetail.imageSrc,
           name: unitDetail.name,
-          count: countryUnit?.count,
+          count: countryUnit?.count ?? 0,
           countToAttack: 0
         })
       })
+      console.log(this.units);
     })
   }
 
@@ -61,6 +62,7 @@ export class AttackPageComponent implements OnInit {
       defenderId: this.selectedPlayerId,
       army: this.units.map((unit) => ({id: unit.id, count: unit.countToAttack}))
     }
+    console.log(battle);
     this.attackService.attack(battle).subscribe(() => {
       console.log("OK");
     })
