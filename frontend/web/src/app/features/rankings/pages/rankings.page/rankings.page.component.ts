@@ -12,7 +12,7 @@ export class RankingsPageComponent implements OnInit {
 
   searchInput: string = "";
 
-  players: Player[];
+  players: Player[] = [];
 
   constructor(private rankingsService: RankingsService) { }
 
