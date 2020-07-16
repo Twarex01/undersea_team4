@@ -1,4 +1,4 @@
-export interface Unit {
+export interface AttackUnit {
     id: number;
     name: string;
     imageSrc: string;

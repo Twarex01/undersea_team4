@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RankingsService } from '../../services/rankings.service';
 import { Observable } from 'rxjs';
-import { Player } from '../../palyer';
+import { RankingsPlayer } from '../../models/player';
 
 @Component({
   selector: 'app-rankings.page',
@@ -12,7 +12,7 @@ export class RankingsPageComponent implements OnInit {
 
   searchInput: string = "";
 
-  players: Player[];
+  players: RankingsPlayer[];
 
   constructor(private rankingsService: RankingsService) { }
 
@@ -20,7 +20,7 @@ export class RankingsPageComponent implements OnInit {
     this.getPlayers() 
   }
 
-  filterPlayerList() : Player[] {
+  filterPlayerList() : RankingsPlayer[] {
     return this.players.filter((player) => player.name.includes(this.searchInput.trim()));
   }
 

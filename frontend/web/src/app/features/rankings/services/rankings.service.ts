@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { PlayersClient} from '../../../shared/clients';
-import { Player } from '../palyer';
+import { RankingsPlayer } from '../models/player';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -11,7 +11,7 @@ export class RankingsService {
 
   constructor(private playersClient: PlayersClient) { }
 
-  getPlayerList(): Observable<Player[]>{
+  getPlayerList(): Observable<RankingsPlayer[]>{
     return this.playersClient.playerList().pipe( 
       map((rankDTOArray => {
         return rankDTOArray.map((rankDTO => ({id: rankDTO.countryID, name: rankDTO.name!, score: rankDTO.score})))
