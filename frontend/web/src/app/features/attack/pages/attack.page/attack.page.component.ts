@@ -13,6 +13,8 @@ import { CountryUnit } from '../../models/country-unit';
 })
 export class AttackPageComponent implements OnInit {
 
+  countryName: string = "";
+
   selectedPlayerId: number = -1;
 
   units: AttackUnit[] = new Array<AttackUnit>(
@@ -37,10 +39,15 @@ export class AttackPageComponent implements OnInit {
   constructor(private attackService: AttackService) { }
 
   ngOnInit(): void {
-    this.attackService.getPlayerList().subscribe(players => this.players = players);
+    forkJoin(
+      this.attackService.getPlayerList(),
+      this.attackService.getCountryName()
+    ).subscribe(([playerList, countryName]) => {
+      this.players = playerList.filter((player) => player.name !== countryName)
+    })
     forkJoin(
       this.attackService.getCountryUnits(),
-      this.attackService.getUnitDetails()
+      this.attackService.getUnitDetails(),
     ).subscribe(([countryUnits, unitDetails]) => {
       this.units = [];
       unitDetails.forEach((unitDetail) => {
@@ -49,7 +56,7 @@ export class AttackPageComponent implements OnInit {
           id: unitDetail.id,
           imageSrc: unitDetail.imageSrc,
           name: unitDetail.name,
-          count: countryUnit?.count,
+          count: countryUnit?.count ?? 0,
           countToAttack: 0
         })
       })
@@ -61,6 +68,7 @@ export class AttackPageComponent implements OnInit {
       defenderId: this.selectedPlayerId,
       army: this.units.map((unit) => ({id: unit.id, count: unit.countToAttack}))
     }
+    console.log(battle);
     this.attackService.attack(battle).subscribe(() => {
       console.log("OK");
     })
