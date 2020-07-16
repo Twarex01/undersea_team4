@@ -12,3 +12,8 @@ main {
     justify-content: center;
     font-family: "Baloo Bold";
 }
+
+.error {
+    margin-top: 0;
+    color: #051D3F;
+}

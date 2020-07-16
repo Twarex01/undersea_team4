@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RegisterDTO } from '../../shared/clients';
 import { Router } from '@angular/router';
 import { AccountService } from '../services/account.service';
@@ -12,10 +12,10 @@ import { AccountService } from '../services/account.service';
 export class RegistrationComponent implements OnInit {
 
   registerForm = new FormGroup({
-    userName: new FormControl(),
-    password: new FormControl(),
-    passwordConfirmation: new FormControl(),
-    countryName: new FormControl()
+    userName: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required),
+    passwordConfirmation: new FormControl('', Validators.required),
+    countryName: new FormControl('', Validators.required)
   });
 
 

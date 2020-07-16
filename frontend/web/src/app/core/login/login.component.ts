@@ -11,6 +11,7 @@ import { AccountService } from '../services/account.service';
 })
 export class LoginComponent implements OnInit {
   error: boolean = false;
+  validationError: boolean = false;
 
   loginForm = new FormGroup({
     userName: new FormControl('', Validators.required),
@@ -23,9 +24,10 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     if(this.loginForm.invalid) {
+      this.validationError = true;
       return;
     }
-    this.error = false;
+    this.removeErrors();
     this.accountService.login(new LoginDTO(this.loginForm.value)).subscribe(
       (data) => {
         const reader = new FileReader();
@@ -41,4 +43,10 @@ export class LoginComponent implements OnInit {
       }
     );
   }
+
+  removeErrors() {
+    this.validationError = false;
+    this.error = false;
+  }
+
 }
