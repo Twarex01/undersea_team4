@@ -36,7 +36,7 @@ export class BuildingsPageComponent implements OnInit {
           price: buildingDetail.price,
           priceType: buildingDetail.priceType,
           description: buildingDetail.description,
-          count: countryBuilding.count,
+          count: countryBuilding?.count ?? 0,
           isSelected: false
         })
       });
