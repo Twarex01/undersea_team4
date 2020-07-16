@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { PlayerInfoService } from '../services/player-info.service';
-import { Resources } from './resources';
+import { CountryBuilding } from './building';
+import { CountryUnit } from './unit';
+import { CountryResource } from './resource';
+
 
 @Component({
   selector: 'app-status-bar',
@@ -9,58 +12,54 @@ import { Resources } from './resources';
 })
 export class StatusBarComponent implements OnInit {
 
-  resources: Resources = {
-    army: new Array(
-      {
-      id: 0,
-      name: "lézercápa",
-      count: 5
-      },
-      {
-        id: 1,
-        name: "rohamfóka",
-        count: 7
-      },
-      {
-        id: 2,
-        name: "csatacsikó",
-        count: 8
-      }
-    ),
-    products: new Array(
+  buildings: CountryBuilding[] =
+    new Array(
       {
         id: 0,
-        count: 230,
-        output: 20
-      },
-      {
-        id: 1,
-        count: 320,
-        output: 30
-      }
-    ),
-    population: 500,
-    armyCapacity: 300,
-    buildings: new Array(
-      {
-        id: 0,
-        name: "Zátonyvár",
         progress: 0,
         count: 2
       },
       {
         id: 1,
-        name: "Áramlásirányító",
         progress: 1,
         count: 1
       }
-    )
-  };
+    );
+
+  units: CountryUnit[] = new Array(
+    {
+      id: 0,
+      count: 5
+    },
+    {
+      id: 1,
+      count: 7
+    },
+    {
+      id: 2,
+      count: 8
+    }
+  );
+
+  resources: CountryResource[] = new Array(
+    {
+      id: 0,
+      count: 230,
+      output: 20
+    },
+    {
+      id: 1,
+      count: 320,
+      output: 30
+    }
+  );
 
   constructor(private playerInfo: PlayerInfoService) { }
 
   ngOnInit(): void {
-    this.playerInfo.getResources();
+    this.playerInfo.getCountryBuildings().subscribe(builidngs => this.buildings = builidngs);
+    this.playerInfo.getCountryResources().subscribe(resources => this.resources = resources);
+    this.playerInfo.getCountryUnits().subscribe(units => this.units = units);
   }
 
 }

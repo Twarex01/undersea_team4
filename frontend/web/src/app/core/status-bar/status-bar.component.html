@@ -6,7 +6,7 @@
     
     <div class="status-bar-group right-group">
 
-        <div *ngFor="let unit of resources.army" class="status-bar-item">
+        <div *ngFor="let unit of units" class="status-bar-item">
             <div class="image-with-text">
                 <app-icon-box>
                     <img src="../../../assets/icons/shark.svg">
@@ -15,19 +15,19 @@
             </div>
         </div>
 
-        <div *ngFor="let product of resources.products" class="status-bar-item">
+        <div *ngFor="let resource of resources" class="status-bar-item">
             <div class="image-with-text">
                 <app-icon-box>
                     <img src="../../../assets/icons/shell.svg">
                 </app-icon-box>
                 <div>
-                    <p class="image-text">{{product.count}}</p>
-                    <p class="image-text">{{product.output}}/kör</p>
+                    <p class="image-text">{{resource.count}}</p>
+                    <p class="image-text">{{resource.output}}/kör</p>
                 </div>
             </div>
         </div>
 
-        <div *ngFor="let building of resources.buildings" class="status-bar-item">
+        <div *ngFor="let building of buildings" class="status-bar-item">
             <div class="image-with-text">
                 <app-icon-box>
                     <img  src="../../../assets/icons/coral.svg">

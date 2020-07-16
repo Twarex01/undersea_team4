@@ -23,6 +23,10 @@ hr {
     width: 10%;
 }
 
+p.header{
+    width: 30rem
+}
+
 .card {
     position: relative;
     right: 15%;
