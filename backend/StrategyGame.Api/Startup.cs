@@ -133,8 +133,7 @@ namespace StrategyGame.Api
             app.UseStaticFiles();
 
             app.UseHangfireDashboard();
-            BackgroundJob.Enqueue(
-            () => rs.SimulateRound());
+            RecurringJob.AddOrUpdate(() => rs.SimulateRound(), Cron.Hourly());
 
             app.UseRouting();
 

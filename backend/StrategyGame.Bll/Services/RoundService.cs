@@ -31,7 +31,7 @@ namespace StrategyGame.Bll.Services
 
         public RoundService(AppDbContext dbContext, UserManager<User> userManager , 
             IBattleService battleService, IDataService dataService, IHubContext<RoundHub, 
-                IRoundHubClient> roundHubContext, IBackgroundJobClient backgroundJobs)
+                IRoundHubClient> roundHubContext)
         {
             _dbContext = dbContext;
             _userManager = userManager;
@@ -120,11 +120,6 @@ namespace StrategyGame.Bll.Services
                 country.Score = country.Buildings.Sum(b => b.Progress > 0 ? 0 : b.Count * 50) + country.Upgrades.Sum(u => u.Progress>0 ? 0 : 100) + country.Population + country.Units.Sum(u => u.UnitData.PointValue);
             }
             _dbContext.SaveChanges();
-
-            //Kövi simulate beállítása
-            BackgroundJob.Schedule(
-            () => SimulateRound(),
-            TimeSpan.FromHours(1));
 
             Round++;
 
