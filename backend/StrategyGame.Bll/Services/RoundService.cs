@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using StrategyGame.Bll.Services.Hubs;
+using Hangfire;
 
 namespace StrategyGame.Bll.Services
 {
@@ -22,17 +23,20 @@ namespace StrategyGame.Bll.Services
         private UserManager<User> _userManager;
         private Random soldierMoraleGenerator = new Random();
         private IBattleService _battleService;
-        private IHubContext<RoundHub, IRoundHubClient> _chatHubContext;
+        private IHubContext<RoundHub, IRoundHubClient> _roundHubContext;
         private IDataService _dataService;
+        private IBackgroundJobClient _backgroundJobs;
 
         public RoundService(AppDbContext dbContext, UserManager<User> userManager , 
-            IBattleService battleService, IDataService dataService, IHubContext<RoundHub, IRoundHubClient> chatHubContext)
+            IBattleService battleService, IDataService dataService, IHubContext<RoundHub, 
+                IRoundHubClient> roundHubContext, IBackgroundJobClient backgroundJobs)
         {
             _dbContext = dbContext;
             _userManager = userManager;
             _battleService = battleService;
-            _chatHubContext = chatHubContext;
+            _roundHubContext = roundHubContext;
             _dataService = dataService;
+            _backgroundJobs = backgroundJobs;
         }
 
         private void GeneratePearlIncome(Country country)
@@ -115,10 +119,13 @@ namespace StrategyGame.Bll.Services
             }
             _dbContext.SaveChanges();
 
+            //Kövi simulate beállítása
+            BackgroundJob.Schedule(
+            () => Console.WriteLine("Round background job test"),
+            TimeSpan.FromHours(1));
+
             //Klienseken frissítés
-            //_roundHub.RefreshData();
-
-
+            _roundHubContext.Clients.All.RefreshInfo();  
 
         }
 
