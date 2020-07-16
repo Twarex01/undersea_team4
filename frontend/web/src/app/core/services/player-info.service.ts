@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CountryClient, DetailsClient, RoundClient } from '../../shared/clients';
-import { Building } from '../../features/buildings/building';
 import { CountryBuilding } from '../status-bar/country-building';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
