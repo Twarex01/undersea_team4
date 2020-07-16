@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
       (data) => {
         const reader = new FileReader();
         reader.onload = () => {
-          localStorage.setItem('token', reader.result!.toString());
+          localStorage.setItem('token', "Bearer " + reader.result!.toString());
           this.router.navigate(["/"]);
         };
         reader.readAsText(data!.data);
