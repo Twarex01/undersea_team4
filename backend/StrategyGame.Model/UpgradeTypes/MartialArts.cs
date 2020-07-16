@@ -4,11 +4,13 @@ using System.Text;
 
 namespace StrategyGame.Model.UpgradeTypes
 {
-    public class MartialArts : Upgrade
+    public class MartialArts : UpgradeData
     {
-        public override void ApplyEffects()
+        public override void ApplyEffects(Country country)
         {
-            throw new NotImplementedException(); //+10% attack modifier, +10% defense modifier
+            country.AttackModifier += 0.1;
+            country.DefenseModifier += 0.1;
+            //+10% attack modifier, +10% defense modifier
         }
     }
 }

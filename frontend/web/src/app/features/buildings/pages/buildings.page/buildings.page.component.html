@@ -3,20 +3,11 @@
   <p class="short-description">Kattints rá, amelyiket szeretnéd megvenni.</p>
   <p class="details">Egyszerre csak egy épület épülhet!</p>
 
-    <app-building-card-item class="card-item" (click)="selectBuilding(0)">
-      <img
-      class="item-image"
-      src="../../../../../assets/buildings/zatonyvar.png"/>
-    </app-building-card-item>
-  
-    <app-building-card-item class="card-item" (click)="selectBuilding(1)">
-      <img
-        class="item-image"
-        src="../../../../../assets/buildings/aramlasiranyito.png"
-      />
-    </app-building-card-item>
-  
+  <app-building-card-item class="card-item" *ngFor="let building of buildings; let i = index" [building]="building" (click)="selectBuilding(i)">
+    <img class="item-image" src="{{building.imgSrc}}" />
+  </app-building-card-item>
+
   <div class="footer">
-    <button [ngClass]="{ 'button-not-selected': selectedBuilding === -1}" >Megveszem</button>
+    <button [ngClass]="{ 'button-not-selected': selectedIndex === -1}">Megveszem</button>
   </div>
 </app-basic-card>

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Building } from '../building';
 
 @Component({
   selector: 'app-building-card-item',
@@ -7,7 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class BuildingCardItemComponent implements OnInit {
 
-  @Input() isSelected: boolean = false;
+  @Input() building : Building | undefined;
 
   constructor() { }
 

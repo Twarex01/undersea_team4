@@ -13,6 +13,11 @@ img {
     padding: 0.5rem;
 }
 
+input{
+    margin: 0;
+    width: 90%;
+}
+
 .image-container{
     margin: 1rem;
 }

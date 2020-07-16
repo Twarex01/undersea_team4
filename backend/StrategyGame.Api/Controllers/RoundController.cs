@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StrategyGame.Bll.DTO;
+using StrategyGame.Bll.Services;
 
 namespace StrategyGame.Api.Controllers
 {
@@ -12,18 +14,35 @@ namespace StrategyGame.Api.Controllers
     [ApiController]
     public class RoundController : ControllerBase
     {
-        //GET api/round
-        [HttpGet]
-        public RoundScoreDTO Points()
+
+        private IRoundService _roundService;
+        private IUserService _userService;
+
+
+        public RoundController(IRoundService roundService, IUserService userService)
         {
-            throw new NotImplementedException("TODO");
+            _roundService = roundService;
+            _userService = userService;
         }
 
         //PUT api/round
         [HttpPost]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult NextRound()
         {
-            throw new NotImplementedException("TODO");
+            _roundService.SimulateRound();
+            return Ok();
+        }
+        //GET api/round
+        [HttpGet]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<int> GetRound()
+        {
+            return Ok(0);
         }
     }
 }

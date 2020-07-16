@@ -221,10 +221,6 @@ namespace StrategyGame.Dal.Migrations
                     b.Property<int>("CoutryID")
                         .HasColumnType("int");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Progress")
                         .HasColumnType("int");
 
@@ -235,8 +231,6 @@ namespace StrategyGame.Dal.Migrations
                     b.HasIndex("CoutryID");
 
                     b.ToTable("Buildings");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Building");
                 });
 
             modelBuilder.Entity("StrategyGame.Model.BuildingData", b =>
@@ -245,6 +239,16 @@ namespace StrategyGame.Dal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BuildTime")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Effect")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -260,6 +264,8 @@ namespace StrategyGame.Dal.Migrations
                     b.HasIndex("PriceUnitID");
 
                     b.ToTable("BuildingData");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("BuildingData");
                 });
 
             modelBuilder.Entity("StrategyGame.Model.Country", b =>
@@ -272,16 +278,19 @@ namespace StrategyGame.Dal.Migrations
                     b.Property<int>("ArmyCapacity")
                         .HasColumnType("int");
 
-                    b.Property<int>("AttackModifier")
-                        .HasColumnType("int");
+                    b.Property<double>("AttackModifier")
+                        .HasColumnType("float");
 
-                    b.Property<int>("DefenseModifier")
-                        .HasColumnType("int");
+                    b.Property<double>("DefenseModifier")
+                        .HasColumnType("float");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Population")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Score")
                         .HasColumnType("int");
 
                     b.Property<string>("UserID")
@@ -312,8 +321,8 @@ namespace StrategyGame.Dal.Migrations
                     b.Property<int>("ProductionBase")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductionMultiplier")
-                        .HasColumnType("int");
+                    b.Property<double>("ProductionMultiplier")
+                        .HasColumnType("float");
 
                     b.Property<int>("ResourceDataID")
                         .HasColumnType("int");
@@ -340,6 +349,18 @@ namespace StrategyGame.Dal.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("ResourceData");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 2,
+                            Name = "Gyöngy"
+                        },
+                        new
+                        {
+                            ID = 1,
+                            Name = "Korall"
+                        });
                 });
 
             modelBuilder.Entity("StrategyGame.Model.Unit", b =>
@@ -352,7 +373,7 @@ namespace StrategyGame.Dal.Migrations
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
-                    b.Property<int>("CoutryID")
+                    b.Property<int>("CountryID")
                         .HasColumnType("int");
 
                     b.Property<int>("UnitDataID")
@@ -360,7 +381,7 @@ namespace StrategyGame.Dal.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("CoutryID");
+                    b.HasIndex("CountryID");
 
                     b.HasIndex("UnitDataID");
 
@@ -389,6 +410,9 @@ namespace StrategyGame.Dal.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("PointValue")
+                        .HasColumnType("int");
+
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
@@ -410,6 +434,50 @@ namespace StrategyGame.Dal.Migrations
                     b.HasIndex("SalaryUnitID");
 
                     b.ToTable("UnitData");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            ATK = 6,
+                            Consumption = 1,
+                            ConsumptionUnitID = 1,
+                            DEF = 2,
+                            Name = "Roham Fóka",
+                            PointValue = 5,
+                            Price = 50,
+                            PriceUnitID = 2,
+                            Salary = 1,
+                            SalaryUnitID = 2
+                        },
+                        new
+                        {
+                            ID = 2,
+                            ATK = 2,
+                            Consumption = 1,
+                            ConsumptionUnitID = 1,
+                            DEF = 6,
+                            Name = "Csata Csikó",
+                            PointValue = 5,
+                            Price = 50,
+                            PriceUnitID = 2,
+                            Salary = 1,
+                            SalaryUnitID = 2
+                        },
+                        new
+                        {
+                            ID = 3,
+                            ATK = 5,
+                            Consumption = 2,
+                            ConsumptionUnitID = 1,
+                            DEF = 5,
+                            Name = "Lézer Cápa",
+                            PointValue = 10,
+                            Price = 100,
+                            PriceUnitID = 2,
+                            Salary = 3,
+                            SalaryUnitID = 2
+                        });
                 });
 
             modelBuilder.Entity("StrategyGame.Model.Upgrade", b =>
@@ -421,10 +489,6 @@ namespace StrategyGame.Dal.Migrations
 
                     b.Property<int>("CoutryID")
                         .HasColumnType("int");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Progress")
                         .HasColumnType("int");
@@ -439,8 +503,6 @@ namespace StrategyGame.Dal.Migrations
                     b.HasIndex("UpgradeDataID");
 
                     b.ToTable("Upgrades");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Upgrade");
                 });
 
             modelBuilder.Entity("StrategyGame.Model.UpgradeData", b =>
@@ -450,12 +512,24 @@ namespace StrategyGame.Dal.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Effect")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UpgradeTime")
+                        .HasColumnType("int");
 
                     b.HasKey("ID");
 
                     b.ToTable("UpgradeData");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("UpgradeData");
                 });
 
             modelBuilder.Entity("StrategyGame.Model.User", b =>
@@ -469,9 +543,6 @@ namespace StrategyGame.Dal.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CountryID")
-                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(256)")
@@ -528,58 +599,134 @@ namespace StrategyGame.Dal.Migrations
 
             modelBuilder.Entity("StrategyGame.Model.BuildingTypes.FlowRegulator", b =>
                 {
-                    b.HasBaseType("StrategyGame.Model.Building");
+                    b.HasBaseType("StrategyGame.Model.BuildingData");
 
                     b.HasDiscriminator().HasValue("FlowRegulator");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            BuildTime = 5,
+                            Effect = "50 lakost ad a népességhez és 200 korallt termel körönként",
+                            Name = "Áramlásirányító",
+                            Price = 1000,
+                            PriceUnitID = 2
+                        });
                 });
 
             modelBuilder.Entity("StrategyGame.Model.ReefFort", b =>
                 {
-                    b.HasBaseType("StrategyGame.Model.Building");
+                    b.HasBaseType("StrategyGame.Model.BuildingData");
 
                     b.HasDiscriminator().HasValue("ReefFort");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 2,
+                            BuildTime = 5,
+                            Effect = "200 egység katonának nyújt szállást",
+                            Name = "Zátonyvár",
+                            Price = 1000,
+                            PriceUnitID = 2
+                        });
                 });
 
             modelBuilder.Entity("StrategyGame.Model.UpgradeTypes.Alchemy", b =>
                 {
-                    b.HasBaseType("StrategyGame.Model.Upgrade");
+                    b.HasBaseType("StrategyGame.Model.UpgradeData");
 
                     b.HasDiscriminator().HasValue("Alchemy");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Effect = "Növeli a beszedett adót 30%-kal",
+                            Name = "Alkímia",
+                            UpgradeTime = 15
+                        });
                 });
 
             modelBuilder.Entity("StrategyGame.Model.UpgradeTypes.CoralWall", b =>
                 {
-                    b.HasBaseType("StrategyGame.Model.Upgrade");
+                    b.HasBaseType("StrategyGame.Model.UpgradeData");
 
                     b.HasDiscriminator().HasValue("CoralWall");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 2,
+                            Effect = "Növeli a védelmi pontokat 20%-kal",
+                            Name = "Korall fal",
+                            UpgradeTime = 15
+                        });
                 });
 
             modelBuilder.Entity("StrategyGame.Model.UpgradeTypes.MartialArts", b =>
                 {
-                    b.HasBaseType("StrategyGame.Model.Upgrade");
+                    b.HasBaseType("StrategyGame.Model.UpgradeData");
 
                     b.HasDiscriminator().HasValue("MartialArts");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 3,
+                            Effect = "Növeli a védelmi és támadóerőt 10%-kal",
+                            Name = "Vízalatti harcművészetek",
+                            UpgradeTime = 15
+                        });
                 });
 
             modelBuilder.Entity("StrategyGame.Model.UpgradeTypes.MudHarvester", b =>
                 {
-                    b.HasBaseType("StrategyGame.Model.Upgrade");
+                    b.HasBaseType("StrategyGame.Model.UpgradeData");
 
                     b.HasDiscriminator().HasValue("MudHarvester");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 4,
+                            Effect = "Növeli a korall termesztést 15%-kal",
+                            Name = "Iszap Kombájn",
+                            UpgradeTime = 15
+                        });
                 });
 
             modelBuilder.Entity("StrategyGame.Model.UpgradeTypes.MudTractor", b =>
                 {
-                    b.HasBaseType("StrategyGame.Model.Upgrade");
+                    b.HasBaseType("StrategyGame.Model.UpgradeData");
 
                     b.HasDiscriminator().HasValue("MudTractor");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 5,
+                            Effect = "Növeli a korall termesztést 10%-kal",
+                            Name = "Iszap Traktor",
+                            UpgradeTime = 15
+                        });
                 });
 
             modelBuilder.Entity("StrategyGame.Model.UpgradeTypes.SonarCannon", b =>
                 {
-                    b.HasBaseType("StrategyGame.Model.Upgrade");
+                    b.HasBaseType("StrategyGame.Model.UpgradeData");
 
                     b.HasDiscriminator().HasValue("SonarCannon");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 6,
+                            Effect = "Növeli a támadópontokat 20%-kal",
+                            Name = "Szonár ágyú",
+                            UpgradeTime = 15
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -709,7 +856,7 @@ namespace StrategyGame.Dal.Migrations
                 {
                     b.HasOne("StrategyGame.Model.Country", "Country")
                         .WithMany("Units")
-                        .HasForeignKey("CoutryID")
+                        .HasForeignKey("CountryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

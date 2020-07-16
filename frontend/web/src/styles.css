@@ -85,3 +85,9 @@ form {
 .button-not-selected {
     opacity: 0.3;
 }
+
+.error {
+    margin-top: 5%;
+    color: #051D3F;
+    font-family: "Baloo Regular";
+}

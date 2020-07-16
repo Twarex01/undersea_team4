@@ -9,10 +9,16 @@ import { FormGroup } from '@angular/forms';
 export class BasicFormCardComponent implements OnInit {
 
   @Input() title: string = "";
+  @Input() form: FormGroup;
+  @Output() submitted = new EventEmitter();
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onSubmit() {
+    this.submitted.emit();
   }
 
 }

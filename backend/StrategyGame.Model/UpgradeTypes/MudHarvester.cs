@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace StrategyGame.Model.UpgradeTypes
 {
-    public class MudHarvester : Upgrade
+    public class MudHarvester : UpgradeData
     {
-        public override void ApplyEffects()
+        public override void ApplyEffects(Country country)
         {
-            throw new NotImplementedException(); // +15% koral/round
+            var coralProd = country.Resources.SingleOrDefault(r => r.ResourceDataID == ResourceData.Coral.ID);// +15% koral/round
+            if (coralProd == null) return;
+            coralProd.ProductionMultiplier += 0.15;
         }
     }
 }

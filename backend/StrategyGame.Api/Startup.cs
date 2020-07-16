@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -20,6 +21,7 @@ using Microsoft.IdentityModel.Tokens;
 using NSwag;
 using NSwag.Generation.Processors.Security;
 using StrategyGame.Api.Services;
+using StrategyGame.Bll.Services;
 using StrategyGame.Dal;
 
 namespace StrategyGame.Api
@@ -55,11 +57,20 @@ namespace StrategyGame.Api
             });
 
             services.AddScoped<IJwtService, JwtService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRoundService, RoundService>();
+            services.AddScoped<IBattleService, BattleService>();
+            services.AddScoped<IDataService, DataService>();
+            services.AddScoped<IPurchaseService, PurchaseService>();
 
             services.AddAuthentication().AddJwtBearer(options =>
             {
-                options.Audience = "http://localhost:5001/";
-                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidIssuer = Configuration.GetValue<string>("JwtConfig:issuer"),
+                    ValidAudience = Configuration.GetValue<string>("JwtConfig:audience"),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("JwtConfig:secret")))
+                };
             });
 
             services.AddAuthorization(options =>
@@ -82,6 +93,15 @@ namespace StrategyGame.Api
                 options.Password.RequiredUniqueChars = 1;
             });
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "OriginsToAllow",
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
+                                  });
+            });
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -101,6 +121,9 @@ namespace StrategyGame.Api
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseCors("OriginsToAllow");
+
             app.UseAuthentication();
             app.UseAuthorization();
 

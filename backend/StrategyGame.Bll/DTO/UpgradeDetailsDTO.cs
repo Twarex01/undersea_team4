@@ -9,13 +9,11 @@ namespace StrategyGame.Bll.DTO
 {
     public class UpgradeDetailsDTO
     {
-        public int Id { get; set; }
-        [StringLength(100, ErrorMessage = "{0} must be less than {1} characters!")]
+      
+        public int UpgradeTypeID { get; set; }
         public string Name { get; set; }
-
-        [StringLength(300, ErrorMessage = "{0} must be less than {1} characters!")]
         public string Effect { get; set; }
-        [Range(0, int.MaxValue)]
-        public int Progress { get; set; }
+        
+        
     }
 }

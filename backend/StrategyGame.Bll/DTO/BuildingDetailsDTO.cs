@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 
 namespace StrategyGame.Bll.DTO
 {
-    public class BuildingDetailsDTO: BuildingDTO
+    public class BuildingDetailsDTO
     {
-        [StringLength(300, ErrorMessage = "{0} must be less than {1} characters!")]
-        public string Effect { get; set; }
-        [Range(0, int.MaxValue)]
+        public int BuildingTypeID { get; set; }
+        public string Name { get; set; }
         public int Price { get; set; }
+        public string PriceTypeName { get; set; }
+        public string Effect { get; set; }
+        public int BuildTime { get; set; }
     }
 }

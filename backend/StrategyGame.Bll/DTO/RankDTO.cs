@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace StrategyGame.Bll.DTO.Country
+namespace StrategyGame.Bll.DTO
 {
-    public class CountryNameDTO
+    public class RankDTO
     {
-        public int Id { get; set; }
-        [StringLength(100, ErrorMessage = "{0} must be less than {1} characters!")]
+        public int CountryID { get; set; }
         public string Name { get; set; }
+        public int Score { get; set; }
     }
+
+
 }

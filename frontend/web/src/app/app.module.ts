@@ -12,6 +12,10 @@ import { StatusBarComponent } from './core/status-bar/status-bar.component';
 import { MenuComponent } from './core/menu/menu.component';
 import { ProfileComponent } from './core/profile/profile.component';
 import { BasicFormCardComponent } from './core/basic-form-card/basic-form-card.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from './jwt-interceptor';
+import { AuthGuardService } from './core/services/auth-guard.service';
+import { LoginClient, RegisterClient, CountryClient } from './shared/clients';
 
 @NgModule({
   declarations: [
@@ -28,9 +32,10 @@ import { BasicFormCardComponent } from './core/basic-form-card/basic-form-card.c
     BrowserModule,
     AppRoutingModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }, AuthGuardService, LoginClient, RegisterClient],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

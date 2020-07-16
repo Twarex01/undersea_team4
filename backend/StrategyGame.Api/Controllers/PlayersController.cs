@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StrategyGame.Bll.DTO;
+using StrategyGame.Bll.Services;
 
 namespace StrategyGame.Api.Controllers
 {
@@ -12,11 +13,18 @@ namespace StrategyGame.Api.Controllers
     [ApiController]
     public class PlayersController : ControllerBase
     {
+
+        private IDataService _dataService;
+        public PlayersController(IDataService dataService) 
+        {
+            _dataService = dataService;   
+        }
+
         //GEt api/players
         [HttpGet]
-        public List<PlayerDTO> PlayerList()
+        public List<RankDTO> PlayerList()
         {
-            throw new NotImplementedException("TODO");
+            return _dataService.GetPlayerRanks();
         }
 
     }

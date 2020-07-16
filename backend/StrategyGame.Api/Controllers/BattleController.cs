@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design.Serialization;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StrategyGame.Bll.DTO;
+using StrategyGame.Bll.Services;
+using StrategyGame.Model;
 
 namespace StrategyGame.Api.Controllers
 {
@@ -14,13 +14,52 @@ namespace StrategyGame.Api.Controllers
     [ApiController]
     public class BattleController : ControllerBase
     {
-        // POST api/attack
+
+
+        private IBattleService _battleService;
+        private IUserService _userService;
+
+        public BattleController(IBattleService battleService, IUserService userService)
+        {
+            _battleService = battleService;
+            _userService = userService;
+        }
+
+
+        // POST api/Battle/Attack
         [HttpPost]
         [Authorize]
-        [Route("attack")]
-        public IActionResult Attack([FromBody] BattleDTO battleDTO)
+        [Route("Attack")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        
+        public async Task<IActionResult> AttackAsync([FromBody] BattleDTO battleDTO)
         {
-            throw new NotImplementedException("TODO");
+            var atkCountry = await _userService.GetCountryByUserID(User.Identity.Name);
+            battleDTO.IdAtt = atkCountry.ID;
+
+            try
+            {
+                await _battleService.SendAllTypesToAttack(battleDTO);
+            }
+            catch(Exception ex) 
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return Ok();
+        }
+
+        [HttpGet]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<List<Battle>>> GetCountryBattles()
+        {
+            var atkCountry = await _userService.GetCountryByUserID(User.Identity.Name);
+            return Ok(await _battleService.GetCountryBattles(atkCountry.ID));
+
         }
     }
 }

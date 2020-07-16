@@ -5,13 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Services\**" />
-    <EmbeddedResource Remove="Services\**" />
-    <None Remove="Services\**" />
+    <PackageReference Include="NSwag.AspNetCore" Version="13.6.2" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.7.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NSwag.AspNetCore" Version="13.6.2" />
+    <ProjectReference Include="..\StrategyGame.Dal\StrategyGame.Dal.csproj" />
+    <ProjectReference Include="..\StrategyGame.Model\StrategyGame.Model.csproj" />
   </ItemGroup>
 
 </Project>
