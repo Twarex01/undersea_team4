@@ -27,4 +27,11 @@ export class UnitsPageComponent implements OnInit {
     this.unitService.buyUnits(unitsToBuy);
   }
 
+  isReadyToAttack(): boolean {
+    for(let i = 0; i < this.units.length; i++) {
+      if(this.units[i].numToBuy > 0)  return true;
+    }
+    return false;
+  }
+
 }

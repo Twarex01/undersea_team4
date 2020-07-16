@@ -4,6 +4,6 @@
    <app-attack [units]="units" [players]="players" (selectedPlayerChanged)="onSelectedPlayerChanged($event)" class="card-item"></app-attack>      
 
     <div class="footer">
-        <button [ngClass]="{'button-not-selected': !isReadyToBuy()}" (click)="onAttack()">Megtámadom!</button>
+        <button [disabled]="!isReadyToBuy()" [ngClass]="{'button-not-selected': !isReadyToBuy()}" (click)="onAttack()">Megtámadom!</button>
     </div>
 </app-basic-card>

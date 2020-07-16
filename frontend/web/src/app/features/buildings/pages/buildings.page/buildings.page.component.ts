@@ -48,7 +48,6 @@ export class BuildingsPageComponent implements OnInit {
       this.buildings[this.selectedIndex].isSelected = false;
     this.selectedIndex = index;
     this.buildings[index].isSelected = true;
-    console.log("Building" + this.selectedIndex + " selected");
   }
 
   buySelectedBuilding() {
