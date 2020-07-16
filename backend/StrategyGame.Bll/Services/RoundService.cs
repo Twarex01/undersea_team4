@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using StrategyGame.Bll.Hubs;
 using StrategyGame.Bll.DTO;
 using StrategyGame.Dal;
 using StrategyGame.Model;
@@ -9,6 +10,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR;
+using StrategyGame.Bll.Services.Hubs;
 
 namespace StrategyGame.Bll.Services
 {
@@ -19,13 +22,16 @@ namespace StrategyGame.Bll.Services
         private UserManager<User> _userManager;
         private Random soldierMoraleGenerator = new Random();
         private IBattleService _battleService;
+        private IHubContext<RoundHub, IRoundHubClient> _chatHubContext;
         private IDataService _dataService;
 
-        public RoundService(AppDbContext dbContext, UserManager<User> userManager , IBattleService battleService, IDataService dataService)
+        public RoundService(AppDbContext dbContext, UserManager<User> userManager , 
+            IBattleService battleService, IDataService dataService, IHubContext<RoundHub, IRoundHubClient> chatHubContext)
         {
             _dbContext = dbContext;
             _userManager = userManager;
             _battleService = battleService;
+            _chatHubContext = chatHubContext;
             _dataService = dataService;
         }
 
@@ -108,6 +114,10 @@ namespace StrategyGame.Bll.Services
                 country.Score = country.Buildings.Sum(b => b.Progress > 0 ? 0 : b.Count * 50) + country.Upgrades.Sum(u => u.Progress>0 ? 0 : 100) + country.Population + country.Units.Sum(u => u.UnitData.PointValue);
             }
             _dbContext.SaveChanges();
+
+            //Klienseken frissítés
+            //_roundHub.RefreshData();
+
 
 
         }
