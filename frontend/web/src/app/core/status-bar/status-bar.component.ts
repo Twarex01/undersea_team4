@@ -49,16 +49,16 @@ export class StatusBarComponent implements OnInit {
         }
       })
       this.units = units;
-      unitDetails.forEach((untiDetaill) => {
-        const unit = this.buildings.find(building => building.id === untiDetaill.id);
+      unitDetails.forEach((unitDetail) => {
+        const unit = this.units.find(unit => unit.id === unitDetail.id);
         if (unit) {
-          unit.imgSrc = untiDetaill.imgSrc;
+          unit.imgSrc = unitDetail.imgSrc;
         }
         else {
           this.units.push({
-            id: untiDetaill.id,
+            id: unitDetail.id,
             count: 0,
-            imgSrc: untiDetaill.imgSrc
+            imgSrc: unitDetail.imgSrc
           })
         }
       })
