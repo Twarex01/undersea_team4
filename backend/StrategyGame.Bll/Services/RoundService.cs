@@ -121,7 +121,7 @@ namespace StrategyGame.Bll.Services
 
             //Kövi simulate beállítása
             BackgroundJob.Schedule(
-            () => Console.WriteLine("Round background job test"),
+            () => SimulateRound(),
             TimeSpan.FromHours(1));
 
             //Klienseken frissítés
