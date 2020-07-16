@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Unit } from '../../unit';
+import { AttackUnit } from '../../models/attack-unit';
+
 
 @Component({
   selector: 'app-choose-unit',
@@ -8,7 +9,7 @@ import { Unit } from '../../unit';
 })
 export class ChooseUnitComponent implements OnInit {
 
-  @Input() units: Unit[];
+  @Input() units: AttackUnit[];
 
   constructor() { }
 

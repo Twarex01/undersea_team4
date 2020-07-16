@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Upgrade } from '../../upgrade';
+import { Upgrade } from '../../models/upgrade';
 import { UpgradeService } from '../../services/upgrade.service';
 import { forkJoin } from 'rxjs';
 

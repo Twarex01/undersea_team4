@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoginDTO } from '../../shared/clients';
 import { Router } from '@angular/router';
 import { AccountService } from '../services/account.service';
@@ -11,10 +11,11 @@ import { AccountService } from '../services/account.service';
 })
 export class LoginComponent implements OnInit {
   error: boolean = false;
+  validationError: boolean = false;
 
   loginForm = new FormGroup({
-    userName: new FormControl(''),
-    password: new FormControl(''),
+    userName: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required),
   });
 
   constructor(private accountService: AccountService, private router: Router) {}
@@ -22,7 +23,11 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit() {
-    this.error = false;
+    if(this.loginForm.invalid) {
+      this.validationError = true;
+      return;
+    }
+    this.removeErrors();
     this.accountService.login(new LoginDTO(this.loginForm.value)).subscribe(
       (data) => {
         const reader = new FileReader();
@@ -38,4 +43,10 @@ export class LoginComponent implements OnInit {
       }
     );
   }
+
+  removeErrors() {
+    this.validationError = false;
+    this.error = false;
+  }
+
 }

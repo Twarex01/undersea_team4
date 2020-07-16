@@ -4,9 +4,9 @@ import {
   DetailsClient,
 } from '../../../shared/clients';
 import { Observable } from 'rxjs';
-import { CountryUpgrade } from '../country-upgrade';
+import { CountryUpgrade } from '../models/country-upgrade';
 import { map } from 'rxjs/operators';
-import { UpgradeDetails } from '../upgrade-details';
+import { UpgradeDetails } from '../models/upgrade-details';
 
 @Injectable({
   providedIn: 'root',

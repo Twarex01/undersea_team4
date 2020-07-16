@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Upgrade } from '../../upgrade';
+import { Upgrade } from '../../models/upgrade';
 
 @Component({
   selector: 'app-upgrade-card-item',

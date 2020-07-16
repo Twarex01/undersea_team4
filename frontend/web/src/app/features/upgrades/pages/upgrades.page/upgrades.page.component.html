@@ -13,7 +13,7 @@
       </app-upgrade-card-item>
 
     <div class="footer">
-      <button (click)="buySelectedUpgrade()" [ngClass]="{'button-not-selected': selectedUpgradeIndex === -1}">Megveszem</button>
+      <button [disabled]="selectedUpgradeIndex === -1" (click)="buySelectedUpgrade()" [ngClass]="{'button-not-selected': selectedUpgradeIndex === -1}">Megveszem</button>
     </div>
   </app-basic-card>
 </div>

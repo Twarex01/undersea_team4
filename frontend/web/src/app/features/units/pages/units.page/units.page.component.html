@@ -4,7 +4,7 @@
     <app-unit-card-item class="card-item" *ngFor="let unit of units" [unit]="unit">
     </app-unit-card-item>
   <div class="footer">
-    <button (click)="buyUnits()">Megveszem</button>
+    <button [disabled]="!isReadyToAttack()" [ngClass]="{ 'button-not-selected': !isReadyToAttack()}" (click)="buyUnits()">Megveszem</button>
   </div>
 </app-basic-card>
 <router-outlet></router-outlet>

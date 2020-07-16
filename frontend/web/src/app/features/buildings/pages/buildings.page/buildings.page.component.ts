@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BuildingsService } from '../../services/buildings.service';
 import { Observable, forkJoin } from 'rxjs';
-import { Building } from '../../building';
+import { Building } from '../../models/building';
 
 @Component({
   selector: 'app-buildings',
@@ -36,7 +36,7 @@ export class BuildingsPageComponent implements OnInit {
           price: buildingDetail.price,
           priceType: buildingDetail.priceType,
           description: buildingDetail.description,
-          count: countryBuilding.count,
+          count: countryBuilding?.count ?? 0,
           isSelected: false
         })
       });
@@ -48,7 +48,6 @@ export class BuildingsPageComponent implements OnInit {
       this.buildings[this.selectedIndex].isSelected = false;
     this.selectedIndex = index;
     this.buildings[index].isSelected = true;
-    console.log("Building" + this.selectedIndex + " selected");
   }
 
   buySelectedBuilding() {

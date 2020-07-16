@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Unit } from '../../unit';
+import { AttackUnit } from '../../models/attack-unit';
 import { AttackService } from '../../services/attack.service';
-import { Player } from '../../player';
+import { AttackPlayer } from '../../models/attack-player';
 import { forkJoin } from 'rxjs';
-import { Battle } from '../../battle';
-import { CountryUnit } from '../../country-unit';
+import { AttackBattle } from '../../models/attack-battle';
+import { CountryUnit } from '../../models/country-unit';
 
 @Component({
   selector: 'app-attack.page',
@@ -15,13 +15,13 @@ export class AttackPageComponent implements OnInit {
 
   selectedPlayerId: number = -1;
 
-  units: Unit[] = new Array<Unit>(
+  units: AttackUnit[] = new Array<AttackUnit>(
     {id: 0, name: "Lézercápa", imageSrc: "../../../../assets/icons/shark.svg", count: 20, countToAttack: 0},
     {id: 1, name: "Rohamóka", imageSrc: "../../../../assets/icons/seal.svg", count: 50, countToAttack: 0},
     {id: 2, name: "Csatacsikó", imageSrc: "../../../../assets/icons/seahorse.svg", count: 70, countToAttack: 0}
   );
 
-  players: Player[] = new Array<Player>(
+  players: AttackPlayer[] = new Array<AttackPlayer>(
     {id: 0, name: "józsiiwinner12", isSelected: false },
     {id: 1, name: "kiscsiko1990", isSelected: false },
     {id: 2, name: "józsiiwinner12", isSelected: false },
@@ -57,7 +57,7 @@ export class AttackPageComponent implements OnInit {
   }
 
   onAttack() {
-    const battle: Battle = {
+    const battle: AttackBattle = {
       defenderId: this.selectedPlayerId,
       army: this.units.map((unit) => ({id: unit.id, count: unit.countToAttack}))
     }

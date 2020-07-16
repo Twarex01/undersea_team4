@@ -83,6 +83,7 @@ form {
 }
 
 .button-not-selected {
+    cursor: auto;
     opacity: 0.3;
 }
 
