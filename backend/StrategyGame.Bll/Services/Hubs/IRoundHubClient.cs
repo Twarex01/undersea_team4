@@ -8,6 +8,5 @@ namespace StrategyGame.Bll.Services.Hubs
     public interface IRoundHubClient
     {
         Task RefreshInfo();
-
     }
 }
