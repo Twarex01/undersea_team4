@@ -10,6 +10,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR;
+using StrategyGame.Bll.Services.Hubs;
 
 namespace StrategyGame.Bll.Services
 {
@@ -20,15 +22,16 @@ namespace StrategyGame.Bll.Services
         private UserManager<User> _userManager;
         private Random soldierMoraleGenerator = new Random();
         private IBattleService _battleService;
-        private RoundHub _roundHub;
+        private IHubContext<RoundHub, IRoundHubClient> _chatHubContext;
         private IDataService _dataService;
 
-        public RoundService(AppDbContext dbContext, UserManager<User> userManager , IBattleService battleService, IDataService dataService, RoundHub roundHub)
+        public RoundService(AppDbContext dbContext, UserManager<User> userManager , 
+            IBattleService battleService, IDataService dataService, IHubContext<RoundHub, IRoundHubClient> chatHubContext)
         {
             _dbContext = dbContext;
             _userManager = userManager;
             _battleService = battleService;
-            _roundHub = roundHub;
+            _chatHubContext = chatHubContext;
             _dataService = dataService;
         }
 
@@ -108,7 +111,7 @@ namespace StrategyGame.Bll.Services
             }
 
             //Klienseken frissítés
-            _roundHub.RefreshData();
+            //_roundHub.RefreshData();
 
 
 
