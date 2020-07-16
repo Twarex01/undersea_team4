@@ -15,6 +15,7 @@ export class MenuComponent implements OnInit {
 
   nextRound(){
     this.testRoundServcie.testNextRound();
+    window.location.reload();
   }
 
 }

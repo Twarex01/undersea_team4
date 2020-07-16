@@ -100,6 +100,19 @@ export class UpgradesPageComponent implements OnInit {
   }
 
   buySelectedUpgrade() {
-    this.upgradeService.buyUpgrade(this.upgrades[this.selectedUpgradeIndex].id).subscribe(() => {console.log('Upgrade megvásárolva: ' + this.selectedUpgradeIndex);});
+    this.upgradeService.buyUpgrade(this.upgrades[this.selectedUpgradeIndex].id).subscribe(() => {
+      this.upgrades[this.selectedUpgradeIndex].roundsLeft = 15;
+      this.selectedUpgradeIndex = -1;
+    });
+  }
+
+  isSelectedEnabledToBuy(): boolean {
+    if(this.selectedUpgradeIndex === -1)  return false;
+    for(let i = 0; i < this.upgrades.length; i++){
+      if(!!this.upgrades[i].roundsLeft)
+        return false;
+    }
+    const selectedUpgrade = this.upgrades[this.selectedUpgradeIndex];
+    return !selectedUpgrade.isDone;
   }
 }
