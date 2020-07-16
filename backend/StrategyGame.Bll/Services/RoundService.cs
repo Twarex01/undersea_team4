@@ -33,12 +33,14 @@ namespace StrategyGame.Bll.Services
         {
             var pearls = country.Resources.SingleOrDefault(r => r.ResourceDataID == ResourceData.Pearl.ID);
             pearls.Amount += (int)Math.Truncate( pearls.ProductionBase * pearls.ProductionMultiplier);
+            _dbContext.SaveChanges();
         }
 
         private void GenerateCoralIncome(Country country)
         {
             var corals = country.Resources.SingleOrDefault(r => r.ResourceDataID == ResourceData.Coral.ID);
             corals.Amount += (int)Math.Truncate(corals.ProductionBase * corals.ProductionMultiplier);
+            _dbContext.SaveChanges();
         }
 
         private void PaySoldiers(Country country)
@@ -48,7 +50,8 @@ namespace StrategyGame.Bll.Services
             {
                 country.Resources.Where(c => c.ResourceDataID == unit.UnitData.SalaryUnitID).FirstOrDefault().Amount -= unit.UnitData.Salary;  //TESZTELNI!! a FoD miatt null pointer exception veszély
             }
-            
+            _dbContext.SaveChanges();
+
         }
 
         private void ProceedWithUpgrade(Country country)
@@ -57,7 +60,7 @@ namespace StrategyGame.Bll.Services
             if (currentlyUpgrading == null) return;
             currentlyUpgrading.Progress--;
             if (currentlyUpgrading.Progress == 0) currentlyUpgrading.UpgradeData.ApplyEffects(country);
-            
+            _dbContext.SaveChanges();
           
         }
         private void ProceedWithBuilding(Country country)
@@ -69,6 +72,7 @@ namespace StrategyGame.Bll.Services
             {
                 currentlyBuilding.Count++;
                 currentlyBuilding.BuildingData.ApplyEffect(country);
+                _dbContext.SaveChanges();
             }
         }
         public async Task SimulateRound() 
@@ -103,6 +107,7 @@ namespace StrategyGame.Bll.Services
             {
                 country.Score = country.Buildings.Sum(b => b.Progress > 0 ? 0 : b.Count * 50) + country.Upgrades.Sum(u => u.Progress>0 ? 0 : 100) + country.Population + country.Units.Sum(u => u.UnitData.PointValue);
             }
+            _dbContext.SaveChanges();
 
 
         }

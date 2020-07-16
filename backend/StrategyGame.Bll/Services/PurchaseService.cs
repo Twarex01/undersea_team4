@@ -63,15 +63,28 @@ namespace StrategyGame.Bll.Services
 			foreach (var unit in army)
             {
 				var unitdata = _appDbContext.UnitData.Single(u => u.ID == unit.UnitTypeID);
-				totalCost.Add(new Resource { Amount = unitdata.Price, ResourceDataID = (int)unitdata.PriceUnitID });
+				totalCost.Add(new Resource { Amount = unitdata.Price*unit.Count, ResourceDataID = (int)unitdata.PriceUnitID });
 				unitsToBuy.Add(new Unit() { UnitDataID = unit.UnitTypeID, Count = unit.Count, CountryID = countryId, });
 			}
 			foreach(var resource in country.Resources)
             {
-				var cost = totalCost.Single(r => r.ResourceDataID == resource.ResourceDataID).Amount;
-				if (resource.Amount < cost) return 1; //nics elég pénz
+				var cost = totalCost.SingleOrDefault(r => r.ResourceDataID == resource.ResourceDataID);
+				if (cost == null) continue;
+				if (resource.Amount < cost.Amount) return 1; //nics elég pénz
             }
-			country.Units.AddRange(unitsToBuy);
+			
+			foreach(var unit in unitsToBuy)
+            {
+				var existingUnits = country.Units.SingleOrDefault(u => u.UnitDataID == unit.UnitDataID);
+				if (existingUnits == null) country.Units.Add(unit);
+				else existingUnits.Count += unit.Count;
+            }
+
+			foreach(var cost in totalCost)
+            {
+				country.Resources.SingleOrDefault(r => r.ResourceDataID == cost.ResourceDataID).Amount -= cost.Amount;
+            }
+			_appDbContext.SaveChanges();
 			return 0;
 		
 		}
