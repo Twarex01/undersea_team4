@@ -8,12 +8,12 @@
       Minden fejlesztés 15 kört vesz igénybe, egyszerre csak egy dolog fejleszthető és minden csak egyszer fejleszthető ki (nem lehet két kombájn).
     </div>
 
-      <app-upgrade-card-item class="card-item" *ngFor="let upgrade of upgrades" [upgrade]="upgrade" (click)="selectUpgrade(upgrade.id)">
+      <app-upgrade-card-item class="card-item" *ngFor="let upgrade of upgrades; let i = index" [upgrade]="upgrade" (click)="selectUpgrade(i)">
         <img class="item-image" src={{upgrade.imageSrc}}>
       </app-upgrade-card-item>
 
     <div class="footer">
-      <button (click)="buySelectedUpgrade()" [ngClass]="{'button-not-selected': upgradeIndex === -1}">Megveszem</button>
+      <button (click)="buySelectedUpgrade()" [ngClass]="{'button-not-selected': selectedUpgradeIndex === -1}">Megveszem</button>
     </div>
   </app-basic-card>
 </div>
