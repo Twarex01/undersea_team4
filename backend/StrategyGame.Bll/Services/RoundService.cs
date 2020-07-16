@@ -19,6 +19,8 @@ namespace StrategyGame.Bll.Services
     public class RoundService : IRoundService
     {
 
+        public int Round { get; set; }
+
         private AppDbContext _dbContext;
         private UserManager<User> _userManager;
         private Random soldierMoraleGenerator = new Random();
@@ -124,6 +126,8 @@ namespace StrategyGame.Bll.Services
             () => SimulateRound(),
             TimeSpan.FromHours(1));
 
+            Round++;
+
             //Klienseken frissítés
             _roundHubContext.Clients.All.RefreshInfo();  
 
@@ -134,7 +138,7 @@ namespace StrategyGame.Bll.Services
             var rankList = _dataService.GetPlayerRanks();
             rankList.SingleOrDefault(r => r.CountryID == countryId);
             int rank = rankList.IndexOf(rankList.SingleOrDefault(r => r.CountryID == countryId))+1;
-            return new CountryRoundDTO() { Rank = rank, Round = 0 }; //actual round pls
+            return new CountryRoundDTO() { Rank = rank, Round = Round }; //actual round pls
         }
     }
 }

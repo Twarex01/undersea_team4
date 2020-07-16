@@ -116,7 +116,7 @@ namespace StrategyGame.Api
 
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IBackgroundJobClient backgroundJobs, IWebHostEnvironment env, IRoundService rs)
         {
             if (env.IsDevelopment())
             {
@@ -133,6 +133,8 @@ namespace StrategyGame.Api
             app.UseStaticFiles();
 
             app.UseHangfireDashboard();
+            BackgroundJob.Enqueue(
+            () => rs.SimulateRound());
 
             app.UseRouting();
 
