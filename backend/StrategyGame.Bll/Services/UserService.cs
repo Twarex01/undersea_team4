@@ -43,11 +43,11 @@ namespace StrategyGame.Bll.Services
                 Resources = new List<Resource>
                 {
                     new Resource { ResourceDataID = ResourceData.Coral.ID, Amount=0, ProductionBase=0, },
-                    new Resource { ResourceDataID = ResourceData.Pearl.ID, Amount=0, ProductionBase=0, }
+                    new Resource { ResourceDataID = ResourceData.Pearl.ID, Amount=0, ProductionBase=ResourceData.BasePopulation*ResourceData.TaxAmount, }
                 },
                 Buildings = new List<Building>(),  
                 Upgrades = new List<Upgrade>(),
-                Population = 50,
+                Population = ResourceData.BasePopulation,
                 ArmyCapacity = 100
                 
                 
