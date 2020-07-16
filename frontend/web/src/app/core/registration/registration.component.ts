@@ -10,6 +10,7 @@ import { AccountService } from '../services/account.service';
   styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent implements OnInit {
+  validationError: boolean = false;
 
   registerForm = new FormGroup({
     userName: new FormControl('', Validators.required),
@@ -25,6 +26,11 @@ export class RegistrationComponent implements OnInit {
   }
 
   onSubmit() {
+    if(this.registerForm.invalid) {
+      this.validationError = true;
+      return;
+    }
+    this.validationError = false;
     this.accountService.register(new RegisterDTO(this.registerForm.value)).subscribe(() => {
       this.router.navigate(["/login"])
     });

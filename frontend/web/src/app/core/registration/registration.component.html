@@ -5,6 +5,7 @@
          <input type="password" placeholder="Jelszó" formControlName="password">
          <input type="password" placeholder="Jelszó megerősítése" formControlName="passwordConfirmation">
          <input type="text" placeholder="A városod neve, amit építesz" formControlName="countryName">
+         <div *ngIf="validationError" class="error">Tölts ki minden mezőt!</div>
          <a routerLink="/login" class="login-reg-link">Belépés</a>
     </app-basic-form-card>
    </div>
