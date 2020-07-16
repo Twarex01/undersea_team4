@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using StrategyGame.Bll.DTO;
 using StrategyGame.Dal;
 using StrategyGame.Model;
 using System;
@@ -18,12 +19,14 @@ namespace StrategyGame.Bll.Services
         private UserManager<User> _userManager;
         private Random soldierMoraleGenerator = new Random();
         private IBattleService _battleService;
+        private IDataService _dataService;
 
-        public RoundService(AppDbContext dbContext, UserManager<User> userManager , IBattleService battleService)
+        public RoundService(AppDbContext dbContext, UserManager<User> userManager , IBattleService battleService, IDataService dataService)
         {
             _dbContext = dbContext;
             _userManager = userManager;
             _battleService = battleService;
+            _dataService = dataService;
         }
 
         private void GeneratePearlIncome(Country country)
@@ -100,6 +103,14 @@ namespace StrategyGame.Bll.Services
             }
 
 
+        }
+
+        public CountryRoundDTO GetCountryRound(int countryId)
+        {
+            var rankList = _dataService.GetPlayerRanks();
+            rankList.SingleOrDefault(r => r.CountryID == countryId);
+            int rank = rankList.IndexOf(rankList.SingleOrDefault(r => r.CountryID == countryId))+1;
+            return new CountryRoundDTO() { Rank = rank, Round = 0 }; //actual round pls
         }
     }
 }

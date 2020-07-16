@@ -63,6 +63,7 @@ namespace StrategyGame.Model
         public ResourceData ConsumptionUnit { get; set; }
         public int? ConsumptionUnitID { get; set; }
         public int PointValue {get; set;}
+        public string ImageURL { get; set; }
 
     }
 }

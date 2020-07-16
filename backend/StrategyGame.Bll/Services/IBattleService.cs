@@ -12,7 +12,7 @@ namespace StrategyGame.Bll.Services
 
         public Task CommenceBattle(int battleId);
 
-        public Task<List<Battle>> GetCountryBattles(int countryId);
+        public Task<List<BattleDetailsDTO>> GetCountryBattles(int countryId);
 
     }
 }
