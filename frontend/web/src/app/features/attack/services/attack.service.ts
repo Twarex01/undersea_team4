@@ -30,6 +30,14 @@ export class AttackService {
     );
   }
 
+  getCountryName(): Observable<string> {
+    return this.countryClient.getCountryDeatils().pipe(
+      map((countryDetailsDTO) => {
+        return countryDetailsDTO.name!
+      })
+    )
+  }
+
   getUnitDetails(): Observable<AttackUnitDetails[]>{
     return this.detailsClient.getAllUnitDetails().pipe(
       map((unitDetailsDTOArray) => {
