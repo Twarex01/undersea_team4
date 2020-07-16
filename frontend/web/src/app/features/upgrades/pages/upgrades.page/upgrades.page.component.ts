@@ -89,7 +89,6 @@ export class UpgradesPageComponent implements OnInit {
           isSelected: false,
         });
       });
-      console.log(this.upgrades);
     });
   }
 

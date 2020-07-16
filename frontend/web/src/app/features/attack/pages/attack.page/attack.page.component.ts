@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Unit } from '../../unit';
 import { AttackService } from '../../services/attack.service';
 import { Player } from '../../player';
+import { forkJoin } from 'rxjs';
+import { Battle } from '../../battle';
+import { CountryUnit } from '../../country-unit';
 
 @Component({
   selector: 'app-attack.page',
@@ -35,11 +38,32 @@ export class AttackPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.attackService.getPlayerList().subscribe(players => this.players = players);
+    forkJoin(
+      this.attackService.getCountryUnits(),
+      this.attackService.getUnitDetails()
+    ).subscribe(([countryUnits, unitDetails]) => {
+      this.units = [];
+      unitDetails.forEach((unitDetail) => {
+        const countryUnit = countryUnits.find((cu) => cu.id == unitDetail.id)!;
+        this.units.push({
+          id: unitDetail.id,
+          imageSrc: unitDetail.imageSrc,
+          name: unitDetail.name,
+          count: countryUnit?.count,
+          countToAttack: 0
+        })
+      })
+    })
   }
 
   onAttack() {
-    //TODO
-    this.attackService.attack();
+    const battle: Battle = {
+      defenderId: this.selectedPlayerId,
+      army: this.units.map((unit) => ({id: unit.id, count: unit.countToAttack}))
+    }
+    this.attackService.attack(battle).subscribe(() => {
+      console.log("OK");
+    })
   }
 
   onSelectedPlayerChanged(id: number) {
