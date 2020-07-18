@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SignalRService } from '../services/signal-r.service';
 
 @Component({
   selector: 'app-main-layout',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainLayoutComponent implements OnInit {
 
-  constructor() { }
+  constructor(private signalRService: SignalRService) { }
 
   ngOnInit(): void {
+    this.signalRService.startConnection();
+    this.signalRService.addChangeRoundListener();
   }
 
 }

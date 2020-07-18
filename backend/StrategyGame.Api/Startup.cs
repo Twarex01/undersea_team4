@@ -110,7 +110,7 @@ namespace StrategyGame.Api
                 options.AddPolicy(name: "OriginsToAllow",
                                   builder =>
                                   {
-                                      builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
+                                      builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
                                   });
             });
 
@@ -133,7 +133,7 @@ namespace StrategyGame.Api
             app.UseStaticFiles();
 
             app.UseHangfireDashboard();
-            RecurringJob.AddOrUpdate(() => rs.SimulateRound(), Cron.Hourly());
+            RecurringJob.AddOrUpdate(() => rs.SimulateRound(), Cron.Minutely());
 
             app.UseRouting();
 

@@ -1,7 +1,7 @@
 main {
     background: transparent url('../../../assets/main-layout/main-background@2x.png') 0% 0% no-repeat padding-box;
     background-size: 100% 100%;
-    height: 100vh;
+    height: auto;
     width: 100%;
 }
 
