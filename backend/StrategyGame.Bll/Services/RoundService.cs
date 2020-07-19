@@ -19,7 +19,7 @@ namespace StrategyGame.Bll.Services
     public class RoundService : IRoundService
     {
 
-        public int Round { get; set; } = 0;
+        public static int Round { get; set; } = 0;
 
         private AppDbContext _dbContext;
         private UserManager<User> _userManager;
