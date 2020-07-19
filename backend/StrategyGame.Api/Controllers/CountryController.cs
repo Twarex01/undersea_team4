@@ -103,7 +103,7 @@ namespace StrategyGame.Api.Controllers
                 return BadRequest();
         }
 
-        //PUT api/Country/Units/3
+        //PUT api/Country/Units
         [HttpPut("Units")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
