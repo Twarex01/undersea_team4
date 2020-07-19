@@ -5,6 +5,7 @@ import { AttackPlayer } from '../../models/attack-player';
 import { forkJoin } from 'rxjs';
 import { AttackBattle } from '../../models/attack-battle';
 import { CountryUnit } from '../../models/country-unit';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-attack.page',
@@ -36,7 +37,7 @@ export class AttackPageComponent implements OnInit {
     {id: 10, name: "kiscsiko1990", isSelected: false }
   );
 
-  constructor(private attackService: AttackService) { }
+  constructor(private attackService: AttackService, private _location: Location) { }
 
   ngOnInit(): void {
     forkJoin(
@@ -72,6 +73,7 @@ export class AttackPageComponent implements OnInit {
     this.attackService.attack(battle).subscribe(() => {
       console.log("OK");
     })
+    this._location.back();
   }
 
   onSelectedPlayerChanged(id: number) {

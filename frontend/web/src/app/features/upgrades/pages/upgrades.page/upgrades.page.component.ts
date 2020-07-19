@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Upgrade } from '../../models/upgrade';
 import { UpgradeService } from '../../services/upgrade.service';
 import { forkJoin } from 'rxjs';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-upgrades.page',
@@ -67,7 +68,7 @@ export class UpgradesPageComponent implements OnInit {
     }
   );
 
-  constructor(private upgradeService: UpgradeService) {}
+  constructor(private upgradeService: UpgradeService, private _location: Location) {}
 
   ngOnInit(): void {
     forkJoin(
@@ -104,6 +105,7 @@ export class UpgradesPageComponent implements OnInit {
       this.upgrades[this.selectedUpgradeIndex].roundsLeft = 15;
       this.selectedUpgradeIndex = -1;
     });
+    this._location.back();
   }
 
   isSelectedEnabledToBuy(): boolean {
