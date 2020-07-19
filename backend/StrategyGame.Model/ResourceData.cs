@@ -10,6 +10,7 @@ namespace StrategyGame.Model
         public static ResourceData Pearl = new ResourceData { ID = 2, Name = "Gyöngy" };
         public static int TaxAmount = 25; // azért csak egy szám mert a játék működése szempontjából nem lenne értelmes a gyöngytől különböző erőforrást adózni
         public static int BasePopulation = 10;
+        public static int BaseCoralProduction = 20;
 
         public int ID { get; set; }
         public string Name { get; set; }

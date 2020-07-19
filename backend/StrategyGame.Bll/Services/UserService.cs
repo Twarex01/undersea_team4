@@ -42,7 +42,7 @@ namespace StrategyGame.Bll.Services
                 Name = registerDTO.CountryName,
                 Resources = new List<Resource>
                 {
-                    new Resource { ResourceDataID = ResourceData.Coral.ID, Amount=0, ProductionBase=0, },
+                    new Resource { ResourceDataID = ResourceData.Coral.ID, Amount=0, ProductionBase=ResourceData.BaseCoralProduction },
                     new Resource { ResourceDataID = ResourceData.Pearl.ID, Amount=0, ProductionBase=ResourceData.BasePopulation*ResourceData.TaxAmount, }
                 },
                 Buildings = new List<Building>(),  
