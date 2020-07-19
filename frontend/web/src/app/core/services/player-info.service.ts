@@ -8,6 +8,7 @@ import { CountryResource } from '../status-bar/country-resource';
 import { UnitDetails } from '../status-bar/unit-detail';
 import { BuildingDetails } from '../status-bar/building-detail';
 import { CountryRound } from '../status-bar/country-round';
+import { CountryDetail } from '../../features/units/models/country-detail';
 
 @Injectable({
   providedIn: 'root'
@@ -90,7 +91,13 @@ export class PlayerInfoService {
     );
   }
 
-
+  getCountryInfo(): Observable<CountryDetail>{
+    return this.countryClient.getCountryDeatils().pipe(
+      map((countryDetail) => ({
+        armyCapacity: countryDetail.armyCapacity
+      }))
+    );
+  }
 
 
   getPlayerName(): string {

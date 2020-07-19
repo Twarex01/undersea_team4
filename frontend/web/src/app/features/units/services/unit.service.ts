@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { CountryClient, DetailsClient } from '../../../shared/clients';
+import { CountryClient, DetailsClient, UnitDTO } from '../../../shared/clients';
 import { CountryUnit } from '../country-unit';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { UnitDetail } from '../units-detail';
+import { UnitToBuy } from '../models/unitToBuy';
 
 @Injectable({
   providedIn: 'root'
@@ -12,15 +13,15 @@ export class UnitService {
 
   constructor(private countryClient: CountryClient, private detailsClient: DetailsClient) { }
 
-  getCountryUnits(): Observable<CountryUnit[]>{
+  getCountryUnits(): Observable<CountryUnit[]> {
     return this.countryClient.getCountryUnits().pipe(
       map((unitDTOArray) => {
-        return unitDTOArray.map((unitDTO) => ({id: unitDTO.unitTypeID, count: unitDTO.count}))
+        return unitDTOArray.map((unitDTO) => ({ id: unitDTO.unitTypeID, count: unitDTO.count }))
       })
     );
   }
 
-  getUnitDetails(): Observable<UnitDetail[]>{
+  getUnitDetails(): Observable<UnitDetail[]> {
     return this.detailsClient.getAllUnitDetails().pipe(
       map((unitDetailsDTOArray) => {
         return unitDetailsDTOArray.map((unitDetailsDTO) => ({
@@ -38,7 +39,7 @@ export class UnitService {
   }
 
   buyUnits(unitsToBuy: any) {
-    this.countryClient.buyUnits(unitsToBuy);
+    this.countryClient.buyUnits(unitsToBuy).subscribe();
     console.log(unitsToBuy);
     //TODO
   }

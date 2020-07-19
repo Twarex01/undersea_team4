@@ -3,6 +3,9 @@ import { UnitService } from '../../services/unit.service';
 import { UnitToBuy } from '../../models/unitToBuy';
 import { Unit } from '../../models/unit';
 import { forkJoin } from 'rxjs';
+import { PlayerInfoService } from '../../../../core/services/player-info.service';
+import { CountryResource } from '../../models/resources';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-units.page',
@@ -12,14 +15,19 @@ import { forkJoin } from 'rxjs';
 export class UnitsPageComponent implements OnInit {
 
   units: Unit[] = [];
+  pearl: CountryResource | undefined;
+  armyCapacity : number | undefined;
 
-  constructor(private unitService: UnitService) { }
+  constructor(private unitService: UnitService, private palyerInfoService: PlayerInfoService,private router: Router) { }
 
   ngOnInit(): void {
     forkJoin(
       this.unitService.getCountryUnits(),
-      this.unitService.getUnitDetails()
-    ).subscribe(([countryUnits, unitDetails]) => {
+      this.unitService.getUnitDetails(),
+      this.palyerInfoService.getCountryResources(),
+      this.palyerInfoService.getCountryInfo()
+
+    ).subscribe(([countryUnits, unitDetails,resources, countryinfo]) => {
       unitDetails.forEach((unitDetail) => {
         const unit = countryUnits.find(countryUnit => countryUnit.id == unitDetail.id);
         this.units.push({
@@ -34,7 +42,9 @@ export class UnitsPageComponent implements OnInit {
           price: unitDetail.price,
           numToBuy: 0
         })
-      })
+      });
+      this.pearl = resources.find(resource => resource.id == 2);
+      this.armyCapacity = countryinfo.armyCapacity;
     });
 
   }
@@ -42,6 +52,7 @@ export class UnitsPageComponent implements OnInit {
   buyUnits() {
     const unitsToBuy: UnitToBuy[] = this.units.map((unit) => ({ id: unit.id, count: unit.numToBuy }));
     this.unitService.buyUnits(unitsToBuy);
+    this.router.navigateByUrl('/'); 
   }
 
   isReadyToAttack(): boolean {
