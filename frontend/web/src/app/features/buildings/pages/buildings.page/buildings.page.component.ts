@@ -3,6 +3,7 @@ import { BuildingsService } from '../../services/buildings.service';
 import { Observable, forkJoin } from 'rxjs';
 import { Building } from '../../models/building';
 import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-buildings',
@@ -18,7 +19,7 @@ export class BuildingsPageComponent implements OnInit {
 
   selectedIndex: number = -1;
 
-  constructor(private buildingsService: BuildingsService, private _location: Location) { }
+  constructor(private buildingsService: BuildingsService, private router: Router) { }
 
   ngOnInit(): void {
     forkJoin(
@@ -53,6 +54,6 @@ export class BuildingsPageComponent implements OnInit {
 
   buySelectedBuilding() {
     this.buildingsService.buyBuilding(this.buildings[this.selectedIndex].id).subscribe();
-    this._location.back();
+    this.router.navigateByUrl('/');
   }
 }
