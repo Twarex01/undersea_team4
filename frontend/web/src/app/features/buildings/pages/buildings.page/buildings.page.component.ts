@@ -35,7 +35,7 @@ export class BuildingsPageComponent implements OnInit {
           description: buildingDetail.description,
           count: countryBuilding?.count ?? 0,
           isSelected: false,
-          progress: countryBuilding.progress
+          progress: countryBuilding?.progress ?? -1
         })
       });
     })
