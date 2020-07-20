@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StrategyGame.Dal;
 
 namespace StrategyGame.Dal.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200720132409_Undersea_v5_AttackingCountry_not_unique")]
+    partial class Undersea_v5_AttackingCountry_not_unique
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -170,7 +172,8 @@ namespace StrategyGame.Dal.Migrations
 
                     b.HasIndex("BattleID");
 
-                    b.HasIndex("UnitDataID");
+                    b.HasIndex("UnitDataID")
+                        .IsUnique();
 
                     b.ToTable("AttackingUnits");
                 });
@@ -809,8 +812,8 @@ namespace StrategyGame.Dal.Migrations
                         .IsRequired();
 
                     b.HasOne("StrategyGame.Model.UnitData", "UnitData")
-                        .WithMany()
-                        .HasForeignKey("UnitDataID")
+                        .WithOne()
+                        .HasForeignKey("StrategyGame.Model.AttackingUnit", "UnitDataID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
