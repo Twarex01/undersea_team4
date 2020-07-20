@@ -6,11 +6,13 @@ hr {
 
 .player {
     display: inline-block;
-    width: 30rem;
+    width: 80%;
 }
 
 .points {
     display: inline-block;
+    width: 20%;
+    text-align: center;
 }
 
 .search {
@@ -31,3 +33,29 @@ p.header{
     position: relative;
     right: 15%;
 }
+
+.player-scroll-bar {
+    overflow: auto;
+    max-height: 25rem;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px; 
+ }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #03255F;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #3F68AE;
+    border-radius: 5px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3F68AE;
+  }
