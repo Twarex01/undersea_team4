@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace StrategyGame.Model
+﻿namespace StrategyGame.Model
 {
     public class Building
     {
@@ -13,6 +9,6 @@ namespace StrategyGame.Model
         public int BuildingDataID { get; set; }
         public Country Country { get; set; }
         public int CoutryID { get; set; }
-        
+
     }
 }

@@ -3,10 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using StrategyGame.Bll.DTO.common;
 using StrategyGame.Dal;
 using StrategyGame.Model;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace StrategyGame.Bll.Services
@@ -33,38 +31,40 @@ namespace StrategyGame.Bll.Services
         public async Task<IdentityResult> RegisterUserAsync(RegisterDTO registerDTO)
         {
             var xd = new IdentityResult();
-            if (_dbContext.Countries.Any(c => c.Name == registerDTO.CountryName)) {
+            if (_dbContext.Countries.Any(c => c.Name == registerDTO.CountryName))
+            {
                 var fail = new IdentityResult();
                 fail.Errors.Append(new IdentityError() { Description = "Már van ilyen nevű ország" });
             }
-            
-            Country country = new Country() { 
+
+            Country country = new Country()
+            {
                 Name = registerDTO.CountryName,
                 Resources = new List<Resource>
                 {
                     new Resource { ResourceDataID = ResourceData.Coral.ID, Amount=0, ProductionBase=ResourceData.BaseCoralProduction },
                     new Resource { ResourceDataID = ResourceData.Pearl.ID, Amount=0, ProductionBase=ResourceData.BasePopulation*ResourceData.TaxAmount, }
                 },
-                Buildings = new List<Building>(),  
+                Buildings = new List<Building>(),
                 Upgrades = new List<Upgrade>(),
                 Population = ResourceData.BasePopulation,
                 ArmyCapacity = 100
-                
-                
+
+
             };
             User user = new User() { UserName = registerDTO.UserName, Country = country };
             country.User = user;
 
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
-            
+
             return result;
         }
 
         public async Task<Country> GetCountryByUserID(string userID)
         {
             return await _dbContext.Countries.Where(c => c.UserID == userID).SingleOrDefaultAsync();
-            
-            
+
+
         }
     }
 }

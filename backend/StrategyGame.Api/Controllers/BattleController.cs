@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StrategyGame.Bll.DTO;
 using StrategyGame.Bll.Services;
-using StrategyGame.Model;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace StrategyGame.Api.Controllers
 {
@@ -33,7 +32,7 @@ namespace StrategyGame.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        
+
         public async Task<IActionResult> AttackAsync([FromBody] BattleDTO battleDTO)
         {
             var atkCountry = await _userService.GetCountryByUserID(User.Identity.Name);
@@ -43,7 +42,7 @@ namespace StrategyGame.Api.Controllers
             {
                 await _battleService.SendAllTypesToAttack(battleDTO);
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

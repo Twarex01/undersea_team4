@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using StrategyGame.Api.Services;
 using StrategyGame.Bll.DTO.common;
 using StrategyGame.Bll.Services;
+using System.Threading.Tasks;
 
 namespace StrategyGame.Api.Controllers
 {
@@ -27,9 +23,9 @@ namespace StrategyGame.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> PostLogin([FromBody] LoginDTO loginDTO)
         {
-            
+
             var user = await _userService.AuthenticateUser(loginDTO);
-            if (user==null) return BadRequest("nem megfelelő felhsználó név vagy jelszó");
+            if (user == null) return BadRequest("nem megfelelő felhsználó név vagy jelszó");
             string token = _JWTService.GenerateSecurityToken(user);
             return Ok(token);
         }

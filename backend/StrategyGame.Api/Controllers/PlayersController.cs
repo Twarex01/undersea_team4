@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using StrategyGame.Bll.DTO;
 using StrategyGame.Bll.Services;
+using System.Collections.Generic;
 
 namespace StrategyGame.Api.Controllers
 {
@@ -15,9 +11,9 @@ namespace StrategyGame.Api.Controllers
     {
 
         private IDataService _dataService;
-        public PlayersController(IDataService dataService) 
+        public PlayersController(IDataService dataService)
         {
-            _dataService = dataService;   
+            _dataService = dataService;
         }
 
         //GEt api/players

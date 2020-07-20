@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace StrategyGame.Model
+﻿namespace StrategyGame.Model
 {
     public class AttackingUnit
     {
         public int ID { get; set; }
 
-        public Battle Battle {get; set; }
+        public Battle Battle { get; set; }
 
         public int BattleID { get; set; }
         public UnitData UnitData { get; set; }

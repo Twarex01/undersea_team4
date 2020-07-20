@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace StrategyGame.Model
+﻿namespace StrategyGame.Model
 {
     public class UnitData
     {
-        public static UnitData AssaultSeal = new UnitData {
-            ID = 1, Name = "Roham Fóka",
+        public static UnitData AssaultSeal = new UnitData
+        {
+            ID = 1,
+            Name = "Roham Fóka",
             Salary = 1,
             SalaryUnitID = ResourceData.Pearl.ID,
             Price = 50,
@@ -16,7 +14,7 @@ namespace StrategyGame.Model
             ConsumptionUnitID = ResourceData.Coral.ID,
             ATK = 6,
             DEF = 2,
-            PointValue =5
+            PointValue = 5
         };
 
         public static UnitData BattleSeaHorse = new UnitData
@@ -62,7 +60,7 @@ namespace StrategyGame.Model
         public int Consumption { get; set; }
         public ResourceData ConsumptionUnit { get; set; }
         public int? ConsumptionUnitID { get; set; }
-        public int PointValue {get; set;}
+        public int PointValue { get; set; }
         public string ImageURL { get; set; }
 
     }
