@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Upgrade } from '../../models/upgrade';
 import { UpgradeService } from '../../services/upgrade.service';
 import { forkJoin } from 'rxjs';
-import { Router } from '@angular/router';
-
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-upgrades.page',
@@ -69,7 +68,7 @@ export class UpgradesPageComponent implements OnInit {
     }
   );
 
-  constructor(private upgradeService: UpgradeService, private router: Router) { }
+  constructor(private upgradeService: UpgradeService, private _location: Location) {}
 
   ngOnInit(): void {
     forkJoin(
@@ -85,9 +84,9 @@ export class UpgradesPageComponent implements OnInit {
           id: upgradeDetail.id,
           imageSrc: upgradeDetail.imageSrc,
           name: upgradeDetail.name,
-          roundsLeft: countryUpgrade ?.roundsLeft,
+          roundsLeft: countryUpgrade?.roundsLeft,
           description: upgradeDetail.description,
-          isDone: countryUpgrade ?.roundsLeft === 0 ? true : false,
+          isDone: countryUpgrade?.roundsLeft === 0 ? true : false,
           isSelected: false,
         });
       });
@@ -106,13 +105,13 @@ export class UpgradesPageComponent implements OnInit {
       this.upgrades[this.selectedUpgradeIndex].roundsLeft = 15;
       this.selectedUpgradeIndex = -1;
     });
-    this.router.navigateByUrl('/');
+    this._location.back();
   }
 
   isSelectedEnabledToBuy(): boolean {
-    if (this.selectedUpgradeIndex === -1) return false;
-    for (let i = 0; i < this.upgrades.length; i++) {
-      if (!!this.upgrades[i].roundsLeft)
+    if(this.selectedUpgradeIndex === -1)  return false;
+    for(let i = 0; i < this.upgrades.length; i++){
+      if(!!this.upgrades[i].roundsLeft)
         return false;
     }
     const selectedUpgrade = this.upgrades[this.selectedUpgradeIndex];
