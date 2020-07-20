@@ -18,7 +18,12 @@ import { UnitChnageInfo } from '../../models/unit-chnage-info';
 export class UnitsPageComponent implements OnInit {
 
   units: Unit[] = [];
-  unitBuyInfo: UnitBuyInfo | undefined;
+  unitBuyInfo: UnitBuyInfo = {
+    pearl: 0,
+    armyCapacity: 0,
+    estimatedUnitsCount: 0,
+    estimatedPearlCost: 0,
+  };
 
   constructor(
     private unitService: UnitService,
@@ -33,12 +38,6 @@ export class UnitsPageComponent implements OnInit {
   }
 
   getArmyInfo() {
-    this.unitBuyInfo = {
-      pearl: 0,
-      armyCapacity: 0,
-      estimatedUnitsCount: 0,
-      estimatedPearlCost: 0,
-    };
     this.units = [];
 
     forkJoin(
@@ -78,7 +77,17 @@ export class UnitsPageComponent implements OnInit {
     const unitsToBuy: UnitToBuy[] = this.units.map((unit) => ({ unitTypeID: unit.id, count: unit.numToBuy }));
     this.unitService.buyUnits(unitsToBuy).subscribe(() => {
       this.statusNotificationService.updateStatus(true);
-      this.getArmyInfo();
+      unitsToBuy.forEach((unit) => {
+        const i = this.units.findIndex(u => u.id === unit.unitTypeID);
+        this.units[i].count += unit.count;
+        this.unitBuyInfo.estimatedUnitsCount += unit.count;
+        this.units[i].numToBuy = 0;
+      });
+      this.palyerInfoService.getCountryResources().subscribe(res => {
+        const countryResource = res.find(resource => resource.id == 2)
+        this.unitBuyInfo.pearl = countryResource?.count ?? 0;
+      })
+      this.unitBuyInfo.estimatedPearlCost = 0;
     });
   }
 
