@@ -67,6 +67,25 @@ namespace StrategyGame.Bll.Services
 
         }
 
+        private void FeedSoldiers(Country country)
+        {
+
+            foreach (var unit in country.Units)
+            {
+                var resource = country.Resources.Where(c => c.ResourceDataID == unit.UnitData.ConsumptionUnitID).FirstOrDefault();
+                var resourcesEaten = unit.UnitData.Consumption * unit.Count;
+
+                if (resource.Amount - resourcesEaten >= 0)
+                    resource.Amount -= resourcesEaten;  //TESZTELNI!! a FoD miatt null pointer exception veszély
+                else
+                    resource.Amount = 0;
+            }
+            _dbContext.SaveChanges();
+
+        }
+
+
+
         private void ProceedWithUpgrade(Country country)
         {
             var currentlyUpgrading = country.Upgrades.Where(u => u.Progress > 0).SingleOrDefault(); //elvileg nem lehet 1-nél több eredmény
@@ -104,23 +123,30 @@ namespace StrategyGame.Bll.Services
                 GeneratePearlIncome(country);
                 GenerateCoralIncome(country);
                 PaySoldiers(country);
+                FeedSoldiers(country);
                 ProceedWithUpgrade(country);
                 ProceedWithBuilding(country);
 
             }
 
             //Harc
-            foreach (var battleID in _dbContext.Battles.Select(b => b.ID))
+            var BattleIDs = _dbContext.Battles.Select(b => b.ID).ToList();
+            foreach (var battleID in BattleIDs)
             {
-                await _battleService.CommenceBattle(battleID);
+                _battleService.CommenceBattle(battleID);
             }
 
             //pont számolás
             foreach (var country in countryList)
             {
-                country.Score = country.Buildings.Sum(b => b.Progress > 0 ? 0 : b.Count * 50) + country.Upgrades.Sum(u => u.Progress > 0 ? 0 : 100) + country.Population + country.Units.Sum(u => u.UnitData.PointValue);
+                country.Score = country.Buildings.Sum(b => b.Progress > 0 ? 0 : b.Count * 50) + country.Upgrades.Sum(u => u.Progress > 0 ? 0 : 100) + country.Population + country.Units.Sum(u => u.UnitData.PointValue * u.Count);
             }
-            _dbContext.SaveChanges();
+
+            //csaták törlése
+            _dbContext.AttackingUnits.RemoveRange(_dbContext.AttackingUnits);
+            _dbContext.Battles.RemoveRange(_dbContext.Battles);
+
+            await _dbContext.SaveChangesAsync();
 
             Round++;
 

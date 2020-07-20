@@ -12,5 +12,6 @@
         public string PriceTypeName { get; set; }
         public string SalaryTypeName { get; set; }
         public string ConsumptionTypeName { get; set; }
+        public string ImageURL { get; set; }
     }
 }

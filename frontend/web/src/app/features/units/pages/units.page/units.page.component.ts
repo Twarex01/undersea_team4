@@ -5,7 +5,10 @@ import { Unit } from '../../models/unit';
 import { forkJoin } from 'rxjs';
 import { PlayerInfoService } from '../../../../core/services/player-info.service';
 import { CountryResource } from '../../models/resources';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
+import { StatusNotificationService } from '../../../../core/services/status-notification.service';
+import { UnitBuyInfo } from '../../models/unit-buy-info';
+import { UnitChnageInfo } from '../../models/unit-chnage-info';
 
 @Component({
   selector: 'app-units.page',
@@ -15,21 +18,38 @@ import {Router} from '@angular/router';
 export class UnitsPageComponent implements OnInit {
 
   units: Unit[] = [];
-  pearl: CountryResource | undefined;
-  armyCapacity : number | undefined;
+  unitBuyInfo: UnitBuyInfo = {
+    pearl: 0,
+    armyCapacity: 0,
+    estimatedUnitsCount: 0,
+    estimatedPearlCost: 0,
+  };
 
-  constructor(private unitService: UnitService, private palyerInfoService: PlayerInfoService,private router: Router) { }
+  constructor(
+    private unitService: UnitService,
+    private palyerInfoService: PlayerInfoService,
+    private statusNotificationService: StatusNotificationService
+  ) { }
+
+
 
   ngOnInit(): void {
+    this.getArmyInfo();
+  }
+
+  getArmyInfo() {
+    this.units = [];
+
     forkJoin(
       this.unitService.getCountryUnits(),
       this.unitService.getUnitDetails(),
       this.palyerInfoService.getCountryResources(),
       this.palyerInfoService.getCountryInfo()
 
-    ).subscribe(([countryUnits, unitDetails,resources, countryinfo]) => {
+    ).subscribe(([countryUnits, unitDetails, resources, countryinfo]) => {
       unitDetails.forEach((unitDetail) => {
         const unit = countryUnits.find(countryUnit => countryUnit.id == unitDetail.id);
+        if (unit && this.unitBuyInfo) { this.unitBuyInfo.estimatedUnitsCount += unit.count }
         this.units.push({
           id: unitDetail.id,
           imageSrc: unitDetail.imgSrc,
@@ -43,16 +63,32 @@ export class UnitsPageComponent implements OnInit {
           numToBuy: 0
         })
       });
-      this.pearl = resources.find(resource => resource.id == 2);
-      this.armyCapacity = countryinfo.armyCapacity;
-    });
 
+      if (this.unitBuyInfo) {
+        const countryResource = resources.find(resource => resource.id == 2)
+        this.unitBuyInfo.pearl = countryResource?.count ?? 0;
+        this.unitBuyInfo.armyCapacity = countryinfo.armyCapacity;
+      }
+
+    });
   }
 
   buyUnits() {
     const unitsToBuy: UnitToBuy[] = this.units.map((unit) => ({ unitTypeID: unit.id, count: unit.numToBuy }));
-    this.unitService.buyUnits(unitsToBuy);
-    this.router.navigateByUrl('/'); 
+    this.unitService.buyUnits(unitsToBuy).subscribe(() => {
+      this.statusNotificationService.updateStatus(true);
+      unitsToBuy.forEach((unit) => {
+        const i = this.units.findIndex(u => u.id === unit.unitTypeID);
+        this.units[i].count += unit.count;
+        this.unitBuyInfo.estimatedUnitsCount += unit.count;
+        this.units[i].numToBuy = 0;
+      });
+      this.palyerInfoService.getCountryResources().subscribe(res => {
+        const countryResource = res.find(resource => resource.id == 2)
+        this.unitBuyInfo.pearl = countryResource?.count ?? 0;
+      })
+      this.unitBuyInfo.estimatedPearlCost = 0;
+    });
   }
 
   isReadyToAttack(): boolean {
@@ -62,4 +98,9 @@ export class UnitsPageComponent implements OnInit {
     return false;
   }
 
+  changeUnits(change: UnitChnageInfo) {
+    this.unitBuyInfo.estimatedPearlCost += change.costChnage;
+    this.unitBuyInfo.estimatedUnitsCount += change.countChnage;
+
+  }
 }

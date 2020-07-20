@@ -7,9 +7,9 @@ namespace StrategyGame.Bll.Services
     public interface IBattleService
     {
 
-        public Task SendAllTypesToAttack(BattleDTO battleDto);
+        public void SendAllTypesToAttack(BattleDTO battleDto);
 
-        public Task CommenceBattle(int battleId);
+        public void CommenceBattle(int battleId);
 
         public Task<List<BattleDetailsDTO>> GetCountryBattles(int countryId);
 

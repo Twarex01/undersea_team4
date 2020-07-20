@@ -40,7 +40,7 @@ export class UnitService {
   }
 
   buyUnits(unitsToBuy: any) {
-    this.countryClient.buyUnits(unitsToBuy).subscribe();
+    return this.countryClient.buyUnits(unitsToBuy);
   }
 
 }

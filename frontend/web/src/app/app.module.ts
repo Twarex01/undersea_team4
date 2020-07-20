@@ -16,6 +16,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './jwt-interceptor';
 import { AuthGuardService } from './core/services/auth-guard.service';
 import { LoginClient, RegisterClient, CountryClient, RoundClient } from './shared/clients';
+import { MenuLogoComponent } from './core/menu-logo/menu-logo.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { LoginClient, RegisterClient, CountryClient, RoundClient } from './share
     StatusBarComponent,
     MenuComponent,
     ProfileComponent,
-    BasicFormCardComponent
+    BasicFormCardComponent,
+    MenuLogoComponent
   ],
   imports: [
     BrowserModule,

@@ -26,7 +26,7 @@ export class PlayerListComponent implements OnInit {
   }
 
   getPlayerList() {
-    return this.playerList.filter((player) => player.name.includes(this.playerNameInput));
+    return this.playerList.filter((player) => player.name.toLowerCase().includes(this.playerNameInput.trim().toLowerCase()));
   }
 
 }

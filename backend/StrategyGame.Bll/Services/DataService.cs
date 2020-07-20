@@ -31,7 +31,8 @@ namespace StrategyGame.Bll.Services
                     ResourceTypeID = resource.ResourceDataID,
                     Amount = resource.Amount,
                     Name = resource.ResourceData.Name,
-                    Production = (int)Math.Floor(resource.ProductionBase * resource.ProductionMultiplier)
+                    Production = (int)Math.Floor(resource.ProductionBase * resource.ProductionMultiplier),
+                    ImageURL = resource.ResourceData.ImageURL
                 });
             }
             return output;
@@ -68,7 +69,8 @@ namespace StrategyGame.Bll.Services
                     Price = unitData.Price,
                     PriceTypeName = resourceTypes.SingleOrDefault(r => r.ID == unitData.PriceUnitID).Name,
                     ConsumptionTypeName = resourceTypes.SingleOrDefault(r => r.ID == unitData.ConsumptionUnitID).Name,
-                    SalaryTypeName = resourceTypes.SingleOrDefault(r => r.ID == unitData.SalaryUnitID).Name
+                    SalaryTypeName = resourceTypes.SingleOrDefault(r => r.ID == unitData.SalaryUnitID).Name,
+                    ImageURL = unitData.ImageURL
                 });
             }
             return unitDetails;
@@ -93,7 +95,8 @@ namespace StrategyGame.Bll.Services
                 {
                     Effect = upgradeData.Effect,
                     Name = upgradeData.Name,
-                    UpgradeTypeID = upgradeData.ID
+                    UpgradeTypeID = upgradeData.ID,
+                    ImageURL = upgradeData.ImageURL
 
                 });
             }
@@ -129,7 +132,8 @@ namespace StrategyGame.Bll.Services
                     Effect = buildingData.Effect,
                     Name = buildingData.Name,
                     Price = buildingData.Price,
-                    PriceTypeName = resourceTypes.SingleOrDefault(r => r.ID == buildingData.PriceUnitID).Name
+                    PriceTypeName = resourceTypes.SingleOrDefault(r => r.ID == buildingData.PriceUnitID).Name,
+                    ImageURL = buildingData.ImageURL
                 });
             }
             return buildingDetails;

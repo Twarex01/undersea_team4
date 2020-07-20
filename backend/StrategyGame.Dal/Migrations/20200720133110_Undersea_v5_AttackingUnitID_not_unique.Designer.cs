@@ -10,8 +10,8 @@ using StrategyGame.Dal;
 namespace StrategyGame.Dal.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200716121713_hangfire")]
-    partial class hangfire
+    [Migration("20200720133110_Undersea_v5_AttackingUnitID_not_unique")]
+    partial class Undersea_v5_AttackingUnitID_not_unique
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -172,8 +172,7 @@ namespace StrategyGame.Dal.Migrations
 
                     b.HasIndex("BattleID");
 
-                    b.HasIndex("UnitDataID")
-                        .IsUnique();
+                    b.HasIndex("UnitDataID");
 
                     b.ToTable("AttackingUnits");
                 });
@@ -196,13 +195,9 @@ namespace StrategyGame.Dal.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("AttackingCountryID")
-                        .IsUnique()
-                        .HasFilter("[AttackingCountryID] IS NOT NULL");
+                    b.HasIndex("AttackingCountryID");
 
-                    b.HasIndex("DefendingCountryID")
-                        .IsUnique()
-                        .HasFilter("[DefendingCountryID] IS NOT NULL");
+                    b.HasIndex("DefendingCountryID");
 
                     b.ToTable("Battles");
                 });
@@ -362,11 +357,13 @@ namespace StrategyGame.Dal.Migrations
                         new
                         {
                             ID = 2,
+                            ImageURL = "https://public-v2links.adobecc.com/a6f48b49-2354-4be7-78c0-090bdb752a04/component?params=component_id%3A2767b629-5fa0-46a8-a9bb-d7a3f7bf0054&params=version%3A0&token=1595286086_fac29e2b_58e760f6d8b9aa02eda4f5c868eded6278ccce9b&api_key=CometServer1",
                             Name = "Gyöngy"
                         },
                         new
                         {
                             ID = 1,
+                            ImageURL = "https://public-v2links.adobecc.com/a6f48b49-2354-4be7-78c0-090bdb752a04/component?params=component_id%3Ab0dfd1d9-b7e9-4c19-aca4-a06b36fa415b&params=version%3A0&token=1595286086_fac29e2b_58e760f6d8b9aa02eda4f5c868eded6278ccce9b&api_key=CometServer1",
                             Name = "Korall"
                         });
                 });
@@ -454,6 +451,7 @@ namespace StrategyGame.Dal.Migrations
                             Consumption = 1,
                             ConsumptionUnitID = 1,
                             DEF = 2,
+                            ImageURL = "https://public-v2links.adobecc.com/a6f48b49-2354-4be7-78c0-090bdb752a04/component?params=component_id%3A782a7431-630e-4149-b9cb-6130e5f8cbee&params=version%3A1&token=1595286086_fac29e2b_58e760f6d8b9aa02eda4f5c868eded6278ccce9b&api_key=CometServer1",
                             Name = "Roham Fóka",
                             PointValue = 5,
                             Price = 50,
@@ -468,6 +466,7 @@ namespace StrategyGame.Dal.Migrations
                             Consumption = 1,
                             ConsumptionUnitID = 1,
                             DEF = 6,
+                            ImageURL = "https://public-v2links.adobecc.com/a6f48b49-2354-4be7-78c0-090bdb752a04/component?params=component_id%3A239bcebd-c8e3-4590-95af-3248182c4bc8&params=version%3A1&token=1595286086_fac29e2b_58e760f6d8b9aa02eda4f5c868eded6278ccce9b&api_key=CometServer1",
                             Name = "Csata Csikó",
                             PointValue = 5,
                             Price = 50,
@@ -482,6 +481,7 @@ namespace StrategyGame.Dal.Migrations
                             Consumption = 2,
                             ConsumptionUnitID = 1,
                             DEF = 5,
+                            ImageURL = "https://public-v2links.adobecc.com/a6f48b49-2354-4be7-78c0-090bdb752a04/component?params=component_id%3Aa2557965-c21f-4fc5-a489-66bdf366178d&params=version%3A0&token=1595286086_fac29e2b_58e760f6d8b9aa02eda4f5c868eded6278ccce9b&api_key=CometServer1",
                             Name = "Lézer Cápa",
                             PointValue = 10,
                             Price = 100,
@@ -623,6 +623,7 @@ namespace StrategyGame.Dal.Migrations
                             ID = 1,
                             BuildTime = 5,
                             Effect = "50 lakost ad a népességhez és 200 korallt termel körönként",
+                            ImageURL = "https://public-v2links.adobecc.com/a6f48b49-2354-4be7-78c0-090bdb752a04/component?params=component_id%3Ae4a8d9ef-dcca-4b53-addd-0e9ec6b1ca39&params=version%3A0&token=1595286086_fac29e2b_58e760f6d8b9aa02eda4f5c868eded6278ccce9b&api_key=CometServer1",
                             Name = "Áramlásirányító",
                             Price = 1000,
                             PriceUnitID = 2
@@ -641,6 +642,7 @@ namespace StrategyGame.Dal.Migrations
                             ID = 2,
                             BuildTime = 5,
                             Effect = "200 egység katonának nyújt szállást",
+                            ImageURL = "https://public-v2links.adobecc.com/a6f48b49-2354-4be7-78c0-090bdb752a04/component?params=component_id%3Addde0d54-f997-446a-b0b1-14a6b27b3a2c&params=version%3A0&token=1595286086_fac29e2b_58e760f6d8b9aa02eda4f5c868eded6278ccce9b&api_key=CometServer1",
                             Name = "Zátonyvár",
                             Price = 1000,
                             PriceUnitID = 2
@@ -658,6 +660,7 @@ namespace StrategyGame.Dal.Migrations
                         {
                             ID = 1,
                             Effect = "Növeli a beszedett adót 30%-kal",
+                            ImageURL = "https://public-v2links.adobecc.com/8134ca2d-5f55-4f05-6e62-a957ac393f15/component?params=component_id%3A25076959-83e0-4e6f-ae17-d112b3cb9ca7&params=version%3A0&token=1595285518_12125b8d_b2a88399aa4d4ee75c3f36fcfa511cf2a3d05e54&api_key=CometServer1",
                             Name = "Alkímia",
                             UpgradeTime = 15
                         });
@@ -674,6 +677,7 @@ namespace StrategyGame.Dal.Migrations
                         {
                             ID = 2,
                             Effect = "Növeli a védelmi pontokat 20%-kal",
+                            ImageURL = "https://public-v2links.adobecc.com/8134ca2d-5f55-4f05-6e62-a957ac393f15/component?params=component_id%3A171b5058-25fc-408f-bdf3-34bb4b3d358c&params=version%3A0&token=1595285518_12125b8d_b2a88399aa4d4ee75c3f36fcfa511cf2a3d05e54&api_key=CometServer1",
                             Name = "Korall fal",
                             UpgradeTime = 15
                         });
@@ -690,6 +694,7 @@ namespace StrategyGame.Dal.Migrations
                         {
                             ID = 3,
                             Effect = "Növeli a védelmi és támadóerőt 10%-kal",
+                            ImageURL = "https://public-v2links.adobecc.com/8134ca2d-5f55-4f05-6e62-a957ac393f15/component?params=component_id%3A8132cd33-064a-479a-a3e5-7466d133a54c&params=version%3A0&token=1595285518_12125b8d_b2a88399aa4d4ee75c3f36fcfa511cf2a3d05e54&api_key=CometServer1",
                             Name = "Vízalatti harcművészetek",
                             UpgradeTime = 15
                         });
@@ -706,6 +711,7 @@ namespace StrategyGame.Dal.Migrations
                         {
                             ID = 4,
                             Effect = "Növeli a korall termesztést 15%-kal",
+                            ImageURL = "https://public-v2links.adobecc.com/a6f48b49-2354-4be7-78c0-090bdb752a04/component?params=component_id%3A59672c6c-11d1-4ae3-a51c-b742f21ceb29&params=version%3A0&token=1595285550_fac29e2b_de6e44afa993a25b96be240def1a89a9c4f471aa&api_key=CometServer1",
                             Name = "Iszap Kombájn",
                             UpgradeTime = 15
                         });
@@ -722,6 +728,7 @@ namespace StrategyGame.Dal.Migrations
                         {
                             ID = 5,
                             Effect = "Növeli a korall termesztést 10%-kal",
+                            ImageURL = "https://public-v2links.adobecc.com/a6f48b49-2354-4be7-78c0-090bdb752a04/component?params=component_id%3A3a603cad-c8ac-4583-affc-41a05e86af31&params=version%3A0&token=1595285550_fac29e2b_de6e44afa993a25b96be240def1a89a9c4f471aa&api_key=CometServer1",
                             Name = "Iszap Traktor",
                             UpgradeTime = 15
                         });
@@ -738,6 +745,7 @@ namespace StrategyGame.Dal.Migrations
                         {
                             ID = 6,
                             Effect = "Növeli a támadópontokat 20%-kal",
+                            ImageURL = "https://public-v2links.adobecc.com/a6f48b49-2354-4be7-78c0-090bdb752a04/component?params=component_id%3Ac5e81461-9dd4-4144-9af9-e3f5471b46be&params=version%3A0&token=1595286086_fac29e2b_58e760f6d8b9aa02eda4f5c868eded6278ccce9b&api_key=CometServer1",
                             Name = "Szonár ágyú",
                             UpgradeTime = 15
                         });
@@ -803,8 +811,8 @@ namespace StrategyGame.Dal.Migrations
                         .IsRequired();
 
                     b.HasOne("StrategyGame.Model.UnitData", "UnitData")
-                        .WithOne()
-                        .HasForeignKey("StrategyGame.Model.AttackingUnit", "UnitDataID")
+                        .WithMany()
+                        .HasForeignKey("UnitDataID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -812,12 +820,12 @@ namespace StrategyGame.Dal.Migrations
             modelBuilder.Entity("StrategyGame.Model.Battle", b =>
                 {
                     b.HasOne("StrategyGame.Model.Country", "AttackingCountry")
-                        .WithOne()
-                        .HasForeignKey("StrategyGame.Model.Battle", "AttackingCountryID");
+                        .WithMany()
+                        .HasForeignKey("AttackingCountryID");
 
                     b.HasOne("StrategyGame.Model.Country", "DefendingCountry")
-                        .WithOne()
-                        .HasForeignKey("StrategyGame.Model.Battle", "DefendingCountryID");
+                        .WithMany()
+                        .HasForeignKey("DefendingCountryID");
                 });
 
             modelBuilder.Entity("StrategyGame.Model.Building", b =>

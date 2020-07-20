@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CountryClient, DetailsClient } from '../../../shared/clients';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { CountryBuilding } from '../models/country-building';
 import { map } from 'rxjs/operators';
 import { BuildingDetails } from '../models/building-details';
@@ -17,7 +17,8 @@ export class BuildingsService {
       map((buildingDTOArray) => {
         return buildingDTOArray.map((buildingDTO) => ({
           id: buildingDTO.buildingTypeID,
-          count: buildingDTO.count
+          count: buildingDTO.count,
+          progress: buildingDTO.progress
         }))
       })
     );

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { BuildingsService } from '../../services/buildings.service';
-import { Observable, forkJoin } from 'rxjs';
+import { forkJoin } from 'rxjs';
 import { Building } from '../../models/building';
-import { Location } from '@angular/common';
-import { Router } from '@angular/router';
+import { StatusNotificationService } from '../../../../core/services/status-notification.service';
+import { PlayerInfoService } from '../../../../core/services/player-info.service';
 
 @Component({
   selector: 'app-buildings',
@@ -12,21 +12,22 @@ import { Router } from '@angular/router';
 })
 export class BuildingsPageComponent implements OnInit {
 
-  buildings: Building[] = new Array<Building>(
-    { id: 1, imgSrc: "../../../../../assets/buildings/zatonyvar.png", name: "Zátonyvár", description: "50 ember-t ad a népességhez 200 krumplit termel körönként", price: 45, priceType: "Gyöngy", count: 1, isSelected: false },
-    { id: 2, imgSrc: "../../../../../assets/buildings/aramlasiranyito.png", name: "Áramlásirányító", description: "200 egység nyújt szállást", price: 35, count: 1, priceType: "Gyöngy", isSelected: false }
-  )
-
+  buildings: Building[] = [];
+  countryPearl: number = 0;
   selectedIndex: number = -1;
 
-  constructor(private buildingsService: BuildingsService, private router: Router) { }
+  constructor(
+    private buildingsService: BuildingsService,
+    private statusNotificationService: StatusNotificationService,
+    private palyerInfoService: PlayerInfoService
+  ) { }
 
   ngOnInit(): void {
     forkJoin(
       this.buildingsService.getCountryBuildings(),
-      this.buildingsService.getBuildingsData()
-    ).subscribe(([countryBuildings, buildingDetails]) => {
-      this.buildings = [];
+      this.buildingsService.getBuildingsData(),
+      this.palyerInfoService.getCountryResources()
+    ).subscribe(([countryBuildings, buildingDetails, resources]) => {
       buildingDetails.forEach((buildingDetail) => {
         const countryBuilding = countryBuildings.find(
           (cb) => cb.id == buildingDetail.id
@@ -38,22 +39,34 @@ export class BuildingsPageComponent implements OnInit {
           price: buildingDetail.price,
           priceType: buildingDetail.priceType,
           description: buildingDetail.description,
-          count: countryBuilding ?.count ?? 0,
-          isSelected: false
+          count: countryBuilding?.count ?? 0,
+          isSelected: false,
+          progress: countryBuilding?.progress ?? -1
         })
       });
+      this.countryPearl = resources.find(resource => resource.id == 2)?.count ?? 0;
     })
   }
 
   selectBuilding(index: number) {
+    if (!this.canBeSelected(index)) return;
     if (this.selectedIndex !== -1)
       this.buildings[this.selectedIndex].isSelected = false;
+    if (this.countryPearl < this.buildings[index].price) return;
     this.selectedIndex = index;
     this.buildings[index].isSelected = true;
   }
 
+  canBeSelected(index: number): boolean {
+    return this.buildings.filter((building) => building.progress > 0).length === 0;
+  }
+
   buySelectedBuilding() {
-    this.buildingsService.buyBuilding(this.buildings[this.selectedIndex].id).subscribe();
-    this.router.navigateByUrl('/');
+    this.buildingsService.buyBuilding(this.buildings[this.selectedIndex].id).subscribe(() => {
+      this.statusNotificationService.updateStatus(true);
+      this.buildings[this.selectedIndex].isSelected = false;
+      this.buildings[this.selectedIndex].progress = 1;
+      this.selectedIndex = -1;
+    });
   }
 }

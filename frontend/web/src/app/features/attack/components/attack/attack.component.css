@@ -1,3 +1,7 @@
+.attack-component {
+    font-family: "Baloo Regular";
+}
+
 .component-container{
     display: flex;
 }
