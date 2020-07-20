@@ -5,6 +5,7 @@ import { AttackPlayer } from '../../models/attack-player';
 import { forkJoin } from 'rxjs';
 import { AttackBattle } from '../../models/attack-battle';
 import { CountryUnit } from '../../models/country-unit';
+import { StatusNotificationService } from '../../../../core/services/status-notification.service';
 
 @Component({
   selector: 'app-attack.page',
@@ -70,7 +71,7 @@ export class AttackPageComponent implements OnInit {
     }
     console.log(battle);
     this.attackService.attack(battle).subscribe(() => {
-      console.log("OK");
+      this.units.forEach(unit => unit.countToAttack = 0);
     })
   }
 
