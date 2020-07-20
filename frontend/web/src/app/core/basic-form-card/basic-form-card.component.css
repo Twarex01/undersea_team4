@@ -1,5 +1,5 @@
 h1 {
-    margin-top: 0;
+    margin-top: -15px;
     text-align: center;
     text-transform: uppercase;
 }
@@ -21,4 +21,14 @@ button {
     -webkit-backdrop-filter: blur(8px);
     width: 25%;
     margin: auto;
+}
+.main-logo{
+    margin: 0;
+}
+
+img{
+    max-width: 440px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }

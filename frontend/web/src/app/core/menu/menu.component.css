@@ -8,5 +8,5 @@ button {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 0 auto 50% auto;
+    margin: 0 auto 40% auto;
 }
