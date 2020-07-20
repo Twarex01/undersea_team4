@@ -32,7 +32,7 @@ namespace StrategyGame.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-
+            /*
             services.AddHangfire(configuration => configuration
                 .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
                 .UseSimpleAssemblyNameTypeSerializer()
@@ -45,9 +45,10 @@ namespace StrategyGame.Api
                     UseRecommendedIsolationLevel = true,
                     DisableGlobalLocks = true
                 }));
+           
 
             services.AddHangfireServer();
-
+             */
             services.AddRazorPages();
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AppDbContext")));
             services.AddIdentityCore<Model.User>().AddEntityFrameworkStores<AppDbContext>();
@@ -132,8 +133,8 @@ namespace StrategyGame.Api
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseHangfireDashboard();
-            RecurringJob.AddOrUpdate(() => rs.SimulateRound(), Cron.Hourly());
+            //app.UseHangfireDashboard();
+            //RecurringJob.AddOrUpdate(() => rs.SimulateRound(), Cron.Hourly());
 
             app.UseRouting();
 
