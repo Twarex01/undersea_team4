@@ -88,11 +88,15 @@ namespace StrategyGame.Bll.Services
         public async Task<int> PurchaseCountryUpgradeAsync(int countryId, int upgradeId)
         {
             if (await _appDbContext.Upgrades.Where(b => b.CoutryID == countryId).AnyAsync(b => b.Progress > 0)) return 1; //már fejlődik valami
-            Country country = await _appDbContext.Countries.Where(c => c.ID == countryId).SingleOrDefaultAsync();
+            Country country = await _appDbContext.Countries.Include(c => c.Upgrades).SingleOrDefaultAsync(c => c.ID == countryId);
             if (country == null) return 2; //nincs ilyen ID-jű country
             var toUpgrade = await _appDbContext.UpgradeData.Where(u => u.ID == upgradeId).SingleOrDefaultAsync();
             if (toUpgrade == null) return 2; //nincs ilyen ID - jű upgrade
+            var existingUpgrade = country.Upgrades.FirstOrDefault(u => u.UpgradeDataID == upgradeId);
+            if (existingUpgrade != null) return 2; //van már ilyen upgrade
+
             var newUpgrade = new Upgrade() { Progress = toUpgrade.UpgradeTime, UpgradeDataID = toUpgrade.ID, CoutryID = country.ID };
+
             _appDbContext.Upgrades.Add(newUpgrade);
             await _appDbContext.SaveChangesAsync();
             return 0;
