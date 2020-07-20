@@ -80,7 +80,7 @@ namespace StrategyGame.Dal
 
             builder.Entity<AttackingUnit>().HasKey(a => a.ID);
             builder.Entity<AttackingUnit>().HasOne(a => a.Battle).WithMany(b => b.AttackingUnits).HasForeignKey(a => a.BattleID);
-            builder.Entity<AttackingUnit>().HasOne(a => a.UnitData).WithOne().HasForeignKey<AttackingUnit>(a => a.UnitDataID);
+            builder.Entity<AttackingUnit>().HasOne(a => a.UnitData).WithMany().HasForeignKey(a => a.UnitDataID);
 
             builder.Entity<ResourceData>().HasData(new ResourceData[] { StrategyGame.Model.ResourceData.Pearl, StrategyGame.Model.ResourceData.Coral });
 
