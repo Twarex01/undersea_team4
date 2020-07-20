@@ -20,7 +20,11 @@ export class UnitsPageComponent implements OnInit {
   units: Unit[] = [];
   unitBuyInfo: UnitBuyInfo | undefined;
 
-  constructor(private unitService: UnitService, private palyerInfoService: PlayerInfoService, private router: Router, private statusNotificationService: StatusNotificationService) { }
+  constructor(
+    private unitService: UnitService,
+    private palyerInfoService: PlayerInfoService,
+    private statusNotificationService: StatusNotificationService
+  ) { }
 
 
 

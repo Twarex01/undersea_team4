@@ -3,6 +3,7 @@ import { BuildingsService } from '../../services/buildings.service';
 import { forkJoin } from 'rxjs';
 import { Building } from '../../models/building';
 import { StatusNotificationService } from '../../../../core/services/status-notification.service';
+import { PlayerInfoService } from '../../../../core/services/player-info.service';
 
 @Component({
   selector: 'app-buildings',
@@ -12,16 +13,21 @@ import { StatusNotificationService } from '../../../../core/services/status-noti
 export class BuildingsPageComponent implements OnInit {
 
   buildings: Building[] = [];
-
+  countryPearl: number = 0;
   selectedIndex: number = -1;
 
-  constructor(private buildingsService: BuildingsService, private statusNotificationService: StatusNotificationService) { }
+  constructor(
+    private buildingsService: BuildingsService,
+    private statusNotificationService: StatusNotificationService,
+    private palyerInfoService: PlayerInfoService
+  ) { }
 
   ngOnInit(): void {
     forkJoin(
       this.buildingsService.getCountryBuildings(),
-      this.buildingsService.getBuildingsData()
-    ).subscribe(([countryBuildings, buildingDetails]) => {
+      this.buildingsService.getBuildingsData(),
+      this.palyerInfoService.getCountryResources()
+    ).subscribe(([countryBuildings, buildingDetails, resources]) => {
       buildingDetails.forEach((buildingDetail) => {
         const countryBuilding = countryBuildings.find(
           (cb) => cb.id == buildingDetail.id
@@ -38,13 +44,15 @@ export class BuildingsPageComponent implements OnInit {
           progress: countryBuilding?.progress ?? -1
         })
       });
+      this.countryPearl = resources.find(resource => resource.id == 2)?.count ?? 0;
     })
   }
 
   selectBuilding(index: number) {
-    if(!this.canBeSelected(index))  return;
+    if (!this.canBeSelected(index)) return;
     if (this.selectedIndex !== -1)
       this.buildings[this.selectedIndex].isSelected = false;
+    if (this.countryPearl < this.buildings[index].price) return;
     this.selectedIndex = index;
     this.buildings[index].isSelected = true;
   }
