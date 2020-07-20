@@ -69,6 +69,14 @@ namespace StrategyGame.Bll.Services
                 if (resource.Amount < cost.Amount) return 1; //nics elég pénz
             }
 
+            int numberOfBoughtUnits = 0;
+            foreach (var unit in unitsToBuy)
+            {
+                numberOfBoughtUnits += unit.Count;
+            }
+            var numberOfExistingUnits = country.Units.Sum(u => u.Count);
+            if (numberOfBoughtUnits + numberOfExistingUnits > country.ArmyCapacity) return 1; //nincs elég hely
+
             foreach (var unit in unitsToBuy)
             {
                 var existingUnits = country.Units.SingleOrDefault(u => u.UnitDataID == unit.UnitDataID);
