@@ -75,8 +75,8 @@ namespace StrategyGame.Dal
             builder.Entity<UpgradeData>().HasKey(u => u.ID);
 
             builder.Entity<Battle>().HasKey(b => b.ID);
-            builder.Entity<Battle>().HasOne(b => b.DefendingCountry).WithOne().HasForeignKey<Battle>(b => b.DefendingCountryID);
-            builder.Entity<Battle>().HasOne(b => b.AttackingCountry).WithOne().HasForeignKey<Battle>(b => b.AttackingCountryID);
+            builder.Entity<Battle>().HasOne(b => b.DefendingCountry).WithMany().HasForeignKey(b => b.DefendingCountryID);
+            builder.Entity<Battle>().HasOne(b => b.AttackingCountry).WithMany().HasForeignKey(b => b.AttackingCountryID);
 
             builder.Entity<AttackingUnit>().HasKey(a => a.ID);
             builder.Entity<AttackingUnit>().HasOne(a => a.Battle).WithMany(b => b.AttackingUnits).HasForeignKey(a => a.BattleID);
