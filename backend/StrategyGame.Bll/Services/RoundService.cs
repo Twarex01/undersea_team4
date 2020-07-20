@@ -67,6 +67,25 @@ namespace StrategyGame.Bll.Services
 
         }
 
+        private void FeedSoldiers(Country country)
+        {
+
+            foreach (var unit in country.Units)
+            {
+                var resource = country.Resources.Where(c => c.ResourceDataID == unit.UnitData.ConsumptionUnitID).FirstOrDefault();
+                var resourcesEaten = unit.UnitData.Consumption * unit.Count;
+
+                if (resource.Amount - resourcesEaten >= 0)
+                    resource.Amount -= resourcesEaten;  //TESZTELNI!! a FoD miatt null pointer exception veszély
+                else
+                    resource.Amount = 0;
+            }
+            _dbContext.SaveChanges();
+
+        }
+
+
+
         private void ProceedWithUpgrade(Country country)
         {
             var currentlyUpgrading = country.Upgrades.Where(u => u.Progress > 0).SingleOrDefault(); //elvileg nem lehet 1-nél több eredmény
@@ -104,6 +123,7 @@ namespace StrategyGame.Bll.Services
                 GeneratePearlIncome(country);
                 GenerateCoralIncome(country);
                 PaySoldiers(country);
+                FeedSoldiers(country);
                 ProceedWithUpgrade(country);
                 ProceedWithBuilding(country);
 
