@@ -127,8 +127,8 @@ namespace StrategyGame.Bll.Services
             double multiplier = moraleGenerator.Next(0, 1) > 0 ? 1.05 : 0.95;
             var ATKPower = await CountAttackPowerInBattleAsync(battleId) * multiplier;
             var DEFPower = await CountDefensePowerInBattleAsync(battleId);
-            var defCountryId = _context.Battles.Where(b => b.ID == battleId).SingleOrDefault().ID;
-            var atkCountryId = _context.Battles.Where(b => b.ID == battleId).SingleOrDefault().ID;
+            var defCountryId = (int)_context.Battles.Where(b => b.ID == battleId).SingleOrDefault().DefendingCountryID;
+            var atkCountryId = (int)_context.Battles.Where(b => b.ID == battleId).SingleOrDefault().AttackingCountryID;
 
             if (ATKPower > DEFPower)
             {
