@@ -10,6 +10,9 @@
                 </div>
             </div>
         </div>
+        <div *ngIf="battles.length === 0">
+            <div>Nincs megjeleníthető elindított támadás</div>
+        </div>
     </div>
 </app-basic-card>
 <router-outlet></router-outlet>
