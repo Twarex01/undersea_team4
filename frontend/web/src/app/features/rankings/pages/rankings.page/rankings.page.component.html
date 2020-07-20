@@ -1,4 +1,4 @@
-<app-basic-card class="card">
+<app-basic-card class="card" *ngIf="players?.length > 0">
     <p class="header">Ranglista</p>
     <div class="details">
         <input [(ngModel)]="searchInput" class="search" type="text" placeholder="Felhasználónév">

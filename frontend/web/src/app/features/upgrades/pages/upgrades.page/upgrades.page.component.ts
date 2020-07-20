@@ -10,62 +10,7 @@ import { forkJoin } from 'rxjs';
 })
 export class UpgradesPageComponent implements OnInit {
   selectedUpgradeIndex: number = -1;
-  upgrades: Upgrade[] = new Array<Upgrade>(
-    {
-      id: 0,
-      imageSrc: '../../../../../assets/upgrades/iszaptraktor.png',
-      name: 'Iszaptraktor',
-      description: 'növeli a krumpli termesztést 10%-kal',
-      roundsLeft: 3,
-      isDone: false,
-      isSelected: false,
-    },
-    {
-      id: 1,
-      imageSrc: '../../../../../assets/upgrades/iszaptraktor.png',
-      name: 'Iszaptraktor',
-      description: 'növeli a krumpli termesztést 10%-kal',
-      roundsLeft: 15,
-      isDone: false,
-      isSelected: false,
-    },
-    {
-      id: 2,
-      imageSrc: '../../../../../assets/upgrades/iszaptraktor.png',
-      name: 'Iszaptraktor',
-      description: 'növeli a krumpli termesztést 10%-kal',
-      roundsLeft: 15,
-      isDone: false,
-      isSelected: false,
-    },
-    {
-      id: 3,
-      imageSrc: '../../../../../assets/upgrades/iszaptraktor.png',
-      name: 'Iszaptraktor',
-      description: 'növeli a krumpli termesztést 10%-kal',
-      roundsLeft: 15,
-      isDone: false,
-      isSelected: false,
-    },
-    {
-      id: 4,
-      imageSrc: '../../../../../assets/upgrades/iszaptraktor.png',
-      name: 'Iszaptraktor',
-      description: 'növeli a krumpli termesztést 10%-kal',
-      roundsLeft: 0,
-      isDone: true,
-      isSelected: false,
-    },
-    {
-      id: 5,
-      imageSrc: '../../../../../assets/upgrades/iszaptraktor.png',
-      name: 'Iszaptraktor',
-      description: 'növeli a krumpli termesztést 10%-kal',
-      roundsLeft: 0,
-      isDone: true,
-      isSelected: false,
-    }
-  );
+  upgrades: Upgrade[] = [];
 
   constructor(private upgradeService: UpgradeService) {}
 
