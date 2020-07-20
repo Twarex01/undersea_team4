@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { BuildingsService } from '../../services/buildings.service';
 import { forkJoin } from 'rxjs';
 import { Building } from '../../models/building';
-import { Router } from '@angular/router';
 import { StatusNotificationService } from '../../../../core/services/status-notification.service';
 
 @Component({
@@ -19,7 +18,7 @@ export class BuildingsPageComponent implements OnInit {
 
   selectedIndex: number = -1;
 
-  constructor(private buildingsService: BuildingsService, private router: Router, private statusNotificationService: StatusNotificationService) { }
+  constructor(private buildingsService: BuildingsService, private statusNotificationService: StatusNotificationService) { }
 
   ngOnInit(): void {
     forkJoin(
@@ -38,7 +37,7 @@ export class BuildingsPageComponent implements OnInit {
           price: buildingDetail.price,
           priceType: buildingDetail.priceType,
           description: buildingDetail.description,
-          count: countryBuilding ?.count ?? 0,
+          count: countryBuilding?.count ?? 0,
           isSelected: false
         })
       });
@@ -56,6 +55,5 @@ export class BuildingsPageComponent implements OnInit {
     this.buildingsService.buyBuilding(this.buildings[this.selectedIndex].id).subscribe(() => {
       this.statusNotificationService.updateStatus(true);
     });
-    this.router.navigateByUrl('/');
   }
 }

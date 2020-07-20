@@ -11,6 +11,7 @@ import { UnitToBuy } from '../models/unitToBuy';
 })
 export class UnitService {
 
+  units: UnitDTO[] = [];
   constructor(private countryClient: CountryClient, private detailsClient: DetailsClient) { }
 
   getCountryUnits(): Observable<CountryUnit[]> {
@@ -40,7 +41,6 @@ export class UnitService {
 
   buyUnits(unitsToBuy: any) {
     return this.countryClient.buyUnits(unitsToBuy);
-    //TODO
   }
 
 }

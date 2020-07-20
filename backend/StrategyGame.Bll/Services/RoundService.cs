@@ -55,7 +55,13 @@ namespace StrategyGame.Bll.Services
 
             foreach (var unit in country.Units)
             {
-                country.Resources.Where(c => c.ResourceDataID == unit.UnitData.SalaryUnitID).FirstOrDefault().Amount -= unit.UnitData.Salary;  //TESZTELNI!! a FoD miatt null pointer exception veszély
+                var resource = country.Resources.Where(c => c.ResourceDataID == unit.UnitData.SalaryUnitID).FirstOrDefault();
+                var resourcesLost = unit.UnitData.Salary * unit.Count;
+
+                if (resource.Amount - resourcesLost >= 0)
+                    resource.Amount -= resourcesLost;  //TESZTELNI!! a FoD miatt null pointer exception veszély
+                else
+                    resource.Amount = 0;
             }
             _dbContext.SaveChanges();
 

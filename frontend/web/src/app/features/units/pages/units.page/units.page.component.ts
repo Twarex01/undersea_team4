@@ -51,9 +51,8 @@ export class UnitsPageComponent implements OnInit {
   }
 
   buyUnits() {
-    const unitsToBuy: UnitToBuy[] = this.units.map((unit) => ({ id: unit.id, count: unit.numToBuy }));
+    const unitsToBuy: UnitToBuy[] = this.units.map((unit) => ({ unitTypeID: unit.id, count: unit.numToBuy }));
     this.unitService.buyUnits(unitsToBuy).subscribe(() => this.statusNotificationService.updateStatus(true));
-    this.router.navigateByUrl('/'); 
   }
 
   isReadyToAttack(): boolean {
