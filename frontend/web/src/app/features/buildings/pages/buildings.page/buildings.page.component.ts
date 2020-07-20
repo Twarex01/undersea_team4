@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BuildingsService } from '../../services/buildings.service';
-import { Observable, forkJoin } from 'rxjs';
+import { forkJoin } from 'rxjs';
 import { Building } from '../../models/building';
-import { Location } from '@angular/common';
-import { Router } from '@angular/router';
+import { StatusNotificationService } from '../../../../core/services/status-notification.service';
 
 @Component({
   selector: 'app-buildings',
@@ -19,7 +18,7 @@ export class BuildingsPageComponent implements OnInit {
 
   selectedIndex: number = -1;
 
-  constructor(private buildingsService: BuildingsService, private router: Router) { }
+  constructor(private buildingsService: BuildingsService, private statusNotificationService: StatusNotificationService) { }
 
   ngOnInit(): void {
     forkJoin(
@@ -38,7 +37,7 @@ export class BuildingsPageComponent implements OnInit {
           price: buildingDetail.price,
           priceType: buildingDetail.priceType,
           description: buildingDetail.description,
-          count: countryBuilding ?.count ?? 0,
+          count: countryBuilding?.count ?? 0,
           isSelected: false
         })
       });
@@ -53,7 +52,8 @@ export class BuildingsPageComponent implements OnInit {
   }
 
   buySelectedBuilding() {
-    this.buildingsService.buyBuilding(this.buildings[this.selectedIndex].id).subscribe();
-    this.router.navigateByUrl('/');
+    this.buildingsService.buyBuilding(this.buildings[this.selectedIndex].id).subscribe(() => {
+      this.statusNotificationService.updateStatus(true);
+    });
   }
 }
