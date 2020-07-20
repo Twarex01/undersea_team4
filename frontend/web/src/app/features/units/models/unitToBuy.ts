@@ -1,4 +1,4 @@
 export interface UnitToBuy {
-    id: number;
+    unitTypeID: number;
     count: number;
 }
