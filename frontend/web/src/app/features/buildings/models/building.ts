@@ -7,4 +7,5 @@ export interface Building {
     price: number;
     priceType: string;
     isSelected: boolean;
+    progress: number;
 }

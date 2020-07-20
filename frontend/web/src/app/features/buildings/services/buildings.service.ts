@@ -17,7 +17,8 @@ export class BuildingsService {
       map((buildingDTOArray) => {
         return buildingDTOArray.map((buildingDTO) => ({
           id: buildingDTO.buildingTypeID,
-          count: buildingDTO.count
+          count: buildingDTO.count,
+          progress: buildingDTO.progress
         }))
       })
     );

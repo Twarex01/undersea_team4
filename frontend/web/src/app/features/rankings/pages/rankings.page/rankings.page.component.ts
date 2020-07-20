@@ -21,7 +21,7 @@ export class RankingsPageComponent implements OnInit {
   }
 
   filterPlayerList() : RankingsPlayer[] {
-    return this.players.filter((player) => player.name.includes(this.searchInput.trim()));
+    return this.players.filter((player) => player.name.toLowerCase().includes(this.searchInput.trim().toLowerCase()));
   }
 
   getPlayers() {
