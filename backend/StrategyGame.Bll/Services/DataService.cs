@@ -1,14 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Namotion.Reflection;
 using StrategyGame.Bll.DTO;
 using StrategyGame.Dal;
 using StrategyGame.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace StrategyGame.Bll.Services
@@ -45,7 +41,7 @@ namespace StrategyGame.Bll.Services
         {
             Country country = await _context.Countries.Include(c => c.Units).SingleOrDefaultAsync(c => c.ID == countryId);
             List<UnitDTO> output = new List<UnitDTO>();
-            foreach(var unit in country.Units)
+            foreach (var unit in country.Units)
             {
                 output.Add(new UnitDTO()
                 {
@@ -81,7 +77,7 @@ namespace StrategyGame.Bll.Services
         {
             Country country = await _context.Countries.Include(c => c.Upgrades).SingleOrDefaultAsync(c => c.ID == countryId);
             var output = new List<UpgradeDTO>();
-            foreach(var upgrade in country.Upgrades)
+            foreach (var upgrade in country.Upgrades)
             {
                 output.Add(new UpgradeDTO() { Progress = upgrade.Progress, UpgradeTypeID = upgrade.UpgradeDataID });
             }
@@ -105,11 +101,11 @@ namespace StrategyGame.Bll.Services
         }
         public async Task<List<BuildingDTO>> GetCountryBuildingsAsync(int countryId)
         {
-            Country country = await _context.Countries.Include(c=>c.Buildings).SingleOrDefaultAsync(c => c.ID == countryId);
+            Country country = await _context.Countries.Include(c => c.Buildings).SingleOrDefaultAsync(c => c.ID == countryId);
             var output = new List<BuildingDTO>();
-            
 
-            foreach(var building in country.Buildings)
+
+            foreach (var building in country.Buildings)
             {
                 output.Add(new BuildingDTO()
                 {
@@ -133,7 +129,7 @@ namespace StrategyGame.Bll.Services
                     Effect = buildingData.Effect,
                     Name = buildingData.Name,
                     Price = buildingData.Price,
-                    PriceTypeName = resourceTypes.SingleOrDefault(r=> r.ID == buildingData.PriceUnitID).Name
+                    PriceTypeName = resourceTypes.SingleOrDefault(r => r.ID == buildingData.PriceUnitID).Name
                 });
             }
             return buildingDetails;
@@ -141,7 +137,7 @@ namespace StrategyGame.Bll.Services
         public List<RankDTO> GetPlayerRanks()
         {
             var output = new List<RankDTO>();
-            foreach(var country in _context.Countries)
+            foreach (var country in _context.Countries)
             {
                 output.Add(new RankDTO { CountryID = country.ID, Name = country.Name, Score = country.Score });
             }
@@ -158,8 +154,8 @@ namespace StrategyGame.Bll.Services
                 Name = country.Name,
                 Population = country.Population,
                 Score = country.Score
-               
-                
+
+
             };
         }
     }

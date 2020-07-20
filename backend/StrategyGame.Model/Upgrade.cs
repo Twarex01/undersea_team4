@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace StrategyGame.Model
+﻿namespace StrategyGame.Model
 {
-    public class Upgrade 
+    public class Upgrade
     {
         public int ID { get; set; }
         public int Progress { get; set; }
@@ -13,6 +9,6 @@ namespace StrategyGame.Model
         public int UpgradeDataID { get; set; }
         public Country Country { get; set; }
         public int CoutryID { get; set; }
-        
+
     }
 }

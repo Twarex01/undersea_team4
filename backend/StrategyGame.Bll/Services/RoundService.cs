@@ -1,18 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
-using StrategyGame.Bll.Hubs;
 using StrategyGame.Bll.DTO;
+using StrategyGame.Bll.Hubs;
+using StrategyGame.Bll.Services.Hubs;
 using StrategyGame.Dal;
 using StrategyGame.Model;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.SignalR;
-using StrategyGame.Bll.Services.Hubs;
-using Hangfire;
 
 namespace StrategyGame.Bll.Services
 {
@@ -23,14 +19,14 @@ namespace StrategyGame.Bll.Services
 
         private AppDbContext _dbContext;
         private UserManager<User> _userManager;
-        
+
         private IBattleService _battleService;
         private IHubContext<RoundHub, IRoundHubClient> _roundHubContext;
         private IDataService _dataService;
-        
 
-        public RoundService(AppDbContext dbContext, UserManager<User> userManager , 
-            IBattleService battleService, IDataService dataService, IHubContext<RoundHub, 
+
+        public RoundService(AppDbContext dbContext, UserManager<User> userManager,
+            IBattleService battleService, IDataService dataService, IHubContext<RoundHub,
                 IRoundHubClient> roundHubContext)
         {
             _dbContext = dbContext;
@@ -43,7 +39,7 @@ namespace StrategyGame.Bll.Services
         private void GeneratePearlIncome(Country country)
         {
             var pearls = country.Resources.SingleOrDefault(r => r.ResourceDataID == ResourceData.Pearl.ID);
-            pearls.Amount += (int)Math.Truncate( pearls.ProductionBase * pearls.ProductionMultiplier);
+            pearls.Amount += (int)Math.Truncate(pearls.ProductionBase * pearls.ProductionMultiplier);
             _dbContext.SaveChanges();
         }
 
@@ -56,10 +52,16 @@ namespace StrategyGame.Bll.Services
 
         private void PaySoldiers(Country country)
         {
-            
-            foreach(var unit in country.Units)
+
+            foreach (var unit in country.Units)
             {
-                country.Resources.Where(c => c.ResourceDataID == unit.UnitData.SalaryUnitID).FirstOrDefault().Amount -= unit.UnitData.Salary;  //TESZTELNI!! a FoD miatt null pointer exception veszély
+                var resource = country.Resources.Where(c => c.ResourceDataID == unit.UnitData.SalaryUnitID).FirstOrDefault();
+                var resourcesLost = unit.UnitData.Salary * unit.Count;
+
+                if (resource.Amount - resourcesLost >= 0)
+                    resource.Amount -= resourcesLost;  //TESZTELNI!! a FoD miatt null pointer exception veszély
+                else
+                    resource.Amount = 0;
             }
             _dbContext.SaveChanges();
 
@@ -72,7 +74,7 @@ namespace StrategyGame.Bll.Services
             currentlyUpgrading.Progress--;
             if (currentlyUpgrading.Progress == 0) currentlyUpgrading.UpgradeData.ApplyEffects(country);
             _dbContext.SaveChanges();
-          
+
         }
         private void ProceedWithBuilding(Country country)
         {
@@ -86,9 +88,9 @@ namespace StrategyGame.Bll.Services
                 _dbContext.SaveChanges();
             }
         }
-        public async Task SimulateRound() 
+        public async Task SimulateRound()
         {
-            
+
             var countryList = _dbContext.Countries
                 .Include(c => c.Buildings).ThenInclude(b => b.BuildingData)
                 .Include(c => c.Upgrades).ThenInclude(u => u.UpgradeData)
@@ -97,7 +99,7 @@ namespace StrategyGame.Bll.Services
                 .ToList();
 
             // változások az egyes országokban
-            foreach( var country in countryList)
+            foreach (var country in countryList)
             {
                 GeneratePearlIncome(country);
                 GenerateCoralIncome(country);
@@ -108,22 +110,22 @@ namespace StrategyGame.Bll.Services
             }
 
             //Harc
-            foreach (var battleID in _dbContext.Battles.Select(b=> b.ID))
+            foreach (var battleID in _dbContext.Battles.Select(b => b.ID))
             {
                 await _battleService.CommenceBattle(battleID);
             }
 
             //pont számolás
-            foreach(var country in countryList)
+            foreach (var country in countryList)
             {
-                country.Score = country.Buildings.Sum(b => b.Progress > 0 ? 0 : b.Count * 50) + country.Upgrades.Sum(u => u.Progress>0 ? 0 : 100) + country.Population + country.Units.Sum(u => u.UnitData.PointValue);
+                country.Score = country.Buildings.Sum(b => b.Progress > 0 ? 0 : b.Count * 50) + country.Upgrades.Sum(u => u.Progress > 0 ? 0 : 100) + country.Population + country.Units.Sum(u => u.UnitData.PointValue);
             }
             _dbContext.SaveChanges();
 
             Round++;
 
             //Klienseken frissítés
-            await _roundHubContext.Clients.All.RefreshInfo();  
+            await _roundHubContext.Clients.All.RefreshInfo();
 
         }
 
@@ -131,8 +133,8 @@ namespace StrategyGame.Bll.Services
         {
             var rankList = _dataService.GetPlayerRanks();
             rankList.SingleOrDefault(r => r.CountryID == countryId);
-            int rank = rankList.IndexOf(rankList.SingleOrDefault(r => r.CountryID == countryId))+1;
-            return new CountryRoundDTO() { Rank = rank, Round = Round }; 
+            int rank = rankList.IndexOf(rankList.SingleOrDefault(r => r.CountryID == countryId)) + 1;
+            return new CountryRoundDTO() { Rank = rank, Round = Round };
         }
     }
 }

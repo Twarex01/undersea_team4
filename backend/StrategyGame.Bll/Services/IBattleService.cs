@@ -1,5 +1,4 @@
 ﻿using StrategyGame.Bll.DTO;
-using StrategyGame.Model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Hangfire;
+using Hangfire.SqlServer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -15,9 +16,8 @@ using StrategyGame.Api.Services;
 using StrategyGame.Bll.Hubs;
 using StrategyGame.Bll.Services;
 using StrategyGame.Dal;
-using Hangfire;
-using Hangfire.SqlServer;
 using System;
+using System.Text;
 
 namespace StrategyGame.Api
 {
@@ -133,7 +133,7 @@ namespace StrategyGame.Api
             app.UseStaticFiles();
 
             app.UseHangfireDashboard();
-            RecurringJob.AddOrUpdate(() => rs.SimulateRound(), Cron.Minutely());
+            RecurringJob.AddOrUpdate(() => rs.SimulateRound(), Cron.Hourly());
 
             app.UseRouting();
 

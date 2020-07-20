@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace StrategyGame.Model
 {
     public class Country
     {
-      
+
 
         public int ID { get; set; }
         public string Name { get; set; }
