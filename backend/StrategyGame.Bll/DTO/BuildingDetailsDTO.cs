@@ -8,5 +8,6 @@
         public string PriceTypeName { get; set; }
         public string Effect { get; set; }
         public int BuildTime { get; set; }
+        public string ImageURL { get; set; }
     }
 }

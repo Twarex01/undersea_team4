@@ -14,7 +14,8 @@
             ConsumptionUnitID = ResourceData.Coral.ID,
             ATK = 6,
             DEF = 2,
-            PointValue = 5
+            PointValue = 5,
+            ImageURL = "https://public-v2links.adobecc.com/a6f48b49-2354-4be7-78c0-090bdb752a04/component?params=component_id%3A782a7431-630e-4149-b9cb-6130e5f8cbee&params=version%3A1&token=1595286086_fac29e2b_58e760f6d8b9aa02eda4f5c868eded6278ccce9b&api_key=CometServer1"
         };
 
         public static UnitData BattleSeaHorse = new UnitData
@@ -29,7 +30,8 @@
             ConsumptionUnitID = ResourceData.Coral.ID,
             ATK = 2,
             DEF = 6,
-            PointValue = 5
+            PointValue = 5,
+            ImageURL = "https://public-v2links.adobecc.com/a6f48b49-2354-4be7-78c0-090bdb752a04/component?params=component_id%3A239bcebd-c8e3-4590-95af-3248182c4bc8&params=version%3A1&token=1595286086_fac29e2b_58e760f6d8b9aa02eda4f5c868eded6278ccce9b&api_key=CometServer1"
         };
 
         public static UnitData LaserShark = new UnitData
@@ -44,7 +46,8 @@
             ConsumptionUnitID = ResourceData.Coral.ID,
             ATK = 5,
             DEF = 5,
-            PointValue = 10
+            PointValue = 10,
+            ImageURL = "https://public-v2links.adobecc.com/a6f48b49-2354-4be7-78c0-090bdb752a04/component?params=component_id%3Aa2557965-c21f-4fc5-a489-66bdf366178d&params=version%3A0&token=1595286086_fac29e2b_58e760f6d8b9aa02eda4f5c868eded6278ccce9b&api_key=CometServer1"
         };
 
         public int ID { get; set; }
