@@ -117,7 +117,7 @@ namespace StrategyGame.Api
 
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IRoundService rs)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
