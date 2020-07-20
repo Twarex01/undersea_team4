@@ -6,6 +6,7 @@ import { forkJoin } from 'rxjs';
 import { PlayerInfoService } from '../../../../core/services/player-info.service';
 import { CountryResource } from '../../models/resources';
 import {Router} from '@angular/router';
+import { StatusNotificationService } from '../../../../core/services/status-notification.service';
 
 @Component({
   selector: 'app-units.page',
@@ -18,7 +19,7 @@ export class UnitsPageComponent implements OnInit {
   pearl: CountryResource | undefined;
   armyCapacity : number | undefined;
 
-  constructor(private unitService: UnitService, private palyerInfoService: PlayerInfoService,private router: Router) { }
+  constructor(private unitService: UnitService, private palyerInfoService: PlayerInfoService,private router: Router, private statusNotificationService: StatusNotificationService) { }
 
   ngOnInit(): void {
     forkJoin(
@@ -51,7 +52,7 @@ export class UnitsPageComponent implements OnInit {
 
   buyUnits() {
     const unitsToBuy: UnitToBuy[] = this.units.map((unit) => ({ id: unit.id, count: unit.numToBuy }));
-    this.unitService.buyUnits(unitsToBuy);
+    this.unitService.buyUnits(unitsToBuy).subscribe(() => this.statusNotificationService.updateStatus(true));
     this.router.navigateByUrl('/'); 
   }
 

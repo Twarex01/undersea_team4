@@ -39,8 +39,7 @@ export class UnitService {
   }
 
   buyUnits(unitsToBuy: any) {
-    this.countryClient.buyUnits(unitsToBuy).subscribe();
-    console.log(unitsToBuy);
+    return this.countryClient.buyUnits(unitsToBuy);
     //TODO
   }
 

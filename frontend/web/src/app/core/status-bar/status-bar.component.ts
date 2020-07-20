@@ -5,6 +5,7 @@ import { CountryUnit } from './country-unit';
 import { CountryResource } from './country-resource';
 import { forkJoin } from 'rxjs';
 import { CountryRound } from './country-round';
+import { StatusNotificationService } from '../services/status-notification.service';
 
 
 @Component({
@@ -22,9 +23,14 @@ export class StatusBarComponent implements OnInit {
 
   countryRound: CountryRound;
 
-  constructor(private playerInfo: PlayerInfoService) { }
+  constructor(private playerInfo: PlayerInfoService,  private statusNotificationService: StatusNotificationService) { }
 
   ngOnInit(): void {
+    this.getStatusBarData();
+    this.statusNotificationService.notifications.subscribe(() => this.getStatusBarData());
+  }
+
+  getStatusBarData() {
     forkJoin(
       this.playerInfo.getCountryBuildings(),
       this.playerInfo.getCountryResources(),
@@ -69,7 +75,6 @@ export class StatusBarComponent implements OnInit {
         if (resource.id == 1) { resource.imgSrc = "../../../assets/icons/coral.svg";}
         if (resource.id == 2) { resource.imgSrc = "../../../assets/icons/shell.svg";}
       })
-
     })
   }
 
