@@ -40,7 +40,7 @@ namespace StrategyGame.Api.Controllers
 
             try
             {
-                await _battleService.SendAllTypesToAttack(battleDTO);
+                _battleService.SendAllTypesToAttack(battleDTO);
             }
             catch (Exception ex)
             {

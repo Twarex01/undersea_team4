@@ -27,9 +27,9 @@ namespace StrategyGame.Api.Controllers
         //[Authorize]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult NextRound()
+        public async Task<ActionResult> NextRound()
         {
-            _roundService.SimulateRound();
+            await _roundService.SimulateRound();
             return Ok();
         }
         //GET api/round
