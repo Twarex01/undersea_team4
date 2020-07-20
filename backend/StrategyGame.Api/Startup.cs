@@ -133,7 +133,7 @@ namespace StrategyGame.Api
             app.UseStaticFiles();
 
             app.UseHangfireDashboard();
-            RecurringJob.AddOrUpdate(() => rs.SimulateRound(), Cron.Hourly());
+            //RecurringJob.AddOrUpdate(() => rs.SimulateRound(), Cron.Hourly());
 
             app.UseRouting();
 

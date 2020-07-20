@@ -130,17 +130,23 @@ namespace StrategyGame.Bll.Services
             }
 
             //Harc
-            foreach (var battleID in _dbContext.Battles.Select(b => b.ID))
+            var BattleIDs = _dbContext.Battles.Select(b => b.ID).ToList();
+            foreach (var battleID in BattleIDs)
             {
-                await _battleService.CommenceBattle(battleID);
+                _battleService.CommenceBattle(battleID);
             }
 
             //pont számolás
             foreach (var country in countryList)
             {
-                country.Score = country.Buildings.Sum(b => b.Progress > 0 ? 0 : b.Count * 50) + country.Upgrades.Sum(u => u.Progress > 0 ? 0 : 100) + country.Population + country.Units.Sum(u => u.UnitData.PointValue);
+                country.Score = country.Buildings.Sum(b => b.Progress > 0 ? 0 : b.Count * 50) + country.Upgrades.Sum(u => u.Progress > 0 ? 0 : 100) + country.Population + country.Units.Sum(u => u.UnitData.PointValue * u.Count);
             }
-            _dbContext.SaveChanges();
+
+            //csaták törlése
+            _dbContext.AttackingUnits.RemoveRange(_dbContext.AttackingUnits);
+            _dbContext.Battles.RemoveRange(_dbContext.Battles);
+
+            await _dbContext.SaveChangesAsync();
 
             Round++;
 
