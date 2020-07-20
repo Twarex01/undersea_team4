@@ -11,6 +11,7 @@ import PopupMenu from '../components/main/popupMenu'
 import {StackNavigationProp} from '@react-navigation/stack'
 import {Screens} from '../constants/screens'
 import Constants from 'expo-constants'
+import WhiteButton from '../components/button/whiteButton'
 
 interface MainscreenProps {
   navigation: StackNavigationProp<any>
@@ -38,7 +39,8 @@ const MainScreen = ({navigation}: MainscreenProps) => {
         <RoundBar round={4} place={23} onPress={onStarPress} />
 
         <View style={styles.emptyView}></View>
-        {showPopup && <PopupMenu shell={shell} coral={coral} />}
+
+        <PopupMenu shell={shell} coral={coral} />
       </ImageBackground>
     </View>
   )

@@ -49,12 +49,15 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
       <BevyCard
         image={Images.profil}
         name={name}
-        count={5}
         attack={attack}
         defense={def}
-        pay={salary}
-        supply={consumption}
+        salary={salary}
+        consumption={consumption}
         price={price}
+        salaryType={salaryTypeName}
+        consumptionType={consumptionTypeName}
+        priceType={priceTypeName}
+        count={5}
         onMinusPress={onMinusPressed}
         onPlusPress={onPlusPressed}
       />
@@ -70,24 +73,15 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
   }
 
   return (
-    <View style={styles.container}>
-      <PagesTemplate title={Strings.upgrades}>
-        <FlatList
-          data={units}
-          renderItem={renderItem}
-          ListHeaderComponent={renderHeaderComponent}
-          ItemSeparatorComponent={SeparatorComponent}
-          keyExtractor={keyExtractor}
-          style={styles.flatlistPadding}
-          contentContainerStyle={{paddingBottom: 120}}
-        />
-      </PagesTemplate>
-      <TransparentButton
-        title={Strings.buy}
-        onPress={onBuyPressed}
-        style={{position: 'absolute', bottom: 0}}
-      />
-    </View>
+    <FlatList
+      data={units}
+      renderItem={renderItem}
+      ListHeaderComponent={renderHeaderComponent}
+      ItemSeparatorComponent={SeparatorComponent}
+      keyExtractor={keyExtractor}
+      style={styles.flatlistPadding}
+      contentContainerStyle={{paddingBottom: 120}}
+    />
   )
 }
 

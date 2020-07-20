@@ -60,7 +60,7 @@ const RankingScreen = ({navigation}: RankingScreenProps) => {
 
   return (
     <View style={styles.container}>
-      <PagesTemplate title={Strings.ranking}>
+      <PagesTemplate title={Strings.city_name}>
         <FlatList
           data={players}
           renderItem={renderItem}

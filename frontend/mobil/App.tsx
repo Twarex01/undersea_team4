@@ -10,7 +10,7 @@ import {
   OpenSans_700Bold,
   OpenSans_600SemiBold,
 } from '@expo-google-fonts/open-sans'
-import {View, UIManager, Platform} from 'react-native'
+import {View, UIManager, Platform, Image} from 'react-native'
 import {Screens} from './src/constants/screens'
 import MainScreen from './src/screens/mainScreen'
 import BuildingsScreen from './src/screens/buildingsScreen'
@@ -26,6 +26,8 @@ import {Provider} from 'react-redux'
 import {configureStore} from './config/storeconfig'
 import {Fonts, FontSizes} from './src/constants/fonts'
 import {Colors} from './src/constants/colors'
+import {Images} from './src/constants/images'
+import CityScreen from './src/screens/cityScreen'
 
 const RootStack = createStackNavigator()
 const LoginStack = createStackNavigator()
@@ -74,13 +76,30 @@ const TabStack = createBottomTabNavigator()
 function TabStackScreen() {
   return (
     <TabStack.Navigator
+      screenOptions={({route}) => ({
+        tabBarIcon: ({focused}) => {
+          let iconPath
+          let color
+          if (route.name === Screens.Main) {
+            iconPath = Images.home_tab
+          } else if (route.name === Screens.City) {
+            iconPath = Images.city_tab
+          } else if (route.name === Screens.AttackFirst) {
+            iconPath = Images.attack_tab
+          } else if (route.name === Screens.Fight) {
+            iconPath = Images.bevy_tab
+          }
+          color = focused ? Colors.darkBlue : Colors.lightGray
+          return <Image source={iconPath} style={{tintColor: color}} />
+        },
+      })}
       tabBarOptions={{
         labelStyle: styles.tab,
         activeTintColor: Colors.darkBlue,
         style: styles.background,
       }}>
       <TabStack.Screen name={Screens.Main} component={MainScreen} />
-      <TabStack.Screen name={Screens.Buildings} component={BuildingsScreen} />
+      <TabStack.Screen name={Screens.City} component={CityScreen} />
       <TabStack.Screen
         name={Screens.AttackFirst}
         component={AttackStackScreen}

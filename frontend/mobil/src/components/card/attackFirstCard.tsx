@@ -17,7 +17,7 @@ const AttackFirstCard = ({username, onPress}: Props) => {
       <Text style={[styles.text, Margins.mlNormal]}>{username}</Text>
       <View style={{flex: 1}} />
       <Image
-        source={Images.profil_icon}
+        source={Images.done}
         style={[styles.image, Margins.mrExtraLarge]}
       />
     </TouchableOpacity>

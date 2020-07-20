@@ -11,28 +11,34 @@ import {TouchableOpacity} from 'react-native-gesture-handler'
 interface Props {
   image: ImageSourcePropType
   name?: string
-  count: number
   attack: number
   defense: number
-  pay: number
-  supply: number
+  salary: number
+  consumption: number
   price: number
+  salaryType: string
+  consumptionType: string
+  priceType: string
   onMinusPress: () => void
   onPlusPress: () => void
+  count: number
   number?: number
 }
 
 const BevyCard = ({
   image,
   name,
-  count,
   attack,
   defense,
-  pay,
-  supply,
+  salary,
+  consumption,
   price,
+  salaryType,
+  consumptionType,
+  priceType,
   onMinusPress,
   onPlusPress,
+  count,
   number,
 }: Props) => {
   return (
@@ -51,7 +57,7 @@ const BevyCard = ({
           <Text style={styles.descriptionText}>{Strings.supply}</Text>
           <Text style={styles.descriptionText}>{Strings.price}</Text>
         </View>
-        <View>
+        <View style={styles.rightView}>
           <Text style={styles.descriptionText}>
             {count} {Strings.piece}
           </Text>
@@ -61,13 +67,13 @@ const BevyCard = ({
             {defense}
           </Text>
           <Text style={styles.descriptionText}>
-            {pay} {Strings.pearl}
+            {salary} {salaryType}
           </Text>
           <Text style={styles.descriptionText}>
-            {supply} {Strings.coral}
+            {consumption} {consumptionType}
           </Text>
           <Text style={styles.descriptionText}>
-            {price} {Strings.pearl}
+            {price} {priceType}
           </Text>
         </View>
       </View>
@@ -111,6 +117,7 @@ const styles = StyleSheet.create({
   },
   rightView: {
     flex: 1,
+    alignItems: 'flex-end',
   },
   rowView: {
     flexDirection: 'row',

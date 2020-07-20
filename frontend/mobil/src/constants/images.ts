@@ -22,6 +22,11 @@ export const Images = {
   reef_castle: require('../../assets/reef_castle.png'),
   profil: require('../../assets/profil.png'),
   tractor: require('../../assets/tractor.png'),
-  plus: require('../../assets/profil_icon.png'),
-  minus: require('../../assets/profil_icon.png'),
+  plus: require('../../assets/plus.png'),
+  minus: require('../../assets/minus.png'),
+  edit: require('../../assets/edit.png'),
+  back_arrow: require('../../assets/arrow_left.png'),
+  up_arrow: require('../../assets/caret_up.png'),
+  down_arrow: require('../../assets/caret_down.png'),
+  done: require('../../assets/done.png'),
 }

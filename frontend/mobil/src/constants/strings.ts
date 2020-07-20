@@ -27,7 +27,7 @@ export const Strings = {
   attack_second_title: '2. Lépés',
   attack_second_description: 'Állítsd be, kiket küldesz harcba:',
   bevy_title: 'Jelöld ki, amelyiket szeretnéd:',
-  ranking: 'Ranglista',
+  city_name: 'Városom neve',
   log_out: 'Kijelentkezés',
   piece: 'db',
   pearl_per_piece: 'Gyöngy/db',
@@ -43,4 +43,5 @@ export const Strings = {
   back: 'vissza',
   copy: 'példány',
   attack_button: 'Megtámadom!',
+  my_city: 'Városom',
 }

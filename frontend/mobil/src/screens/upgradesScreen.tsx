@@ -29,8 +29,6 @@ const UpgradesScreen = ({navigation}: UpgradesScreenProps) => {
     dispatch(getUpgrades())
   }, [dispatch])
 
-  const onBuyPressed = () => {}
-
   const renderItem = (itemInfo: ListRenderItemInfo<UpgradeDetails>) => {
     const {effect, name, imageURL} = itemInfo.item
     return (
@@ -56,23 +54,14 @@ const UpgradesScreen = ({navigation}: UpgradesScreenProps) => {
     return item.upgradeTypeID.toString()
   }
   return (
-    <View style={styles.container}>
-      <PagesTemplate title={Strings.upgrades}>
-        <FlatList
-          data={upgrades}
-          renderItem={renderItem}
-          ListHeaderComponent={renderHeaderComponent}
-          keyExtractor={keyExtractor}
-          style={styles.flatlistPadding}
-          contentContainerStyle={{paddingBottom: 120}}
-        />
-      </PagesTemplate>
-      <TransparentButton
-        title={Strings.buy}
-        onPress={onBuyPressed}
-        style={{position: 'absolute', bottom: 0}}
-      />
-    </View>
+    <FlatList
+      data={upgrades}
+      renderItem={renderItem}
+      ListHeaderComponent={renderHeaderComponent}
+      keyExtractor={keyExtractor}
+      style={styles.flatlistPadding}
+      contentContainerStyle={{paddingBottom: 120}}
+    />
   )
 }
 

@@ -16,20 +16,22 @@ import {Strings} from '../../constants/strings'
 
 interface Props {
   style?: StyleProp<ViewStyle>
-  image: ImageSourcePropType
   name?: string
-  description?: string
-  count: number
   price: number
+  priceType: string
+  description?: string
+  image: ImageSourcePropType
+  count: number
 }
 
 const BuildingCard = ({
   style,
-  image,
   name,
-  description,
-  count,
   price,
+  priceType,
+  description,
+  image,
+  count,
 }: Props) => {
   return (
     <TouchableOpacity style={[styles.container, style]}>
@@ -42,7 +44,9 @@ const BuildingCard = ({
       <Text style={[styles.dataText, Margins.mtNormal, Margins.mbBig]}>
         {count} {Strings.piece}
         {'\n'}
-        {price} {Strings.pearl_per_piece}
+        {price} {priceType}
+        {'/'}
+        {Strings.piece}
       </Text>
     </TouchableOpacity>
   )

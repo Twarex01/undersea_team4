@@ -45,12 +45,13 @@ const BuildingsScreen = ({navigation}: BuildingsScreenProps) => {
     } = itemInfo.item
     return (
       <BuildingCard
-        image={Images.reef_castle}
-        name={name}
-        description={effect}
-        count={5}
-        price={price}
         style={Margins.mbNormal}
+        name={name}
+        price={price}
+        priceType={priceTypeName}
+        description={effect}
+        image={Images.reef_castle}
+        count={5}
       />
     )
   }
@@ -71,23 +72,14 @@ const BuildingsScreen = ({navigation}: BuildingsScreenProps) => {
   }
 
   return (
-    <View style={styles.container}>
-      <PagesTemplate title={Strings.buildings}>
-        <FlatList
-          data={buildings}
-          renderItem={renderItem}
-          ListHeaderComponent={renderHeaderComponent}
-          keyExtractor={keyExtractor}
-          style={styles.flatlistPadding}
-          contentContainerStyle={{paddingBottom: 120}}
-        />
-      </PagesTemplate>
-      <TransparentButton
-        title={Strings.buy}
-        onPress={onBuyPressed}
-        style={{position: 'absolute', bottom: 0}}
-      />
-    </View>
+    <FlatList
+      data={buildings}
+      renderItem={renderItem}
+      ListHeaderComponent={renderHeaderComponent}
+      keyExtractor={keyExtractor}
+      style={styles.flatlistPadding}
+      contentContainerStyle={{paddingBottom: 120}}
+    />
   )
 }
 
