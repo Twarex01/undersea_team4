@@ -17,6 +17,8 @@
     <Compile Remove="Migrations\20200708141137_EntitiesAdded_NoBattle.Designer.cs" />
     <Compile Remove="Migrations\20200708145229_EntitiesAdded.cs" />
     <Compile Remove="Migrations\20200708145229_EntitiesAdded.Designer.cs" />
+    <Compile Remove="Migrations\20200716121713_hangfire.cs" />
+    <Compile Remove="Migrations\20200716121713_hangfire.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
