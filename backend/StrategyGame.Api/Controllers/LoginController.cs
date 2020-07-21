@@ -6,28 +6,28 @@ using System.Threading.Tasks;
 
 namespace StrategyGame.Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class LoginController : ControllerBase
-    {
+	[Route("api/[controller]")]
+	[ApiController]
+	public class LoginController : ControllerBase
+	{
 
-        private IUserService _userService;
-        private IJwtService _JWTService;
+		private IUserService _userService;
+		private IJwtService _JWTService;
 
-        public LoginController(IUserService userService, IJwtService jWTService)
-        {
-            _userService = userService;
-            _JWTService = jWTService;
-        }
+		public LoginController(IUserService userService, IJwtService jWTService)
+		{
+			_userService = userService;
+			_JWTService = jWTService;
+		}
 
-        [HttpPost]
-        public async Task<IActionResult> PostLogin([FromBody] LoginDTO loginDTO)
-        {
+		[HttpPost]
+		public async Task<IActionResult> PostLogin([FromBody] LoginDTO loginDTO)
+		{
 
-            var user = await _userService.AuthenticateUser(loginDTO);
-            if (user == null) return BadRequest("nem megfelelő felhsználó név vagy jelszó");
-            string token = _JWTService.GenerateSecurityToken(user);
-            return Ok(token);
-        }
-    }
+			var user = await _userService.AuthenticateUser(loginDTO);
+			if (user == null) return BadRequest("nem megfelelő felhsználó név vagy jelszó");
+			string token = _JWTService.GenerateSecurityToken(user);
+			return Ok(token);
+		}
+	}
 }
