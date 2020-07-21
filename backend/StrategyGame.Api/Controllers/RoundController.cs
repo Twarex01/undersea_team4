@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using StrategyGame.Api.Helper;
 using StrategyGame.Bll.DTO;
 using StrategyGame.Bll.Services;
+using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace StrategyGame.Api.Controllers
@@ -39,6 +42,7 @@ namespace StrategyGame.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<CountryRoundDTO>> GetCountryRound()
         {
+
             var Country = await _userService.GetCountryByUserID(User.Identity.Name);
             return Ok(_roundService.GetCountryRound(Country.ID));
         }
