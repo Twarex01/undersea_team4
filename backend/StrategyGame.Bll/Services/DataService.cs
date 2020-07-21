@@ -131,8 +131,7 @@ namespace StrategyGame.Bll.Services
                     BuildTime = buildingData.BuildTime,
                     Effect = buildingData.Effect,
                     Name = buildingData.Name,
-                    Price = buildingData.Price,
-                    PriceTypeName = resourceTypes.SingleOrDefault(r => r.ID == buildingData.PriceUnitID).Name,
+                    Prices = buildingData.Prices,
                     ImageURL = buildingData.ImageURL
                 });
             }

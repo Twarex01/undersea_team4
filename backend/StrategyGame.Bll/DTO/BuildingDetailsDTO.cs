@@ -7,7 +7,7 @@ namespace StrategyGame.Bll.DTO
     {
         public int BuildingTypeID { get; set; }
         public string Name { get; set; }
-        public List<Price> Prices { get; set; }
+        public List<PriceDTO> Prices { get; set; }
         public string Effect { get; set; }
         public int BuildTime { get; set; }
         public string ImageURL { get; set; }
