@@ -101,12 +101,26 @@ export class PlayerInfoService {
     );
   }
 
+  getUpgradeDetails(): Observable<UpgradeDetails[]> {
+    return this.detailsClient.getAllUpgradeDetails().pipe(
+      map((upgradeDetailsDTOArray) => {
+        return upgradeDetailsDTOArray.map((upgradeDetailsDTO) => ({
+          id: upgradeDetailsDTO.upgradeTypeID,
+          name: upgradeDetailsDTO.name!,
+          description: upgradeDetailsDTO.effect!,
+          imageSrc: "",
+        }));
+      })
+    );
+  }
+
   getCountryUpgrades(): Observable<CountryUpgrade[]> {
     return this.countryClient.getCountryUpgrades().pipe(
       map((upgradeDTOArrray) => {
         return upgradeDTOArrray.map((upgradeDTO) => ({
           id: upgradeDTO.upgradeTypeID,
-          roundsLeft: upgradeDTO.progress
+          roundsLeft: upgradeDTO.progress,
+          imgSrc: "../../../assets/background-buildings/szonaragyu.png"
         }));
       })
     );

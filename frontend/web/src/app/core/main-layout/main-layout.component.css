@@ -33,3 +33,14 @@ main {
     left: 42%;
     z-index: 1;
 }
+
+.buildings {
+    position: relative;
+    z-index: 2;
+}
+
+.sonar {
+    position: relative;
+    right: 25%;
+    z-index: 1;
+}

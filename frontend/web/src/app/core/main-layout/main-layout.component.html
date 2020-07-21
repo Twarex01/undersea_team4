@@ -13,6 +13,7 @@
     </div>
   </div>
   <div class="background-buildings-container">
-    <img *ngFor="let building of buildings" src="{{ building.imgSrc }}" />
+    <img class="buildings" *ngFor="let building of buildings" src="{{ building.imgSrc }}" />
+    <img class="sonar" *ngIf="sonar" src="{{ sonar.imgSrc }}">
   </div>
 </main>

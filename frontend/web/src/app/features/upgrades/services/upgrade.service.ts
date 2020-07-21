@@ -35,7 +35,8 @@ export class UpgradeService {
       map((upgradeDTOArrray) => {
         return upgradeDTOArrray.map((upgradeDTO) => ({
           id: upgradeDTO.upgradeTypeID,
-          roundsLeft: upgradeDTO.progress
+          roundsLeft: upgradeDTO.progress,
+          imgSrc: ""
         }));
       })
     );
