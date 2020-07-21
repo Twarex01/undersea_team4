@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StrategyGame.Bll.DTO;
 using StrategyGame.Bll.Services;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -56,19 +57,16 @@ namespace StrategyGame.Api.Controllers
         // PUT api/Country/Buildings/1
         [HttpPut("Buildings/{buildingId}")]
         [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
 
         public async Task<ActionResult> BuyBuilding(int buildingId)
         {
+
             var country = await _userService.GetCountryByUserID(User.Identity.Name);
             var results = await _purchaseService.PurchaseCountryBuildingAsync(country.ID, buildingId);
 
-            if (results == 0)
-                return Ok();
-            else
-                return BadRequest();
+            return Ok();
         }
 
         //GET api/Country/Upgrades
@@ -78,45 +76,43 @@ namespace StrategyGame.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<List<UpgradeDTO>>> GetCountryUpgrades()
         {
+
             var country = await _userService.GetCountryByUserID(User.Identity.Name);
             var upgrades = await _dataService.GetCountryUpgradesAsync(country.ID);
-            return Ok(upgrades);
+
+            return Ok();
         }
 
         //PUT api/Country/Upgrades/2
         [HttpPut("Upgrades/{upgradeId}")]
         [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
 
         public async Task<ActionResult> BuyUpgradeAsync(int upgradeId)
         {
             var country = await _userService.GetCountryByUserID(User.Identity.Name);
             var results = await _purchaseService.PurchaseCountryUpgradeAsync(country.ID, upgradeId);
 
-            if (results == 0)
-                return Ok();
-            else
-                return BadRequest();
+            return Ok();
+
         }
 
         //PUT api/Country/Units
         [HttpPut("Units")]
         [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
 
         public async Task<ActionResult> BuyUnitsAsync([FromBody] List<UnitDTO> army)
         {
-            var country = await _userService.GetCountryByUserID(User.Identity.Name);
-            var results = await _purchaseService.PurchaseCountryUnitsAsync(country.ID, army);
 
-            if (results == 0)
-                return Ok();
-            else
-                return BadRequest();
+
+             var country = await _userService.GetCountryByUserID(User.Identity.Name);
+             var results = await _purchaseService.PurchaseCountryUnitsAsync(country.ID, army);
+
+            return Ok();
+
         }
 
         [HttpGet("Units")]
