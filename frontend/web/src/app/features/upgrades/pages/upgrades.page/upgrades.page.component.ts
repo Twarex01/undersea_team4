@@ -3,6 +3,7 @@ import { Upgrade } from '../../models/upgrade';
 import { UpgradeService } from '../../services/upgrade.service';
 import { forkJoin } from 'rxjs';
 import { StatusNotificationService } from '../../../../core/services/status-notification.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-upgrades.page',
@@ -15,7 +16,8 @@ export class UpgradesPageComponent implements OnInit {
 
   constructor(
     private upgradeService: UpgradeService,
-    private statusNotificationService: StatusNotificationService
+    private statusNotificationService: StatusNotificationService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -55,6 +57,7 @@ export class UpgradesPageComponent implements OnInit {
 
   buySelectedUpgrade() {
     this.upgradeService.buyUpgrade(this.upgrades[this.selectedUpgradeIndex].id).subscribe(() => {
+      this.snackBar.open("Sikeres vásárlás!", '', {panelClass: "custom-snackbar"})
       this.upgrades[this.selectedUpgradeIndex].roundsLeft = 15;
       this.upgrades[this.selectedUpgradeIndex].isSelected = false;
       this.selectedUpgradeIndex = -1;

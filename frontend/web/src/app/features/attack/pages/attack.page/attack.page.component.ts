@@ -6,6 +6,7 @@ import { forkJoin } from 'rxjs';
 import { AttackBattle } from '../../models/attack-battle';
 import { CountryUnit } from '../../models/country-unit';
 import { StatusNotificationService } from '../../../../core/services/status-notification.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-attack.page',
@@ -22,7 +23,7 @@ export class AttackPageComponent implements OnInit {
 
   players: AttackPlayer[] = new Array<AttackPlayer>();
 
-  constructor(private attackService: AttackService) { }
+  constructor(private attackService: AttackService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     forkJoin(
@@ -56,6 +57,7 @@ export class AttackPageComponent implements OnInit {
     }
     console.log(battle);
     this.attackService.attack(battle).subscribe(() => {
+      this.snackBar.open("Sikeresen elindítottad a támadást!", '', {panelClass: "custom-snackbar"})
       this.units.forEach(unit => unit.countToAttack = 0);
     })
   }
