@@ -47,7 +47,7 @@
             ATK = 5,
             DEF = 5,
             PointValue = 10,
-            ImageURL = "shark.png"
+            ImageURL = "Assets/Units/shark.png"
         };
 
         public int ID { get; set; }
