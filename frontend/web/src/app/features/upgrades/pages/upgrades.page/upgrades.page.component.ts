@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Upgrade } from '../../models/upgrade';
 import { UpgradeService } from '../../services/upgrade.service';
 import { forkJoin } from 'rxjs';
+import { StatusNotificationService } from '../../../../core/services/status-notification.service';
 
 @Component({
   selector: 'app-upgrades.page',
@@ -12,9 +13,17 @@ export class UpgradesPageComponent implements OnInit {
   selectedUpgradeIndex: number = -1;
   upgrades: Upgrade[] = [];
 
-  constructor(private upgradeService: UpgradeService) {}
+  constructor(
+    private upgradeService: UpgradeService,
+    private statusNotificationService: StatusNotificationService
+  ) { }
 
   ngOnInit(): void {
+    this.getUpgradesData();
+    this.statusNotificationService.notifications.subscribe(() => this.getUpgradesData());
+  }
+
+  getUpgradesData(): void {
     forkJoin(
       this.upgradeService.getCountryUpgrades(),
       this.upgradeService.getUpgradeDetails()
@@ -53,9 +62,9 @@ export class UpgradesPageComponent implements OnInit {
   }
 
   isSelectedEnabledToBuy(): boolean {
-    if(this.selectedUpgradeIndex === -1)  return false;
-    for(let i = 0; i < this.upgrades.length; i++){
-      if(!!this.upgrades[i].roundsLeft)
+    if (this.selectedUpgradeIndex === -1) return false;
+    for (let i = 0; i < this.upgrades.length; i++) {
+      if (!!this.upgrades[i].roundsLeft)
         return false;
     }
     const selectedUpgrade = this.upgrades[this.selectedUpgradeIndex];

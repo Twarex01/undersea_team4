@@ -19,15 +19,21 @@ export class BuildingsPageComponent implements OnInit {
   constructor(
     private buildingsService: BuildingsService,
     private statusNotificationService: StatusNotificationService,
-    private palyerInfoService: PlayerInfoService
+    private palyerInfoService: PlayerInfoService,
   ) { }
 
   ngOnInit(): void {
+    this.getBuildingData(); 
+    this.statusNotificationService.notifications.subscribe(() => this.getBuildingData());   
+  }
+
+  getBuildingData(): void{
     forkJoin(
       this.buildingsService.getCountryBuildings(),
       this.buildingsService.getBuildingsData(),
       this.palyerInfoService.getCountryResources()
     ).subscribe(([countryBuildings, buildingDetails, resources]) => {
+      this.buildings = [];
       buildingDetails.forEach((buildingDetail) => {
         const countryBuilding = countryBuildings.find(
           (cb) => cb.id == buildingDetail.id
