@@ -64,7 +64,7 @@ namespace StrategyGame.Api.Controllers
 		{
 
 			var country = await _userService.GetCountryByUserID(User.Identity.Name);
-			var results = await _purchaseService.PurchaseCountryBuildingAsync(country.ID, buildingId);
+			await _purchaseService.PurchaseCountryBuildingAsync(country.ID, buildingId);
 
 			return Ok();
 		}
@@ -80,7 +80,7 @@ namespace StrategyGame.Api.Controllers
 			var country = await _userService.GetCountryByUserID(User.Identity.Name);
 			var upgrades = await _dataService.GetCountryUpgradesAsync(country.ID);
 
-			return Ok();
+			return Ok(upgrades);
 		}
 
 		//PUT api/Country/Upgrades/2
@@ -92,7 +92,7 @@ namespace StrategyGame.Api.Controllers
 		public async Task<ActionResult> BuyUpgradeAsync(int upgradeId)
 		{
 			var country = await _userService.GetCountryByUserID(User.Identity.Name);
-			var results = await _purchaseService.PurchaseCountryUpgradeAsync(country.ID, upgradeId);
+			await _purchaseService.PurchaseCountryUpgradeAsync(country.ID, upgradeId);
 
 			return Ok();
 
@@ -109,7 +109,7 @@ namespace StrategyGame.Api.Controllers
 
 
 			 var country = await _userService.GetCountryByUserID(User.Identity.Name);
-			 var results = await _purchaseService.PurchaseCountryUnitsAsync(country.ID, army);
+			 await _purchaseService.PurchaseCountryUnitsAsync(country.ID, army);
 
 			return Ok();
 
