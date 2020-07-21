@@ -65,7 +65,9 @@ export class BuildingsPageComponent implements OnInit {
 
   buySelectedBuilding() {
     this.buildingsService.buyBuilding(this.buildings[this.selectedIndex].id).subscribe(() => {
-      this.snackBar.open("Sikeres vásárlás!")
+      this.snackBar.open("Sikeres vásárlás!", '', {
+        panelClass: 'custom-snackbar'
+      });
       this.statusNotificationService.updateStatus(true);
       this.buildings[this.selectedIndex].isSelected = false;
       this.buildings[this.selectedIndex].progress = 1;

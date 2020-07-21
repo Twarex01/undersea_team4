@@ -47,7 +47,7 @@ export class UpgradesPageComponent implements OnInit {
 
   buySelectedUpgrade() {
     this.upgradeService.buyUpgrade(this.upgrades[this.selectedUpgradeIndex].id).subscribe(() => {
-      this.snackBar.open("Sikeres vásárlás!")
+      this.snackBar.open("Sikeres vásárlás!", '', {panelClass: "custom-snackbar"})
       this.upgrades[this.selectedUpgradeIndex].roundsLeft = 15;
       this.upgrades[this.selectedUpgradeIndex].isSelected = false;
       this.selectedUpgradeIndex = -1;

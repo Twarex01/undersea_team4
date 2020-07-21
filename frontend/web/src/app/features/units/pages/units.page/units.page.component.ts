@@ -78,7 +78,7 @@ export class UnitsPageComponent implements OnInit {
   buyUnits() {
     const unitsToBuy: UnitToBuy[] = this.units.map((unit) => ({ unitTypeID: unit.id, count: unit.numToBuy }));
     this.unitService.buyUnits(unitsToBuy).subscribe(() => {
-      this.snackBar.open("Sikeres vásárlás!");
+      this.snackBar.open("Sikeres vásárlás!", '', {panelClass: "custom-snackbar-units"});
       this.statusNotificationService.updateStatus(true);
       unitsToBuy.forEach((unit) => {
         const i = this.units.findIndex(u => u.id === unit.unitTypeID);
