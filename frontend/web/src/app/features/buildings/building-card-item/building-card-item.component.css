@@ -36,3 +36,15 @@
     height: 3rem;
     line-height: 1;
 }
+
+.indicator > span{
+    position: relative;
+    color: #9FFFF0;
+    left: 10px;
+    display: block;
+    width: 6rem;
+}
+
+.indicator{
+    height: 1rem;
+}

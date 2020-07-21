@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BattlesService } from '../../services/battles.service';
 import { Battle } from '../../models/battle';
+import { StatusNotificationService } from '../../../../core/services/status-notification.service';
 
 @Component({
   selector: 'app-battles.page',
@@ -9,11 +10,19 @@ import { Battle } from '../../models/battle';
 })
 export class BattlesPageComponent implements OnInit {
 
-  battles: Battle[];
-  
-  constructor(private battleService: BattlesService) { }
+  battles: Battle[] = [];
+
+  constructor(
+    private battleService: BattlesService,
+    private statusNotificationService: StatusNotificationService
+  ) { }
 
   ngOnInit(): void {
+    this.getBattlesData();
+    this.statusNotificationService.notifications.subscribe(() => this.getBattlesData());
+  }
+
+  getBattlesData(): void {
     this.battleService.getCountryBattles().subscribe((battles) => {
       this.battles = battles;
     })

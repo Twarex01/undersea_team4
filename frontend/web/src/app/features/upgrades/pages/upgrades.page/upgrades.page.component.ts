@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Upgrade } from '../../models/upgrade';
 import { UpgradeService } from '../../services/upgrade.service';
 import { forkJoin } from 'rxjs';
+import { StatusNotificationService } from '../../../../core/services/status-notification.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-upgrades.page',
@@ -10,66 +12,20 @@ import { forkJoin } from 'rxjs';
 })
 export class UpgradesPageComponent implements OnInit {
   selectedUpgradeIndex: number = -1;
-  upgrades: Upgrade[] = new Array<Upgrade>(
-    {
-      id: 0,
-      imageSrc: '../../../../../assets/upgrades/iszaptraktor.png',
-      name: 'Iszaptraktor',
-      description: 'növeli a krumpli termesztést 10%-kal',
-      roundsLeft: 3,
-      isDone: false,
-      isSelected: false,
-    },
-    {
-      id: 1,
-      imageSrc: '../../../../../assets/upgrades/iszaptraktor.png',
-      name: 'Iszaptraktor',
-      description: 'növeli a krumpli termesztést 10%-kal',
-      roundsLeft: 15,
-      isDone: false,
-      isSelected: false,
-    },
-    {
-      id: 2,
-      imageSrc: '../../../../../assets/upgrades/iszaptraktor.png',
-      name: 'Iszaptraktor',
-      description: 'növeli a krumpli termesztést 10%-kal',
-      roundsLeft: 15,
-      isDone: false,
-      isSelected: false,
-    },
-    {
-      id: 3,
-      imageSrc: '../../../../../assets/upgrades/iszaptraktor.png',
-      name: 'Iszaptraktor',
-      description: 'növeli a krumpli termesztést 10%-kal',
-      roundsLeft: 15,
-      isDone: false,
-      isSelected: false,
-    },
-    {
-      id: 4,
-      imageSrc: '../../../../../assets/upgrades/iszaptraktor.png',
-      name: 'Iszaptraktor',
-      description: 'növeli a krumpli termesztést 10%-kal',
-      roundsLeft: 0,
-      isDone: true,
-      isSelected: false,
-    },
-    {
-      id: 5,
-      imageSrc: '../../../../../assets/upgrades/iszaptraktor.png',
-      name: 'Iszaptraktor',
-      description: 'növeli a krumpli termesztést 10%-kal',
-      roundsLeft: 0,
-      isDone: true,
-      isSelected: false,
-    }
-  );
+  upgrades: Upgrade[] = [];
 
-  constructor(private upgradeService: UpgradeService) {}
+  constructor(
+    private upgradeService: UpgradeService,
+    private statusNotificationService: StatusNotificationService,
+    private snackBar: MatSnackBar
+  ) { }
 
   ngOnInit(): void {
+    this.getUpgradesData();
+    this.statusNotificationService.notifications.subscribe(() => this.getUpgradesData());
+  }
+
+  getUpgradesData(): void {
     forkJoin(
       this.upgradeService.getCountryUpgrades(),
       this.upgradeService.getUpgradeDetails()
@@ -101,6 +57,7 @@ export class UpgradesPageComponent implements OnInit {
 
   buySelectedUpgrade() {
     this.upgradeService.buyUpgrade(this.upgrades[this.selectedUpgradeIndex].id).subscribe(() => {
+      this.snackBar.open("Sikeres vásárlás!", '', {panelClass: "custom-snackbar"})
       this.upgrades[this.selectedUpgradeIndex].roundsLeft = 15;
       this.upgrades[this.selectedUpgradeIndex].isSelected = false;
       this.selectedUpgradeIndex = -1;
@@ -108,9 +65,9 @@ export class UpgradesPageComponent implements OnInit {
   }
 
   isSelectedEnabledToBuy(): boolean {
-    if(this.selectedUpgradeIndex === -1)  return false;
-    for(let i = 0; i < this.upgrades.length; i++){
-      if(!!this.upgrades[i].roundsLeft)
+    if (this.selectedUpgradeIndex === -1) return false;
+    for (let i = 0; i < this.upgrades.length; i++) {
+      if (!!this.upgrades[i].roundsLeft)
         return false;
     }
     const selectedUpgrade = this.upgrades[this.selectedUpgradeIndex];

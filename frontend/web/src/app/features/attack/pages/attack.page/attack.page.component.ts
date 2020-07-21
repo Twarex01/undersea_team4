@@ -6,6 +6,7 @@ import { forkJoin } from 'rxjs';
 import { AttackBattle } from '../../models/attack-battle';
 import { CountryUnit } from '../../models/country-unit';
 import { StatusNotificationService } from '../../../../core/services/status-notification.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-attack.page',
@@ -18,26 +19,11 @@ export class AttackPageComponent implements OnInit {
 
   selectedPlayerId: number = -1;
 
-  units: AttackUnit[] = new Array<AttackUnit>(
-    {id: 0, name: "Lézercápa", imageSrc: "../../../../assets/icons/shark.svg", count: 20, countToAttack: 0},
-    {id: 1, name: "Rohamóka", imageSrc: "../../../../assets/icons/seal.svg", count: 50, countToAttack: 0},
-    {id: 2, name: "Csatacsikó", imageSrc: "../../../../assets/icons/seahorse.svg", count: 70, countToAttack: 0}
-  );
+  units: AttackUnit[] = new Array<AttackUnit>();
 
-  players: AttackPlayer[] = new Array<AttackPlayer>(
-    {id: 0, name: "józsiiwinner12", isSelected: false },
-    {id: 1, name: "kiscsiko1990", isSelected: false },
-    {id: 2, name: "józsiiwinner12", isSelected: false },
-    {id: 3, name: "kiscsiko1990", isSelected: false },
-    {id: 4, name: "józsiiwinner12", isSelected: false },
-    {id: 5, name: "kiscsiko1990", isSelected: false },
-    {id: 6, name: "józsiiwinner12", isSelected: false },
-    {id: 7, name: "kiscsiko1990", isSelected: false },
-    {id: 9, name: "józsiiwinner12", isSelected: false },
-    {id: 10, name: "kiscsiko1990", isSelected: false }
-  );
+  players: AttackPlayer[] = new Array<AttackPlayer>();
 
-  constructor(private attackService: AttackService) { }
+  constructor(private attackService: AttackService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     forkJoin(
@@ -71,6 +57,7 @@ export class AttackPageComponent implements OnInit {
     }
     console.log(battle);
     this.attackService.attack(battle).subscribe(() => {
+      this.snackBar.open("Sikeresen elindítottad a támadást!", '', {panelClass: "custom-snackbar"})
       this.units.forEach(unit => unit.countToAttack = 0);
     })
   }

@@ -8,4 +8,5 @@ export interface Building {
     priceType: string;
     isSelected: boolean;
     progress: number;
+    buildTime: number;
 }

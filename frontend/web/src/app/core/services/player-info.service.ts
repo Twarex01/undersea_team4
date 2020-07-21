@@ -9,6 +9,8 @@ import { UnitDetails } from '../status-bar/unit-detail';
 import { BuildingDetails } from '../status-bar/building-detail';
 import { CountryRound } from '../status-bar/country-round';
 import { CountryDetail } from '../../features/units/models/country-detail';
+import { CountryUpgrade } from '../../features/upgrades/models/country-upgrade';
+import { UpgradeDetails } from '../../features/upgrades/models/upgrade-details';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +30,7 @@ export class PlayerInfoService {
           id: buildingsDTO.buildingTypeID,
           progress: buildingsDTO.progress,
           count: buildingsDTO.count,
-          imgSrc: ""
+          imgSrc: "../../../assets/background-buildings/zatonyvar.png"
         }));
       })
     );
@@ -99,6 +101,30 @@ export class PlayerInfoService {
     );
   }
 
+  getUpgradeDetails(): Observable<UpgradeDetails[]> {
+    return this.detailsClient.getAllUpgradeDetails().pipe(
+      map((upgradeDetailsDTOArray) => {
+        return upgradeDetailsDTOArray.map((upgradeDetailsDTO) => ({
+          id: upgradeDetailsDTO.upgradeTypeID,
+          name: upgradeDetailsDTO.name!,
+          description: upgradeDetailsDTO.effect!,
+          imageSrc: "",
+        }));
+      })
+    );
+  }
+
+  getCountryUpgrades(): Observable<CountryUpgrade[]> {
+    return this.countryClient.getCountryUpgrades().pipe(
+      map((upgradeDTOArrray) => {
+        return upgradeDTOArrray.map((upgradeDTO) => ({
+          id: upgradeDTO.upgradeTypeID,
+          roundsLeft: upgradeDTO.progress,
+          imgSrc: "../../../assets/background-buildings/szonaragyu.png"
+        }));
+      })
+    );
+  }
 
   getPlayerName(): string {
     return localStorage.getItem("playerName") ?? '';
