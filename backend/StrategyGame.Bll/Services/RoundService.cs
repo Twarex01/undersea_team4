@@ -50,6 +50,13 @@ namespace StrategyGame.Bll.Services
             _dbContext.SaveChanges();
         }
 
+        private void GenerateStoneIncome(Country country)
+        {
+            var stones = country.Resources.SingleOrDefault(r => r.ResourceDataID == ResourceData.Stone.ID);
+            stones.Amount += (int)Math.Truncate(stones.ProductionBase * stones.ProductionMultiplier);
+            _dbContext.SaveChanges();
+        }
+
         private void PaySoldiers(Country country)
         {
 
@@ -122,6 +129,7 @@ namespace StrategyGame.Bll.Services
             {
                 GeneratePearlIncome(country);
                 GenerateCoralIncome(country);
+                GenerateStoneIncome(country);
                 PaySoldiers(country);
                 FeedSoldiers(country);
                 ProceedWithUpgrade(country);
