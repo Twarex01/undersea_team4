@@ -41,6 +41,7 @@ namespace StrategyGame.Dal
 
             builder.Entity<ReefFort>().HasBaseType<BuildingData>();
             builder.Entity<FlowRegulator>().HasBaseType<BuildingData>();
+            builder.Entity<StoneMine>().HasBaseType<BuildingData>();
 
             builder.Entity<User>().HasOne(u => u.Country).WithOne(c => c.User).HasForeignKey<Country>(c => c.UserID);
 
@@ -90,6 +91,7 @@ namespace StrategyGame.Dal
 
             builder.Entity<FlowRegulator>().HasData(StrategyGame.Model.BuildingData.FlowRegulator);
             builder.Entity<ReefFort>().HasData(StrategyGame.Model.BuildingData.ReefFort);
+            builder.Entity<StoneMine>().HasData(StrategyGame.Model.BuildingData.StoneMine);
 
             builder.Entity<Alchemy>().HasData(StrategyGame.Model.UpgradeData.Alchemy);
             builder.Entity<CoralWall>().HasData(StrategyGame.Model.UpgradeData.CoralWall);
@@ -99,19 +101,7 @@ namespace StrategyGame.Dal
             builder.Entity<SonarCannon>().HasData(StrategyGame.Model.UpgradeData.SonarCannon);
 
             builder.Entity<UnitData>().HasData(new UnitData[] { StrategyGame.Model.UnitData.AssaultSeal, StrategyGame.Model.UnitData.BattleSeaHorse, StrategyGame.Model.UnitData.LaserShark });
-            /*
-            builder.Entity<ResourceData>().HasData(new ResourceData[] { StrategyGame.Model.ResourceData.Pearl, StrategyGame.Model.ResourceData.Coral });
-            builder.Entity<BuildingData>().HasData(new BuildingData[] { StrategyGame.Model.BuildingData.FlowRequlator, StrategyGame.Model.BuildingData.ReefFort });
-            builder.Entity<UpgradeData>().HasData(new UpgradeData[] { 
-                StrategyGame.Model.UpgradeData.Alchemy,
-                StrategyGame.Model.UpgradeData.CoralWall,
-                StrategyGame.Model.UpgradeData.MartialArts,
-                StrategyGame.Model.UpgradeData.MudHarvester,
-                StrategyGame.Model.UpgradeData.MudTractor,
-                StrategyGame.Model.UpgradeData.SonarCannon
-            });
-            builder.Entity<UnitData>().HasData(new UnitData[] { StrategyGame.Model.UnitData.AssaultSeal, StrategyGame.Model.UnitData.BattleSeaHorse, StrategyGame.Model.UnitData.LaserShark });
-            */
+          
 
 
         }
