@@ -19,6 +19,8 @@
     <Compile Remove="Migrations\20200708145229_EntitiesAdded.Designer.cs" />
     <Compile Remove="Migrations\20200716121713_hangfire.cs" />
     <Compile Remove="Migrations\20200716121713_hangfire.Designer.cs" />
+    <Compile Remove="Migrations\20200721090550_Undersea_v6_CR1.cs" />
+    <Compile Remove="Migrations\20200721090550_Undersea_v6_CR1.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

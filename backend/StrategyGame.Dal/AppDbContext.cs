@@ -4,6 +4,7 @@ using StrategyGame.Model;
 using StrategyGame.Model.BuildingTypes;
 using StrategyGame.Model.UpgradeTypes;
 
+
 namespace StrategyGame.Dal
 {
     public class AppDbContext : IdentityDbContext<User>
@@ -87,7 +88,18 @@ namespace StrategyGame.Dal
             builder.Entity<AttackingUnit>().HasOne(a => a.Battle).WithMany(b => b.AttackingUnits).HasForeignKey(a => a.BattleID);
             builder.Entity<AttackingUnit>().HasOne(a => a.UnitData).WithMany().HasForeignKey(a => a.UnitDataID);
 
-            builder.Entity<ResourceData>().HasData(new ResourceData[] { StrategyGame.Model.ResourceData.Pearl, StrategyGame.Model.ResourceData.Coral });
+            builder.Entity<ResourceData>().HasData(new ResourceData[] { StrategyGame.Model.ResourceData.Pearl, StrategyGame.Model.ResourceData.Coral, StrategyGame.Model.ResourceData.Stone });
+
+            builder.Entity<Price>().HasData(new Price[]
+            {
+                new Price() { ID =1, PriceUnitID = StrategyGame.Model.ResourceData.Stone.ID, Amount = 50, BuildingID = StrategyGame.Model.BuildingData.FlowRegulator.ID  },
+                new Price() { ID =2, PriceUnitID = StrategyGame.Model.ResourceData.Pearl.ID, Amount = 1000, BuildingID = StrategyGame.Model.BuildingData.FlowRegulator.ID },
+
+                new Price() { ID =3, PriceUnitID = StrategyGame.Model.ResourceData.Stone.ID, Amount = 50, BuildingID = StrategyGame.Model.BuildingData.ReefFort.ID  },
+                new Price() { ID =4, PriceUnitID = StrategyGame.Model.ResourceData.Pearl.ID, Amount = 1000, BuildingID = StrategyGame.Model.BuildingData.ReefFort.ID },
+
+                new Price() { ID =5, PriceUnitID = StrategyGame.Model.ResourceData.Pearl.ID, Amount = 1000, BuildingID = StrategyGame.Model.BuildingData.StoneMine.ID },
+            });
 
             builder.Entity<FlowRegulator>().HasData(StrategyGame.Model.BuildingData.FlowRegulator);
             builder.Entity<ReefFort>().HasData(StrategyGame.Model.BuildingData.ReefFort);

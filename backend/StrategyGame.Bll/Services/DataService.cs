@@ -123,17 +123,20 @@ namespace StrategyGame.Bll.Services
         {
             List<BuildingDetailsDTO> buildingDetails = new List<BuildingDetailsDTO>();
             var resourceTypes = await _context.ResourceData.ToListAsync();
-            foreach (BuildingData buildingData in _context.BuildingData)
+            foreach (BuildingData buildingData in _context.BuildingData.Include(b=> b.Prices).ThenInclude(p=> p.PriceUnit))
             {
+                var pricelist = new List<PriceDTO>();
+                pricelist.AddRange(buildingData.Prices.Select(p => new PriceDTO() { Price = p.Amount, PriceTypeName = p.PriceUnit.Name }));
                 buildingDetails.Add(new BuildingDetailsDTO()
                 {
                     BuildingTypeID = buildingData.ID,
                     BuildTime = buildingData.BuildTime,
                     Effect = buildingData.Effect,
                     Name = buildingData.Name,
-                    Prices = buildingData.Prices,
+                    Prices = pricelist,
                     ImageURL = buildingData.ImageURL
                 });
+                
             }
             return buildingDetails;
         }
