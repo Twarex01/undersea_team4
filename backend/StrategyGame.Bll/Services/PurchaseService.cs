@@ -2,6 +2,7 @@
 using StrategyGame.Bll.DTO;
 using StrategyGame.Dal;
 using StrategyGame.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,12 +22,12 @@ namespace StrategyGame.Bll.Services
 
         public async Task<int> PurchaseCountryBuildingAsync(int countryId, int buildingId) //TODO
         {
-            if (await _appDbContext.Buildings.Where(b => b.CoutryID == countryId).AnyAsync(b => b.Progress > 0)) return 1; //már épül valami
+            if (await _appDbContext.Buildings.Where(b => b.CoutryID == countryId).AnyAsync(b => b.Progress > 0)) throw new Exception("Already building something"); ; //már épül valami
             Country country = await _appDbContext.Countries.Where(c => c.ID == countryId).Include(c => c.Resources).ThenInclude(r => r.ResourceData).SingleOrDefaultAsync();
-            if (country == null) return 2; //nincs ilyen ID-jű country
+            if (country == null) throw new Exception("Country not found"); //nincs ilyen ID-jű country
             BuildingData toBuild = await _appDbContext.BuildingData.Where(b => b.ID == buildingId).SingleOrDefaultAsync();
-            if (toBuild == null) return 2; //nincs iylen ID-jű épület
-            if (country.Resources.Where(r => r.ResourceDataID == toBuild.PriceUnitID).SingleOrDefault().Amount < toBuild.Price) return 3; // nincs elég erőforrás
+            if (toBuild == null) throw new Exception("Building not found"); //nincs iylen ID-jű épület
+            if (country.Resources.Where(r => r.ResourceDataID == toBuild.PriceUnitID).SingleOrDefault().Amount < toBuild.Price) throw new Exception("Not enough resources"); ; // nincs elég erőforrás
             Building alreadyPresent = await _appDbContext.Buildings.Where(b => b.CoutryID == country.ID && b.BuildingDataID == toBuild.ID).SingleOrDefaultAsync();
             if (alreadyPresent != null)
             {
@@ -66,7 +67,7 @@ namespace StrategyGame.Bll.Services
             {
                 var cost = totalCost.SingleOrDefault(r => r.ResourceDataID == resource.ResourceDataID);
                 if (cost == null) continue;
-                if (resource.Amount < cost.Amount) return 1; //nics elég pénz
+                if (resource.Amount < cost.Amount) throw new Exception("Not enough money");
             }
 
             int numberOfBoughtUnits = 0;
@@ -75,7 +76,7 @@ namespace StrategyGame.Bll.Services
                 numberOfBoughtUnits += unit.Count;
             }
             var numberOfExistingUnits = country.Units.Sum(u => u.Count);
-            if (numberOfBoughtUnits + numberOfExistingUnits > country.ArmyCapacity) return 1; //nincs elég hely
+            if (numberOfBoughtUnits + numberOfExistingUnits > country.ArmyCapacity) throw new Exception("Not enough army capacity");
 
             foreach (var unit in unitsToBuy)
             {
@@ -95,13 +96,13 @@ namespace StrategyGame.Bll.Services
 
         public async Task<int> PurchaseCountryUpgradeAsync(int countryId, int upgradeId)
         {
-            if (await _appDbContext.Upgrades.Where(b => b.CoutryID == countryId).AnyAsync(b => b.Progress > 0)) return 1; //már fejlődik valami
+            if (await _appDbContext.Upgrades.Where(b => b.CoutryID == countryId).AnyAsync(b => b.Progress > 0)) throw new Exception("Already upgrading something"); //már fejlődik valami
             Country country = await _appDbContext.Countries.Include(c => c.Upgrades).SingleOrDefaultAsync(c => c.ID == countryId);
-            if (country == null) return 2; //nincs ilyen ID-jű country
+            if (country == null) throw new Exception("Country not found"); //nincs ilyen ID-jű country
             var toUpgrade = await _appDbContext.UpgradeData.Where(u => u.ID == upgradeId).SingleOrDefaultAsync();
-            if (toUpgrade == null) return 2; //nincs ilyen ID - jű upgrade
+            if (toUpgrade == null) throw new Exception("Upgrade not found"); //nincs ilyen ID - jű upgrade
             var existingUpgrade = country.Upgrades.FirstOrDefault(u => u.UpgradeDataID == upgradeId);
-            if (existingUpgrade != null) return 2; //van már ilyen upgrade
+            if (existingUpgrade != null) throw new Exception("Upgrade already exists"); //van már ilyen upgrade
 
             var newUpgrade = new Upgrade() { Progress = toUpgrade.UpgradeTime, UpgradeDataID = toUpgrade.ID, CoutryID = country.ID };
 
