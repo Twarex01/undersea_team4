@@ -5,4 +5,5 @@ export interface BuildingDetails {
     description: string;
     price: number;
     priceType: string;
+    buildTime: number;
 }

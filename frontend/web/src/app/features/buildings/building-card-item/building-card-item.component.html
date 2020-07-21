@@ -1,11 +1,9 @@
 <div class="building-card-item" *ngIf="building" [ngClass]="{ 'building-card-item-selected': building.isSelected }">
-    <div class="top">
-        <div class="indicator">
-            <span *ngIf="building.progress > 0">még {{building.progress}} kör</span>
-        </div>
-        <div class="item-image">          
-            <ng-content select=".item-image"></ng-content>
-        </div>
+    <div class="indicator">
+        <span *ngIf="building.progress > 0">még {{building.progress}} kör</span>
+    </div>
+    <div class="item-image">
+        <ng-content select=".item-image"></ng-content>
     </div>
     <div class="header">
         <p>{{building.name}}</p>

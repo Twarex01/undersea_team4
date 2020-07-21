@@ -33,7 +33,8 @@ export class BuildingsService {
           imageSrc: "../../../../../assets/buildings/zatonyvar.png",
           description: buildingDetailsDTO.effect!,
           price: buildingDetailsDTO.price,
-          priceType: buildingDetailsDTO.priceTypeName!
+          priceType: buildingDetailsDTO.priceTypeName!,
+          buildTime: buildingDetailsDTO.buildTime
         }))
       })
     )

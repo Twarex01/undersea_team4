@@ -25,11 +25,17 @@ export class BuildingsPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getBuildingData(); 
+    this.statusNotificationService.notifications.subscribe(() => this.getBuildingData());   
+  }
+
+  getBuildingData(): void{
     forkJoin(
       this.buildingsService.getCountryBuildings(),
       this.buildingsService.getBuildingsData(),
       this.palyerInfoService.getCountryResources()
     ).subscribe(([countryBuildings, buildingDetails, resources]) => {
+      this.buildings = [];
       buildingDetails.forEach((buildingDetail) => {
         const countryBuilding = countryBuildings.find(
           (cb) => cb.id == buildingDetail.id
@@ -43,7 +49,8 @@ export class BuildingsPageComponent implements OnInit {
           description: buildingDetail.description,
           count: countryBuilding?.count ?? 0,
           isSelected: false,
-          progress: countryBuilding?.progress ?? -1
+          progress: countryBuilding?.progress ?? -1,
+          buildTime: buildingDetail.buildTime
         })
       });
       this.countryPearl = resources.find(resource => resource.id == 2)?.count ?? 0;
@@ -70,7 +77,7 @@ export class BuildingsPageComponent implements OnInit {
       });
       this.statusNotificationService.updateStatus(true);
       this.buildings[this.selectedIndex].isSelected = false;
-      this.buildings[this.selectedIndex].progress = 1;
+      this.buildings[this.selectedIndex].progress = this.buildings[this.selectedIndex].buildTime;
       this.selectedIndex = -1;
     });
   }
