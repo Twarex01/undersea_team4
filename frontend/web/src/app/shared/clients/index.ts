@@ -1198,7 +1198,7 @@ export interface IProblemDetails {
 }
 
 export class BattleDTO implements IBattleDTO {
-    idAtt!: number;
+    idAtt?: number;
     idDef!: number;
     army?: UnitDTO[] | undefined;
 
@@ -1244,7 +1244,7 @@ export class BattleDTO implements IBattleDTO {
 }
 
 export interface IBattleDTO {
-    idAtt: number;
+    idAtt?: number;
     idDef: number;
     army?: UnitDTO[] | undefined;
 }
