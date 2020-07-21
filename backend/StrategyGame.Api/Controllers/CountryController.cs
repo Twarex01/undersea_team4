@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StrategyGame.Bll.DTO;
 using StrategyGame.Bll.Services;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -62,13 +63,18 @@ namespace StrategyGame.Api.Controllers
 
         public async Task<ActionResult> BuyBuilding(int buildingId)
         {
-            var country = await _userService.GetCountryByUserID(User.Identity.Name);
-            var results = await _purchaseService.PurchaseCountryBuildingAsync(country.ID, buildingId);
 
-            if (results == 0)
-                return Ok();
-            else
-                return BadRequest();
+            try
+            {
+                var country = await _userService.GetCountryByUserID(User.Identity.Name);
+                var results = await _purchaseService.PurchaseCountryBuildingAsync(country.ID, buildingId);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return Ok();
         }
 
         //GET api/Country/Upgrades
@@ -78,9 +84,18 @@ namespace StrategyGame.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<List<UpgradeDTO>>> GetCountryUpgrades()
         {
-            var country = await _userService.GetCountryByUserID(User.Identity.Name);
-            var upgrades = await _dataService.GetCountryUpgradesAsync(country.ID);
-            return Ok(upgrades);
+
+            try
+            {
+                var country = await _userService.GetCountryByUserID(User.Identity.Name);
+                var upgrades = await _dataService.GetCountryUpgradesAsync(country.ID);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return Ok();
         }
 
         //PUT api/Country/Upgrades/2
@@ -92,13 +107,19 @@ namespace StrategyGame.Api.Controllers
 
         public async Task<ActionResult> BuyUpgradeAsync(int upgradeId)
         {
-            var country = await _userService.GetCountryByUserID(User.Identity.Name);
-            var results = await _purchaseService.PurchaseCountryUpgradeAsync(country.ID, upgradeId);
 
-            if (results == 0)
-                return Ok();
-            else
-                return BadRequest();
+            try
+            {
+                var country = await _userService.GetCountryByUserID(User.Identity.Name);
+                var results = await _purchaseService.PurchaseCountryUpgradeAsync(country.ID, upgradeId);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return Ok();
+
         }
 
         //PUT api/Country/Units
@@ -110,13 +131,20 @@ namespace StrategyGame.Api.Controllers
 
         public async Task<ActionResult> BuyUnitsAsync([FromBody] List<UnitDTO> army)
         {
-            var country = await _userService.GetCountryByUserID(User.Identity.Name);
-            var results = await _purchaseService.PurchaseCountryUnitsAsync(country.ID, army);
 
-            if (results == 0)
-                return Ok();
-            else
-                return BadRequest();
+
+            try
+            {
+                var country = await _userService.GetCountryByUserID(User.Identity.Name);
+                var results = await _purchaseService.PurchaseCountryUnitsAsync(country.ID, army);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return Ok();
+
         }
 
         [HttpGet("Units")]

@@ -1,4 +1,5 @@
 ﻿using StrategyGame.Model.BuildingTypes;
+using System.Collections.Generic;
 using System.Data;
 
 namespace StrategyGame.Model
@@ -14,6 +15,7 @@ namespace StrategyGame.Model
             ImageURL = ""};
         public int ID { get; set; }
         public string Name { get; set; }
+        public List<Price> Prices { get; set; }
         public int Price { get; set; }
         public ResourceData PriceUnit { get; set; }
         public int PriceUnitID { get; set; }

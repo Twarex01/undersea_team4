@@ -9,10 +9,9 @@ namespace StrategyGame.Model.BuildingTypes
     {
         public override void ApplyEffect(Country country)
         {
-            var coralProd = country.Resources.SingleOrDefault(r => r.ResourceDataID == ResourceData.Stone.ID);
-            if (coralProd == null) return;
-            coralProd.ProductionBase += 25;
-            // növeli a kőtermelést 25-el
+            var stoneProd = country.Resources.SingleOrDefault(r => r.ResourceDataID == ResourceData.Stone.ID);
+            if (stoneProd == null) return;
+            stoneProd.ProductionBase += 25;
         }
     }
 }
