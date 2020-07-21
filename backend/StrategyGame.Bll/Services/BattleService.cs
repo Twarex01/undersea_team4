@@ -63,11 +63,11 @@ namespace StrategyGame.Bll.Services
             var defendingCountry = _context.Countries.Where(c => c.ID == battleDto.IdDef).FirstOrDefault();
             if (attackingCountry == null)
             {
-                throw new Exception("Attacking country is not found");
+                throw new HttpResponseException { Status = 400, Value = "Attacking country is not found" };
             }
             if (defendingCountry == null)
             {
-                throw new Exception("Defending country is not found");
+                throw new HttpResponseException { Status = 400, Value = "Defending country is not found" };
             }
 
             foreach (UnitDTO unitDto in battleDto.Army)
@@ -85,13 +85,13 @@ namespace StrategyGame.Bll.Services
             var unitData = _context.UnitData.Where(u => u.ID == unitDataId).FirstOrDefault();
             if (unitData == null)
             {
-                throw new Exception("Unit Data is not found");
+                throw new HttpResponseException { Status = 400, Value = "Unit Data is not found" };
             }
 
             var count = CountUnitsOfTypeAtHome(attackingCountryId, unitDataId);
             if (numberOfUnits > count)
             {
-                throw new Exception("Not enough units available");
+                throw new HttpResponseException { Status = 400, Value = "Not enough units available" };
             }
             else
             {

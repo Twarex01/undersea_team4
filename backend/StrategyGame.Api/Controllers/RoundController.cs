@@ -26,7 +26,7 @@ namespace StrategyGame.Api.Controllers
 
         //PUT api/round
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> NextRound()
