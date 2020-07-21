@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace StrategyGame.Bll.Services
 {
-	public interface IUserService
-	{
-		public Task<IdentityResult> RegisterUserAsync(RegisterDTO registerDTO);
+    public interface IUserService
+    {
+        public Task<IdentityResult> RegisterUserAsync(RegisterDTO registerDTO);
 
-		public Task<User> AuthenticateUser(LoginDTO loginDTO);
+        public Task<User> AuthenticateUser(LoginDTO loginDTO);
 
-		public Task<Country> GetCountryByUserID(string userID);
-	}
+        public Task<Country> GetCountryByUserID(string userID);
+    }
 }
