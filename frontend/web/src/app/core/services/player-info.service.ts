@@ -9,6 +9,8 @@ import { UnitDetails } from '../status-bar/unit-detail';
 import { BuildingDetails } from '../status-bar/building-detail';
 import { CountryRound } from '../status-bar/country-round';
 import { CountryDetail } from '../../features/units/models/country-detail';
+import { CountryUpgrade } from '../../features/upgrades/models/country-upgrade';
+import { UpgradeDetails } from '../../features/upgrades/models/upgrade-details';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +30,7 @@ export class PlayerInfoService {
           id: buildingsDTO.buildingTypeID,
           progress: buildingsDTO.progress,
           count: buildingsDTO.count,
-          imgSrc: ""
+          imgSrc: "../../../assets/background-buildings/zatonyvar.png"
         }));
       })
     );
@@ -99,6 +101,16 @@ export class PlayerInfoService {
     );
   }
 
+  getCountryUpgrades(): Observable<CountryUpgrade[]> {
+    return this.countryClient.getCountryUpgrades().pipe(
+      map((upgradeDTOArrray) => {
+        return upgradeDTOArrray.map((upgradeDTO) => ({
+          id: upgradeDTO.upgradeTypeID,
+          roundsLeft: upgradeDTO.progress
+        }));
+      })
+    );
+  }
 
   getPlayerName(): string {
     return localStorage.getItem("playerName") ?? '';

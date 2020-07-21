@@ -1,15 +1,18 @@
 <main>
-    <div class="status-bar">
-        <app-status-bar></app-status-bar>
+  <div class="status-bar">
+    <app-status-bar></app-status-bar>
+  </div>
+  <div class="layout-body">
+    <div class="layout-left">
+      <app-menu></app-menu>
+      <app-profile></app-profile>
+      <app-menu-logo></app-menu-logo>
     </div>
-    <div class="layout-body">
-        <div class="layout-left">
-            <app-menu></app-menu>
-            <app-profile></app-profile>
-            <app-menu-logo></app-menu-logo>
-        </div>
-        <div class="layout-right">
-            <router-outlet></router-outlet>
-        </div>
+    <div class="layout-right">
+      <router-outlet></router-outlet>
     </div>
+  </div>
+  <div class="background-buildings-container">
+    <img *ngFor="let building of buildings" src="{{ building.imgSrc }}" />
+  </div>
 </main>

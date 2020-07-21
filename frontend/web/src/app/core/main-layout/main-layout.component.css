@@ -7,6 +7,8 @@ main {
 }
 
 .layout-body {
+    position: relative;
+    z-index: 2;
     display: flex;
     margin-top: 2%;
     margin-left: 1%;
@@ -22,4 +24,12 @@ main {
 
 .status-bar {
     padding: 1%;
+}
+
+.background-buildings-container {
+    z-index: 2;
+    position: absolute;
+    bottom: 25%;
+    left: 42%;
+    z-index: 1;
 }
