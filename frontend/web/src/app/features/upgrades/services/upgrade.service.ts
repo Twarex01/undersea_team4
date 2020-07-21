@@ -24,7 +24,7 @@ export class UpgradeService {
           id: upgradeDetailsDTO.upgradeTypeID,
           name: upgradeDetailsDTO.name!,
           description: upgradeDetailsDTO.effect!,
-          imageSrc: '../../../../../assets/upgrades/iszaptraktor.png',
+          imageSrc: upgradeDetailsDTO?.imageURL ?? ""
         }));
       })
     );
