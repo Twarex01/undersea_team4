@@ -19,6 +19,7 @@ namespace StrategyGame.Dal
         public DbSet<ResourceData> ResourceData { get; set; }
         public DbSet<Battle> Battles { get; set; }
         public DbSet<AttackingUnit> AttackingUnits { get; set; }
+        public DbSet<Price> Prices { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -70,7 +71,10 @@ namespace StrategyGame.Dal
             builder.Entity<UnitData>().HasOne(u => u.SalaryUnit).WithMany().HasForeignKey(u => u.SalaryUnitID);
 
             builder.Entity<BuildingData>().HasKey(b => b.ID);
-            builder.Entity<BuildingData>().HasOne(b => b.PriceUnit).WithMany().HasForeignKey(b => b.PriceUnitID);
+            builder.Entity<BuildingData>().HasMany(b => b.Prices).WithOne().HasForeignKey(p => p.BuildingID);
+
+            builder.Entity<Price>().HasKey(p => p.ID);
+            builder.Entity<Price>().HasOne(p => p.PriceUnit).WithMany().HasForeignKey(p => p.PriceUnitID);
 
             builder.Entity<UpgradeData>().HasKey(u => u.ID);
 

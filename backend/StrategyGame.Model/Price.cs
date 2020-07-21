@@ -10,5 +10,7 @@ namespace StrategyGame.Model
         public int Amount { get; set; }
         public ResourceData PriceUnit { get; set; }
         public int PriceUnitID { get; set; }
+        public BuildingData Building { get; set; }
+        public int BuildingID { get; set; }
     }
 }

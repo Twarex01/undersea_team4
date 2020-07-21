@@ -16,9 +16,6 @@ namespace StrategyGame.Model
         public int ID { get; set; }
         public string Name { get; set; }
         public List<Price> Prices { get; set; }
-        public int Price { get; set; }
-        public ResourceData PriceUnit { get; set; }
-        public int PriceUnitID { get; set; }
         public int BuildTime { get; set; }
         public string Effect { get; set; }
         public string ImageURL { get; set; }
