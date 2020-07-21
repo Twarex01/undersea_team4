@@ -20,8 +20,11 @@ interface UpgradesScreenProps {
 }
 
 const UpgradesScreen = ({navigation}: UpgradesScreenProps) => {
-  const {upgrades, error, isLoading} = useSelector(
+  const {upgrades, upgradesError, isUpgradesLoading} = useSelector(
     (state: IApplicationState) => state.app.upgrade,
+  )
+  const {myUpgrades, myUpgradesError, isMyUpgradesLoading} = useSelector(
+    (state: IApplicationState) => state.app.myUpgrade,
   )
   const dispatch = useDispatch()
 

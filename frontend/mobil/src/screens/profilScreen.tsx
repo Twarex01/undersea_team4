@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, Text, StyleSheet, Image} from 'react-native'
+import {View, Text, StyleSheet, Image, AsyncStorage} from 'react-native'
 import {Colors} from '../constants/colors'
 import ScrollablePagesTemplate from '../components/pages/scrollablePagesTemplate'
 import {Strings} from '../constants/strings'
@@ -10,6 +10,7 @@ import {StackNavigationProp} from '@react-navigation/stack'
 import {Screens} from '../constants/screens'
 import PagesTemplateBack from '../components/pages/pagesTemplateBack'
 import {TouchableOpacity} from 'react-native-gesture-handler'
+import {Token} from '../constants/token'
 
 interface ProfilScreenProps {
   navigation: StackNavigationProp<any>
@@ -19,10 +20,14 @@ const ProfilScreen = ({navigation}: ProfilScreenProps) => {
   const onBackPressed = () => {
     navigation.goBack()
   }
-  const onEditPressed = () => {
-    //navigation.navigate(Screens.Ranking)
+  const onEditPressed = () => {}
+
+  const setToken = async () => {
+    await AsyncStorage.setItem(Token.ACCESS_TOKEN, '')
   }
+
   const onLogoutPressed = () => {
+    setToken()
     navigation.goBack()
     navigation.replace(Screens.Login)
   }

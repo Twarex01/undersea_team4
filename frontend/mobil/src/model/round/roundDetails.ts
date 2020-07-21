@@ -1,6 +1,5 @@
-export interface RoundScore {
+export interface RoundDetails {
   id: number
   round: number
-  score: number
   rank: number
 }

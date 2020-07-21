@@ -1,3 +1,3 @@
-import {RoundScore} from './roundScore'
+import {RoundDetails} from './roundDetails'
 
-export interface RoundResponse extends RoundScore {}
+export interface RoundResponse extends RoundDetails {}

@@ -1,12 +1,12 @@
-import {RoundScore} from '../../model/round/roundScore'
+import {RoundDetails} from '../../model/round/roundDetails'
 
 export interface RoundStore {
   isLoading: boolean
   error: string | undefined
-  round: RoundScore
+  round: RoundDetails
 }
 
-const initRound: RoundScore = {id: 0, round: 0, score: 0, rank: 0}
+const initRound: RoundDetails = {id: 0, round: 0, rank: 0}
 
 export const initialRoundStore: RoundStore = {
   isLoading: false,

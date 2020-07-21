@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {
   View,
   Text,
@@ -18,21 +18,9 @@ import {Fonts, FontSizes} from '../constants/fonts'
 import {UnitCount, FightDetails} from '../model/fight/fightDetails'
 import SeparatorComponent from '../components/separator/separatorComponent'
 import {Margins} from '../constants/margins'
-
-const mockUnitcount: UnitCount[] = [
-  {
-    count: 6,
-    name: 'Cápa',
-  },
-  {
-    count: 6,
-    name: 'Fóka',
-  },
-  {
-    count: 6,
-    name: 'Csikó',
-  },
-]
+import {useSelector, useDispatch} from 'react-redux'
+import {IApplicationState} from '../../store'
+import {getFights} from '../store/fights/fights.action'
 
 const mockFightDetails = [
   {
@@ -93,16 +81,24 @@ interface FightScreenProps {
 }
 
 const FightScreen = ({navigation}: FightScreenProps) => {
-  const renderSectionHeader = ({section: {title}}) => {
-    return (
-      <Text style={[styles.sectionHeaderText, Margins.mbNormal]}>{title}</Text>
-    )
+  const {fights, error, isLoading} = useSelector(
+    (state: IApplicationState) => state.app.fight,
+  )
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getFights())
+  }, [dispatch])
+
+  const renderSectionHeader = () => {
+    return <Text style={[styles.sectionHeaderText, Margins.mbNormal]}>{}</Text>
   }
 
-  const renderItem = ({item}) => {
+  const renderItem = () => {
     return (
       <Text style={[styles.sectionItemText, Margins.mbNormal]}>
-        {item.count} {item.name}
+        {} {}
       </Text>
     )
   }

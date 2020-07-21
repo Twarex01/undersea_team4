@@ -20,9 +20,11 @@ interface BuildingsScreenProps {
 }
 
 const CityScreen = ({navigation}: BuildingsScreenProps) => {
-  const {buildings, error, isLoading} = useSelector(
-    (state: IApplicationState) => state.app.building,
-  )
+  const {
+    buildings,
+    buildingsError: error,
+    isBuildingsLoading: isLoading,
+  } = useSelector((state: IApplicationState) => state.app.building)
   const dispatch = useDispatch()
 
   useEffect(() => {

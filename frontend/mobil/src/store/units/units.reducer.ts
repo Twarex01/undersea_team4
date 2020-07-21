@@ -14,21 +14,21 @@ export const unitReducer = (
     case GET_UNITS_REQUEST:
       return {
         ...state,
-        error: undefined,
-        isLoading: true,
+        unitsError: undefined,
+        isUnitsLoading: true,
       }
     case GET_UNITS_SUCCESS:
       return {
         ...state,
-        error: undefined,
-        isLoading: false,
+        unitsError: undefined,
+        isUnitsLoading: false,
         units: action.response,
       }
     case GET_UNITS_FAILURE:
       return {
         ...state,
-        error: action.reason,
-        isLoading: false,
+        unitsError: action.reason,
+        isUnitsLoading: false,
         units: [],
       }
     default:

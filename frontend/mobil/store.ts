@@ -7,12 +7,36 @@ import {BuildingStore} from './src/store/buildings/buildings.store'
 import {buildingReducer} from './src/store/buildings/buildings.reducer'
 import {PlayerStore} from './src/store/players/player.store'
 import {playerReducer} from './src/store/players/player.reducer'
+import {LoginStore} from './src/store/login/login.store'
+import {loginReducer} from './src/store/login/login.reducer'
+import {RoundStore} from './src/store/round/round.store'
+import {roundReducer} from './src/store/round/round.reducer'
+import {fightReducer} from './src/store/fights/fights.reducer'
+import {FightStore} from './src/store/fights/fights.store'
+import {myBuildingReducer} from './src/store/myBuildings/myBuildings.reducer'
+import {MyBuildingStore} from './src/store/myBuildings/myBuildings.store'
+import {MyUnitStore} from './src/store/myUnits/myUnits.store'
+import {myUnitReducer} from './src/store/myUnits/myUnits.reducer'
+import {MyUpgradeStore} from './src/store/myUpgrades/myUpgrades.store'
+import {myUpgradeReducer} from './src/store/myUpgrades/myUpgrades.reducer'
+import {CountryStore} from './src/store/country/country.store'
+import {countryReducer} from './src/store/country/country.reducer'
+import {ResourceStore} from './src/store/resources/resources.store'
+import {resourceReducer} from './src/store/resources/resources.reducer'
 
 export interface IAppStore {
   upgrade: UpgradeStore
   unit: UnitStore
   building: BuildingStore
   player: PlayerStore
+  login: LoginStore
+  round: RoundStore
+  fight: FightStore
+  myBuilding: MyBuildingStore
+  myUnit: MyUnitStore
+  myUpgrade: MyUpgradeStore
+  country: CountryStore
+  resource: ResourceStore
 }
 
 export interface IApplicationState {
@@ -34,6 +58,14 @@ export const appReducer = combineReducers<IAppStore>({
   unit: unitReducer,
   building: buildingReducer,
   player: playerReducer,
+  login: loginReducer,
+  round: roundReducer,
+  fight: fightReducer,
+  myBuilding: myBuildingReducer,
+  myUnit: myUnitReducer,
+  myUpgrade: myUpgradeReducer,
+  country: countryReducer,
+  resource: resourceReducer,
 })
 
 export const appRootReducer: Reducer<IAppStore> = (

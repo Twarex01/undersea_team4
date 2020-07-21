@@ -16,19 +16,28 @@ import {StackNavigationProp} from '@react-navigation/stack'
 import {useSelector, useDispatch} from 'react-redux'
 import {IApplicationState} from '../../store'
 import {getBuildings} from '../store/buildings/buildings.actions'
+import {getMyBuildings} from '../store/myBuildings/myBuildings.action'
+import {createSelector} from 'reselect'
+import {BuildingStore} from '../store/buildings/buildings.store'
 
 interface BuildingsScreenProps {
   navigation: StackNavigationProp<any>
 }
 
 const BuildingsScreen = ({navigation}: BuildingsScreenProps) => {
-  const {buildings, error, isLoading} = useSelector(
+  const {buildings, buildingsError, isBuildingsLoading} = useSelector(
     (state: IApplicationState) => state.app.building,
   )
+  const {myBuildings, myBuildingsError, isMyBuildingsLoading} = useSelector(
+    (state: IApplicationState) => state.app.myBuilding,
+  )
+  //map
+
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(getBuildings())
+    dispatch(getMyBuildings())
   }, [dispatch])
 
   const onBuyPressed = () => {}

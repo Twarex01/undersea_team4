@@ -21,9 +21,13 @@ interface BevyScreenProps {
 }
 
 const BevyScreen = ({navigation}: BevyScreenProps) => {
-  const {units, error, isLoading} = useSelector(
+  const {units, unitsError, isUnitsLoading} = useSelector(
     (state: IApplicationState) => state.app.unit,
   )
+  const {myUnits, myUnitsError, isMyUnitsLoading} = useSelector(
+    (state: IApplicationState) => state.app.myUnit,
+  )
+
   const dispatch = useDispatch()
 
   useEffect(() => {

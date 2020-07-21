@@ -19,10 +19,10 @@ function* watchPost() {
 
 function* getPlayersActionWatcher(action: GetPlayersRequestAction) {
   try {
-    //const response: AxiosResponse<PlayerResponse> = yield playerService.getPlayers()
-    const response: PlayersResponse = yield playerService.getPlayers()
-    //yield put(getPlayersSuccessActionCreator(response.data.players)
-    yield put(getPlayersSuccessActionCreator(response))
+    const response: AxiosResponse<PlayersResponse> = yield playerService.getPlayers()
+    //const response: PlayersResponse = yield playerService.getPlayers()
+    yield put(getPlayersSuccessActionCreator(response.data))
+    //yield put(getPlayersSuccessActionCreator(response))
   } catch (error) {
     console.log(error.response)
     const errorMessage = 'Hiba'
