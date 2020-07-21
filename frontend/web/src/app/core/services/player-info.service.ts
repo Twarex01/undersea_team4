@@ -79,7 +79,8 @@ export class PlayerInfoService {
           id: resourceDTO.resourceTypeID,
           count: resourceDTO.amount,
           output: resourceDTO.production,
-          imgSrc: ""
+          imgSrc: "",
+          name: resourceDTO.name!
         }));
       })
     );
