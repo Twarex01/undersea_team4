@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace StrategyGame.Api.Helper
+namespace StrategyGame.Bll
 {
     public class HttpResponseExceptionFilter : IActionFilter, IOrderedFilter
     {
