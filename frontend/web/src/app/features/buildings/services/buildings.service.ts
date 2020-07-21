@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CountryClient, DetailsClient } from '../../../shared/clients';
+import { CountryClient, DetailsClient, PriceDTO } from '../../../shared/clients';
 import { Observable, Subject } from 'rxjs';
 import { CountryBuilding } from '../models/country-building';
 import { map } from 'rxjs/operators';
@@ -32,8 +32,7 @@ export class BuildingsService {
           name: buildingDetailsDTO.name!,
           imageSrc: "../../../../../assets/buildings/zatonyvar.png",
           description: buildingDetailsDTO.effect!,
-          price: buildingDetailsDTO.price,
-          priceType: buildingDetailsDTO.priceTypeName!,
+          prices: buildingDetailsDTO.prices?.map((priceDTO) => ({price: priceDTO.price, priceTypeName: priceDTO.priceTypeName!}))!,
           buildTime: buildingDetailsDTO.buildTime
         }))
       })
