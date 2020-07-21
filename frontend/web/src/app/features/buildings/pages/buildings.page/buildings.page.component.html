@@ -4,7 +4,7 @@
   <p class="details">Egyszerre csak egy épület épülhet!</p>
 
   <app-building-card-item class="card-item" *ngFor="let building of buildings; let i = index" [building]="building" (click)="selectBuilding(i)">
-    <img class="item-image" src="{{building.imgSrc}}" />
+    <img class="item-image" src="{{imgBaseUrl}}{{building.imgSrc}}" />
   </app-building-card-item>
 
   <div class="footer">

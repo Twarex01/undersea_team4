@@ -13,6 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class UpgradesPageComponent implements OnInit {
   selectedUpgradeIndex: number = -1;
   upgrades: Upgrade[] = [];
+  imgBaseUrl: string = "https://localhost:5001/";
 
   constructor(
     private upgradeService: UpgradeService,
@@ -32,6 +33,7 @@ export class UpgradesPageComponent implements OnInit {
     ).subscribe(([countryUpgrades, upgradeDetails]) => {
       this.upgrades = [];
       upgradeDetails.forEach((upgradeDetail) => {
+        console.log(upgradeDetail)
         const countryUpgrade = countryUpgrades.find(
           (cd) => cd.id == upgradeDetail.id
         )!;

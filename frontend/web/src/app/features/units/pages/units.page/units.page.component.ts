@@ -19,12 +19,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class UnitsPageComponent implements OnInit {
 
   units: Unit[] = [];
+
   unitBuyInfo: UnitBuyInfo = {
     pearl: 0,
     armyCapacity: 0,
     estimatedUnitsCount: 0,
     estimatedPearlCost: 0,
   };
+  
 
   constructor(
     private unitService: UnitService,
