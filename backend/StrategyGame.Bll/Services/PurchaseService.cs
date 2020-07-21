@@ -22,28 +22,37 @@ namespace StrategyGame.Bll.Services
 
         public async Task<int> PurchaseCountryBuildingAsync(int countryId, int buildingId) //TODO
         {
-            if (await _appDbContext.Buildings.Where(b => b.CoutryID == countryId).AnyAsync(b => b.Progress > 0)) throw new Exception("Already building something"); ; //már épül valami
+           
+            if (await _appDbContext.Buildings.Where(b => b.CoutryID == countryId).AnyAsync(b => b.Progress > 0)) throw new Exception("Already building something");   //már épül valami
+
             Country country = await _appDbContext.Countries.Where(c => c.ID == countryId).Include(c => c.Resources).ThenInclude(r => r.ResourceData).SingleOrDefaultAsync();
             if (country == null) throw new Exception("Country not found"); //nincs ilyen ID-jű country
+            
             BuildingData toBuild = await _appDbContext.BuildingData.Where(b => b.ID == buildingId).SingleOrDefaultAsync();
             if (toBuild == null) throw new Exception("Building not found"); //nincs iylen ID-jű épület
-            if (country.Resources.Where(r => r.ResourceDataID == toBuild.PriceUnitID).SingleOrDefault().Amount < toBuild.Price) throw new Exception("Not enough resources"); ; // nincs elég erőforrás
+
+            foreach(var price in toBuild.Prices)
+            {
+                var resource = country.Resources.SingleOrDefault(r => r.ResourceDataID == price.PriceUnitID);
+                if (resource.Amount < price.Amount ) throw new Exception("Not enough resources");  // nincs elég erőforrás
+                resource.Amount = Math.Max(0, resource.Amount - price.Amount);
+
+            }
+            
             Building alreadyPresent = await _appDbContext.Buildings.Where(b => b.CoutryID == country.ID && b.BuildingDataID == toBuild.ID).SingleOrDefaultAsync();
             if (alreadyPresent != null)
             {
                 alreadyPresent.Progress = toBuild.BuildTime;
-                country.Resources.SingleOrDefault(r => r.ResourceDataID == toBuild.PriceUnitID).Amount -= toBuild.Price;
-                await _appDbContext.SaveChangesAsync();
-                return 0;
             }
             else
             {
                 Building newBuilding = new Building() { BuildingDataID = toBuild.ID, Count = 0, Progress = toBuild.BuildTime, CoutryID = country.ID, };
                 _appDbContext.Buildings.Add(newBuilding);
-                country.Resources.SingleOrDefault(r => r.ResourceDataID == toBuild.PriceUnitID).Amount -= toBuild.Price;
-                await _appDbContext.SaveChangesAsync();
-                return 0;
             }
+
+
+            await _appDbContext.SaveChangesAsync();
+            return 0;
         }
 
         public async Task<int> PurchaseCountryUnitsAsync(int countryId, List<UnitDTO> army)
