@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace StrategyGame.Model.BuildingTypes
@@ -8,7 +9,9 @@ namespace StrategyGame.Model.BuildingTypes
     {
         public override void ApplyEffect(Country country)
         {
-            throw new NotImplementedException();
+            var stoneProd = country.Resources.SingleOrDefault(r => r.ResourceDataID == ResourceData.Stone.ID);
+            if (stoneProd == null) return;
+            stoneProd.ProductionBase += 25;
         }
     }
 }
