@@ -4,6 +4,7 @@ import { forkJoin } from 'rxjs';
 import { Building } from '../../models/building';
 import { StatusNotificationService } from '../../../../core/services/status-notification.service';
 import { PlayerInfoService } from '../../../../core/services/player-info.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-buildings',
@@ -19,7 +20,8 @@ export class BuildingsPageComponent implements OnInit {
   constructor(
     private buildingsService: BuildingsService,
     private statusNotificationService: StatusNotificationService,
-    private palyerInfoService: PlayerInfoService
+    private palyerInfoService: PlayerInfoService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -63,6 +65,7 @@ export class BuildingsPageComponent implements OnInit {
 
   buySelectedBuilding() {
     this.buildingsService.buyBuilding(this.buildings[this.selectedIndex].id).subscribe(() => {
+      this.snackBar.open("Sikeres vásárlás!")
       this.statusNotificationService.updateStatus(true);
       this.buildings[this.selectedIndex].isSelected = false;
       this.buildings[this.selectedIndex].progress = 1;
