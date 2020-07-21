@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { StatusNotificationService } from '../../../../core/services/status-notification.service';
 import { UnitBuyInfo } from '../../models/unit-buy-info';
 import { UnitChnageInfo } from '../../models/unit-chnage-info';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-units.page',
@@ -28,7 +29,8 @@ export class UnitsPageComponent implements OnInit {
   constructor(
     private unitService: UnitService,
     private palyerInfoService: PlayerInfoService,
-    private statusNotificationService: StatusNotificationService
+    private statusNotificationService: StatusNotificationService,
+    private snackBar: MatSnackBar
   ) { }
 
 
@@ -76,6 +78,7 @@ export class UnitsPageComponent implements OnInit {
   buyUnits() {
     const unitsToBuy: UnitToBuy[] = this.units.map((unit) => ({ unitTypeID: unit.id, count: unit.numToBuy }));
     this.unitService.buyUnits(unitsToBuy).subscribe(() => {
+      this.snackBar.open("Sikeres vásárlás!");
       this.statusNotificationService.updateStatus(true);
       unitsToBuy.forEach((unit) => {
         const i = this.units.findIndex(u => u.id === unit.unitTypeID);
