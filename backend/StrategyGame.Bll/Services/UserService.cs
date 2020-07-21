@@ -43,7 +43,8 @@ namespace StrategyGame.Bll.Services
                 Resources = new List<Resource>
                 {
                     new Resource { ResourceDataID = ResourceData.Coral.ID, Amount=0, ProductionBase=ResourceData.BaseCoralProduction },
-                    new Resource { ResourceDataID = ResourceData.Pearl.ID, Amount=0, ProductionBase=ResourceData.BasePopulation*ResourceData.TaxAmount, }
+                    new Resource { ResourceDataID = ResourceData.Pearl.ID, Amount=0, ProductionBase=ResourceData.BasePopulation*ResourceData.TaxAmount, },
+                    new Resource { ResourceDataID = ResourceData.Stone.ID, Amount=0, ProductionBase = 0}
                 },
                 Buildings = new List<Building>(),
                 Upgrades = new List<Upgrade>(),
