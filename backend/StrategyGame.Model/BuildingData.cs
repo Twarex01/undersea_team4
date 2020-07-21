@@ -11,7 +11,7 @@ namespace StrategyGame.Model
             ID = 1,
             Name = "Áramlásirányító",
             BuildTime = 5,
-            Effect = "50 lakost ad a népességhez és 200 korallt termel körönként", 
+            Effect = "50 lakost ad a népességhez és 200 korallt termel körönként",
             ImageURL = "/Assets/Buildings/flowregulator.png"
         };
 
@@ -28,6 +28,7 @@ namespace StrategyGame.Model
             BuildTime = 5,
             Effect = "Körönként 25 kővel gazdagítja a játékost", 
             ImageURL = "/Assets/Buildings/stonemine_icon.svg"
+
         };
         public int ID { get; set; }
         public string Name { get; set; }
