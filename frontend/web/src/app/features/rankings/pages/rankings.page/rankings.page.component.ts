@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RankingsService } from '../../services/rankings.service';
 import { Observable } from 'rxjs';
 import { RankingsPlayer } from '../../models/player';
+import { StatusNotificationService } from '../../../../core/services/status-notification.service';
 
 @Component({
   selector: 'app-rankings.page',
@@ -14,10 +15,14 @@ export class RankingsPageComponent implements OnInit {
 
   players: RankingsPlayer[] = [];
 
-  constructor(private rankingsService: RankingsService) { }
+  constructor(
+    private rankingsService: RankingsService,
+    private statusNotificationService: StatusNotificationService
+  ) { }
 
   ngOnInit(): void {
-    this.getPlayers() 
+    this.getPlayers();
+    this.statusNotificationService.notifications.subscribe(() => this.getPlayers());
   }
 
   filterPlayerList() : RankingsPlayer[] {

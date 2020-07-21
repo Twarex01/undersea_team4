@@ -28,7 +28,7 @@ namespace StrategyGame.Bll.Services
             Country country = await _appDbContext.Countries.Where(c => c.ID == countryId).Include(c => c.Resources).ThenInclude(r => r.ResourceData).SingleOrDefaultAsync();
             if (country == null) throw new Exception("Country not found"); //nincs ilyen ID-jű country
             
-            BuildingData toBuild = await _appDbContext.BuildingData.Where(b => b.ID == buildingId).SingleOrDefaultAsync();
+            BuildingData toBuild = await _appDbContext.BuildingData.Include(b=> b.Prices).ThenInclude(p=> p.PriceUnit).Where(b => b.ID == buildingId).SingleOrDefaultAsync();
             if (toBuild == null) throw new Exception("Building not found"); //nincs iylen ID-jű épület
 
             foreach(var price in toBuild.Prices)

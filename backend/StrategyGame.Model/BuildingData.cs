@@ -11,15 +11,15 @@ namespace StrategyGame.Model
             ID = 1,
             Name = "Áramlásirányító",
             BuildTime = 5,
-            Effect = "50 lakost ad a népességhez és 200 korallt termel körönként", 
-            ImageURL = "https://public-v2links.adobecc.com/a6f48b49-2354-4be7-78c0-090bdb752a04/component?params=component_id%3Ae4a8d9ef-dcca-4b53-addd-0e9ec6b1ca39&params=version%3A0&token=1595286086_fac29e2b_58e760f6d8b9aa02eda4f5c868eded6278ccce9b&api_key=CometServer1"
+            Effect = "50 lakost ad a népességhez és 200 korallt termel körönként",
+            ImageURL = "/Assets/Buildings/flowregulator.png"
         };
 
         public static ReefFort ReefFort = new ReefFort { ID = 2,
             Name = "Zátonyvár",
             BuildTime = 5,
             Effect = "200 egység katonának nyújt szállást",
-            ImageURL = "https://public-v2links.adobecc.com/a6f48b49-2354-4be7-78c0-090bdb752a04/component?params=component_id%3Addde0d54-f997-446a-b0b1-14a6b27b3a2c&params=version%3A0&token=1595286086_fac29e2b_58e760f6d8b9aa02eda4f5c868eded6278ccce9b&api_key=CometServer1"
+            ImageURL = "/Assets/Buildings/reeffort.png"
         };
 
         public static StoneMine StoneMine = new StoneMine { 
@@ -27,7 +27,8 @@ namespace StrategyGame.Model
             Name = "Kőbánya",
             BuildTime = 5,
             Effect = "Körönként 25 kővel gazdagítja a játékost", 
-            ImageURL = ""
+            ImageURL = "/Assets/Buildings/stonemine_icon.svg"
+
         };
         public int ID { get; set; }
         public string Name { get; set; }

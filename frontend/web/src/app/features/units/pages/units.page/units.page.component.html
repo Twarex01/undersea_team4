@@ -1,4 +1,4 @@
-<app-basic-card class="card">
+<app-basic-card class="card" *ngIf="units?.length > 0 && unitBuyInfo">
   <p class="header">Sereg</p>
   <p class="short-description">Kattints rá, amelyiket szeretnéd megvenni.</p>
     <app-unit-card-item class="card-item" *ngFor="let unit of units" [unit]="unit" [unitBuyInfo]="unitBuyInfo" (unitChange)="changeUnits($event)">

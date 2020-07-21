@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import * as signalR from "@aspnet/signalr";
+import { StatusNotificationService } from './status-notification.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SignalRService {
 
-  constructor() { }
+  constructor(private notiService: StatusNotificationService) { }
 
   private hubConnection: signalR.HubConnection;
 
@@ -17,7 +18,7 @@ export class SignalRService {
 
   public addChangeRoundListener() {
     this.hubConnection.on("RefreshInfo", () => {
-      window.location.reload();
+      this.notiService.updateStatus(true);
     })
   }
 
