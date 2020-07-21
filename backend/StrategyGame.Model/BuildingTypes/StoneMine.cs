@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace StrategyGame.Model.BuildingTypes
@@ -8,7 +9,10 @@ namespace StrategyGame.Model.BuildingTypes
     {
         public override void ApplyEffect(Country country)
         {
-            throw new NotImplementedException();
+            var coralProd = country.Resources.SingleOrDefault(r => r.ResourceDataID == ResourceData.Stone.ID);
+            if (coralProd == null) return;
+            coralProd.ProductionBase += 25;
+            // növeli a kőtermelést 25-el
         }
     }
 }
