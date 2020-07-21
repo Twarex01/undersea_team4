@@ -64,6 +64,7 @@ export class PlayerInfoService {
       map((buildingDetailsDTOarray) => {
         return buildingDetailsDTOarray.map((buildingDetailsDTO) => ({
           id: buildingDetailsDTO.buildingTypeID,
+          name: buildingDetailsDTO.name!,
           imgSrc: "../../../assets/icons/coral.svg"
         }));
       })
