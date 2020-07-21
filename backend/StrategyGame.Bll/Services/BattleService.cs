@@ -14,7 +14,6 @@ namespace StrategyGame.Bll.Services
 
         private AppDbContext _context;
         private Random moraleGenerator = new Random();
-        private Random spyProbability = new Random();
 
         public BattleService(AppDbContext context)
         {
@@ -126,28 +125,6 @@ namespace StrategyGame.Bll.Services
                 }
 
                 _context.SaveChanges();
-            }
-        }
-
-        public void Spying (int battleId)
-        {
-            double chance = 0.6;
-            var defCountry = _context.Battles.Include(b => b.DefendingCountry).Where(b => b.ID == battleId).SingleOrDefault().DefendingCountry;
-            var atkCountry = _context.Battles.Include(b => b.AttackingCountry).Where(b => b.ID == battleId).SingleOrDefault().AttackingCountry;
-            var ATKSpyCount = CountUnitsOfTypeNotAtHome(atkCountry.ID, 4);
-            var DEFSpyCount = CountUnitsOfTypeAtHome(defCountry.ID, 4);
-            var diffCount = ATKSpyCount - DEFSpyCount;
-            chance += diffCount * 0.05;
-
-            if (spyProbability.Next(0, 100) < chance*100) //sikeres volt a kémkedés
-            {
-                //eltárolom a védekező erejéről az infót magamnak
-                var DEFPowerInfo = CountDefensePowerInBattle(battleId);
-            }
-            else    //sikertelen volt a kémkedés
-            {
-                //törlöm a spyokat az adatbázisomból
-                _context.Units.Where(u => u.CountryID == atkCountry.ID && u.UnitDataID == 4).SingleOrDefault().Count = 0;
             }
         }
 
