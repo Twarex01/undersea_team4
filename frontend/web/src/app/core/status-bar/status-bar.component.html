@@ -9,7 +9,7 @@
         <div *ngFor="let unit of units" class="status-bar-item">
             <div class="image-with-text">
                 <app-icon-box>
-                    <img src="{{unit.imgSrc}}">
+                    <img src="{{imgBaseUrl}}{{unit.imgSrc}}">
                 </app-icon-box>
                 <p class="image-text">{{unit.count}}</p>
             </div>

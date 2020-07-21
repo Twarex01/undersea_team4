@@ -30,10 +30,10 @@ export class BuildingsService {
         return buildingDetailsArrayDTO.map((buildingDetailsDTO) => ({
           id: buildingDetailsDTO.buildingTypeID,
           name: buildingDetailsDTO.name!,
-          imageSrc: "../../../../../assets/buildings/zatonyvar.png",
+          imageSrc: buildingDetailsDTO?.imageURL ?? "",
           description: buildingDetailsDTO.effect!,
-          price: buildingDetailsDTO.price,
-          priceType: buildingDetailsDTO.priceTypeName!,
+          price: 0,
+          priceType: "1",
           buildTime: buildingDetailsDTO.buildTime
         }))
       })

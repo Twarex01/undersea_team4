@@ -53,7 +53,7 @@ export class PlayerInfoService {
       map((unitDetailsDTOarray) => {
         return unitDetailsDTOarray.map((unitDetailsDTO) => ({
           id: unitDetailsDTO.unitTypeID,
-          imgSrc: "../../../assets/icons/shark.svg"
+          imgSrc: unitDetailsDTO?.imageURL ?? ""
         }));
       })
     );

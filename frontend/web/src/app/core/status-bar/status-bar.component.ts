@@ -23,6 +23,8 @@ export class StatusBarComponent implements OnInit {
 
   countryRound: CountryRound;
 
+  imgBaseUrl: string = "https://localhost:5001/";
+
   constructor(private playerInfo: PlayerInfoService,  private statusNotificationService: StatusNotificationService) { }
 
   ngOnInit(): void {
