@@ -36,7 +36,7 @@ export class AttackPageComponent implements OnInit {
       this.attackService.getCountryUnits(),
       this.attackService.getUnitDetails(),
     ).subscribe(([countryUnits, unitDetails]) => {
-      this.units = [];
+      console.log(unitDetails)
       unitDetails.forEach((unitDetail) => {
         const countryUnit = countryUnits.find((cu) => cu.id == unitDetail.id)!;
         this.units.push({

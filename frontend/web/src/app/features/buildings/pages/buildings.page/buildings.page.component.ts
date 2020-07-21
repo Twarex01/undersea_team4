@@ -17,6 +17,7 @@ export class BuildingsPageComponent implements OnInit {
   buildings: Building[] = [];
   countryResources: Resource[] = [];
   selectedIndex: number = -1;
+  imgBaseUrl: string = "https://localhost:5001/";
 
   constructor(
     private buildingsService: BuildingsService,
