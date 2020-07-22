@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,14 @@ namespace StrategyGame.Bll
     {
         public int Order { get; set; } = int.MaxValue - 10;
 
+
+        private ILogger _logger;
+
+        public HttpResponseExceptionFilter(ILoggerFactory loggerFactory) 
+        {
+            _logger = loggerFactory.CreateLogger<HttpResponseExceptionFilter>();
+        }
+
         public void OnActionExecuting(ActionExecutingContext context) { }
 
         public void OnActionExecuted(ActionExecutedContext context)
@@ -21,6 +30,7 @@ namespace StrategyGame.Bll
                 {
                     StatusCode = exception.Status,
                 };
+                _logger.LogError(exception.Message);
                 context.ExceptionHandled = true;
             }
         }

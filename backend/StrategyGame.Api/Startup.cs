@@ -53,8 +53,10 @@ namespace StrategyGame.Api
             services.AddRazorPages();
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AppDbContext")));
             services.AddIdentityCore<Model.User>().AddEntityFrameworkStores<AppDbContext>();
+
+            services.AddScoped<HttpResponseExceptionFilter>();
             services.AddControllers(options =>
-                    options.Filters.Add(new HttpResponseExceptionFilter()));
+                    options.Filters.Add(typeof(HttpResponseExceptionFilter)));
 
             services.AddSwaggerDocument(document =>
             {
