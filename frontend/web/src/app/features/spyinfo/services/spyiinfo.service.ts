@@ -12,14 +12,7 @@ export class SpyiinfoService {
   constructor(private battleClient: BattleClient) { }
 
   getCountrySpyinfo(): Observable<Spyinfo[]> {
-    return this.battleClient.getExplorationInfo().pipe(
-      map((explorationInfoArrayDTO) => {
-        return explorationInfoArrayDTO.map((explorationInfoDTO) => ({
-          targetCountryName: explorationInfoDTO.exposedCountryName!,
-          round: explorationInfoDTO.round,
-          defensePower: explorationInfoDTO.lastKnownDefensePower
-        }))
-      })
-    );
+    //TODO
+    return of([]);
   }
 }

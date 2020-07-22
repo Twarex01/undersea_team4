@@ -194,7 +194,7 @@ export class BattleClient {
         return _observableOf<void>(<any>null);
     }
 
-    getExplorationInfo(): Observable<ExplorationInfoDTO[]> {
+    getCountryExplorations(): Observable<ExplorationDetailsDTO[]> {
         let url_ = this.baseUrl + "/api/Battle/Explorations";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -207,20 +207,20 @@ export class BattleClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetExplorationInfo(response_);
+            return this.processGetCountryExplorations(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetExplorationInfo(<any>response_);
+                    return this.processGetCountryExplorations(<any>response_);
                 } catch (e) {
-                    return <Observable<ExplorationInfoDTO[]>><any>_observableThrow(e);
+                    return <Observable<ExplorationDetailsDTO[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ExplorationInfoDTO[]>><any>_observableThrow(response_);
+                return <Observable<ExplorationDetailsDTO[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetExplorationInfo(response: HttpResponseBase): Observable<ExplorationInfoDTO[]> {
+    protected processGetCountryExplorations(response: HttpResponseBase): Observable<ExplorationDetailsDTO[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -234,7 +234,7 @@ export class BattleClient {
             if (Array.isArray(resultData200)) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(ExplorationInfoDTO.fromJS(item));
+                    result200!.push(ExplorationDetailsDTO.fromJS(item));
             }
             return _observableOf(result200);
             }));
@@ -250,7 +250,7 @@ export class BattleClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<ExplorationInfoDTO[]>(<any>null);
+        return _observableOf<ExplorationDetailsDTO[]>(<any>null);
     }
 }
 
@@ -1507,12 +1507,11 @@ export interface ISendExplorationDTO {
     numberOfExplorers: number;
 }
 
-export class ExplorationInfoDTO implements IExplorationInfoDTO {
-    exposedCountryName?: string | undefined;
-    lastKnownDefensePower!: number;
-    round!: number;
+export class ExplorationDetailsDTO implements IExplorationDetailsDTO {
+    victimCountryName?: string | undefined;
+    numberOfExplorers!: number;
 
-    constructor(data?: IExplorationInfoDTO) {
+    constructor(data?: IExplorationDetailsDTO) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -1523,32 +1522,29 @@ export class ExplorationInfoDTO implements IExplorationInfoDTO {
 
     init(_data?: any) {
         if (_data) {
-            this.exposedCountryName = _data["exposedCountryName"];
-            this.lastKnownDefensePower = _data["lastKnownDefensePower"];
-            this.round = _data["round"];
+            this.victimCountryName = _data["victimCountryName"];
+            this.numberOfExplorers = _data["numberOfExplorers"];
         }
     }
 
-    static fromJS(data: any): ExplorationInfoDTO {
+    static fromJS(data: any): ExplorationDetailsDTO {
         data = typeof data === 'object' ? data : {};
-        let result = new ExplorationInfoDTO();
+        let result = new ExplorationDetailsDTO();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["exposedCountryName"] = this.exposedCountryName;
-        data["lastKnownDefensePower"] = this.lastKnownDefensePower;
-        data["round"] = this.round;
+        data["victimCountryName"] = this.victimCountryName;
+        data["numberOfExplorers"] = this.numberOfExplorers;
         return data; 
     }
 }
 
-export interface IExplorationInfoDTO {
-    exposedCountryName?: string | undefined;
-    lastKnownDefensePower: number;
-    round: number;
+export interface IExplorationDetailsDTO {
+    victimCountryName?: string | undefined;
+    numberOfExplorers: number;
 }
 
 export class CountryDetailsDTO implements ICountryDetailsDTO {
