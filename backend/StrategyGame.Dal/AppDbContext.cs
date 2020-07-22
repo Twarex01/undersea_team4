@@ -21,6 +21,10 @@ namespace StrategyGame.Dal
         public DbSet<Battle> Battles { get; set; }
         public DbSet<AttackingUnit> AttackingUnits { get; set; }
         public DbSet<Price> Prices { get; set; }
+        public DbSet<Exploration> Explorations { get; set; }
+        public DbSet<ExplorationInfo> ExplorationInfos { get; set; }
+        public DbSet<Round> Round { get; set; }
+
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -88,6 +92,16 @@ namespace StrategyGame.Dal
             builder.Entity<AttackingUnit>().HasOne(a => a.Battle).WithMany(b => b.AttackingUnits).HasForeignKey(a => a.BattleID);
             builder.Entity<AttackingUnit>().HasOne(a => a.UnitData).WithMany().HasForeignKey(a => a.UnitDataID);
 
+            builder.Entity<Exploration>().HasKey(e => e.ID);
+            builder.Entity<Exploration>().HasOne(e => e.SenderCountry).WithMany().HasForeignKey(e => e.SenderCountryID);
+            builder.Entity<Exploration>().HasOne(e => e.VictimCountry).WithMany().HasForeignKey(e => e.VictimCountryID);
+
+            builder.Entity<ExplorationInfo>().HasKey(e => e.ID);
+            builder.Entity<ExplorationInfo>().HasOne(e => e.InformedCountry).WithMany().HasForeignKey(e => e.InformedCountryID);
+            builder.Entity<ExplorationInfo>().HasOne(e => e.ExposedCountry).WithMany().HasForeignKey(e => e.ExposedCountryID);
+
+
+
             builder.Entity<ResourceData>().HasData(new ResourceData[] { StrategyGame.Model.ResourceData.Pearl, StrategyGame.Model.ResourceData.Coral, StrategyGame.Model.ResourceData.Stone });
 
             builder.Entity<Price>().HasData(new Price[]
@@ -112,8 +126,15 @@ namespace StrategyGame.Dal
             builder.Entity<MudTractor>().HasData(StrategyGame.Model.UpgradeData.MudTractor);
             builder.Entity<SonarCannon>().HasData(StrategyGame.Model.UpgradeData.SonarCannon);
 
-            builder.Entity<UnitData>().HasData(new UnitData[] { StrategyGame.Model.UnitData.AssaultSeal, StrategyGame.Model.UnitData.BattleSeaHorse, StrategyGame.Model.UnitData.LaserShark });
-          
+            builder.Entity<UnitData>().HasData(new UnitData[] {
+                StrategyGame.Model.UnitData.AssaultSeal,
+                StrategyGame.Model.UnitData.BattleSeaHorse,
+                StrategyGame.Model.UnitData.LaserShark,
+                StrategyGame.Model.UnitData.Explorer
+            });
+
+            builder.Entity<Round>().HasKey(r=> r.ID);
+            builder.Entity<Round>().HasData(new Round() { ID = 1, RoundNumber = 1 });  
 
 
         }
