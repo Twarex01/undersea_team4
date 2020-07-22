@@ -34,14 +34,16 @@ export class AttackPageComponent implements OnInit {
       this.attackService.getUnitDetails(),
     ).subscribe(([countryUnits, unitDetails]) => {
       unitDetails.forEach((unitDetail) => {
-        const countryUnit = countryUnits.find((cu) => cu.id == unitDetail.id)!;
-        this.units.push({
-          id: unitDetail.id,
-          imageSrc: unitDetail.imageSrc,
-          name: unitDetail.name,
-          count: countryUnit?.count ?? 0,
-          countToAttack: 0
-        })
+        if(unitDetail.name !== "Felfedező"){
+          const countryUnit = countryUnits.find((cu) => cu.id == unitDetail.id)!;
+          this.units.push({
+            id: unitDetail.id,
+            imageSrc: unitDetail.imageSrc,
+            name: unitDetail.name,
+            count: countryUnit?.count ?? 0,
+            countToAttack: 0
+          })
+        }
       })
     })
   }
