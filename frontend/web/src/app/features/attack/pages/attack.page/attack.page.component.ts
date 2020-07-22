@@ -7,6 +7,7 @@ import { AttackBattle } from '../../models/attack-battle';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Battle } from '../../../battles/models/battle';
 import { UnitWithName } from '../../../../shared/clients';
+import { BattlesService } from '../../../battles/services/battles.service';
 
 @Component({
   selector: 'app-attack.page',
@@ -22,7 +23,7 @@ export class AttackPageComponent implements OnInit {
 
   players: AttackPlayer[] = new Array<AttackPlayer>();
 
-  constructor(private attackService: AttackService, private snackBar: MatSnackBar) { }
+  constructor(private attackService: AttackService, private snackBar: MatSnackBar, private battleService: BattlesService) { }
 
   ngOnInit(): void {
     forkJoin(
@@ -34,7 +35,7 @@ export class AttackPageComponent implements OnInit {
     forkJoin(
       this.attackService.getCountryUnits(),
       this.attackService.getUnitDetails(),
-      this.attackService.getCountryBattles()
+      this.battleService.getCountryBattles()
     ).subscribe(([countryUnits, unitDetails, countryBattles]) => {
       const unitsToSubtract = this.getNumberOfUnitsWhoAreInBattle(countryBattles);
       unitDetails.forEach((unitDetail) => {

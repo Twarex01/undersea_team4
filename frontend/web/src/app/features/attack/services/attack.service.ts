@@ -47,17 +47,6 @@ export class AttackService {
     );
   }
 
-  getCountryBattles(): Observable<Battle[]> {
-    return this.battleClient.getCountryBattles().pipe(
-      map((battleArrayDTO) => {
-        return battleArrayDTO.map((battleDTO) => ({
-          defenderName: battleDTO.defenderName!,
-          units: battleDTO.units!
-        }))
-      })
-    );
-  }
-
   attack(battle: AttackBattle) {
     return this.battleClient.attack(
       new BattleDTO(({
