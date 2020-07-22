@@ -286,14 +286,14 @@ namespace StrategyGame.Bll.Services
 			}
 			else
 			{
-				var attackingUnits = _context.AttackingUnits.Include(a => a.Battle).Where(a => a.BattleID == battleId).ToList();
+				var attackingUnits = _context.AttackingUnits.Include(a => a.Battle).Include(a => a.UnitData).Where(a => a.BattleID == battleId).ToList();
 
 				foreach (int unitDataId in _context.UnitData.Select(u => u.ID))
 				{
-					int unitAttackingLost = CountUnitsOfTypeNotAtHome(atkCountry.ID, unitDataId);
+					int unitAttackingLost = attackingUnits.Where(a => a.UnitData.ID == unitDataId).Select(a => a.Count).SingleOrDefault();
+					if (unitAttackingLost == 0) continue;
 					unitAttackingLost = (int)Math.Ceiling(unitAttackingLost * 0.1);
-					_context.Units.Where(u => u.CountryID == atkCountry.ID && u.UnitDataID == unitDataId).SingleOrDefault().Count -= unitAttackingLost;
-					
+					_context.Units.Where(u => u.CountryID == atkCountry.ID && u.UnitDataID == unitDataId).SingleOrDefault().Count -= unitAttackingLost;			
 				}
 			}
 		}
