@@ -30,7 +30,7 @@ namespace StrategyGame.Bll
                 {
                     StatusCode = exception.Status,
                 };
-                _logger.LogError(exception.Message);
+                _logger.LogError("{StatusCode} {Value}", exception.Status, exception.Value);
                 context.ExceptionHandled = true;
             }
         }
