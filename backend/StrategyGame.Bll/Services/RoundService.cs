@@ -153,7 +153,7 @@ namespace StrategyGame.Bll.Services
             //pont számolás
             foreach (var country in countryList)
             {
-                country.Score = country.Buildings.Sum(b => b.Progress > 0 ? 0 : b.Count * 50) + country.Upgrades.Sum(u => u.Progress > 0 ? 0 : 100) + country.Population + country.Units.Sum(u => u.UnitData.PointValue * u.Count);
+                country.Score = country.Buildings.Sum(b => b.Count * 50) + country.Upgrades.Sum(u => u.Progress > 0 ? 0 : 100) + country.Population + country.Units.Sum(u => u.UnitData.PointValue * u.Count);
             }
 
             //csaták törlése
