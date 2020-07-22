@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { CountryUnit } from '../models/country-unit';
 import { AttackUnitDetails } from '../models/attack-unit-details';
 import { AttackBattle } from '../models/attack-battle';
+import { Battle } from '../../battles/models/battle';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,17 @@ export class AttackService {
     return this.detailsClient.getAllUnitDetails().pipe(
       map((unitDetailsDTOArray) => {
         return unitDetailsDTOArray.map((unitDetailsDTO) => ({id: unitDetailsDTO.unitTypeID, name: unitDetailsDTO.name!, imageSrc: "../../../../assets/icons/shark.svg"}))
+      })
+    );
+  }
+
+  getCountryBattles(): Observable<Battle[]> {
+    return this.battleClient.getCountryBattles().pipe(
+      map((battleArrayDTO) => {
+        return battleArrayDTO.map((battleDTO) => ({
+          defenderName: battleDTO.defenderName!,
+          units: battleDTO.units!
+        }))
       })
     );
   }

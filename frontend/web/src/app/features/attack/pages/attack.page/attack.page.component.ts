@@ -5,6 +5,8 @@ import { AttackPlayer } from '../../models/attack-player';
 import { forkJoin } from 'rxjs';
 import { AttackBattle } from '../../models/attack-battle';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Battle } from '../../../battles/models/battle';
+import { UnitWithName } from '../../../../shared/clients';
 
 @Component({
   selector: 'app-attack.page',
@@ -32,20 +34,37 @@ export class AttackPageComponent implements OnInit {
     forkJoin(
       this.attackService.getCountryUnits(),
       this.attackService.getUnitDetails(),
-    ).subscribe(([countryUnits, unitDetails]) => {
+      this.attackService.getCountryBattles()
+    ).subscribe(([countryUnits, unitDetails, countryBattles]) => {
+      const unitsToSubtract = this.getNumberOfUnitsWhoAreInBattle(countryBattles);
       unitDetails.forEach((unitDetail) => {
-        if(unitDetail.name !== "Felfedező"){
-          const countryUnit = countryUnits.find((cu) => cu.id == unitDetail.id)!;
+        if(unitDetail.name !== "Felfedező") {
+          const numberOfUnitsToSubtract = unitsToSubtract.find((uts) => uts.name == unitDetail.name)?.count ?? 0;
+          const countryUnitCount = countryUnits.find((cu) => cu.id == unitDetail.id)?.count ?? 0;
           this.units.push({
             id: unitDetail.id,
             imageSrc: unitDetail.imageSrc,
             name: unitDetail.name,
-            count: countryUnit?.count ?? 0,
+            count: countryUnitCount - numberOfUnitsToSubtract,
             countToAttack: 0
           })
         }
+      });
+    })
+  }
+
+  private getNumberOfUnitsWhoAreInBattle(countryBattles: Battle[]): UnitWithName[] {
+    const results: UnitWithName[] =  [];
+    countryBattles.forEach((cb) => {
+      cb.units.forEach((unit) => {
+        const resultUnitIdx = results.findIndex((resultUnit) => resultUnit.name === unit.name);
+        if(resultUnitIdx !== -1)
+          results[resultUnitIdx].count += unit.count;
+        else
+          results.push(unit);
       })
     })
+    return results;
   }
 
   onAttack() {
