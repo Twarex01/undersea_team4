@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AccountService } from '../services/account.service';
 import { passwordConfirmationValidator } from '../validators/passwordConfirmation';
 import { nameInputValidator } from '../validators/nameInputValidator';
+import { countryNameValidator } from '../validators/countryNameValidator';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class RegistrationComponent implements OnInit {
     password: new FormControl('', Validators.required),
     passwordConfirmation: new FormControl('', Validators.required),
     countryName: new FormControl('', Validators.required)
-  }, { validators: [passwordConfirmationValidator, nameInputValidator] });
+  }, { validators: [passwordConfirmationValidator, nameInputValidator, countryNameValidator] });
 
   get userName() { return this.registerForm.get('userName'); }
   get password() { return this.registerForm.get('password'); }

@@ -18,6 +18,9 @@
          <div *ngIf="validationError && !userName.errors?.required && registerForm.errors?.notValidUserName" class="error">
             Érvénytelen felhasználónév!
          </div>
+         <div *ngIf="validationError && !countryName.errors?.required && registerForm.errors?.notValidCountryName" class="error">
+            Érvénytelen városnév!
+         </div>
          <a routerLink="/login" class="login-reg-link">Belépés</a>
       </app-basic-form-card>
    </div>
