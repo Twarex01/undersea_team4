@@ -10,6 +10,8 @@ import { AccountService } from '../services/account.service';
   styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent implements OnInit {
+  serverError: boolean = false;
+  serverMessage: string = "";
   validationError: boolean = false;
 
   registerForm = new FormGroup({
@@ -33,6 +35,10 @@ export class RegistrationComponent implements OnInit {
     this.validationError = false;
     this.accountService.register(new RegisterDTO(this.registerForm.value)).subscribe(() => {
       this.router.navigate(["/login"])
+    },
+    (error) => {
+      this.serverError = true;
+      this.serverMessage = error.response;
     });
   }
 

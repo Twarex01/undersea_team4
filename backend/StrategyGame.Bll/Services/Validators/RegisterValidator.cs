@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using StrategyGame.Bll.DTO.common;
 using StrategyGame.Dal;
 using StrategyGame.Model;
 using System;
@@ -7,11 +8,11 @@ using System.Linq;
 
 namespace StrategyGame.Bll.Services.Validators
 {
-    public class UserValidator : AbstractValidator<User>
+    public class RegisterValidator : AbstractValidator<RegisterDTO>
     {
         private IEnumerable<Country> _countries;
 
-        public UserValidator(IEnumerable<Country> countries)
+        public RegisterValidator(IEnumerable<Country> countries)
         {
             _countries = countries;
             RuleFor(user => user.UserName)
@@ -19,7 +20,7 @@ namespace StrategyGame.Bll.Services.Validators
                 .Length(3, 30)
                 .Matches("^[a-zA-Z0-9]*$")
                 .WithMessage("User name can only contain letters and numbers.");
-            RuleFor(user => user.Country.Name)
+            RuleFor(user => user.CountryName)
                 .NotEmpty()
                 .Length(3, 30)
                 .Matches("^[a-zA-Z0-9 ]*$")
