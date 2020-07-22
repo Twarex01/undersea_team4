@@ -10,7 +10,6 @@ const ROUND_PATH = 'api/Round'
 class RoundService {
   getRound = async () => {
     return await Network.get(ROUND_PATH)
-    //return mockDataResponse
   }
 }
 

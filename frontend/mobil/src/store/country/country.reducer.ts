@@ -29,7 +29,7 @@ export const countryReducer = (
         ...state,
         error: action.reason,
         isLoading: false,
-        country: [],
+        country: state.country,
       }
     default:
       return state

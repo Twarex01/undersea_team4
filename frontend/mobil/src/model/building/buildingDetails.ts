@@ -1,9 +1,13 @@
 export interface BuildingDetails {
   buildingTypeID: number
   name: string | undefined
-  price: number
-  priceTypeName: string
+  prices: Prices[]
   effect: string | undefined
   buildTime: number
   imageURL: string
+}
+
+export interface Prices {
+  price: number
+  priceTypeName: string
 }

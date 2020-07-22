@@ -36,7 +36,7 @@ const UpgradesScreen = ({navigation}: UpgradesScreenProps) => {
     const {effect, name, imageURL} = itemInfo.item
     return (
       <UpgradeCard
-        image={Images.tractor}
+        image={imageURL}
         title={name}
         description={effect}
         style={Margins.mbNormal}

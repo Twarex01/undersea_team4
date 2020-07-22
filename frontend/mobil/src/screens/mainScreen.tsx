@@ -36,8 +36,7 @@ const MainScreen = ({navigation}: MainscreenProps) => {
     navigation.navigate(Screens.Profil)
   }
   const onStarPress = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
-    setShowPopup(!showPopup)
+    navigation.navigate(Screens.Ranking)
   }
   const [showPopup, setShowPopup] = useState(false)
   const shell = 230

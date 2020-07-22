@@ -13,10 +13,11 @@ import {Colors} from '../../constants/colors'
 import {Margins} from '../../constants/margins'
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import UpgradesScreen from '../../screens/upgradesScreen'
+import {Config} from '../../constants/config'
 
 interface Props {
   style?: StyleProp<ViewStyle>
-  image: ImageSourcePropType
+  image: string
   title?: String
   description?: String
 }
@@ -24,7 +25,10 @@ interface Props {
 const UpgradeCard = ({style, image, title, description}: Props) => {
   return (
     <TouchableOpacity style={[styles.container, style]}>
-      <Image source={image} style={[Margins.mtBig, Margins.mbNormal]} />
+      <Image
+        source={{uri: `${Config.baseURL}${image}`}}
+        style={[styles.image, Margins.mtBig, Margins.mbNormal]}
+      />
       <Text style={styles.titleText}>{title}</Text>
       <Text style={[styles.descriptionText, Margins.mbBig]}>{description}</Text>
     </TouchableOpacity>
@@ -51,6 +55,10 @@ const styles = StyleSheet.create({
     fontSize: FontSizes.os_small,
     color: Colors.white,
     textAlign: 'center',
+  },
+  image: {
+    height: 70,
+    width: 70,
   },
 })
 

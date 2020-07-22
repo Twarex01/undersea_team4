@@ -10,7 +10,7 @@ export interface GetCountryRequestAction {
 
 export interface GetCountrySuccesAction {
   type: typeof GET_COUNTRY_SUCCESS
-  response: CountryDetails[]
+  response: CountryDetails
 }
 
 export interface GetCountryFailAction {
@@ -28,7 +28,7 @@ export const getCountry = (): GetCountryRequestAction => ({
 })
 
 export const getCountrySuccesActionCreator = (
-  country: CountryDetails[],
+  country: CountryDetails,
 ): GetCountrySuccesAction => ({
   type: GET_COUNTRY_SUCCESS,
   response: country,

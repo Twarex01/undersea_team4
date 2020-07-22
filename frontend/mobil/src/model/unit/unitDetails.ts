@@ -1,7 +1,7 @@
 export interface UnitDetails {
-  unitTypeID: number
   name: string | undefined
-  attack: number
+  unitTypeID: number
+  atk: number
   def: number
   salary: number
   consumption: number
@@ -9,4 +9,5 @@ export interface UnitDetails {
   priceTypeName: string
   salaryTypeName: string
   consumptionTypeName: string
+  imageURL: string
 }

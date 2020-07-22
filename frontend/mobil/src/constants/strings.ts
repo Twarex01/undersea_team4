@@ -4,10 +4,6 @@ export const Strings = {
   user_name: 'Felhasználónév',
   password: 'Jelszó',
   password_again: 'Jelszó megerősítése',
-  login_text: 'Nincs még fiókod?',
-  registration_text: 'Már van fiókod?',
-  login_replace_text: 'Regisztrálj',
-  registration_replace_text: 'Lépj be',
   city_name_what_you_bulid: 'A városod neve, amit építesz',
   profil: 'Profil',
   buildings: 'Épületek',
@@ -44,4 +40,5 @@ export const Strings = {
   copy: 'példány',
   attack_button: 'Megtámadom!',
   my_city: 'Városom',
+  ranking: 'Ranglista',
 }

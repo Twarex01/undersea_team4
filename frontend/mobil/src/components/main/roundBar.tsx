@@ -13,7 +13,7 @@ interface Props {
 const RoundBar = ({round, place, onPress}: Props) => {
   return (
     <View style={styles.roundView}>
-      <View style={styles.transparentView}>
+      <TouchableOpacity style={styles.transparentView} onPress={onPress}>
         <Text style={styles.roundText}>
           {round}
           {'.'}
@@ -23,7 +23,7 @@ const RoundBar = ({round, place, onPress}: Props) => {
           {'.'}
           {Strings.place}
         </Text>
-      </View>
+      </TouchableOpacity>
     </View>
   )
 }

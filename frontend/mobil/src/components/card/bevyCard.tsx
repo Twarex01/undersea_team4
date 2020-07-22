@@ -7,9 +7,10 @@ import {Strings} from '../../constants/strings'
 import {Colors} from '../../constants/colors'
 import {Margins} from '../../constants/margins'
 import {TouchableOpacity} from 'react-native-gesture-handler'
+import {Config} from '../../constants/config'
 
 interface Props {
-  image: ImageSourcePropType
+  image: string
   name?: string
   attack: number
   defense: number
@@ -44,7 +45,12 @@ const BevyCard = ({
   return (
     <View>
       <View style={styles.centerView}>
-        <Image source={image} style={[Margins.mtBig, Margins.mbNormal]} />
+        <View style={[styles.imageBackground, Margins.mtBig, Margins.mbNormal]}>
+          <Image
+            source={{uri: `${Config.baseURL}${image}`}}
+            style={[styles.image]}
+          />
+        </View>
         <Text style={styles.nameText}>{name}</Text>
       </View>
       <View style={[styles.rowView, Margins.mtBig, Margins.mbBig]}>
@@ -124,6 +130,20 @@ const styles = StyleSheet.create({
   },
   buttonView: {
     flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  image: {
+    height: 50,
+    width: 50,
+  },
+  imageBackground: {
+    backgroundColor: Colors.vibrantLightBlue,
+    height: 80,
+    width: 80,
+    borderColor: Colors.lightBlue,
+    borderRadius: 10,
+    borderWidth: 2,
     justifyContent: 'center',
     alignItems: 'center',
   },

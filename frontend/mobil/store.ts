@@ -23,6 +23,10 @@ import {CountryStore} from './src/store/country/country.store'
 import {countryReducer} from './src/store/country/country.reducer'
 import {ResourceStore} from './src/store/resources/resources.store'
 import {resourceReducer} from './src/store/resources/resources.reducer'
+import {registerReducer} from './src/store/register/register.reducer'
+import {RegisterStore} from './src/store/register/register.store'
+import {NextRoundStore} from './src/store/nextRound/nextRound.store'
+import {nextRoundReducer} from './src/store/nextRound/nextRound.reducer'
 
 export interface IAppStore {
   upgrade: UpgradeStore
@@ -37,6 +41,8 @@ export interface IAppStore {
   myUpgrade: MyUpgradeStore
   country: CountryStore
   resource: ResourceStore
+  register: RegisterStore
+  nextRound: NextRoundStore
 }
 
 export interface IApplicationState {
@@ -66,6 +72,8 @@ export const appReducer = combineReducers<IAppStore>({
   myUpgrade: myUpgradeReducer,
   country: countryReducer,
   resource: resourceReducer,
+  register: registerReducer,
+  nextRound: nextRoundReducer,
 })
 
 export const appRootReducer: Reducer<IAppStore> = (

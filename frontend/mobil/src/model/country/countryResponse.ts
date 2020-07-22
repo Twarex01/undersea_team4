@@ -1,3 +1,3 @@
 import {CountryDetails} from './countryDetails'
 
-export interface CountryResponse extends Array<CountryDetails> {}
+export interface CountryResponse extends CountryDetails {}

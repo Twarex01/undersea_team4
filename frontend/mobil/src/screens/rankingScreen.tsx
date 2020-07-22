@@ -2,10 +2,7 @@ import React, {useEffect} from 'react'
 import {View, StyleSheet, ListRenderItemInfo} from 'react-native'
 import {Colors} from '../constants/colors'
 import {Strings} from '../constants/strings'
-import {Fonts, FontSizes} from '../constants/fonts'
-
 import {StackNavigationProp} from '@react-navigation/stack'
-
 import CustomTextInput from '../components/text-input/customTextInput'
 import {Margins} from '../constants/margins'
 import {PlayerDetails} from '../model/player/playerDetails'
@@ -17,6 +14,7 @@ import RankingCard from '../components/card/rankingCard'
 import {useSelector, useDispatch} from 'react-redux'
 import {IApplicationState} from '../../store'
 import {getPlayers} from '../store/players/players.action'
+import PagesTemplateBack from '../components/pages/pagesTemplateBack'
 
 interface RankingScreenProps {
   navigation: StackNavigationProp<any>
@@ -32,16 +30,12 @@ const RankingScreen = ({navigation}: RankingScreenProps) => {
     dispatch(getPlayers())
   }, [dispatch])
 
-  const onItemPressed = () => {}
+  const onBackPressed = () => {
+    navigation.goBack()
+  }
   const renderItem = (itemInfo: ListRenderItemInfo<PlayerDetails>) => {
     const {name} = itemInfo.item
-    return (
-      <RankingCard
-        place={itemInfo.item.countryID}
-        username={name}
-        onPress={onItemPressed}
-      />
-    )
+    return <RankingCard place={itemInfo.item.countryID} username={name} />
   }
 
   const renderHeaderComponent = () => {
@@ -60,7 +54,7 @@ const RankingScreen = ({navigation}: RankingScreenProps) => {
 
   return (
     <View style={styles.container}>
-      <PagesTemplate title={Strings.city_name}>
+      <PagesTemplateBack title={Strings.ranking} onPress={onBackPressed}>
         <FlatList
           data={players}
           renderItem={renderItem}
@@ -70,7 +64,7 @@ const RankingScreen = ({navigation}: RankingScreenProps) => {
           style={styles.flatlistPadding}
           contentContainerStyle={{paddingBottom: 120}}
         />
-      </PagesTemplate>
+      </PagesTemplateBack>
     </View>
   )
 }

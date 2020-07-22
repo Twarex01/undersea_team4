@@ -1,15 +1,22 @@
 import React, {useState, Children} from 'react'
 import CustomButton from '../../components/button/customButton'
 import {StatusBar} from 'expo-status-bar'
-import {StyleSheet, Text, View, ImageBackground, Image} from 'react-native'
+import {
+  StyleSheet,
+  Text,
+  View,
+  ImageBackground,
+  Image,
+  Dimensions,
+} from 'react-native'
 import {Colors} from '../../constants/colors'
 import {Margins} from '../../constants/margins'
 import {Images} from '../../constants/images'
 import {Fonts, FontSizes} from '../../constants/fonts'
+import {ScrollView} from 'react-native-gesture-handler'
 
 interface Props {
   title: string
-  text: string
   change: string
   onPressButton: () => void
   onPressChange: () => void
@@ -18,14 +25,13 @@ interface Props {
 
 const LoginTemplate = ({
   title,
-  text,
   change,
   onPressButton,
   onPressChange,
   children,
 }: Props) => {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.scrollView} contentContainerStyle={{flexGrow: 1}}>
       <StatusBar style="dark" />
       <ImageBackground
         source={Images.sign_in_bg}
@@ -44,23 +50,21 @@ const LoginTemplate = ({
             title={title}
             onPress={onPressButton}
           />
-          <Text style={[styles.simpleText, Margins.mbBig]}>
-            {text}{' '}
-            <Text style={styles.simpleTextUnderline} onPress={onPressChange}>
-              {change}
-            </Text>
+
+          <Text
+            style={[styles.simpleText, Margins.mbBig]}
+            onPress={onPressChange}>
+            {change}
           </Text>
         </View>
       </ImageBackground>
-    </View>
+    </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-    backgroundColor: Colors.vibrantLightBlue,
   },
   singinText: {
     color: Colors.darkBlue,
@@ -70,9 +74,8 @@ const styles = StyleSheet.create({
 
   imageBackground: {
     flex: 1,
-    resizeMode: 'cover',
-    justifyContent: 'flex-start',
     alignItems: 'center',
+    paddingBottom: 20,
   },
   transparentView: {
     width: '90%',
@@ -88,8 +91,8 @@ const styles = StyleSheet.create({
     fontSize: FontSizes.b2_normal,
     fontFamily: Fonts.Baloo2_ExtraBold,
   },
-  simpleTextUnderline: {
-    textDecorationLine: 'underline',
+  scrollView: {
+    flex: 1,
   },
 })
 

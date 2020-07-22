@@ -40,7 +40,7 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
   const renderItem = (itemInfo: ListRenderItemInfo<UnitDetails>) => {
     const {
       name,
-      attack,
+      atk,
       def,
       salary,
       consumption,
@@ -48,12 +48,13 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
       priceTypeName,
       salaryTypeName,
       consumptionTypeName,
+      imageURL,
     } = itemInfo.item
     return (
       <BevyCard
-        image={Images.profil}
+        image={imageURL}
         name={name}
-        attack={attack}
+        attack={atk}
         defense={def}
         salary={salary}
         consumption={consumption}

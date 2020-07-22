@@ -40,9 +40,9 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
   }
 
   const onLoginPress = () => {
-    dispatch(postLogin({password, username}, succesAction))
+    dispatch(postLogin({password, username}, successAction))
   }
-  const succesAction = () => {
+  const successAction = () => {
     navigation.replace(Screens.Main)
   }
   const onRegisterPress = () => {
@@ -51,8 +51,7 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
   return (
     <LoginTemplate
       title={Strings.login}
-      text={Strings.login_text}
-      change={Strings.login_replace_text}
+      change={Strings.registration}
       onPressButton={onLoginPress}
       onPressChange={onRegisterPress}>
       <CustomTextInput

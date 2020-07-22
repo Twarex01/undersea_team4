@@ -46,8 +46,7 @@ const BuildingsScreen = ({navigation}: BuildingsScreenProps) => {
     const {
       buildingTypeID,
       name,
-      price,
-      priceTypeName,
+      prices,
       effect,
       buildTime,
       imageURL,
@@ -56,10 +55,9 @@ const BuildingsScreen = ({navigation}: BuildingsScreenProps) => {
       <BuildingCard
         style={Margins.mbNormal}
         name={name}
-        price={price}
-        priceType={priceTypeName}
+        prices={prices}
         description={effect}
-        image={Images.reef_castle}
+        image={imageURL}
         count={5}
       />
     )

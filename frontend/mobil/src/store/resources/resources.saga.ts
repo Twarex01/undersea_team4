@@ -7,7 +7,7 @@ import {
 } from './resources.actions'
 import {AxiosResponse} from 'axios'
 import {ResourceResponse} from '../../model/resources/resourceResponse'
-import resourceService from '../../utility/services/resourceservice'
+import resourceService from '../../utility/services/resourceService'
 
 export function* resourceSaga() {
   yield all([watchPost()])

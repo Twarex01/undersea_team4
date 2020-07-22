@@ -11,6 +11,8 @@ import {myUnitSaga} from './src/store/myUnits/myUnits.saga'
 import {myUpgradeSaga} from './src/store/myUpgrades/myUpgrades.saga'
 import {countrySaga} from './src/store/country/country.saga'
 import {resourceSaga} from './src/store/resources/resources.saga'
+import {registerSaga} from './src/store/register/register.saga'
+import {nextRoundSaga} from './src/store/nextRound/nextRound.saga'
 
 export function* rootSaga() {
   yield all([
@@ -26,5 +28,7 @@ export function* rootSaga() {
     myUpgradeSaga(),
     countrySaga(),
     resourceSaga(),
+    registerSaga(),
+    nextRoundSaga(),
   ])
 }

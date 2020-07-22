@@ -37,6 +37,7 @@ function RootStackScreen() {
     <RootStack.Navigator mode={'modal'} screenOptions={{headerShown: false}}>
       <RootStack.Screen name={'LoginStack'} component={LoginStackScreen} />
       <RootStack.Screen name={Screens.Profil} component={ProfilScreen} />
+      <RootStack.Screen name={Screens.Ranking} component={RankingScreen} />
     </RootStack.Navigator>
   )
 }
