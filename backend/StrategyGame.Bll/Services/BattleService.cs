@@ -237,7 +237,7 @@ namespace StrategyGame.Bll.Services
 
 					int unitAtHomeLost = CountUnitsOfTypeAtHome(defCountry.ID, unitDataId);
 					if (unitAtHomeLost == 0) continue;
-					unitAtHomeLost = (int)Math.Ceiling(unitAtHomeLost * 0.9);
+					unitAtHomeLost = (int)Math.Ceiling(unitAtHomeLost * 0.1);
 					_context.Units.Where(u => u.CountryID == defCountry.ID && u.UnitDataID == unitDataId).SingleOrDefault().Count -= unitAtHomeLost;
 					
 				}
@@ -260,7 +260,7 @@ namespace StrategyGame.Bll.Services
 				foreach (int unitDataId in _context.UnitData.Select(u => u.ID))
 				{
 					int unitAttackingLost = CountUnitsOfTypeAtHome(atkCountry.ID, unitDataId);
-					unitAttackingLost = (int)Math.Ceiling(unitAttackingLost * 0.9);
+					unitAttackingLost = (int)Math.Ceiling(unitAttackingLost * 0.1);
 					_context.Units.Where(u => u.CountryID == atkCountry.ID && u.UnitDataID == unitDataId).SingleOrDefault().Count -= unitAttackingLost;
 					
 				}
