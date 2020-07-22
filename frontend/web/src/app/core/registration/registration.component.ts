@@ -3,7 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RegisterDTO } from '../../shared/clients';
 import { Router } from '@angular/router';
 import { AccountService } from '../services/account.service';
-import { passwordConfirmationValidator } from './validators/passwordConfirmation';
+import { passwordConfirmationValidator } from '../validators/passwordConfirmation';
+import { noWhitespaceValidator } from '../validators/noWhitespaceValidator';
 
 
 @Component({
@@ -17,10 +18,10 @@ export class RegistrationComponent implements OnInit {
   validationError: boolean = false;
 
   registerForm = new FormGroup({
-    userName: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required),
-    passwordConfirmation: new FormControl('', Validators.required),
-    countryName: new FormControl('', Validators.required)
+    userName: new FormControl('', [Validators.required, noWhitespaceValidator]),
+    password: new FormControl('', [Validators.required, noWhitespaceValidator]),
+    passwordConfirmation: new FormControl('', [Validators.required, noWhitespaceValidator]),
+    countryName: new FormControl('', [Validators.required, noWhitespaceValidator])
   }, { validators: passwordConfirmationValidator });
 
   get userName() { return this.registerForm.get('userName'); }
