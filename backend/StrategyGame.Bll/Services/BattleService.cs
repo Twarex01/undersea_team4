@@ -65,11 +65,11 @@ namespace StrategyGame.Bll.Services
 			var defendingCountry = _context.Countries.Where(c => c.ID == battleDto.IdDef).FirstOrDefault();
 			if (attackingCountry == null)
 			{
-				throw new Exception("Attacking country is not found");
+				throw new Exception("Tamado orszag nem talalhato");
 			}
 			if (defendingCountry == null)
 			{
-				throw new Exception("Defending country is not found");
+				throw new Exception("Vedekezo orszag nem talalhato");
 			}
 
 			foreach (UnitDTO unitDto in battleDto.Army)
@@ -87,13 +87,13 @@ namespace StrategyGame.Bll.Services
 			var unitData = _context.UnitData.Where(u => u.ID == unitDataId).FirstOrDefault();
 			if (unitData == null)
 			{
-				throw new Exception("Unit Data is not found");
+				throw new Exception("Unit Data nem talalhato");
 			}
 
 			var count = CountUnitsOfTypeAtHome(attackingCountryId, unitDataId);
 			if (numberOfUnits > count)
 			{
-				throw new Exception("Not enough units available");
+				throw new Exception("Nincsen eleg egyseg");
 			}
 			else
 			{
@@ -142,7 +142,7 @@ namespace StrategyGame.Bll.Services
 			var exploring = _context.Explorations.Where(e => e.SenderCountryID == explorationDTO.SenderCountryID).Sum(e => e.NumberOfExplorers);
 			var availableExplorers = allExplorers - exploring;
 			if (availableExplorers < explorationDTO.NumberOfExplorers) {
-				throw new Exception("Not enough explorers");
+				throw new Exception("Nincsen eleg felfedezo");
 			}
 			var existingExp = _context.Explorations.SingleOrDefault(e => e.SenderCountryID == explorationDTO.SenderCountryID && e.VictimCountryID == explorationDTO.VictimCountryID);
 			if(existingExp== null)
