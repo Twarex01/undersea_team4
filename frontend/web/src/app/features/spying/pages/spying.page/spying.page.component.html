@@ -1,0 +1,9 @@
+<app-basic-card class="card">
+    <p class="header">Felfedezés</p>
+
+    <app-spying [explorerUnits]="explorerUnits" [players]="players" (selectedPlayerChanged)="onSelectedPlayerChanged($event)" class="card-item"></app-spying>
+
+    <div class="footer">
+        <button [disabled]="!isReadyToSend()" [ngClass]="{'button-not-selected': !isReadyToSend()}" (click)="onExplore()">Kémkedés</button>
+    </div>
+</app-basic-card>

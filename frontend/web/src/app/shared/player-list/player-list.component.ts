@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { AttackPlayer } from '../../models/attack-player';
+import { AttackPlayer } from '../../features/attack/models/attack-player';
 
 @Component({
   selector: 'app-player-list',
@@ -10,7 +10,8 @@ export class PlayerListComponent implements OnInit {
 
   playerNameInput: string = "";
   selectedPlayerIndex: number = 0;
-  @Input() playerList: AttackPlayer[];
+  @Input() description: string = "";
+  @Input() playerList: AttackPlayer[] = [];
   @Output() selectedPlayerChanged = new EventEmitter();
 
   constructor() { }
