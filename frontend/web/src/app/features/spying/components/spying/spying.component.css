@@ -1,0 +1,17 @@
+.spying-component {
+    font-family: "Baloo Regular";
+}
+
+.component-container {
+    display: flex;
+}
+
+.player-list-container{
+    margin: 0.5rem;
+    margin-left: 0;
+}
+
+.choose-unit-container{
+    margin: 0.5rem;
+    margin-right: 0;
+}

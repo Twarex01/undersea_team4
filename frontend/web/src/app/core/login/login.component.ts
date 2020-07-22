@@ -10,7 +10,8 @@ import { AccountService } from '../services/account.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  error: boolean = false;
+  serverError: boolean = false;
+  serverMessage: string = "";
   validationError: boolean = false;
 
   loginForm = new FormGroup({
@@ -38,15 +39,13 @@ export class LoginComponent implements OnInit {
         reader.readAsText(data!.data);
         localStorage.setItem('playerName', this.loginForm.value.userName);
       },
-      () => {
-        this.error = true;
-      }
+      (error) => {this.serverError = true; this.serverMessage = error.response;}
     );
   }
 
   removeErrors() {
     this.validationError = false;
-    this.error = false;
+    this.serverError = false;
   }
 
 }

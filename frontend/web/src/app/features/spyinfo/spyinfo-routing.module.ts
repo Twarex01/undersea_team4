@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AttackPageComponent } from './pages/attack.page/attack.page.component';
+import { SpyinfoPageComponent } from './pages/spyinfo.page/spyinfo.page.component';
 
 
 const routes: Routes = [
-  { path: '',
-    component: AttackPageComponent
+  {
+    path: '',
+    component: SpyinfoPageComponent
   }
 ];
 
@@ -13,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AttackRoutingModule { }
+export class SpyinfoRoutingModule { }
