@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { AttackPlayer } from '../../models/attack-player';
+import { AttackPlayer } from '../../features/attack/models/attack-player';
 
 @Component({
   selector: 'app-player-list',
