@@ -3,7 +3,9 @@ export interface BuildingDetails {
     name: string;
     imageSrc: string;
     description: string;
-    price: number;
-    priceType: string;
+    prices: {
+        price: number;
+        priceTypeName: string;
+    }[];
     buildTime: number;
 }

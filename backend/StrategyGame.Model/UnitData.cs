@@ -64,6 +64,7 @@
             DEF = 0,
             PointValue = 0,
             ImageURL = "Assets/Units/shark.png"
+
         };
 
         public int ID { get; set; }

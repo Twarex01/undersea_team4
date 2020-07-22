@@ -12,8 +12,7 @@
       <router-outlet></router-outlet>
     </div>
   </div>
-  <div class="background-buildings-container">
-    <img class="buildings" *ngFor="let building of buildings" src="{{ building.imgSrc }}" />
-    <img class="sonar" *ngIf="sonar" src="{{ sonar.imgSrc }}">
-  </div>
+    <img class="zatonyvar" src="{{ zatonyImg }}" >
+    <img class="aramlasiranyito" src="{{aramlasImg}}">
+    <img class="sonar" *ngIf="sonarImg" src="{{ sonarImg }}">
 </main>

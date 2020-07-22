@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SignalRService } from '../services/signal-r.service';
 import { PlayerInfoService } from '../services/player-info.service';
 import { forkJoin } from 'rxjs';
-import { CountryBuilding } from '../status-bar/country-building';
-import { CountryUpgrade } from '../../features/upgrades/models/country-upgrade';
-import { BackgroundUpgrade } from './models/background-upgrade';
+import { StatusNotificationService } from '../services/status-notification.service';
 
 @Component({
   selector: 'app-main-layout',
@@ -13,27 +11,46 @@ import { BackgroundUpgrade } from './models/background-upgrade';
 })
 export class MainLayoutComponent implements OnInit {
 
-  buildings: CountryBuilding[] = [];
   hasSonarCannon: boolean = false;
-  sonar: BackgroundUpgrade | undefined;
 
-  constructor(private signalRService: SignalRService, private playerInfoService: PlayerInfoService) { }
+  aramlasImg: string | undefined;
+  zatonyImg: string | undefined;
+  sonarImg: string | undefined;
+
+  constructor(private signalRService: SignalRService, private playerInfoService: PlayerInfoService, private statusNotificationService: StatusNotificationService) { }
 
   ngOnInit(): void {
+    this.getData();
+    this.statusNotificationService.notifications.subscribe(() => this.getData());
+    this.signalRService.startConnection();
+    this.signalRService.addChangeRoundListener();
+  }
+
+  getData() {
     forkJoin(
       this.playerInfoService.getCountryBuildings(),
       this.playerInfoService.getCountryUpgrades(),
-      this.playerInfoService.getUpgradeDetails()
-    ).subscribe(([countryBuildings, countryUpgrades, upgradeDetails]) => {
-      this.buildings = countryBuildings;
+      this.playerInfoService.getUpgradeDetails(),
+      this.playerInfoService.getBuildingDetails()
+    ).subscribe(([countryBuildings, countryUpgrades, upgradeDetails, buildingDetails]) => {
+      const zatonyId = buildingDetails.find((bd) => bd.name === "Zátonyvár")?.id;
+      const aramlasId = buildingDetails.find((bd) => bd.name === "Áramlásirányító")?.id
       const sonarId = upgradeDetails.find((ud) => ud.name === "Szonár ágyú")?.id;
-      const sonarImg = countryUpgrades.find((cb) => cb.id === sonarId)?.imgSrc;
-      if(sonarId && sonarImg){
-        this.sonar = {id: sonarId, imgSrc: sonarImg};
-      }
+
+      const zatony = countryBuildings.find((cb) => cb.id === zatonyId);
+      const aramlas = countryBuildings.find((cb) => cb.id === aramlasId);
+      const sonar = countryUpgrades.find((cb) => cb.id === sonarId);
+
+      if(zatony)
+        this.zatonyImg = zatony?.count > 0 ? zatony?.imgSrc : undefined;
+
+      if(aramlas)
+        this.aramlasImg = aramlas?.count > 0 ? "../../../assets/background-buildings/aramlasiranyito.png" : undefined;
+
+      if(sonar)
+        this.sonarImg = sonar.roundsLeft == 0 ? sonar.imgSrc : undefined;
+
     });
-    this.signalRService.startConnection();
-    this.signalRService.addChangeRoundListener();
   }
 
 }

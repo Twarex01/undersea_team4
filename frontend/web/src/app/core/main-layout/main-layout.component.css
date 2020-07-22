@@ -8,7 +8,7 @@ main {
 
 .layout-body {
     position: relative;
-    z-index: 2;
+    z-index: 4;
     display: flex;
     margin-top: 2%;
     margin-left: 1%;
@@ -23,24 +23,28 @@ main {
 }
 
 .status-bar {
+    position: relative;
+    z-index: 4;
     padding: 1%;
 }
 
-.background-buildings-container {
-    z-index: 2;
-    position: absolute;
+.zatonyvar {
     bottom: 25%;
-    left: 42%;
-    z-index: 1;
+    left: 35%;
+    position: absolute;
+    z-index: 2;
 }
 
-.buildings {
-    position: relative;
-    z-index: 2;
+.aramlasiranyito {
+    position: absolute;
+    bottom: 20%;
+    left: 45%;
+    z-index: 3;
 }
 
 .sonar {
-    position: relative;
-    right: 25%;
+    position: absolute;
+    bottom: 30%;
+    left: 50%;
     z-index: 1;
 }

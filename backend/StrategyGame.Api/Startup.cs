@@ -12,8 +12,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using NSwag;
 using NSwag.Generation.Processors.Security;
-using StrategyGame.Api.Helper;
 using StrategyGame.Api.Services;
+using StrategyGame.Bll;
 using StrategyGame.Bll.Hubs;
 using StrategyGame.Bll.Services;
 using StrategyGame.Dal;
@@ -53,8 +53,10 @@ namespace StrategyGame.Api
             services.AddRazorPages();
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AppDbContext")));
             services.AddIdentityCore<Model.User>().AddEntityFrameworkStores<AppDbContext>();
+
+            services.AddScoped<HttpResponseExceptionFilter>();
             services.AddControllers(options =>
-                    options.Filters.Add(new HttpResponseExceptionFilter()));
+                    options.Filters.Add(typeof(HttpResponseExceptionFilter)));
 
             services.AddSwaggerDocument(document =>
             {

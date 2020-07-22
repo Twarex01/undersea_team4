@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace StrategyGame.Bll.Services
 {
+
 	public class BattleService : IBattleService
 	{
 
@@ -286,4 +287,5 @@ namespace StrategyGame.Bll.Services
 			return output;
 		}
 	}
+
 }

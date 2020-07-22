@@ -4,8 +4,6 @@ import { AttackService } from '../../services/attack.service';
 import { AttackPlayer } from '../../models/attack-player';
 import { forkJoin } from 'rxjs';
 import { AttackBattle } from '../../models/attack-battle';
-import { CountryUnit } from '../../models/country-unit';
-import { StatusNotificationService } from '../../../../core/services/status-notification.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -36,7 +34,6 @@ export class AttackPageComponent implements OnInit {
       this.attackService.getCountryUnits(),
       this.attackService.getUnitDetails(),
     ).subscribe(([countryUnits, unitDetails]) => {
-      this.units = [];
       unitDetails.forEach((unitDetail) => {
         const countryUnit = countryUnits.find((cu) => cu.id == unitDetail.id)!;
         this.units.push({
@@ -55,7 +52,6 @@ export class AttackPageComponent implements OnInit {
       defenderId: this.selectedPlayerId,
       army: this.units.map((unit) => ({id: unit.id, count: unit.countToAttack}))
     }
-    console.log(battle);
     this.attackService.attack(battle).subscribe(() => {
       this.snackBar.open("Sikeresen elindítottad a támadást!", '', {panelClass: "custom-snackbar"})
       this.units.forEach(unit => unit.countToAttack = 0);

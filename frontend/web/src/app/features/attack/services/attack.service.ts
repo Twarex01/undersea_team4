@@ -15,7 +15,7 @@ export class AttackService {
   constructor(private playersClient: PlayersClient, private countryClient: CountryClient, private detailsClient: DetailsClient, private battleClient: BattleClient) { }
 
   getPlayerList(): Observable<AttackPlayer[]>{
-      return this.playersClient.playerList().pipe( 
+      return this.playersClient.playerList().pipe(
         map((rankDTOArray => {
           return rankDTOArray.map((rankDTO => ({id: rankDTO.countryID, name: rankDTO.name!, isSelected: false})))
         })) 

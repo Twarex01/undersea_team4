@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using StrategyGame.Api.Helper;
 using StrategyGame.Bll.DTO;
 using StrategyGame.Bll.Services;
 using System;
@@ -27,7 +26,7 @@ namespace StrategyGame.Api.Controllers
 
         //PUT api/round
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> NextRound()

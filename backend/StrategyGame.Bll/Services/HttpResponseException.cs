@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace StrategyGame.Api.Helper
+namespace StrategyGame.Bll
 {
     public class HttpResponseException : Exception
     {

@@ -57,22 +57,14 @@ namespace StrategyGame.Api.Controllers
         // PUT api/Country/Buildings/1
         [HttpPut("Buildings/{buildingId}")]
         [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
 
         public async Task<ActionResult> BuyBuilding(int buildingId)
         {
 
-            try
-            {
-                var country = await _userService.GetCountryByUserID(User.Identity.Name);
-                var results = await _purchaseService.PurchaseCountryBuildingAsync(country.ID, buildingId);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+           var country = await _userService.GetCountryByUserID(User.Identity.Name);
+           await _purchaseService.PurchaseCountryBuildingAsync(country.ID, buildingId);
 
             return Ok();
         }
@@ -85,38 +77,22 @@ namespace StrategyGame.Api.Controllers
         public async Task<ActionResult<List<UpgradeDTO>>> GetCountryUpgrades()
         {
 
-            try
-            {
-                var country = await _userService.GetCountryByUserID(User.Identity.Name);
-                var upgrades = await _dataService.GetCountryUpgradesAsync(country.ID);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var country = await _userService.GetCountryByUserID(User.Identity.Name);
+            var upgrades = await _dataService.GetCountryUpgradesAsync(country.ID);
 
-            return Ok();
+            return Ok(upgrades);
         }
 
         //PUT api/Country/Upgrades/2
         [HttpPut("Upgrades/{upgradeId}")]
         [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
 
         public async Task<ActionResult> BuyUpgradeAsync(int upgradeId)
         {
-
-            try
-            {
-                var country = await _userService.GetCountryByUserID(User.Identity.Name);
-                var results = await _purchaseService.PurchaseCountryUpgradeAsync(country.ID, upgradeId);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var country = await _userService.GetCountryByUserID(User.Identity.Name);
+            await _purchaseService.PurchaseCountryUpgradeAsync(country.ID, upgradeId);
 
             return Ok();
 
@@ -125,23 +101,15 @@ namespace StrategyGame.Api.Controllers
         //PUT api/Country/Units
         [HttpPut("Units")]
         [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
 
         public async Task<ActionResult> BuyUnitsAsync([FromBody] List<UnitDTO> army)
         {
 
 
-            try
-            {
-                var country = await _userService.GetCountryByUserID(User.Identity.Name);
-                var results = await _purchaseService.PurchaseCountryUnitsAsync(country.ID, army);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+             var country = await _userService.GetCountryByUserID(User.Identity.Name);
+             await _purchaseService.PurchaseCountryUnitsAsync(country.ID, army);
 
             return Ok();
 
