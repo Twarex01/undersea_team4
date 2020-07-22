@@ -17,7 +17,7 @@
         public static ResourceData Stone = new ResourceData
         {
             ID = 3, Name = "Kő",
-            ImageURL = "Assets/Resources/stone.svg"
+            ImageURL = "Assets/Resources/stone.png"
         };
 
         public static int TaxAmount = 25; // azért csak egy szám mert a játék működése szempontjából nem lenne értelmes a gyöngytől különböző erőforrást adózni

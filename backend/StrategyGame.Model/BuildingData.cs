@@ -27,7 +27,7 @@ namespace StrategyGame.Model
             Name = "Kőbánya",
             BuildTime = 5,
             Effect = "Körönként 25 kővel gazdagítja a játékost", 
-            ImageURL = "/Assets/Buildings/stonemine_icon.svg"
+            ImageURL = "/Assets/Buildings/stonemine_icon.png"
 
         };
         public int ID { get; set; }

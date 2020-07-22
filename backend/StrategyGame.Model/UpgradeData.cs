@@ -5,13 +5,13 @@ namespace StrategyGame.Model
     public abstract class UpgradeData
     {
         public static Alchemy Alchemy = new Alchemy { ID = 1, Name = "Alkímia", UpgradeTime = 15, Effect = "Növeli a beszedett adót 30%-kal",
-            ImageURL = "/Assets/Upgrades/alchemy.svg"
+            ImageURL = "/Assets/Upgrades/alchemy.png"
         };
         public static CoralWall CoralWall = new CoralWall { ID = 2, Name = "Korall fal", UpgradeTime = 15, Effect = "Növeli a védelmi pontokat 20%-kal",
-            ImageURL = "Assets/Upgrades/coralwall.svg"
+            ImageURL = "Assets/Upgrades/coralwall.png"
         };
         public static MartialArts MartialArts = new MartialArts { ID = 3, Name = "Vízalatti harcművészetek", UpgradeTime = 15, Effect = "Növeli a védelmi és támadóerőt 10%-kal",
-            ImageURL = "Assets/Upgrades/martialarts.svg"
+            ImageURL = "Assets/Upgrades/martialarts.png"
         };
         public static MudHarvester MudHarvester = new MudHarvester { ID = 4, Name = "Iszap Kombájn", UpgradeTime = 15, Effect = "Növeli a korall termesztést 15%-kal",
             ImageURL = "Assets/Upgrades/mudharvester.png"
