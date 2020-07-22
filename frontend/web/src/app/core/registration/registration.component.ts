@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RegisterDTO } from '../../shared/clients';
 import { Router } from '@angular/router';
 import { AccountService } from '../services/account.service';
+import { passwordConfirmationValidator } from './validators/passwordConfirmation';
+
 
 @Component({
   selector: 'app-registration',
@@ -17,8 +19,12 @@ export class RegistrationComponent implements OnInit {
     password: new FormControl('', Validators.required),
     passwordConfirmation: new FormControl('', Validators.required),
     countryName: new FormControl('', Validators.required)
-  });
+  }, { validators: passwordConfirmationValidator });
 
+  get userName() { return this.registerForm.get('userName'); }
+  get password() { return this.registerForm.get('password'); }
+  get passwordConfirmation() { return this.registerForm.get('passwordConfirmation'); }
+  get countryName() { return this.registerForm.get('countryName'); }
 
   constructor(private accountService: AccountService, private router: Router) { }
 
@@ -26,7 +32,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   onSubmit() {
-    if(this.registerForm.invalid) {
+    if (this.registerForm.invalid) {
       this.validationError = true;
       return;
     }
@@ -35,5 +41,4 @@ export class RegistrationComponent implements OnInit {
       this.router.navigate(["/login"])
     });
   }
-
 }
