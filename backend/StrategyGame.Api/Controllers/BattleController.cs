@@ -84,8 +84,8 @@ namespace StrategyGame.Api.Controllers
         public async Task<ActionResult<List<ExplorationInfoDTO>>> GetExplorationInfo()
         {
             var atkCountry = await _userService.GetCountryByUserID(User.Identity.Name);
-            _battleService.GetExplorationInfo(atkCountry.ID);
-            return Ok();
+            var result = _battleService.GetExplorationInfo(atkCountry.ID);
+            return Ok(result);
 
         }
     }

@@ -188,8 +188,9 @@ namespace StrategyGame.Bll.Services
 			var victimCountry = exploration.VictimCountry;
 			var senderCountry = exploration.SenderCountry;
 			var senderSpyCount = exploration.NumberOfExplorers;
-			var victimSpyCount = _context.Units.SingleOrDefault(u=> u.CountryID == victimCountry.ID && u.UnitDataID == UnitData.Explorer.ID).Count - _context.Explorations.Where(e=> e.SenderCountryID == victimCountry.ID).Sum(e=> e.NumberOfExplorers);
-			var diffCount = senderSpyCount - victimSpyCount;
+			var victimSpyCount = _context.Units.SingleOrDefault(u=> u.CountryID == victimCountry.ID && u.UnitDataID == UnitData.Explorer.ID)?.Count - _context.Explorations.Where(e=> e.SenderCountryID == victimCountry.ID).Sum(e=> e.NumberOfExplorers);
+			if (victimSpyCount == null) victimSpyCount = 0;
+			var diffCount = senderSpyCount - (int)victimSpyCount;
 			chance += diffCount * 0.05;
 
 			if (spyProbability.Next(0, 100) <= chance * 100 || chance >= 1) //sikeres volt a kémkedés
