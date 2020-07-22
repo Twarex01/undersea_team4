@@ -13,7 +13,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class AttackPageComponent implements OnInit {
 
-  countryName: string = "";
 
   selectedPlayerId: number = -1;
 
