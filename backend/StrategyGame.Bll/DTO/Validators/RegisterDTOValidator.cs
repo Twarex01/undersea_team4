@@ -8,23 +8,17 @@ using System.Linq;
 
 namespace StrategyGame.Bll.Services.Validators
 {
-    public class RegisterValidator : AbstractValidator<RegisterDTO>
+    public class RegisterDTOValidator : AbstractValidator<RegisterDTO>
     {
         private IEnumerable<Country> _countries;
 
-        public RegisterValidator(IEnumerable<Country> countries)
+        public RegisterDTOValidator(IEnumerable<Country> countries)
         {
             _countries = countries;
             RuleFor(user => user.UserName)
-                .NotEmpty()
-                .Length(3, 30)
-                .Matches("^[a-zA-Z0-9]*$")
-                .WithMessage("User name can only contain letters and numbers.");
+                .NotEmpty();
             RuleFor(user => user.CountryName)
                 .NotEmpty()
-                .Length(3, 30)
-                .Matches("^[a-zA-Z0-9 ]*$")
-                .WithMessage("Country name can only contain letters and numbers and space.")
                 .Must(IsCountryNameUnique).WithMessage("Country name already exists.");
         }
 

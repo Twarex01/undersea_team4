@@ -6,8 +6,16 @@
          <input type="password" placeholder="Jelszó megerősítése" formControlName="passwordConfirmation">
          <input type="text" placeholder="A városod neve, amit építesz" formControlName="countryName">
          <div *ngIf="serverError" class="error">{{serverMessage}}</div>
-         <div *ngIf="validationError" class="error">Tölts ki minden mezőt!</div>
+         <div *ngIf="validationError && (
+            userName.errors?.required ||
+            passwordConfirmation.errors?.required ||
+            countryName.errors?.required)" class="error">
+            Tölts ki minden mezőt!
+         </div>
+         <div *ngIf="validationError && registerForm.errors?.notMatchingPasswords" class="error">
+            Nem egyezik meg a két jelszó!
+         </div>
          <a routerLink="/login" class="login-reg-link">Belépés</a>
-    </app-basic-form-card>
+      </app-basic-form-card>
    </div>
 </main>

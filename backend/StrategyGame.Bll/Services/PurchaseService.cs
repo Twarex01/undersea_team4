@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation.Results;
+using Microsoft.EntityFrameworkCore;
 using StrategyGame.Bll.DTO;
+using StrategyGame.Bll.DTO.Validators;
 using StrategyGame.Dal;
 using StrategyGame.Model;
 using System;
@@ -26,15 +28,15 @@ namespace StrategyGame.Bll.Services
             if (await _appDbContext.Buildings.Where(b => b.CoutryID == countryId).AnyAsync(b => b.Progress > 0)) throw new HttpResponseException { Status = 400, Value = "Already building something" };   //már épül valami
 
             Country country = await _appDbContext.Countries.Where(c => c.ID == countryId).Include(c => c.Resources).ThenInclude(r => r.ResourceData).SingleOrDefaultAsync();
-            if (country == null) throw new HttpResponseException { Status = 400, Value = "Country not found" }; //nincs ilyen ID-jű country
+            if (country == null) throw new HttpResponseException { Status = 400, Value = "Nincs ilyen ország" }; //nincs ilyen ID-jű country
 
             BuildingData toBuild = await _appDbContext.BuildingData.Include(b=> b.Prices).ThenInclude(p=> p.PriceUnit).Where(b => b.ID == buildingId).SingleOrDefaultAsync();
-            if (toBuild == null) throw new HttpResponseException { Status = 400, Value = "Building not found" }; //nincs iylen ID-jű épület
+            if (toBuild == null) throw new HttpResponseException { Status = 400, Value = "Nincs ilyen épület" }; //nincs iylen ID-jű épület
 
             foreach (var price in toBuild.Prices)
             {
                 var resource = country.Resources.SingleOrDefault(r => r.ResourceDataID == price.PriceUnitID);
-                if (resource.Amount < price.Amount ) throw new HttpResponseException { Status = 400, Value = "Not enough resources" };  // nincs elég erőforrás
+                if (resource.Amount < price.Amount ) throw new HttpResponseException { Status = 400, Value = "Nincs elég erőforrásod" };  // nincs elég erőforrás
                 resource.Amount = Math.Max(0, resource.Amount - price.Amount);
 
             }
@@ -57,6 +59,21 @@ namespace StrategyGame.Bll.Services
 
         public async Task<int> PurchaseCountryUnitsAsync(int countryId, List<UnitDTO> army)
         {
+
+            foreach (UnitDTO unit in army)
+            {
+                UnitDTOValidator unitValidator = new UnitDTOValidator();
+                ValidationResult validatorResults = unitValidator.Validate(unit);
+
+                if (!validatorResults.IsValid)
+                {
+                    foreach (var failure in validatorResults.Errors)
+                    {
+                        throw new HttpResponseException { Status = 400, Value = failure.ErrorMessage };
+                    }
+                }
+            }
+
             Country country = await _appDbContext.Countries
                 .Include(c => c.Resources).ThenInclude(r => r.ResourceData)
                 .Include(c => c.Units)
@@ -76,7 +93,7 @@ namespace StrategyGame.Bll.Services
             {
                 var cost = totalCost.SingleOrDefault(r => r.ResourceDataID == resource.ResourceDataID);
                 if (cost == null) continue;
-                if (resource.Amount < cost.Amount) throw new HttpResponseException { Status = 400, Value = "Not enough money" };
+                if (resource.Amount < cost.Amount) throw new HttpResponseException { Status = 400, Value = "Nincs elég pénzed" };
             }
 
             int numberOfBoughtUnits = 0;
@@ -85,7 +102,7 @@ namespace StrategyGame.Bll.Services
                 numberOfBoughtUnits += unit.Count;
             }
             var numberOfExistingUnits = country.Units.Sum(u => u.Count);
-            if (numberOfBoughtUnits + numberOfExistingUnits > country.ArmyCapacity) throw new HttpResponseException { Status = 400, Value = "Not enough army capacity" };
+            if (numberOfBoughtUnits + numberOfExistingUnits > country.ArmyCapacity) throw new HttpResponseException { Status = 400, Value = "Nincs elég helyed a katonáknak" };
 
             foreach (var unit in unitsToBuy)
             {
@@ -107,11 +124,11 @@ namespace StrategyGame.Bll.Services
         {
             if (await _appDbContext.Upgrades.Where(b => b.CoutryID == countryId).AnyAsync(b => b.Progress > 0)) throw new HttpResponseException { Status = 400, Value = "Already upgrading something" }; //már fejlődik valami
             Country country = await _appDbContext.Countries.Include(c => c.Upgrades).SingleOrDefaultAsync(c => c.ID == countryId);
-            if (country == null) throw new HttpResponseException { Status = 400, Value = "Country not found" }; //nincs ilyen ID-jű country
+            if (country == null) throw new HttpResponseException { Status = 400, Value = "Nincs ilyen ország" }; //nincs ilyen ID-jű country
             var toUpgrade = await _appDbContext.UpgradeData.Where(u => u.ID == upgradeId).SingleOrDefaultAsync();
-            if (toUpgrade == null) throw new HttpResponseException { Status = 400, Value = "Upgrade not found" }; //nincs ilyen ID - jű upgrade
+            if (toUpgrade == null) throw new HttpResponseException { Status = 400, Value = "Nincs ilyen fejlesztés" }; //nincs ilyen ID - jű upgrade
             var existingUpgrade = country.Upgrades.FirstOrDefault(u => u.UpgradeDataID == upgradeId);
-            if (existingUpgrade != null) throw new HttpResponseException { Status = 400, Value = "Upgrade already exists" }; //van már ilyen upgrade
+            if (existingUpgrade != null) throw new HttpResponseException { Status = 400, Value = "Már van ilyen fejlesztésed" }; //van már ilyen upgrade
 
             var newUpgrade = new Upgrade() { Progress = toUpgrade.UpgradeTime, UpgradeDataID = toUpgrade.ID, CoutryID = country.ID };
 

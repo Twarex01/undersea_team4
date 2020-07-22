@@ -25,7 +25,7 @@ namespace StrategyGame.Api.Controllers
         {
 
             var user = await _userService.AuthenticateUser(loginDTO);
-            if (user == null) return BadRequest("nem megfelelő felhsználó név vagy jelszó");
+            if (user == null) return BadRequest("Nem megfelelo felhasznalonev vagy jelszo");
             string token = _JWTService.GenerateSecurityToken(user);
             return Ok(token);
         }
