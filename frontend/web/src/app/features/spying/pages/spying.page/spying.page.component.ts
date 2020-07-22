@@ -19,7 +19,6 @@ export class SpyingPageComponent implements OnInit {
   constructor(private spyingService: SpyingService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    //TODO
     forkJoin(
       this.spyingService.getPlayerList(),
       this.spyingService.getCountryName()
@@ -32,21 +31,13 @@ export class SpyingPageComponent implements OnInit {
     ).subscribe(([countryUnits, unitDetails]) => {
       const explorerDetails = unitDetails.find((ud) => ud.name === "Felfedező")!;
       const countryExplorers = countryUnits.find((cu) => cu.id === explorerDetails.id);
-      /* this.explorerUnits.push({
+      this.explorerUnits.push({
         id: explorerDetails.id,
           imageSrc: explorerDetails.imageSrc,
           name: explorerDetails.name,
           count: countryExplorers?.count ?? 0,
           countToAttack: 0
-      }) */
-    })
-
-    this.explorerUnits.push({
-      id: 5,
-      name: "Felfedező",
-      imageSrc: "../../../../../assets/icons/shark.svg",
-      count: 4,
-      countToAttack: 0
+      })
     })
   }
 
