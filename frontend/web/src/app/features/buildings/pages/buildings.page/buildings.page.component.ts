@@ -5,6 +5,7 @@ import { Building } from '../../models/building';
 import { StatusNotificationService } from '../../../../core/services/status-notification.service';
 import { PlayerInfoService } from '../../../../core/services/player-info.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Resource } from '../../models/resource';
 
 @Component({
   selector: 'app-buildings',
@@ -14,8 +15,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class BuildingsPageComponent implements OnInit {
 
   buildings: Building[] = [];
-  countryPearl: number = 0;
+  countryResources: Resource[] = [];
   selectedIndex: number = -1;
+  imgBaseUrl: string = "https://localhost:5001/";
 
   constructor(
     private buildingsService: BuildingsService,
@@ -44,8 +46,7 @@ export class BuildingsPageComponent implements OnInit {
           id: buildingDetail.id,
           imgSrc: buildingDetail.imageSrc,
           name: buildingDetail.name,
-          price: buildingDetail.price,
-          priceType: buildingDetail.priceType,
+          prices: buildingDetail.prices,
           description: buildingDetail.description,
           count: countryBuilding?.count ?? 0,
           isSelected: false,
@@ -53,7 +54,14 @@ export class BuildingsPageComponent implements OnInit {
           buildTime: buildingDetail.buildTime
         })
       });
-      this.countryPearl = resources.find(resource => resource.id == 2)?.count ?? 0;
+      
+      resources.forEach((resource) => {
+        this.countryResources.push({
+          id: resource.id,
+          amount: resource.count,
+          name: resource.name
+        })
+      })
     })
   }
 
@@ -61,9 +69,18 @@ export class BuildingsPageComponent implements OnInit {
     if (!this.canBeSelected(index)) return;
     if (this.selectedIndex !== -1)
       this.buildings[this.selectedIndex].isSelected = false;
-    if (this.countryPearl < this.buildings[index].price) return;
+    if (!this.hasEnoughResource) return;
     this.selectedIndex = index;
     this.buildings[index].isSelected = true;
+  }
+
+  hasEnoughResource(): boolean {
+    const selectedBuilding = this.buildings[this.selectedIndex];
+    for(let i = 0; i < selectedBuilding.prices.length; i++){
+      const countryResource = this.countryResources.find((cr) => cr.name === selectedBuilding.prices[i].priceTypeName)!;
+      if(countryResource?.amount < selectedBuilding.prices[i].price)  return false;
+    }
+    return true;
   }
 
   canBeSelected(index: number): boolean {

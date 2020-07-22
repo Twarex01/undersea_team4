@@ -53,7 +53,7 @@ export class PlayerInfoService {
       map((unitDetailsDTOarray) => {
         return unitDetailsDTOarray.map((unitDetailsDTO) => ({
           id: unitDetailsDTO.unitTypeID,
-          imgSrc: "../../../assets/icons/shark.svg"
+          imgSrc: unitDetailsDTO?.imageURL ?? ""
         }));
       })
     );
@@ -65,7 +65,7 @@ export class PlayerInfoService {
         return buildingDetailsDTOarray.map((buildingDetailsDTO) => ({
           id: buildingDetailsDTO.buildingTypeID,
           name: buildingDetailsDTO.name!,
-          imgSrc: "../../../assets/icons/coral.svg"
+          imgSrc: buildingDetailsDTO?.imageURL ?? ""
         }));
       })
     );
@@ -79,7 +79,8 @@ export class PlayerInfoService {
           id: resourceDTO.resourceTypeID,
           count: resourceDTO.amount,
           output: resourceDTO.production,
-          imgSrc: ""
+          imgSrc: resourceDTO?.imageURL ?? "",
+          name: resourceDTO.name!
         }));
       })
     );

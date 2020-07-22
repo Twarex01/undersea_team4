@@ -15,13 +15,18 @@ import { StatusNotificationService } from '../services/status-notification.servi
 })
 export class StatusBarComponent implements OnInit {
 
-  buildings: CountryBuilding[];
+  buildings: CountryBuilding[] = [];
 
-  units: CountryUnit[];
+  units: CountryUnit[] = [];
 
-  resources: CountryResource[];
+  resources: CountryResource[] = [];
 
-  countryRound: CountryRound;
+  countryRound: CountryRound = {
+    round: 0,
+    rank: 0
+  };
+
+  imgBaseUrl: string = "https://localhost:5001/";
 
   constructor(private playerInfo: PlayerInfoService,  private statusNotificationService: StatusNotificationService) { }
 
@@ -70,11 +75,6 @@ export class StatusBarComponent implements OnInit {
       })
       this.countryRound = countryRound;
       this.resources = resources;
-      //missing endpont:(
-      resources.forEach((resource) => {
-        if (resource.id == 1) { resource.imgSrc = "../../../assets/icons/coral.svg";}
-        if (resource.id == 2) { resource.imgSrc = "../../../assets/icons/shell.svg";}
-      })
     })
   }
 
