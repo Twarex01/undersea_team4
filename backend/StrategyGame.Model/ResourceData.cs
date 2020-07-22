@@ -6,18 +6,18 @@
         {
             ID = 1,
             Name = "Korall",
-            ImageURL = "Assets/Resources/coral.png"
+            ImageURL = "/Assets/Resources/coral.png"
         };
         public static ResourceData Pearl = new ResourceData
         {
             ID = 2,
             Name = "Gyöngy",
-            ImageURL = "Assets/Resources/pearl.png"
+            ImageURL = "/Assets/Resources/pearl.png"
         };
         public static ResourceData Stone = new ResourceData
         {
             ID = 3, Name = "Kő",
-            ImageURL = "Assets/Resources/stone.png"
+            ImageURL = "/Assets/Resources/stone.png"
         };
 
         public static int TaxAmount = 25; // azért csak egy szám mert a játék működése szempontjából nem lenne értelmes a gyöngytől különböző erőforrást adózni
