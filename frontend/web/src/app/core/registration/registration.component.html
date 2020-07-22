@@ -15,10 +15,13 @@
          <div *ngIf="validationError && registerForm.errors?.notMatchingPasswords" class="error">
             Nem egyezik meg a két jelszó!
          </div>
-         <div *ngIf="validationError && !userName.errors?.required && registerForm.errors?.notValidUserName" class="error">
+         <div *ngIf="validationError && !userName.errors?.required && userName.errors?.whitespace" class="error">
             Érvénytelen felhasználónév!
          </div>
-         <div *ngIf="validationError && !countryName.errors?.required && registerForm.errors?.notValidCountryName" class="error">
+         <div *ngIf="validationError && !password.errors?.required && password.errors?.whitespace" class="error">
+            Érvénytelen jelszó!
+         </div>
+         <div *ngIf="validationError && !countryName.errors?.required && countryName.errors?.whitespace" class="error">
             Érvénytelen városnév!
          </div>
          <a routerLink="/login" class="login-reg-link">Belépés</a>
