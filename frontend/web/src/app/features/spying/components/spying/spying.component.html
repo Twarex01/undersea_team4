@@ -1,10 +1,10 @@
 <div class="spying-component">
     <div class="component-container">
         <div class="player-list-container">
-            <app-player-list description="Jelöld ki a célpontot"></app-player-list>
+            <app-player-list (selectedPlayerChanged)="onSelectedPlayerChanged($event)" [playerList]="players" description="Jelöld ki a célpontot"></app-player-list>
         </div>
         <div class="choose-unit-container">
-            <app-choose-unit description="Állítsd be, hány felfedezőt küldesz"></app-choose-unit>
+            <app-choose-unit [units]="explorerUnits" description="Állítsd be, hány felfedezőt küldesz"></app-choose-unit>
         </div>
     </div>
 </div>
