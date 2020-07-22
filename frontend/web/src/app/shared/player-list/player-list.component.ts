@@ -10,6 +10,7 @@ export class PlayerListComponent implements OnInit {
 
   playerNameInput: string = "";
   selectedPlayerIndex: number = 0;
+  @Input() description: string = "";
   @Input() playerList: AttackPlayer[];
   @Output() selectedPlayerChanged = new EventEmitter();
 
