@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Spyinfo } from '../../models/spyinfo';
+import { StatusNotificationService } from '../../../../core/services/status-notification.service';
 
 @Component({
   selector: 'app-spyinfo.page',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SpyinfoPageComponent implements OnInit {
 
-  constructor() { }
+  spyinfos: Spyinfo[] = [];
+
+  constructor(private statusNotificationService: StatusNotificationService) { }
 
   ngOnInit(): void {
+
+  }
+
+  getSpyinfoData(): void {
+    
   }
 
 }
