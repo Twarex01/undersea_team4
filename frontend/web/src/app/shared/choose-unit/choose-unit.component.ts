@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AttackUnit } from '../../models/attack-unit';
+import { AttackUnit } from '../../features/attack/models/attack-unit';
 
 
 @Component({
