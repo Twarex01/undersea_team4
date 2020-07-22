@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BattleClient } from '../../../shared/clients';
+import { BattleClient, UnitWithName } from '../../../shared/clients';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Battle } from '../models/battle';
@@ -20,6 +20,20 @@ export class BattlesService {
         }))
       })
     );
+  }
+
+  getCountrySpiesDetails(): Observable<Battle[]> {
+    return this.battleClient.getCountryExplorations().pipe(
+      map((explorationDetailsArrayDTO) => {
+        return explorationDetailsArrayDTO.map((explorationDetails) => ({
+          defenderName: explorationDetails.victimCountryName!,
+          units: [new UnitWithName({
+            name: "Felfedező",
+            count: explorationDetails.numberOfExplorers
+          })]
+        }))
+      })
+    )
   }
 
 }

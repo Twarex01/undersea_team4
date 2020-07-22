@@ -1,6 +1,10 @@
-<app-basic-card class="card" *ngIf="battles.length > 0">
+<app-basic-card class="card">
     <p class="header">Harc</p>
     <div class="details">
+        <p>Támadások:</p>
+        <div *ngIf="battles?.length === 0">
+            <div>Nincs megjeleníthető elindított támadás</div>
+        </div>
         <div *ngFor="let battle of battles">
             <hr>
             <div class="line">
@@ -10,8 +14,18 @@
                 </div>
             </div>
         </div>
-        <div *ngIf="battles?.length === 0">
-            <div>Nincs megjeleníthető elindított támadás</div>
+        <p>Felfedezés:</p>
+        <div *ngIf="spydetails?.length === 0">
+            <div>Nincs megjeleníthető elindított felfedezés</div>
+        </div>
+        <div *ngFor="let spydetail of spydetails">
+            <hr>
+            <div class="line">
+                <div class="country">{{spydetail.defenderName}}</div>
+                <div class="units">
+                    <span class="unit">{{spydetail.units[0].count}} {{spydetail.units[0].name}}</span>
+                </div>
+            </div>
         </div>
     </div>
 </app-basic-card>
