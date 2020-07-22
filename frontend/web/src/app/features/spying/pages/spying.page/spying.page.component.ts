@@ -42,7 +42,10 @@ export class SpyingPageComponent implements OnInit {
   }
 
   onExplore() {
-    //TODO
+    this.spyingService.explore({targetCountryId: this.selectedPlayerId, numberOfExplorers: this.explorerUnits[0].countToAttack}).subscribe(() => {
+      this.snackBar.open("Sikeresen elindítottad a felfedezést!", '', {panelClass: "custom-snackbar"});
+      this.explorerUnits[0].countToAttack = 0;
+    });
   }
 
   onSelectedPlayerChanged(id: number) {

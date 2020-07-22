@@ -1464,7 +1464,7 @@ export interface IUnitWithName {
 }
 
 export class SendExplorationDTO implements ISendExplorationDTO {
-    senderCountryID!: number;
+    senderCountryID?: number;
     victimCountryID!: number;
     numberOfExplorers!: number;
 
@@ -1502,7 +1502,7 @@ export class SendExplorationDTO implements ISendExplorationDTO {
 }
 
 export interface ISendExplorationDTO {
-    senderCountryID: number;
+    senderCountryID?: number;
     victimCountryID: number;
     numberOfExplorers: number;
 }

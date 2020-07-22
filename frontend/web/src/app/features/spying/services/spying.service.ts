@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AttackPlayer } from '../../attack/models/attack-player';
-import { PlayersClient, CountryClient, DetailsClient, BattleClient } from '../../../shared/clients';
+import { PlayersClient, CountryClient, DetailsClient, BattleClient, SendExplorationDTO } from '../../../shared/clients';
 import { AttackUnitDetails } from '../../attack/models/attack-unit-details';
 import { CountryUnit } from '../../attack/models/country-unit';
+import { Exploration } from '../models/exploration';
 
 @Injectable({
   providedIn: 'root'
@@ -44,4 +45,14 @@ export class SpyingService {
       })
     );
   }
+
+  explore(exploration: Exploration): Observable<void> {
+    return this.battleClient.explore(
+      new SendExplorationDTO(({
+        victimCountryID: exploration.targetCountryId,
+        numberOfExplorers: exploration.numberOfExplorers
+      }))
+    )
+  }
+
 }
