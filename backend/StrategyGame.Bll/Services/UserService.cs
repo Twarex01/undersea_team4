@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Results;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using StrategyGame.Bll.DTO.common;
@@ -33,11 +34,23 @@ namespace StrategyGame.Bll.Services
         public async Task<IdentityResult> RegisterUserAsync(RegisterDTO registerDTO)
         {
             var xd = new IdentityResult();
-            //if (_dbContext.Countries.Any(c => c.Name == registerDTO.CountryName))
-            //{
-            //    var fail = new IdentityResult();
-            //    fail.Errors.Append(new IdentityError() { Description = "Már van ilyen nevű ország" });
-            //}
+            if (_dbContext.Countries.Any(c => c.Name == registerDTO.CountryName))
+            {
+                throw new HttpResponseException() { Status = StatusCodes.Status400BadRequest, Value = "Már van ilyen nevű ország" };
+            }
+
+            var countries = _dbContext.Countries.ToList();
+
+            RegisterValidator userValidator = new RegisterValidator(countries);
+            ValidationResult validatorResults = userValidator.Validate(registerDTO);
+
+            if (!validatorResults.IsValid)
+            {
+                foreach (var failure in validatorResults.Errors)
+                {
+                    throw new HttpResponseException { Status = 400, Value = failure.ErrorMessage };
+                }
+            }
 
             Country country = new Country()
             {
@@ -57,19 +70,6 @@ namespace StrategyGame.Bll.Services
             };
             User user = new User() { UserName = registerDTO.UserName, Country = country };
             country.User = user;
-
-            var countries = _dbContext.Countries.ToList();
-
-            UserValidator userValidator = new UserValidator(countries);
-            ValidationResult validatorResults = userValidator.Validate(user);
-
-            if (!validatorResults.IsValid)
-            {
-                foreach (var failure in validatorResults.Errors)
-                {
-                    throw new HttpResponseException { Status = 400, Value = failure.ErrorMessage };
-                }
-            }
 
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
 

@@ -66,7 +66,7 @@ namespace StrategyGame.Bll.Services
                 var resourcesLost = unit.UnitData.Salary * unit.Count;
 
                 if (resource.Amount - resourcesLost >= 0)
-                    resource.Amount -= resourcesLost;  //TESZTELNI!! a FoD miatt null pointer exception veszély
+                    resource.Amount -= resourcesLost;  
                 else
                     resource.Amount = 0;
             }
@@ -83,7 +83,7 @@ namespace StrategyGame.Bll.Services
                 var resourcesEaten = unit.UnitData.Consumption * unit.Count;
 
                 if (resource.Amount - resourcesEaten >= 0)
-                    resource.Amount -= resourcesEaten;  //TESZTELNI!! a FoD miatt null pointer exception veszély
+                    resource.Amount -= resourcesEaten;  
                 else
                     resource.Amount = 0;
             }
@@ -95,7 +95,7 @@ namespace StrategyGame.Bll.Services
 
         private void ProceedWithUpgrade(Country country)
         {
-            var currentlyUpgrading = country.Upgrades.Where(u => u.Progress > 0).SingleOrDefault(); //elvileg nem lehet 1-nél több eredmény
+            var currentlyUpgrading = country.Upgrades.Where(u => u.Progress > 0).SingleOrDefault(); 
             if (currentlyUpgrading == null) return;
             currentlyUpgrading.Progress--;
             if (currentlyUpgrading.Progress == 0) currentlyUpgrading.UpgradeData.ApplyEffects(country);
