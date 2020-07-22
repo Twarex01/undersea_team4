@@ -93,7 +93,8 @@ export class UnitsPageComponent implements OnInit {
         this.unitBuyInfo.pearl = countryResource?.count ?? 0;
       })
       this.unitBuyInfo.estimatedPearlCost = 0;
-    });
+    },
+    (error) => this.snackBar.open(error.response));
   }
 
   isReadyToAttack(): boolean {

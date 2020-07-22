@@ -56,7 +56,8 @@ export class AttackPageComponent implements OnInit {
     this.attackService.attack(battle).subscribe(() => {
       this.snackBar.open("Sikeresen elindítottad a támadást!", '', {panelClass: "custom-snackbar"})
       this.units.forEach(unit => unit.countToAttack = 0);
-    })
+    },
+    (error) => this.snackBar.open(error.response))
   }
 
   onSelectedPlayerChanged(id: number) {

@@ -63,7 +63,8 @@ export class UpgradesPageComponent implements OnInit {
       this.upgrades[this.selectedUpgradeIndex].roundsLeft = 15;
       this.upgrades[this.selectedUpgradeIndex].isSelected = false;
       this.selectedUpgradeIndex = -1;
-    });
+    },
+    (error) => this.snackBar.open(error.response));
   }
 
   isSelectedEnabledToBuy(): boolean {
