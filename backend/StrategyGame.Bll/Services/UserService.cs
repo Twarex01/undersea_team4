@@ -36,12 +36,12 @@ namespace StrategyGame.Bll.Services
             var xd = new IdentityResult();
             if (_dbContext.Countries.Any(c => c.Name == registerDTO.CountryName))
             {
-                throw new HttpResponseException() { Status = StatusCodes.Status400BadRequest, Value = "Mar van ilyen nevu orszag" };
+                throw new HttpResponseException() { Status = StatusCodes.Status400BadRequest, Value = "Már van ilyen nevű ország" };
             }
 
             var countries = _dbContext.Countries.ToList();
 
-            RegisterValidator userValidator = new RegisterValidator(countries);
+            RegisterDTOValidator userValidator = new RegisterDTOValidator(countries);
             ValidationResult validatorResults = userValidator.Validate(registerDTO);
 
             if (!validatorResults.IsValid)

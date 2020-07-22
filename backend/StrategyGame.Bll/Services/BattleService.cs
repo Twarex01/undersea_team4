@@ -1,5 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation.Results;
+using Microsoft.EntityFrameworkCore;
 using StrategyGame.Bll.DTO;
+using StrategyGame.Bll.DTO.Validators;
+using StrategyGame.Bll.Services.Validators;
 using StrategyGame.Dal;
 using StrategyGame.Model;
 using System;
@@ -61,15 +64,30 @@ namespace StrategyGame.Bll.Services
 
 		public void SendAllTypesToAttack(BattleDTO battleDto)
 		{
+
+			foreach (UnitDTO unit in battleDto.Army) 
+			{
+				UnitDTOValidator unitValidator = new UnitDTOValidator();
+				ValidationResult validatorResults = unitValidator.Validate(unit);
+
+				if (!validatorResults.IsValid)
+				{
+					foreach (var failure in validatorResults.Errors)
+					{
+						throw new HttpResponseException { Status = 400, Value = failure.ErrorMessage };
+					}
+				}
+			}
+
 			var attackingCountry = _context.Countries.Where(c => c.ID == battleDto.IdAtt).FirstOrDefault();
 			var defendingCountry = _context.Countries.Where(c => c.ID == battleDto.IdDef).FirstOrDefault();
 			if (attackingCountry == null)
 			{
-				throw new Exception("Tamado orszag nem talalhato");
+				throw new HttpResponseException { Status = 400, Value = "Támadó ország nem található" };
 			}
 			if (defendingCountry == null)
 			{
-				throw new Exception("Vedekezo orszag nem talalhato");
+				throw new HttpResponseException { Status = 400, Value = "Védekező ország nem található" };
 			}
 
 			foreach (UnitDTO unitDto in battleDto.Army)
@@ -87,13 +105,13 @@ namespace StrategyGame.Bll.Services
 			var unitData = _context.UnitData.Where(u => u.ID == unitDataId).FirstOrDefault();
 			if (unitData == null)
 			{
-				throw new Exception("Unit Data nem talalhato");
+				throw new HttpResponseException { Status = 400, Value = "Egységadat nem található" };
 			}
 
 			var count = CountUnitsOfTypeAtHome(attackingCountryId, unitDataId);
 			if (numberOfUnits > count)
 			{
-				throw new Exception("Nincsen eleg egyseg");
+				throw new HttpResponseException { Status = 400, Value = "Nincs elég egységed" };
 			}
 			else
 			{
@@ -138,11 +156,24 @@ namespace StrategyGame.Bll.Services
 
 		public void SendExplorersToCountry(SendExplorationDTO explorationDTO)
 		{
-			var allExplorers = _context.Units.SingleOrDefault(u => u.CountryID == explorationDTO.SenderCountryID && u.UnitDataID == UnitData.Explorer.ID).Count;
+			SendExplorationDTOValidator explorationValidator = new SendExplorationDTOValidator();
+			ValidationResult validatorResults = explorationValidator.Validate(explorationDTO);
+
+			if (!validatorResults.IsValid)
+			{
+				foreach (var failure in validatorResults.Errors)
+				{
+					throw new HttpResponseException { Status = 400, Value = failure.ErrorMessage };
+				}
+			}
+
+			int allExplorers = 0;
+			var foundExplorers = _context.Units.SingleOrDefault(u => u.CountryID == explorationDTO.SenderCountryID && u.UnitDataID == UnitData.Explorer.ID);
+			if (foundExplorers == null) allExplorers = 0;
 			var exploring = _context.Explorations.Where(e => e.SenderCountryID == explorationDTO.SenderCountryID).Sum(e => e.NumberOfExplorers);
 			var availableExplorers = allExplorers - exploring;
 			if (availableExplorers < explorationDTO.NumberOfExplorers) {
-				throw new Exception("Nincsen eleg felfedezo");
+				throw new HttpResponseException { Status = 400, Value = "Nincs elég felfedező" };
 			}
 			var existingExp = _context.Explorations.SingleOrDefault(e => e.SenderCountryID == explorationDTO.SenderCountryID && e.VictimCountryID == explorationDTO.VictimCountryID);
 			if(existingExp== null)
@@ -237,7 +268,7 @@ namespace StrategyGame.Bll.Services
 
 					int unitAtHomeLost = CountUnitsOfTypeAtHome(defCountry.ID, unitDataId);
 					if (unitAtHomeLost == 0) continue;
-					unitAtHomeLost = (int)Math.Ceiling(unitAtHomeLost * 0.9);
+					unitAtHomeLost = (int)Math.Ceiling(unitAtHomeLost * 0.1);
 					_context.Units.Where(u => u.CountryID == defCountry.ID && u.UnitDataID == unitDataId).SingleOrDefault().Count -= unitAtHomeLost;
 					
 				}
@@ -260,7 +291,7 @@ namespace StrategyGame.Bll.Services
 				foreach (int unitDataId in _context.UnitData.Select(u => u.ID))
 				{
 					int unitAttackingLost = CountUnitsOfTypeAtHome(atkCountry.ID, unitDataId);
-					unitAttackingLost = (int)Math.Ceiling(unitAttackingLost * 0.9);
+					unitAttackingLost = (int)Math.Ceiling(unitAttackingLost * 0.1);
 					_context.Units.Where(u => u.CountryID == atkCountry.ID && u.UnitDataID == unitDataId).SingleOrDefault().Count -= unitAttackingLost;
 					
 				}
