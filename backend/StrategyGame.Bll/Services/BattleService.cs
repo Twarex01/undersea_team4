@@ -40,10 +40,13 @@ namespace StrategyGame.Bll.Services
 			return count;
 		}
 
-		public int CountAttackPowerInBattle(int battleId)
+		public double CountAttackPowerInBattle(int battleId)
 		{
+			var battle = _context.Battles.SingleOrDefault(b => b.ID == battleId);
+			var attackingcountry = _context.Countries.SingleOrDefault(c => c.ID == battle.AttackingCountryID);
 			var count = _context.AttackingUnits.Include(a => a.Battle).Include(a => a.UnitData).Where(a => a.BattleID == battleId).Sum(x => x.Count * x.UnitData.ATK);
-			return count;
+			
+			return count * attackingcountry.AttackModifier;
 		}
 
 		public double CountDefensePowerInBattle(int battleId)
