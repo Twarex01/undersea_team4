@@ -1,4 +1,4 @@
-<app-basic-card class="card">
+<app-basic-card *ngIf="explorerUnits.length > 0 && players.length > 0" class="card">
     <p class="header">Felfedezés</p>
 
     <app-spying [explorerUnits]="explorerUnits" [players]="players" (selectedPlayerChanged)="onSelectedPlayerChanged($event)" class="card-item"></app-spying>

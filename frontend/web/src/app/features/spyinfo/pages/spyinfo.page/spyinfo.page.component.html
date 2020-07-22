@@ -1,4 +1,4 @@
-<app-basic-card class="card">
+<app-basic-card class="card" *ngIf="spyinfos.length > 0">
     <p class="header">Kéminformációk</p>
     <div class="details">
         <div *ngFor="let spyinfo of spyinfos">

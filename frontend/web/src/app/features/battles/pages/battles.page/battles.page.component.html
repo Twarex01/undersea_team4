@@ -1,4 +1,4 @@
-<app-basic-card class="card">
+<app-basic-card class="card" *ngIf="battles.length > 0">
     <p class="header">Harc</p>
     <div class="details">
         <div *ngFor="let battle of battles">
