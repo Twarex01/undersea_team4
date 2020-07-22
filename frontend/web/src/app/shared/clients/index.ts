@@ -65,13 +65,6 @@ export class BattleClient {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return _observableOf<void>(<any>null);
             }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = ProblemDetails.fromJS(resultData400);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
-            }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result401: any = null;
@@ -144,6 +137,120 @@ export class BattleClient {
             }));
         }
         return _observableOf<BattleDetailsDTO[]>(<any>null);
+    }
+
+    explore(explorationDTO: SendExplorationDTO): Observable<void> {
+        let url_ = this.baseUrl + "/api/Battle/Explore";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(explorationDTO);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processExplore(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processExplore(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processExplore(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    getExplorationInfo(): Observable<ExplorationInfoDTO[]> {
+        let url_ = this.baseUrl + "/api/Battle/Explorations";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetExplorationInfo(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetExplorationInfo(<any>response_);
+                } catch (e) {
+                    return <Observable<ExplorationInfoDTO[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ExplorationInfoDTO[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetExplorationInfo(response: HttpResponseBase): Observable<ExplorationInfoDTO[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ExplorationInfoDTO.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ExplorationInfoDTO[]>(<any>null);
     }
 }
 
@@ -307,23 +414,16 @@ export class CountryClient {
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = ProblemDetails.fromJS(resultData400);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
-            }));
-        } else if (status === 401) {
+        if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result401: any = null;
             let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result401 = ProblemDetails.fromJS(resultData401);
             return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -427,23 +527,16 @@ export class CountryClient {
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = ProblemDetails.fromJS(resultData400);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
-            }));
-        } else if (status === 401) {
+        if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result401: any = null;
             let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result401 = ProblemDetails.fromJS(resultData401);
             return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -489,23 +582,16 @@ export class CountryClient {
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = ProblemDetails.fromJS(resultData400);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
-            }));
-        } else if (status === 401) {
+        if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result401: any = null;
             let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result401 = ProblemDetails.fromJS(resultData401);
             return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -1198,7 +1284,7 @@ export interface IProblemDetails {
 }
 
 export class BattleDTO implements IBattleDTO {
-    idAtt?: number;
+    idAtt!: number;
     idDef!: number;
     army?: UnitDTO[] | undefined;
 
@@ -1244,7 +1330,7 @@ export class BattleDTO implements IBattleDTO {
 }
 
 export interface IBattleDTO {
-    idAtt?: number;
+    idAtt: number;
     idDef: number;
     army?: UnitDTO[] | undefined;
 }
@@ -1375,6 +1461,94 @@ export class UnitWithName implements IUnitWithName {
 export interface IUnitWithName {
     name?: string | undefined;
     count: number;
+}
+
+export class SendExplorationDTO implements ISendExplorationDTO {
+    senderCountryID!: number;
+    victimCountryID!: number;
+    numberOfExplorers!: number;
+
+    constructor(data?: ISendExplorationDTO) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.senderCountryID = _data["senderCountryID"];
+            this.victimCountryID = _data["victimCountryID"];
+            this.numberOfExplorers = _data["numberOfExplorers"];
+        }
+    }
+
+    static fromJS(data: any): SendExplorationDTO {
+        data = typeof data === 'object' ? data : {};
+        let result = new SendExplorationDTO();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["senderCountryID"] = this.senderCountryID;
+        data["victimCountryID"] = this.victimCountryID;
+        data["numberOfExplorers"] = this.numberOfExplorers;
+        return data; 
+    }
+}
+
+export interface ISendExplorationDTO {
+    senderCountryID: number;
+    victimCountryID: number;
+    numberOfExplorers: number;
+}
+
+export class ExplorationInfoDTO implements IExplorationInfoDTO {
+    exposedCountryName?: string | undefined;
+    lastKnownDefensePower!: number;
+    round!: number;
+
+    constructor(data?: IExplorationInfoDTO) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.exposedCountryName = _data["exposedCountryName"];
+            this.lastKnownDefensePower = _data["lastKnownDefensePower"];
+            this.round = _data["round"];
+        }
+    }
+
+    static fromJS(data: any): ExplorationInfoDTO {
+        data = typeof data === 'object' ? data : {};
+        let result = new ExplorationInfoDTO();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["exposedCountryName"] = this.exposedCountryName;
+        data["lastKnownDefensePower"] = this.lastKnownDefensePower;
+        data["round"] = this.round;
+        return data; 
+    }
+}
+
+export interface IExplorationInfoDTO {
+    exposedCountryName?: string | undefined;
+    lastKnownDefensePower: number;
+    round: number;
 }
 
 export class CountryDetailsDTO implements ICountryDetailsDTO {
