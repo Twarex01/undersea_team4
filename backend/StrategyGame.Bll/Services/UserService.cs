@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Results;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using StrategyGame.Bll.DTO.common;
@@ -33,11 +34,10 @@ namespace StrategyGame.Bll.Services
         public async Task<IdentityResult> RegisterUserAsync(RegisterDTO registerDTO)
         {
             var xd = new IdentityResult();
-            //if (_dbContext.Countries.Any(c => c.Name == registerDTO.CountryName))
-            //{
-            //    var fail = new IdentityResult();
-            //    fail.Errors.Append(new IdentityError() { Description = "Már van ilyen nevű ország" });
-            //}
+            if (_dbContext.Countries.Any(c => c.Name == registerDTO.CountryName))
+            {
+                throw new HttpResponseException() { Status = StatusCodes.Status400BadRequest, Value = "Már van ilyen nevű ország" };
+            }
 
             var countries = _dbContext.Countries.ToList();
 

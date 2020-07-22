@@ -8,19 +8,19 @@ namespace StrategyGame.Model
             ImageURL = "/Assets/Upgrades/alchemy.png"
         };
         public static CoralWall CoralWall = new CoralWall { ID = 2, Name = "Korall fal", UpgradeTime = 15, Effect = "Növeli a védelmi pontokat 20%-kal",
-            ImageURL = "Assets/Upgrades/coralwall.png"
+            ImageURL = "/Assets/Upgrades/coralwall.png"
         };
         public static MartialArts MartialArts = new MartialArts { ID = 3, Name = "Vízalatti harcművészetek", UpgradeTime = 15, Effect = "Növeli a védelmi és támadóerőt 10%-kal",
-            ImageURL = "Assets/Upgrades/martialarts.png"
+            ImageURL = "/Assets/Upgrades/martialarts.png"
         };
         public static MudHarvester MudHarvester = new MudHarvester { ID = 4, Name = "Iszap Kombájn", UpgradeTime = 15, Effect = "Növeli a korall termesztést 15%-kal",
-            ImageURL = "Assets/Upgrades/mudharvester.png"
+            ImageURL = "/Assets/Upgrades/mudharvester.png"
         };
         public static MudTractor MudTractor = new MudTractor { ID = 5, Name = "Iszap Traktor", UpgradeTime = 15, Effect = "Növeli a korall termesztést 10%-kal",
-            ImageURL = "Assets/Upgrades/mudtractor.png"
+            ImageURL = "/Assets/Upgrades/mudtractor.png"
         };
         public static SonarCannon SonarCannon = new SonarCannon { ID = 6, Name = "Szonár ágyú", UpgradeTime = 15, Effect = "Növeli a támadópontokat 20%-kal",
-            ImageURL = "Assets/Upgrades/sonarcannon.png"
+            ImageURL = "/Assets/Upgrades/sonarcannon.png"
         };
 
         public int ID { get; set; }
