@@ -138,11 +138,13 @@ namespace StrategyGame.Bll.Services
 
 		public void SendExplorersToCountry(SendExplorationDTO explorationDTO)
 		{
+			var defender = _context.Countries.SingleOrDefault(c => c.ID == explorationDTO.VictimCountryID);
+			if (defender == null) throw new HttpResponseException() { Status = 400, Value = "A cél ország nem létezik" };
 			var allExplorers = _context.Units.SingleOrDefault(u => u.CountryID == explorationDTO.SenderCountryID && u.UnitDataID == UnitData.Explorer.ID).Count;
 			var exploring = _context.Explorations.Where(e => e.SenderCountryID == explorationDTO.SenderCountryID).Sum(e => e.NumberOfExplorers);
 			var availableExplorers = allExplorers - exploring;
 			if (availableExplorers < explorationDTO.NumberOfExplorers) {
-				throw new Exception("Not enough explorers");
+				throw new HttpResponseException() { Status= 400, Value = "Nincs elég felderítő" };
 			}
 			var existingExp = _context.Explorations.SingleOrDefault(e => e.SenderCountryID == explorationDTO.SenderCountryID && e.VictimCountryID == explorationDTO.VictimCountryID);
 			if(existingExp== null)
@@ -237,7 +239,7 @@ namespace StrategyGame.Bll.Services
 
 					int unitAtHomeLost = CountUnitsOfTypeAtHome(defCountry.ID, unitDataId);
 					if (unitAtHomeLost == 0) continue;
-					unitAtHomeLost = (int)Math.Ceiling(unitAtHomeLost * 0.9);
+					unitAtHomeLost = (int)Math.Ceiling(unitAtHomeLost * 0.1);
 					_context.Units.Where(u => u.CountryID == defCountry.ID && u.UnitDataID == unitDataId).SingleOrDefault().Count -= unitAtHomeLost;
 					
 				}
@@ -260,7 +262,8 @@ namespace StrategyGame.Bll.Services
 				foreach (int unitDataId in _context.UnitData.Select(u => u.ID))
 				{
 					int unitAttackingLost = CountUnitsOfTypeAtHome(atkCountry.ID, unitDataId);
-					unitAttackingLost = (int)Math.Ceiling(unitAttackingLost * 0.9);
+					if (unitAttackingLost == 0) continue;
+					unitAttackingLost = (int)Math.Ceiling(unitAttackingLost * 0.1);
 					_context.Units.Where(u => u.CountryID == atkCountry.ID && u.UnitDataID == unitDataId).SingleOrDefault().Count -= unitAttackingLost;
 					
 				}
