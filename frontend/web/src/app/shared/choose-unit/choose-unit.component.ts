@@ -9,7 +9,8 @@ import { AttackUnit } from '../../features/attack/models/attack-unit';
 })
 export class ChooseUnitComponent implements OnInit {
 
-  @Input() units: AttackUnit[];
+  @Input() description: string = "";
+  @Input() units: AttackUnit[] = [];
 
   constructor() { }
 

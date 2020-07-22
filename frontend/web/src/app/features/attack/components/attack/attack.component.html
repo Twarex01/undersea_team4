@@ -4,7 +4,7 @@
             <app-player-list (selectedPlayerChanged)="onSelectedPlayerChanged($event)" [playerList]="players" description="Jelöld ki, kit szeretnél megtámadni" class="player-list"></app-player-list>
         </div>
         <div class="choose-unit-container">
-            <app-choose-unit [units]="units" ></app-choose-unit>
+            <app-choose-unit description="Állítsd be, kiket küldesz harcba" [units]="units" ></app-choose-unit>
         </div>
     </div>
 </div>
