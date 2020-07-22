@@ -61,5 +61,32 @@ namespace StrategyGame.Api.Controllers
             return Ok(await _battleService.GetCountryBattles(atkCountry.ID));
 
         }
+
+        [HttpPost]
+        [Authorize]
+        [Route("Explore")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+
+        public async Task<ActionResult> Explore([FromBody] SendExplorationDTO explorationDTO)
+        {
+            var atkCountry = await _userService.GetCountryByUserID(User.Identity.Name);
+            //TODO  
+
+            return Ok();
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("Explore")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<List<ExplorationInfoDTO>>> GetExplorationInfo()
+        {
+            var atkCountry = await _userService.GetCountryByUserID(User.Identity.Name);
+            //TODO
+            return Ok();
+
+        }
     }
 }
