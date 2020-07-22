@@ -110,7 +110,8 @@ namespace StrategyGame.Api
                 options.Password.RequiredUniqueChars = 1;
             });
 
-            ValidatorOptions.Global.LanguageManager.Enabled = false;
+            //Lokalizáció
+            ValidatorOptions.Global.LanguageManager.Enabled = true;
 
             services.AddSignalR();
             services.AddCors(options =>

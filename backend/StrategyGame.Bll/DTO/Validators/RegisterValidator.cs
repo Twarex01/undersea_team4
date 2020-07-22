@@ -16,15 +16,9 @@ namespace StrategyGame.Bll.Services.Validators
         {
             _countries = countries;
             RuleFor(user => user.UserName)
-                .NotEmpty()
-                .Length(3, 30)
-                .Matches("^[a-zA-Z0-9]*$")
-                .WithMessage("User name can only contain letters and numbers.");
+                .NotEmpty();
             RuleFor(user => user.CountryName)
                 .NotEmpty()
-                .Length(3, 30)
-                .Matches("^[a-zA-Z0-9 ]*$")
-                .WithMessage("Country name can only contain letters and numbers and space.")
                 .Must(IsCountryNameUnique).WithMessage("Country name already exists.");
         }
 

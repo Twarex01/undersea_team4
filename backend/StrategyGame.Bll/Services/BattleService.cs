@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation.Results;
+using Microsoft.EntityFrameworkCore;
 using StrategyGame.Bll.DTO;
+using StrategyGame.Bll.Services.Validators;
 using StrategyGame.Dal;
 using StrategyGame.Model;
 using System;
@@ -65,11 +67,11 @@ namespace StrategyGame.Bll.Services
 			var defendingCountry = _context.Countries.Where(c => c.ID == battleDto.IdDef).FirstOrDefault();
 			if (attackingCountry == null)
 			{
-				throw new Exception("Attacking country is not found");
+				throw new HttpResponseException { Status = 400, Value = "Attacking country is not found" };
 			}
 			if (defendingCountry == null)
 			{
-				throw new Exception("Defending country is not found");
+				throw new HttpResponseException { Status = 400, Value = "Defending country is not found" };
 			}
 
 			foreach (UnitDTO unitDto in battleDto.Army)
@@ -87,13 +89,13 @@ namespace StrategyGame.Bll.Services
 			var unitData = _context.UnitData.Where(u => u.ID == unitDataId).FirstOrDefault();
 			if (unitData == null)
 			{
-				throw new Exception("Unit Data is not found");
+				throw new HttpResponseException { Status = 400, Value = "Unit data is not found" };
 			}
 
 			var count = CountUnitsOfTypeAtHome(attackingCountryId, unitDataId);
 			if (numberOfUnits > count)
 			{
-				throw new Exception("Not enough units available");
+				throw new HttpResponseException { Status = 400, Value = "Not enough units available" };
 			}
 			else
 			{
@@ -138,11 +140,24 @@ namespace StrategyGame.Bll.Services
 
 		public void SendExplorersToCountry(SendExplorationDTO explorationDTO)
 		{
-			var allExplorers = _context.Units.SingleOrDefault(u => u.CountryID == explorationDTO.SenderCountryID && u.UnitDataID == UnitData.Explorer.ID).Count;
+			SendExplorationValidator explorationValidator = new SendExplorationValidator();
+			ValidationResult validatorResults = explorationValidator.Validate(explorationDTO);
+
+			if (!validatorResults.IsValid)
+			{
+				foreach (var failure in validatorResults.Errors)
+				{
+					throw new HttpResponseException { Status = 400, Value = failure.ErrorMessage };
+				}
+			}
+
+			int allExplorers = 0;
+			var foundExplorers = _context.Units.SingleOrDefault(u => u.CountryID == explorationDTO.SenderCountryID && u.UnitDataID == UnitData.Explorer.ID);
+			if (foundExplorers == null) allExplorers = 0;
 			var exploring = _context.Explorations.Where(e => e.SenderCountryID == explorationDTO.SenderCountryID).Sum(e => e.NumberOfExplorers);
 			var availableExplorers = allExplorers - exploring;
 			if (availableExplorers < explorationDTO.NumberOfExplorers) {
-				throw new Exception("Not enough explorers");
+				throw new HttpResponseException { Status = 400, Value = "Not enough explorers" };
 			}
 			var existingExp = _context.Explorations.SingleOrDefault(e => e.SenderCountryID == explorationDTO.SenderCountryID && e.VictimCountryID == explorationDTO.VictimCountryID);
 			if(existingExp== null)
