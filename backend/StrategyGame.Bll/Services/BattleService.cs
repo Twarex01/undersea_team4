@@ -139,7 +139,7 @@ namespace StrategyGame.Bll.Services
             var diffCount = ATKSpyCount - DEFSpyCount;
             chance += diffCount * 0.05;
 
-            if (spyProbability.Next(0, 100) <= chance * 100 || chance >= 1) //sikeres volt a kémkedés
+            if (spyProbability.Next(0, 100) <= chance * 100 || chance > 1) //sikeres volt a kémkedés
             {
                 //eltárolom a védekező erejéről az infót magamnak -> adatbázisba: TODO
                 var DEFPowerInfo = CountDefensePowerInBattle(battleId);
@@ -147,7 +147,7 @@ namespace StrategyGame.Bll.Services
             else    //sikertelen volt a kémkedés
             {
                 //törlöm a spyokat az adatbázisomból -> adatbázisba: TODO
-                _context.Units.Where(u => u.CountryID == atkCountry.ID && u.UnitDataID == 4).SingleOrDefault().Count = 0;
+                _context.AttackingUnits.Include(a => a.Battle).Where(a => a.UnitDataID == 4 && a.Battle.AttackingCountryID == atkCountry.ID).SingleOrDefault().Count = 0;
             }
         }
 
