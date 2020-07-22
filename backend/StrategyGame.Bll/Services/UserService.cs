@@ -39,6 +39,19 @@ namespace StrategyGame.Bll.Services
             //    fail.Errors.Append(new IdentityError() { Description = "Már van ilyen nevű ország" });
             //}
 
+            var countries = _dbContext.Countries.ToList();
+
+            RegisterValidator userValidator = new RegisterValidator(countries);
+            ValidationResult validatorResults = userValidator.Validate(registerDTO);
+
+            if (!validatorResults.IsValid)
+            {
+                foreach (var failure in validatorResults.Errors)
+                {
+                    throw new HttpResponseException { Status = 400, Value = failure.ErrorMessage };
+                }
+            }
+
             Country country = new Country()
             {
                 Name = registerDTO.CountryName,
@@ -57,19 +70,6 @@ namespace StrategyGame.Bll.Services
             };
             User user = new User() { UserName = registerDTO.UserName, Country = country };
             country.User = user;
-
-            var countries = _dbContext.Countries.ToList();
-
-            UserValidator userValidator = new UserValidator(countries);
-            ValidationResult validatorResults = userValidator.Validate(user);
-
-            if (!validatorResults.IsValid)
-            {
-                foreach (var failure in validatorResults.Errors)
-                {
-                    throw new HttpResponseException { Status = 400, Value = failure.ErrorMessage };
-                }
-            }
 
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
 
