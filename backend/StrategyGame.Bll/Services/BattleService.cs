@@ -172,7 +172,7 @@ namespace StrategyGame.Bll.Services
 
 			int allExplorers = 0;
 			var foundExplorers = _context.Units.SingleOrDefault(u => u.CountryID == explorationDTO.SenderCountryID && u.UnitDataID == UnitData.Explorer.ID);
-			if (foundExplorers == null) allExplorers = 0;
+			if (foundExplorers != null) allExplorers = foundExplorers.Count;
 			var exploring = _context.Explorations.Where(e => e.SenderCountryID == explorationDTO.SenderCountryID).Sum(e => e.NumberOfExplorers);
 			var availableExplorers = allExplorers - exploring;
 			if (availableExplorers < explorationDTO.NumberOfExplorers) {
