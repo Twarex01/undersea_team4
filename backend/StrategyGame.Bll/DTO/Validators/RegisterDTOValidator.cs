@@ -8,11 +8,11 @@ using System.Linq;
 
 namespace StrategyGame.Bll.Services.Validators
 {
-    public class RegisterValidator : AbstractValidator<RegisterDTO>
+    public class RegisterDTOValidator : AbstractValidator<RegisterDTO>
     {
         private IEnumerable<Country> _countries;
 
-        public RegisterValidator(IEnumerable<Country> countries)
+        public RegisterDTOValidator(IEnumerable<Country> countries)
         {
             _countries = countries;
             RuleFor(user => user.UserName)

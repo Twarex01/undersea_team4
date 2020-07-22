@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation.Results;
+using Microsoft.EntityFrameworkCore;
 using StrategyGame.Bll.DTO;
+using StrategyGame.Bll.DTO.Validators;
 using StrategyGame.Dal;
 using StrategyGame.Model;
 using System;
@@ -57,6 +59,21 @@ namespace StrategyGame.Bll.Services
 
         public async Task<int> PurchaseCountryUnitsAsync(int countryId, List<UnitDTO> army)
         {
+
+            foreach (UnitDTO unit in army)
+            {
+                UnitDTOValidator unitValidator = new UnitDTOValidator();
+                ValidationResult validatorResults = unitValidator.Validate(unit);
+
+                if (!validatorResults.IsValid)
+                {
+                    foreach (var failure in validatorResults.Errors)
+                    {
+                        throw new HttpResponseException { Status = 400, Value = failure.ErrorMessage };
+                    }
+                }
+            }
+
             Country country = await _appDbContext.Countries
                 .Include(c => c.Resources).ThenInclude(r => r.ResourceData)
                 .Include(c => c.Units)

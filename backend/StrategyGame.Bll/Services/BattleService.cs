@@ -1,6 +1,7 @@
 ﻿using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using StrategyGame.Bll.DTO;
+using StrategyGame.Bll.DTO.Validators;
 using StrategyGame.Bll.Services.Validators;
 using StrategyGame.Dal;
 using StrategyGame.Model;
@@ -63,6 +64,21 @@ namespace StrategyGame.Bll.Services
 
 		public void SendAllTypesToAttack(BattleDTO battleDto)
 		{
+
+			foreach (UnitDTO unit in battleDto.Army) 
+			{
+				UnitDTOValidator unitValidator = new UnitDTOValidator();
+				ValidationResult validatorResults = unitValidator.Validate(unit);
+
+				if (!validatorResults.IsValid)
+				{
+					foreach (var failure in validatorResults.Errors)
+					{
+						throw new HttpResponseException { Status = 400, Value = failure.ErrorMessage };
+					}
+				}
+			}
+
 			var attackingCountry = _context.Countries.Where(c => c.ID == battleDto.IdAtt).FirstOrDefault();
 			var defendingCountry = _context.Countries.Where(c => c.ID == battleDto.IdDef).FirstOrDefault();
 			if (attackingCountry == null)
@@ -140,7 +156,7 @@ namespace StrategyGame.Bll.Services
 
 		public void SendExplorersToCountry(SendExplorationDTO explorationDTO)
 		{
-			SendExplorationValidator explorationValidator = new SendExplorationValidator();
+			SendExplorationDTOValidator explorationValidator = new SendExplorationDTOValidator();
 			ValidationResult validatorResults = explorationValidator.Validate(explorationDTO);
 
 			if (!validatorResults.IsValid)

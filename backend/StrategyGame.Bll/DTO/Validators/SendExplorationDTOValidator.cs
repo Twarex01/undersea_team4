@@ -6,9 +6,9 @@ using System.Text;
 
 namespace StrategyGame.Bll.Services.Validators
 {
-    public class SendExplorationValidator : AbstractValidator<SendExplorationDTO>
+    public class SendExplorationDTOValidator : AbstractValidator<SendExplorationDTO>
     {
-        public SendExplorationValidator()
+        public SendExplorationDTOValidator()
         {
             RuleFor(expl => expl.NumberOfExplorers).GreaterThanOrEqualTo(0);
         }

@@ -41,7 +41,7 @@ namespace StrategyGame.Bll.Services
 
             var countries = _dbContext.Countries.ToList();
 
-            RegisterValidator userValidator = new RegisterValidator(countries);
+            RegisterDTOValidator userValidator = new RegisterDTOValidator(countries);
             ValidationResult validatorResults = userValidator.Validate(registerDTO);
 
             if (!validatorResults.IsValid)
