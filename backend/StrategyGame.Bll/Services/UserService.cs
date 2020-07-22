@@ -67,7 +67,7 @@ namespace StrategyGame.Bll.Services
             {
                 foreach (var failure in validatorResults.Errors)
                 {
-                    throw new HttpResponseException { Status = 400, Value = "Property " + failure.PropertyName + " failed validation. Error was: " + failure.ErrorMessage };
+                    throw new HttpResponseException { Status = 400, Value = failure.ErrorMessage };
                 }
             }
 

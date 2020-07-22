@@ -1,4 +1,5 @@
-﻿using Hangfire;
+﻿using FluentValidation;
+using Hangfire;
 using Hangfire.SqlServer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -108,6 +109,8 @@ namespace StrategyGame.Api
                 options.Password.RequiredLength = 1;
                 options.Password.RequiredUniqueChars = 1;
             });
+
+            ValidatorOptions.Global.LanguageManager.Enabled = false;
 
             services.AddSignalR();
             services.AddCors(options =>
