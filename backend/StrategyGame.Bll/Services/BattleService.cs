@@ -290,7 +290,7 @@ namespace StrategyGame.Bll.Services
 
 				foreach (int unitDataId in _context.UnitData.Select(u => u.ID))
 				{
-					int unitAttackingLost = CountUnitsOfTypeAtHome(atkCountry.ID, unitDataId);
+					int unitAttackingLost = CountUnitsOfTypeNotAtHome(atkCountry.ID, unitDataId);
 					unitAttackingLost = (int)Math.Ceiling(unitAttackingLost * 0.1);
 					_context.Units.Where(u => u.CountryID == atkCountry.ID && u.UnitDataID == unitDataId).SingleOrDefault().Count -= unitAttackingLost;
 					
