@@ -6,6 +6,7 @@ namespace StrategyGame.Model
 {
 	public class ExplorationInfo
 	{
+		public int Round { get; set; }
 		public int ID { get; set; }
 		public int? InformedCountryID { get; set; }
 		public Country InformedCountry { get; set; }

@@ -15,7 +15,7 @@ namespace StrategyGame.Bll.Services
     public class RoundService : IRoundService
     {
 
-        public static int Round { get; set; } = 0;
+        
 
         private AppDbContext _dbContext;
         private UserManager<User> _userManager;
@@ -143,6 +143,12 @@ namespace StrategyGame.Bll.Services
             {
                 _battleService.CommenceBattle(battleID);
             }
+            //felfedezés
+            var explorationIDs = _dbContext.Explorations.Select(e => e.ID).ToList();
+            foreach(var expID in explorationIDs)
+			{
+                _battleService.SimulateExploration(expID);
+			}
 
             //pont számolás
             foreach (var country in countryList)
@@ -153,10 +159,13 @@ namespace StrategyGame.Bll.Services
             //csaták törlése
             _dbContext.AttackingUnits.RemoveRange(_dbContext.AttackingUnits);
             _dbContext.Battles.RemoveRange(_dbContext.Battles);
+            _dbContext.Explorations.RemoveRange(_dbContext.Explorations);
+            _dbContext.Round.SingleOrDefault().RoundNumber++;
+           
 
             await _dbContext.SaveChangesAsync();
 
-            Round++;
+            
 
             //Klienseken frissítés
             await _roundHubContext.Clients.All.RefreshInfo();
@@ -168,7 +177,7 @@ namespace StrategyGame.Bll.Services
             var rankList = _dataService.GetPlayerRanks();
             rankList.SingleOrDefault(r => r.CountryID == countryId);
             int rank = rankList.IndexOf(rankList.SingleOrDefault(r => r.CountryID == countryId)) + 1;
-            return new CountryRoundDTO() { Rank = rank, Round = Round };
+            return new CountryRoundDTO() { Rank = rank, Round = _dbContext.Round.SingleOrDefault().RoundNumber };
         }
     }
 }

@@ -135,9 +135,12 @@ namespace StrategyGame.Bll.Services
 			return _context.Units.Include(u => u.UnitData).Where(u => u.CountryID == countryID).Sum(u => u.UnitData.DEF * u.Count);
 		}
 
+
+
 		public void SimulateExploration(int explorationId)
 		{
 			double chance = 0.6;
+			int round = _context.Round.SingleOrDefault().RoundNumber;
 			var exploration = _context.Explorations.Include(e => e.VictimCountry).Include(e => e.SenderCountry).SingleOrDefault(e => e.ID == explorationId);
 			var victimCountry = exploration.VictimCountry;
 			var senderCountry = exploration.SenderCountry;
@@ -148,14 +151,23 @@ namespace StrategyGame.Bll.Services
 
 			if (spyProbability.Next(0, 100) <= chance * 100 || chance >= 1) //sikeres volt a kémkedés
 			{
-
-				var explorationInfo = new ExplorationInfo()
+				var existingInfo = _context.ExplorationInfos.SingleOrDefault(e => e.InformedCountryID == senderCountry.ID && e.ExposedCountryID == victimCountry.ID);
+				if (existingInfo != null)
 				{
-					ExposedCountry = victimCountry,
-					InformedCountry = senderCountry,
-					LastKnownDefensePower = CalculateMaximumPotentialDefensePower(victimCountry.ID)
-				};
-				_context.ExplorationInfos.Add(explorationInfo);
+					existingInfo.Round = round;
+					existingInfo.LastKnownDefensePower = CalculateMaximumPotentialDefensePower(victimCountry.ID);
+				}
+				else
+				{
+					var explorationInfo = new ExplorationInfo()
+					{
+						ExposedCountry = victimCountry,
+						InformedCountry = senderCountry,
+						LastKnownDefensePower = CalculateMaximumPotentialDefensePower(victimCountry.ID),
+						Round = round
+					};
+					_context.ExplorationInfos.Add(explorationInfo);
+				}
 			}
 			else    //sikertelen volt a kémkedés
 			{

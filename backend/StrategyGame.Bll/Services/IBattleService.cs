@@ -13,5 +13,7 @@ namespace StrategyGame.Bll.Services
 
         public Task<List<BattleDetailsDTO>> GetCountryBattles(int countryId);
 
+        public void SimulateExploration(int explorationId);
+
     }
 }

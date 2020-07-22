@@ -23,6 +23,7 @@ namespace StrategyGame.Dal
         public DbSet<Price> Prices { get; set; }
         public DbSet<Exploration> Explorations { get; set; }
         public DbSet<ExplorationInfo> ExplorationInfos { get; set; }
+        public DbSet<Round> Round { get; set; }
 
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
@@ -125,8 +126,14 @@ namespace StrategyGame.Dal
             builder.Entity<MudTractor>().HasData(StrategyGame.Model.UpgradeData.MudTractor);
             builder.Entity<SonarCannon>().HasData(StrategyGame.Model.UpgradeData.SonarCannon);
 
-            builder.Entity<UnitData>().HasData(new UnitData[] { StrategyGame.Model.UnitData.AssaultSeal, StrategyGame.Model.UnitData.BattleSeaHorse, StrategyGame.Model.UnitData.LaserShark });
-          
+            builder.Entity<UnitData>().HasData(new UnitData[] {
+                StrategyGame.Model.UnitData.AssaultSeal,
+                StrategyGame.Model.UnitData.BattleSeaHorse,
+                StrategyGame.Model.UnitData.LaserShark,
+                StrategyGame.Model.UnitData.Explorer
+            });
+
+            builder.Entity<Round>().HasData(new Round() { RoundNumber = 1 });  
 
 
         }

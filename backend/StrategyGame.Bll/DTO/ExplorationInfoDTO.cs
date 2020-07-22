@@ -8,5 +8,6 @@ namespace StrategyGame.Bll.DTO
 	{
 		public string ExposedCountryName { get; set; }
 		public int LastKnownDefensePower { get; set; }
+		public int Round { get; set; }
 	}
 }
