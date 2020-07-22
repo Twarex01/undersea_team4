@@ -12,13 +12,20 @@ export class SpyingPageComponent implements OnInit {
 
   countryName: string = "";
   selectedPlayerId: number = -1;
-  explorerUnits: AttackUnit;
+  explorerUnits: AttackUnit[] = [];
   players: AttackPlayer[] = [];
 
   constructor(private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     //TODO
+    this.explorerUnits.push({
+      id: 5,
+      name: "Felfedező",
+      imageSrc: "../../../../../assets/icons/shark.svg",
+      count: 4,
+      countToAttack: 0
+    })
   }
 
   onExplore() {
@@ -30,7 +37,7 @@ export class SpyingPageComponent implements OnInit {
   }
 
   isReadyToSend(): boolean {
-    return this.selectedPlayerId !== -1 && this.explorerUnits.countToAttack > 0;
+    return this.selectedPlayerId !== -1 && this.explorerUnits[0].countToAttack > 0;
   }
 
 }
