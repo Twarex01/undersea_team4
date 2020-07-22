@@ -88,6 +88,11 @@ export class BuildingsPageComponent implements OnInit {
   }
 
   buySelectedBuilding() {
+    if(!this.hasEnoughResource()){
+      this.snackBar.open("Nincs elegendő nyersanyag!");
+      return;
+    }
+    
     this.buildingsService.buyBuilding(this.buildings[this.selectedIndex].id).subscribe(() => {
       this.snackBar.open("Sikeres vásárlás!", '', {
         panelClass: 'custom-snackbar'
