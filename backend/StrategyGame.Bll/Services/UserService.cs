@@ -36,7 +36,7 @@ namespace StrategyGame.Bll.Services
             var xd = new IdentityResult();
             if (_dbContext.Countries.Any(c => c.Name == registerDTO.CountryName))
             {
-                throw new HttpResponseException() { Status = StatusCodes.Status400BadRequest, Value = "Már van ilyen nevű ország" };
+                throw new HttpResponseException() { Status = StatusCodes.Status400BadRequest, Value = "Mar van ilyen nevu orszag" };
             }
 
             var countries = _dbContext.Countries.ToList();

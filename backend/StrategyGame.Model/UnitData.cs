@@ -15,7 +15,7 @@
             ATK = 6,
             DEF = 2,
             PointValue = 5,
-            ImageURL = "/Assets/Units/seal.png"
+            ImageURL = "Assets/Units/seal.png"
         };
 
         public static UnitData BattleSeaHorse = new UnitData

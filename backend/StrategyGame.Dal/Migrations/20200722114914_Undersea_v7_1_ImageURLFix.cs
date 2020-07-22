@@ -37,13 +37,6 @@ namespace StrategyGame.Dal.Migrations
             migrationBuilder.UpdateData(
                 table: "UnitData",
                 keyColumn: "ID",
-                keyValue: 1,
-                column: "ImageURL",
-                value: "/Assets/Units/seal.png");
-
-            migrationBuilder.UpdateData(
-                table: "UnitData",
-                keyColumn: "ID",
                 keyValue: 2,
                 column: "ImageURL",
                 value: "/Assets/Units/seahorse.png");
