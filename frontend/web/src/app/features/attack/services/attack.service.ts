@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { CountryUnit } from '../models/country-unit';
 import { AttackUnitDetails } from '../models/attack-unit-details';
 import { AttackBattle } from '../models/attack-battle';
+import { Battle } from '../../battles/models/battle';
 
 @Injectable({
   providedIn: 'root'

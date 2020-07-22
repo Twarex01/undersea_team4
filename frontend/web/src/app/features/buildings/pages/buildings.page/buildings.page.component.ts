@@ -88,6 +88,11 @@ export class BuildingsPageComponent implements OnInit {
   }
 
   buySelectedBuilding() {
+    if(!this.hasEnoughResource()){
+      this.snackBar.open("Nincs elegendő nyersanyag!");
+      return;
+    }
+
     this.buildingsService.buyBuilding(this.buildings[this.selectedIndex].id).subscribe(() => {
       this.snackBar.open("Sikeres vásárlás!", '', {
         panelClass: 'custom-snackbar'
@@ -96,6 +101,7 @@ export class BuildingsPageComponent implements OnInit {
       this.buildings[this.selectedIndex].isSelected = false;
       this.buildings[this.selectedIndex].progress = this.buildings[this.selectedIndex].buildTime;
       this.selectedIndex = -1;
-    });
+    },
+    (error) => this.snackBar.open(error.response));
   }
 }
