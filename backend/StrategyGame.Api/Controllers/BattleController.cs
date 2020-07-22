@@ -74,10 +74,10 @@ namespace StrategyGame.Api.Controllers
         [Route("Explorations")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<List<ExplorationInfoDTO>>> GetExplorationInfo()
+        public async Task<ActionResult<List<ExplorationDetailsDTO>>> GetCountryExplorations()
         {
             var atkCountry = await _userService.GetCountryByUserID(User.Identity.Name);
-            var result = _battleService.GetExplorationInfo(atkCountry.ID);
+            var result = _battleService.GetCountryExplorations(atkCountry.ID);
             return Ok(result);
 
         }

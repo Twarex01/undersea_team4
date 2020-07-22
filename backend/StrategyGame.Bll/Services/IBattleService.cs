@@ -19,5 +19,7 @@ namespace StrategyGame.Bll.Services
 
         public List<ExplorationInfoDTO> GetExplorationInfo(int countryId);
 
+        public List<ExplorationDetailsDTO> GetCountryExplorations(int countryId);
+
     }
 }

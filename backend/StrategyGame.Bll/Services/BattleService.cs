@@ -319,6 +319,16 @@ namespace StrategyGame.Bll.Services
 			}
 			return output;
 		}
+
+		public List<ExplorationDetailsDTO> GetCountryExplorations(int countryId)
+		{
+			List<ExplorationDetailsDTO> output = new List<ExplorationDetailsDTO>(); 
+			foreach(var exploration in _context.Explorations.Include(e=> e.VictimCountry).Where(e=> e.SenderCountryID== countryId)){
+				output.Add(new ExplorationDetailsDTO() { NumberOfExplorers = exploration.NumberOfExplorers, VictimCountryName = exploration.VictimCountry.Name });
+			}
+			return output;
+		}
+
 	}
 
 }
