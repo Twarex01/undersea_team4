@@ -107,7 +107,7 @@ namespace StrategyGame.Bll.Services
 						AttackingCountry = attackingCountry,
 						DefendingCountry = defendingCountry,
 						AttackingUnits = new List<AttackingUnit>(),
-						Round = 0 //TEMP
+						Round = _context.Round.SingleOrDefault().RoundNumber
 					};
 					battle.AttackingUnits.Add(new AttackingUnit { Count = numberOfUnits, UnitData = unitData });
 					_context.Battles.Add(battle);
