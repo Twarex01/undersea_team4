@@ -133,7 +133,8 @@ namespace StrategyGame.Dal
                 StrategyGame.Model.UnitData.Explorer
             });
 
-            builder.Entity<Round>().HasData(new Round() { RoundNumber = 1 });  
+            builder.Entity<Round>().HasKey(r=> r.ID);
+            builder.Entity<Round>().HasData(new Round() { ID = 1, RoundNumber = 1 });  
 
 
         }

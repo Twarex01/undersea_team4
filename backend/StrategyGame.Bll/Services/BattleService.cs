@@ -136,6 +136,49 @@ namespace StrategyGame.Bll.Services
 		}
 
 
+		public void SendExplorersToCountry(SendExplorationDTO explorationDTO)
+		{
+			var allExplorers = _context.Units.SingleOrDefault(u => u.CountryID == explorationDTO.SenderCountryID && u.UnitDataID == UnitData.Explorer.ID).Count;
+			var exploring = _context.Explorations.Where(e => e.SenderCountryID == explorationDTO.SenderCountryID).Sum(e => e.NumberOfExplorers);
+			var availableExplorers = allExplorers - exploring;
+			if (availableExplorers < explorationDTO.NumberOfExplorers) {
+				throw new Exception("Not enough explorers");
+			}
+			var existingExp = _context.Explorations.SingleOrDefault(e => e.SenderCountryID == explorationDTO.SenderCountryID && e.VictimCountryID == explorationDTO.VictimCountryID);
+			if(existingExp== null)
+			{
+				var newExploration = new Exploration()
+				{
+					NumberOfExplorers = explorationDTO.NumberOfExplorers,
+					SenderCountryID = explorationDTO.SenderCountryID,
+					VictimCountryID = explorationDTO.VictimCountryID
+				};
+				_context.Explorations.Add(newExploration);
+			}
+			else
+			{
+				existingExp.NumberOfExplorers += explorationDTO.NumberOfExplorers;
+			}
+
+			_context.SaveChanges();
+			
+		}
+
+		public List<ExplorationInfoDTO> GetExplorationInfo(int countryId)
+		{
+			List<ExplorationInfoDTO> output = new List<ExplorationInfoDTO>();
+			foreach(var expInfo in _context.ExplorationInfos.Include(e=> e.ExposedCountry).Where(e=> e.InformedCountryID == countryId))
+			{
+				output.Add(new ExplorationInfoDTO()
+				{
+					ExposedCountryName = expInfo.ExposedCountry.Name,
+					LastKnownDefensePower = expInfo.LastKnownDefensePower,
+					Round = expInfo.Round
+				});
+			}
+			return output;
+		}
+
 
 		public void SimulateExploration(int explorationId)
 		{

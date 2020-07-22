@@ -15,5 +15,9 @@ namespace StrategyGame.Bll.Services
 
         public void SimulateExploration(int explorationId);
 
+        public void SendExplorersToCountry(SendExplorationDTO explorationDTO);
+
+        public List<ExplorationInfoDTO> GetExplorationInfo(int countryId);
+
     }
 }
