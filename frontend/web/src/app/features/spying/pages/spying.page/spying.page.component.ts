@@ -4,6 +4,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AttackPlayer } from '../../../attack/models/attack-player';
 import { SpyingService } from '../../services/spying.service';
 import { forkJoin } from 'rxjs';
+import { BattlesService } from '../../../battles/services/battles.service';
+import { Battle } from '../../../battles/models/battle';
+import { UnitWithName } from '../../../../shared/clients';
 
 @Component({
   selector: 'app-spying.page',
@@ -16,7 +19,7 @@ export class SpyingPageComponent implements OnInit {
   explorerUnits: AttackUnit[] = [];
   players: AttackPlayer[] = [];
 
-  constructor(private spyingService: SpyingService, private snackBar: MatSnackBar) { }
+  constructor(private spyingService: SpyingService, private snackBar: MatSnackBar, private battleService: BattlesService) { }
 
   ngOnInit(): void {
     forkJoin(
@@ -27,18 +30,36 @@ export class SpyingPageComponent implements OnInit {
     })
     forkJoin(
       this.spyingService.getCountryUnits(),
-      this.spyingService.getUnitDetails()
-    ).subscribe(([countryUnits, unitDetails]) => {
+      this.spyingService.getUnitDetails(),
+      this.battleService.getCountryBattles()
+    ).subscribe(([countryUnits, unitDetails, countryBattles]) => {
       const explorerDetails = unitDetails.find((ud) => ud.name === "Felfedező")!;
       const countryExplorers = countryUnits.find((cu) => cu.id === explorerDetails.id);
+      const countryExplorersCount = countryExplorers?.count ?? 0;
+      const unitsToSubtract = this.getNumberOfUnitsWhoAreInBattle(countryBattles).count;
       this.explorerUnits.push({
         id: explorerDetails.id,
           imageSrc: explorerDetails.imageSrc,
           name: explorerDetails.name,
-          count: countryExplorers?.count ?? 0,
+          count: countryExplorersCount - unitsToSubtract,
           countToAttack: 0
       })
     })
+  }
+
+  private getNumberOfUnitsWhoAreInBattle(countryBattles: Battle[]): UnitWithName {
+    //TODO
+    return new UnitWithName ({
+      name: "Felfedező",
+      count: 0
+    });
+
+    /*
+    countryBattles.forEach((cb) => {
+      const num = cb.units.find((unit) => unit.name === "Felfedező")?.count ?? 0;
+      result.count += num;
+    })
+    return result; */
   }
 
   onExplore() {

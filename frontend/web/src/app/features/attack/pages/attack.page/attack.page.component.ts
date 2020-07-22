@@ -55,7 +55,7 @@ export class AttackPageComponent implements OnInit {
   }
 
   private getNumberOfUnitsWhoAreInBattle(countryBattles: Battle[]): UnitWithName[] {
-    const results: UnitWithName[] =  [];
+    let results: UnitWithName[] =  [];
     countryBattles.forEach((cb) => {
       cb.units.forEach((unit) => {
         const resultUnitIdx = results.findIndex((resultUnit) => resultUnit.name === unit.name);
