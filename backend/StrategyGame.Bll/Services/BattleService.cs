@@ -83,11 +83,11 @@ namespace StrategyGame.Bll.Services
 			var defendingCountry = _context.Countries.Where(c => c.ID == battleDto.IdDef).FirstOrDefault();
 			if (attackingCountry == null)
 			{
-				throw new HttpResponseException { Status = 400, Value = "Attacking country is not found" };
+				throw new HttpResponseException { Status = 400, Value = "Támadó ország nem található" };
 			}
 			if (defendingCountry == null)
 			{
-				throw new HttpResponseException { Status = 400, Value = "Defending country is not found" };
+				throw new HttpResponseException { Status = 400, Value = "Védekező ország nem található" };
 			}
 
 			foreach (UnitDTO unitDto in battleDto.Army)
@@ -105,13 +105,13 @@ namespace StrategyGame.Bll.Services
 			var unitData = _context.UnitData.Where(u => u.ID == unitDataId).FirstOrDefault();
 			if (unitData == null)
 			{
-				throw new HttpResponseException { Status = 400, Value = "Unit data is not found" };
+				throw new HttpResponseException { Status = 400, Value = "Egységadat nem található" };
 			}
 
 			var count = CountUnitsOfTypeAtHome(attackingCountryId, unitDataId);
 			if (numberOfUnits > count)
 			{
-				throw new HttpResponseException { Status = 400, Value = "Not enough units available" };
+				throw new HttpResponseException { Status = 400, Value = "Nincs elég egységed" };
 			}
 			else
 			{
@@ -173,7 +173,7 @@ namespace StrategyGame.Bll.Services
 			var exploring = _context.Explorations.Where(e => e.SenderCountryID == explorationDTO.SenderCountryID).Sum(e => e.NumberOfExplorers);
 			var availableExplorers = allExplorers - exploring;
 			if (availableExplorers < explorationDTO.NumberOfExplorers) {
-				throw new HttpResponseException { Status = 400, Value = "Not enough explorers" };
+				throw new HttpResponseException { Status = 400, Value = "Nincs elég felfedező" };
 			}
 			var existingExp = _context.Explorations.SingleOrDefault(e => e.SenderCountryID == explorationDTO.SenderCountryID && e.VictimCountryID == explorationDTO.VictimCountryID);
 			if(existingExp== null)
