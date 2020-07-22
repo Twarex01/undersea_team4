@@ -50,6 +50,22 @@
             ImageURL = "Assets/Units/shark.png"
         };
 
+        public static UnitData Explorer = new UnitData
+        {
+            ID = 4,
+            Name = "Felfedező",
+            Salary = 1,
+            SalaryUnitID = ResourceData.Pearl.ID,
+            Price = 50,
+            PriceUnitID = ResourceData.Pearl.ID,
+            Consumption = 1,
+            ConsumptionUnitID = ResourceData.Coral.ID,
+            ATK = 0,
+            DEF = 0,
+            PointValue = 0,
+            ImageURL = "Assets/Units/shark.png"
+        };
+
         public int ID { get; set; }
         public string Name { get; set; }
         public int Price { get; set; }
