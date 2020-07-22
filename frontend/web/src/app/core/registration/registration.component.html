@@ -15,6 +15,9 @@
          <div *ngIf="validationError && registerForm.errors?.notMatchingPasswords" class="error">
             Nem egyezik meg a két jelszó!
          </div>
+         <div *ngIf="validationError && !userName.errors?.required && registerForm.errors?.notValidUserName" class="error">
+            Érvénytelen felhasználónév!
+         </div>
          <a routerLink="/login" class="login-reg-link">Belépés</a>
       </app-basic-form-card>
    </div>

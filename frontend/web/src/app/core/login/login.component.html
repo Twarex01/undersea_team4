@@ -4,7 +4,8 @@
             <input type="text" placeholder="Felhasználónév" formControlName="userName">
             <input type="password" placeholder="Jelszó" formControlName="password">
             <div *ngIf="serverError" class="error">{{serverMessage}}</div>
-            <div *ngIf="validationError" class="error">Add meg a felhasználóneved és a jelszavad!</div>
+            <div *ngIf="validationError && !loginForm.errors?.notValidUserName" class="error">Add meg a felhasználóneved és a jelszavad!</div>
+            <div *ngIf="validationError && loginForm.errors?.notValidUserName" class="error">Érvénytelen felhasználónév!</div>
             <a routerLink="/registration" class="login-reg-link">Regisztráció</a>
         </app-basic-form-card>
     </div>

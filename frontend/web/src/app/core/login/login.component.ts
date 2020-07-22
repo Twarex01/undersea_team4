@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoginDTO } from '../../shared/clients';
 import { Router } from '@angular/router';
 import { AccountService } from '../services/account.service';
+import { nameInputValidator } from '../validators/nameInputValidator';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,9 @@ export class LoginComponent implements OnInit {
   loginForm = new FormGroup({
     userName: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
-  });
+  }, { validators: nameInputValidator });
+
+  get userName() { return this.loginForm.get('userName'); }
 
   constructor(private accountService: AccountService, private router: Router) {}
 

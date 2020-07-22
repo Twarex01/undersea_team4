@@ -3,7 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RegisterDTO } from '../../shared/clients';
 import { Router } from '@angular/router';
 import { AccountService } from '../services/account.service';
-import { passwordConfirmationValidator } from './validators/passwordConfirmation';
+import { passwordConfirmationValidator } from '../validators/passwordConfirmation';
+import { nameInputValidator } from '../validators/nameInputValidator';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class RegistrationComponent implements OnInit {
     password: new FormControl('', Validators.required),
     passwordConfirmation: new FormControl('', Validators.required),
     countryName: new FormControl('', Validators.required)
-  }, { validators: passwordConfirmationValidator });
+  }, { validators: [passwordConfirmationValidator, nameInputValidator] });
 
   get userName() { return this.registerForm.get('userName'); }
   get password() { return this.registerForm.get('password'); }
