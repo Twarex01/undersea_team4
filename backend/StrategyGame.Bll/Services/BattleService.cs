@@ -228,8 +228,20 @@ namespace StrategyGame.Bll.Services
 			var diffCount = senderSpyCount - (int)victimSpyCount;
 			chance += diffCount * 0.05;
 
+			ExplorationReport explorationReport =
+				new ExplorationReport
+				{
+					ExplorersSent = senderSpyCount,
+					SenderCountryID = senderCountry.ID,
+					SenderCountryName = senderCountry.Name,
+					VictimCountryID = victimCountry.ID,
+					VictimCountryName = victimCountry.Name,
+				};
+
 			if (spyProbability.Next(0, 100) <= chance * 100 || chance >= 1) //sikeres volt a kémkedés
 			{
+				explorationReport.Successful = true;
+				explorationReport.ExposedDefensePower = CalculateMaximumPotentialDefensePower(victimCountry.ID);
 				var existingInfo = _context.ExplorationInfos.SingleOrDefault(e => e.InformedCountryID == senderCountry.ID && e.ExposedCountryID == victimCountry.ID);
 				if (existingInfo != null)
 				{
@@ -250,8 +262,11 @@ namespace StrategyGame.Bll.Services
 			}
 			else    //sikertelen volt a kémkedés
 			{
+				explorationReport.Successful = false;
 				_context.Units.Where(u => u.CountryID == senderCountry.ID && u.UnitDataID == UnitData.Explorer.ID).SingleOrDefault().Count -= exploration.NumberOfExplorers;
 			}
+
+			_context.ExplorationReports.Add(explorationReport);
 
 			_context.SaveChanges();
 		}
