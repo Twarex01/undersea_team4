@@ -288,7 +288,7 @@ namespace StrategyGame.Bll.Services
 					AttackerName = atkCountry.Name,
 					DefenderName = defCountry.Name,
 					Round = roundNumber,
-					AttackerArmy = null,
+					AttackerArmy = reportedUnits,
 					Loot = null,
 					UnitsLost = null
 				};
