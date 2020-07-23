@@ -286,7 +286,7 @@ namespace StrategyGame.Bll.Services
 			}
 
 
-			double multiplier = moraleGenerator.NextDouble() * (1.05 - 0.95) + 0.95;
+			double multiplier = moraleGenerator.Next(0,2) >0 ? 1.05: 0.95; // bruh
 			var ATKPower = await CountAttackPowerInBattle(battleId) * multiplier;
 			var DEFPower = await CountDefensePowerInBattle(battleId);
 			var defCountry = (await _context.Battles
