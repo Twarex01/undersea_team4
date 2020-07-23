@@ -34,3 +34,17 @@ p {
     position: relative;
     right: 15%;
 }
+
+.success {
+    color: #ffffff;
+    margin: 0;
+}
+
+.failure {
+    color: #051D3F;
+    margin: 0;
+}
+
+.data-title {
+    font-family: "Baloo Bold";
+}
