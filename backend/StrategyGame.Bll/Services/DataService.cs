@@ -170,7 +170,6 @@ namespace StrategyGame.Bll.Services
 
         public async Task<FullReportDTO> GetFullReport(int countryId)
         {
-
             var battleReports = await _context.BattleReports.Include(b => b.Loot).Include(b => b.UnitsLost).Include(b => b.AttackerArmy).Where(b => b.AttackerID == countryId || b.DefenderID == countryId).ToListAsync();
             var explorationReports = await _context.ExplorationReports.Where(e => e.SenderCountryID == countryId).ToListAsync();
             return new FullReportDTO { BattleReports = battleReports, ExplorationReports = explorationReports };
