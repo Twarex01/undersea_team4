@@ -10,6 +10,7 @@ import { BattleReportModel } from '../../models/battle-report-model';
 export class AttacksComponent implements OnInit {
 
   @Input() attackReports: BattleReportModel[] = [];
+  @Input() currentRound: number = 0;
 
   constructor() { }
 

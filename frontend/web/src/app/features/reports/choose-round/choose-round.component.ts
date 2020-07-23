@@ -9,17 +9,18 @@ export class ChooseRoundComponent implements OnInit {
 
   chosenRound: number = 1;
   
-  @Input() actualRound: number = 20;
+  @Input() currentRound: number = 1;
   @Output() chosenRoundChanged = new EventEmitter<number>();
 
   constructor() { }
 
   ngOnInit(): void {
+    this.chosenRound = this.currentRound;
   }
 
   changeRound(num: number) {
     if(this.chosenRound == 1 && num < 0)  return;
-    if(this.chosenRound == this.actualRound && num > 0) return;
+    if(this.chosenRound == this.currentRound && num > 0) return;
     this.chosenRound += num;
     this.chosenRoundChanged.emit(this.chosenRound);
   }

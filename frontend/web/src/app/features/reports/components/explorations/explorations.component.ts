@@ -9,6 +9,7 @@ import { ExplorationReport } from '../../models/exploration-report';
 export class ExplorationsComponent implements OnInit {
 
   @Input() explorationReports: ExplorationReport[] = [];
+  @Input() currentRound: number = 0;
 
   constructor() { }
 

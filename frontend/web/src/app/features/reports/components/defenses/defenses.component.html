@@ -1,6 +1,6 @@
 <div *ngIf="defenseReports.length > 0">
 <div class="choose-round-container">
-    <app-choose-round></app-choose-round>
+    <app-choose-round [currentRound]="currentRound"></app-choose-round>
   </div>
   <div class="line" *ngFor="let defenseReport of defenseReports">
     <mat-accordion>
