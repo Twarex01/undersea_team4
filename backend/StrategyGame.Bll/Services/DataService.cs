@@ -164,5 +164,55 @@ namespace StrategyGame.Bll.Services
 
             };
         }
+
+        public FullReportDTO GetReport(int countryId)
+        {
+
+            var battleReports = new List<BattleReport>();
+            var allBattleReports = _context.BattleReports.Where(b => b.AttackerID == countryId || b.DefenderID == countryId);
+            if (allBattleReports != null)
+            {
+                foreach (BattleReport battleReport in allBattleReports)
+                {
+                    battleReports.Add(new BattleReport
+                    {
+                        AttackerID = battleReport.AttackerID,
+                        DefenderID = battleReport.DefenderID,
+                        AttackerName = battleReport.AttackerName,
+                        DefenderName = battleReport.DefenderName,
+                        Succesful = battleReport.Succesful,
+                        AttackerArmy = battleReport.AttackerArmy,
+                        Loot = battleReport.Loot,
+                        UnitsLost = battleReport.UnitsLost,
+                        Round = battleReport.Round,
+                        ATKPower = battleReport.ATKPower,
+                        DEFPower = battleReport.DEFPower
+                    });
+                }
+            }
+
+            var explorationReports = new List<ExplorationReport>();
+            var allExplorationReports = _context.ExplorationReports.Where(e => e.SenderCountryID == countryId);
+            if (allExplorationReports != null)
+            {
+                foreach (ExplorationReport explorationReport in allExplorationReports)
+                {
+                    explorationReports.Add(new ExplorationReport
+                    {
+                        SenderCountryName = explorationReport.SenderCountryName,
+                        VictimCountryName = explorationReport.VictimCountryName,
+                        SenderCountryID = explorationReport.SenderCountryID,
+                        VictimCountryID = explorationReport.VictimCountryID,
+                        ExplorersSent = explorationReport.ExplorersSent,
+                        Successful = explorationReport.Successful,
+                        ExposedDefensePower = explorationReport.ExposedDefensePower
+                    });
+
+                }
+            }
+
+            return new FullReportDTO { BattleReports = battleReports, ExplorationReports = explorationReports };
+        }
+
     }
 }
