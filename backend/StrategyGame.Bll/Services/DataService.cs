@@ -85,11 +85,12 @@ namespace StrategyGame.Bll.Services
             }
             return output;
         }
-        public List<UpgradeDetailsDTO> GetUpgradeDetails()
+        public async Task<List<UpgradeDetailsDTO>> GetUpgradeDetails()
         {
             List<UpgradeDetailsDTO> upgradeDetails = new List<UpgradeDetailsDTO>();
+            var upgradeDatas = await _context.UpgradeData.ToListAsync();
 
-            foreach (UpgradeData upgradeData in _context.UpgradeData)
+            foreach (UpgradeData upgradeData in upgradeDatas)
             {
                 upgradeDetails.Add(new UpgradeDetailsDTO
                 {
@@ -123,7 +124,8 @@ namespace StrategyGame.Bll.Services
         {
             List<BuildingDetailsDTO> buildingDetails = new List<BuildingDetailsDTO>();
             var resourceTypes = await _context.ResourceData.ToListAsync();
-            foreach (BuildingData buildingData in _context.BuildingData.Include(b=> b.Prices).ThenInclude(p=> p.PriceUnit))
+            var buildingDatas = await _context.BuildingData.Include(b => b.Prices).ThenInclude(p => p.PriceUnit).ToListAsync();
+            foreach (BuildingData buildingData in buildingDatas)
             {
                 var pricelist = new List<PriceDTO>();
                 pricelist.AddRange(buildingData.Prices.Select(p => new PriceDTO() { Price = p.Amount, PriceTypeName = p.PriceUnit.Name }));
@@ -140,10 +142,11 @@ namespace StrategyGame.Bll.Services
             }
             return buildingDetails;
         }
-        public List<RankDTO> GetPlayerRanks()
+        public async Task<List<RankDTO>> GetPlayerRanks()
         {
             var output = new List<RankDTO>();
-            foreach (var country in _context.Countries)
+            var countries = await _context.Countries.ToListAsync();
+            foreach (var country in countries)
             {
                 output.Add(new RankDTO { CountryID = country.ID, Name = country.Name, Score = country.Score });
             }
@@ -165,16 +168,17 @@ namespace StrategyGame.Bll.Services
             };
         }
 
-        public FullReportDTO GetReport(int countryId)
+        public FullReportDTO GetFullReport(int countryId)
         {
 
             var battleReports = new List<BattleReport>();
-            var allBattleReports = _context.BattleReports.Where(b => b.AttackerID == countryId || b.DefenderID == countryId);
+            var allBattleReports = _context.BattleReports.Include(b => b.Loot).Include(b => b.UnitsLost).Include(b => b.AttackerArmy)
+                .Where(b => b.AttackerID == countryId || b.DefenderID == countryId);
             if (allBattleReports != null)
             {
                 foreach (BattleReport battleReport in allBattleReports)
                 {
-                    battleReports.Add(new BattleReport
+                    var temp = new BattleReport
                     {
                         AttackerID = battleReport.AttackerID,
                         DefenderID = battleReport.DefenderID,
@@ -187,7 +191,12 @@ namespace StrategyGame.Bll.Services
                         Round = battleReport.Round,
                         ATKPower = battleReport.ATKPower,
                         DEFPower = battleReport.DEFPower
-                    });
+                    };
+                    foreach (var item in temp.AttackerArmy)
+                    {
+                        item.BattleReport = null;
+                    }
+                    battleReports.Add(temp);
                 }
             }
 

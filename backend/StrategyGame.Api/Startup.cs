@@ -137,6 +137,7 @@ namespace StrategyGame.Api
                 app.UseHsts();
             }
 
+            //app.UseMiddleware<TestExceptionHandler>();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
