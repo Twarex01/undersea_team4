@@ -51,9 +51,9 @@ img {
     text-align: center;
     display: flex;
     margin: 10% auto 10% auto;
-    width: 10rem;
+    width: 11rem;
 }
 
 .number-input {
-    width: 4rem;
+    width: 3rem;
 }
