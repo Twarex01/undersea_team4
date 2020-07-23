@@ -172,9 +172,9 @@ namespace StrategyGame.Bll.Services
 
         }
 
-        public CountryRoundDTO GetCountryRound(int countryId)
+        public async Task<CountryRoundDTO> GetCountryRound(int countryId)
         {
-            var rankList = _dataService.GetPlayerRanks();
+            var rankList = await _dataService.GetPlayerRanks();
             rankList.SingleOrDefault(r => r.CountryID == countryId);
             int rank = rankList.IndexOf(rankList.SingleOrDefault(r => r.CountryID == countryId)) + 1;
             return new CountryRoundDTO() { Rank = rank, Round = _dbContext.Round.SingleOrDefault().RoundNumber };

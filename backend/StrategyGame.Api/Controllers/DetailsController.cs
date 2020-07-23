@@ -22,9 +22,9 @@ namespace StrategyGame.Api.Controllers
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public ActionResult<List<UpgradeDetailsDTO>> GetAllUpgradeDetails()
+        public async Task<ActionResult<List<UpgradeDetailsDTO>>> GetAllUpgradeDetails()
         {
-            return Ok(_dataService.GetUpgradeDetails());
+            return Ok(await _dataService.GetUpgradeDetails());
         }
 
         [HttpGet("Buildings")]
