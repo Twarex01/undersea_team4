@@ -8,7 +8,7 @@ namespace StrategyGame.Bll.Services
 
         public Task SimulateRound();
 
-        public CountryRoundDTO GetCountryRound(int countryId);
+        public Task<CountryRoundDTO> GetCountryRound(int countryId);
 
 
     }

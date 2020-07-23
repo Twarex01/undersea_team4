@@ -2,6 +2,7 @@
 using StrategyGame.Bll.DTO;
 using StrategyGame.Bll.Services;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace StrategyGame.Api.Controllers
 {
@@ -18,9 +19,9 @@ namespace StrategyGame.Api.Controllers
 
         //GEt api/players
         [HttpGet]
-        public List<RankDTO> PlayerList()
+        public async Task<List<RankDTO>> PlayerList()
         {
-            return _dataService.GetPlayerRanks();
+            return await _dataService.GetPlayerRanks();
         }
 
     }
