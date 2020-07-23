@@ -231,9 +231,22 @@ namespace StrategyGame.Bll.Services
 			var diffCount = senderSpyCount - (int)victimSpyCount;
 			chance += diffCount * 0.05;
 
+			ExplorationReport explorationReport =
+				new ExplorationReport
+				{
+					ExplorersSent = senderSpyCount,
+					SenderCountryID = senderCountry.ID,
+					SenderCountryName = senderCountry.Name,
+					VictimCountryID = victimCountry.ID,
+					VictimCountryName = victimCountry.Name,
+				};
+
 			if (spyProbability.Next(0, 100) <= chance * 100 || chance >= 1) //sikeres volt a kémkedés
 			{
 				var existingInfo = await _context.ExplorationInfos.SingleOrDefaultAsync(e => e.InformedCountryID == senderCountry.ID && e.ExposedCountryID == victimCountry.ID);
+				explorationReport.Successful = true;
+				explorationReport.ExposedDefensePower = CalculateMaximumPotentialDefensePower(victimCountry.ID);
+				
 				if (existingInfo != null)
 				{
 					existingInfo.Round = round;
@@ -253,8 +266,11 @@ namespace StrategyGame.Bll.Services
 			}
 			else    //sikertelen volt a kémkedés
 			{
+				explorationReport.Successful = false;
 				(await _context.Units.SingleOrDefaultAsync(u => u.CountryID == senderCountry.ID && u.UnitDataID == UnitData.Explorer.ID)).Count -= exploration.NumberOfExplorers;
 			}
+
+			_context.ExplorationReports.Add(explorationReport);
 
 			await _context.SaveChangesAsync();
 		}
@@ -287,9 +303,9 @@ namespace StrategyGame.Bll.Services
 
 			foreach (AttackingUnit attackingUnit in attackingUnits) 
 			{
-				reportedUnits.Add(new ReportedUnit { Name = attackingUnit.UnitData.Name, Count = attackingUnit.Count });
-			
+				reportedUnits.Add(new ReportedUnit { Name = attackingUnit.UnitData.Name, Count = attackingUnit.Count });	
 			}
+
 
 			BattleReport battleHistory = 
 				new BattleReport 
@@ -322,6 +338,7 @@ namespace StrategyGame.Bll.Services
 					unit.Count -= unitAtHomeLost;
 					lostUnits.Add(new LostUnit { LostAmount = unitAtHomeLost, UnitName = unit.UnitData.Name });
 				}
+				battleHistory.UnitsLost = lostUnits;
 
 				var loot = new List<Loot>();
 
@@ -333,6 +350,8 @@ namespace StrategyGame.Bll.Services
 					atkCountry.Resources.SingleOrDefault(r => r.ResourceDataID == resourceDataId).Amount += resourceTaken;
 					loot.Add(new Loot { ResourceName = defenderResource.ResourceData.Name, Amount = resourceTaken });
 				}
+				battleHistory.Loot = loot;
+
 			}
 			else
 			{
@@ -353,6 +372,8 @@ namespace StrategyGame.Bll.Services
 
 					lostUnits.Add(new LostUnit { LostAmount = unitAttackingLost, UnitName = unit.UnitData.Name });
 				}
+				battleHistory.UnitsLost = lostUnits;
+
 			}
 
 			_context.BattleReports.Add(battleHistory);
