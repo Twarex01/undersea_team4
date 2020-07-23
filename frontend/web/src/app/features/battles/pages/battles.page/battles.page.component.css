@@ -8,6 +8,11 @@ p {
     color: white;
 }
 
+.details {
+    font-size: 16px;
+    font-family: "Baloo Regular";
+}
+
 .country {
     display: inline-block;
     width: 20rem;

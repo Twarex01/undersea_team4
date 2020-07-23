@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { BattlesService } from '../../services/battles.service';
 import { Battle } from '../../models/battle';
 import { StatusNotificationService } from '../../../../core/services/status-notification.service';
-import { Spyinfo } from '../../../spyinfo/models/spyinfo';
 import { forkJoin } from 'rxjs';
 
 @Component({
