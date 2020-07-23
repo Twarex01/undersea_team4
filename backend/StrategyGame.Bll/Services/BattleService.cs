@@ -263,7 +263,7 @@ namespace StrategyGame.Bll.Services
 			var battle = _context.Battles.Include(b => b.AttackingUnits).Where(b => b.ID == battleId).FirstOrDefault();
 			if (battle == null) throw new HttpResponseException { Status = 400, Value = "Nincs ilyen csata"};
 
-			double multiplier = moraleGenerator.Next(0, 2) > 0 ? 1.05 : 0.95;
+			double multiplier = moraleGenerator.NextDouble() * (1.05 - 0.95) + 0.95;
 			var ATKPower = CountAttackPowerInBattle(battleId) * multiplier;
 			var DEFPower = CountDefensePowerInBattle(battleId);
 			var defCountry = _context.Battles.Include(b=> b.DefendingCountry).Where(b => b.ID == battleId).SingleOrDefault().DefendingCountry;
