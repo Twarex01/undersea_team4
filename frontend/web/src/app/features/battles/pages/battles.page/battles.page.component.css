@@ -4,6 +4,10 @@ hr {
     margin-bottom: 3%;
 }
 
+p {
+    color: white;
+}
+
 .country {
     display: inline-block;
     width: 20rem;
@@ -11,6 +15,7 @@ hr {
 
 .units {
     display: inline-block;
+    width: 22rem;
 }
 
 .unit {

@@ -1,32 +1,47 @@
 <app-basic-card class="card">
-    <p class="header">Harc</p>
-    <div class="details">
-        <p>Támadások:</p>
+  <p class="header">Harc</p>
+  <div class="details">
+    <mat-tab-group>
+      <mat-tab>
+        <ng-template mat-tab-label>
+            <p>Támadások</p>
+          </ng-template>
         <div *ngIf="battles?.length === 0">
-            <div>Nincs megjeleníthető elindított támadás</div>
+          <div>Nincs megjeleníthető elindított támadás</div>
         </div>
         <div *ngFor="let battle of battles">
-            <hr>
-            <div class="line">
-                <div class="country">{{battle.defenderName}}</div>
-                <div class="units">
-                    <span *ngFor="let unit of battle.units" class="unit">{{unit.count}} {{unit.name}}</span>
-                </div>
+          <hr />
+          <div class="line">
+            <div class="country">{{ battle.defenderName }}</div>
+            <div class="units">
+              <span *ngFor="let unit of battle.units" class="unit"
+                >{{ unit.count }} {{ unit.name }}</span
+              >
             </div>
+          </div>
         </div>
-        <p>Felfedezők:</p>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+            <p>Felfedezők</p>
+          </ng-template>
         <div *ngIf="spydetails?.length === 0">
-            <div>Nincs megjeleníthető elindított felfedezés</div>
+          <div>Nincs megjeleníthető elindított felfedezés</div>
         </div>
         <div *ngFor="let spydetail of spydetails">
-            <hr>
-            <div class="line">
-                <div class="country">{{spydetail.defenderName}}</div>
-                <div class="units">
-                    <span class="unit">{{spydetail.units[0].count}} {{spydetail.units[0].name}}</span>
-                </div>
+          <hr />
+          <div class="line">
+            <div class="country">{{ spydetail.defenderName }}</div>
+            <div class="units">
+              <span class="unit"
+                >{{ spydetail.units[0].count }}
+                {{ spydetail.units[0].name }}</span
+              >
             </div>
+          </div>
         </div>
-    </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
 </app-basic-card>
 <router-outlet></router-outlet>
