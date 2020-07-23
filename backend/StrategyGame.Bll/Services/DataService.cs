@@ -172,12 +172,13 @@ namespace StrategyGame.Bll.Services
         {
 
             var battleReports = new List<BattleReport>();
-            var allBattleReports = _context.BattleReports.Where(b => b.AttackerID == countryId || b.DefenderID == countryId);
+            var allBattleReports = _context.BattleReports.Include(b => b.Loot).Include(b => b.UnitsLost).Include(b => b.AttackerArmy)
+                .Where(b => b.AttackerID == countryId || b.DefenderID == countryId);
             if (allBattleReports != null)
             {
                 foreach (BattleReport battleReport in allBattleReports)
                 {
-                    battleReports.Add(new BattleReport
+                    var temp = new BattleReport
                     {
                         AttackerID = battleReport.AttackerID,
                         DefenderID = battleReport.DefenderID,
@@ -190,7 +191,12 @@ namespace StrategyGame.Bll.Services
                         Round = battleReport.Round,
                         ATKPower = battleReport.ATKPower,
                         DEFPower = battleReport.DEFPower
-                    });
+                    };
+                    foreach (var item in temp.AttackerArmy)
+                    {
+                        item.BattleReport = null;
+                    }
+                    battleReports.Add(temp);
                 }
             }
 

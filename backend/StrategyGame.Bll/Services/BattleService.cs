@@ -277,6 +277,7 @@ namespace StrategyGame.Bll.Services
 				reportedUnits.Add(new ReportedUnit { Name = attackingUnit.UnitData.Name, Count = attackingUnit.Count });	
 			}
 
+
 			BattleReport battleHistory = 
 				new BattleReport 
 				{ 
@@ -287,7 +288,7 @@ namespace StrategyGame.Bll.Services
 					AttackerName = atkCountry.Name,
 					DefenderName = defCountry.Name,
 					Round = roundNumber,
-					AttackerArmy = reportedUnits,
+					AttackerArmy = null,
 					Loot = null,
 					UnitsLost = null
 				};
