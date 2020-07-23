@@ -16,7 +16,7 @@ namespace StrategyGame.Model
 		public List<Loot> Loot { get; set; }
 		public List<LostUnit> UnitsLost { get; set; }
 		public int Round { get; set; }
-		public int ATKPower { get; set; }
-		public int DEFPower { get; set; }
+		public double ATKPower { get; set; }
+		public double DEFPower { get; set; }
 	}
 }

@@ -145,8 +145,7 @@ namespace StrategyGame.Api.Controllers
         public async Task<ActionResult<FullReportDTO>> GetCountryReport()
         {
             var country = await _userService.GetCountryByUserID(User.Identity.Name);
-            //TODO
-            return Ok();
+            return Ok(_dataService.GetFullReport(country.ID));
         }
     }
 }
