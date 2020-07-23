@@ -142,7 +142,7 @@ namespace StrategyGame.Bll.Services
 					var unit = battle.AttackingUnits.SingleOrDefault(a => a.UnitDataID == unitDataId);
 					if (unit == null)
 					{
-						battle.AttackingUnits.Add(new AttackingUnit { Battle = battle, Count = numberOfUnits, UnitDataID = unitData.ID });
+						battle.AttackingUnits.Add(new AttackingUnit { BattleID = battle.ID, Count = numberOfUnits, UnitDataID = unitData.ID });
 					}
 					else
 					{
