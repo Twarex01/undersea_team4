@@ -285,10 +285,10 @@ namespace StrategyGame.Bll.Services
 				throw new HttpResponseException { Status = 400, Value = "Nincs ilyen csata" };
 			}
 
-			double multiplier = moraleGenerator.Next(0, 2) > 0 ? 1.05 : 0.95;
+
+			double multiplier = moraleGenerator.NextDouble() * (1.05 - 0.95) + 0.95;
 			var ATKPower = await CountAttackPowerInBattle(battleId) * multiplier;
 			var DEFPower = await CountDefensePowerInBattle(battleId);
-
 			var defCountry = (await _context.Battles
 				.Include(b=> b.DefendingCountry).ThenInclude(c=> c.Resources).ThenInclude(r=> r.ResourceData)
 				.SingleOrDefaultAsync(b => b.ID == battleId)).DefendingCountry;
@@ -298,6 +298,7 @@ namespace StrategyGame.Bll.Services
 				.SingleOrDefaultAsync(b => b.ID == battleId)).AttackingCountry;
 
 			var roundNumber = (await _context.Round.SingleOrDefaultAsync()).RoundNumber;
+
 			var attackingUnits = battle.AttackingUnits;
 			var reportedUnits = new List<ReportedUnit>();
 
