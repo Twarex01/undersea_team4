@@ -1,7 +1,7 @@
 hr {
     opacity: 0.25;
-    margin-top: 3%;
-    margin-bottom: 3%;
+    margin-top: 2%;
+    margin-bottom: 2%;
 }
 
 p {
@@ -11,6 +11,11 @@ p {
 .line {
     font-size: 16px;
     font-family: "Baloo Regular";
+    width: 45rem;
+}
+
+.no-info {
+    text-align: center;
 }
 
 .country {
@@ -20,7 +25,7 @@ p {
 
 .units {
     display: inline-block;
-    width: 22rem;
+    width: 25rem;
 }
 
 .unit {

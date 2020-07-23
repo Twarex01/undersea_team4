@@ -6,8 +6,9 @@
         <ng-template mat-tab-label>
             <p>Támadások</p>
           </ng-template>
-        <div *ngIf="battles?.length === 0">
-          <div>Nincs megjeleníthető elindított támadás</div>
+        <div class="line" *ngIf="battles?.length === 0">
+          <hr>
+          <div class="no-info">Nincs megjeleníthető elindított támadás</div>
         </div>
         <div *ngFor="let battle of battles">
           <hr />
@@ -25,8 +26,9 @@
         <ng-template mat-tab-label>
             <p>Felfedezők</p>
           </ng-template>
-        <div *ngIf="spydetails?.length === 0">
-          <div>Nincs megjeleníthető elindított felfedezés</div>
+        <div class="line" *ngIf="spydetails?.length === 0">
+          <hr>
+          <div class="no-info">Nincs megjeleníthető elindított felfedezés</div>
         </div>
         <div *ngFor="let spydetail of spydetails">
           <hr />
