@@ -16,6 +16,7 @@ namespace StrategyGame.Bll.Services
         public List<UpgradeDetailsDTO> GetUpgradeDetails();
         public Task<List<BuildingDetailsDTO>> GetBuildingDetailsAsync();
         public List<RankDTO> GetPlayerRanks();
+        public FullReportDTO GetFullReport(int countryId);
 
 
 

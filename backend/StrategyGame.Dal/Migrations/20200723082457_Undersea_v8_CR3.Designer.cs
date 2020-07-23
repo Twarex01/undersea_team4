@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StrategyGame.Dal;
 
 namespace StrategyGame.Dal.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200723082457_Undersea_v8_CR3")]
+    partial class Undersea_v8_CR3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -442,7 +444,7 @@ namespace StrategyGame.Dal.Migrations
 
                     b.HasIndex("BattleReportID1");
 
-                    b.ToTable("Loots");
+                    b.ToTable("Loot");
                 });
 
             modelBuilder.Entity("StrategyGame.Model.LostUnit", b =>
@@ -470,7 +472,7 @@ namespace StrategyGame.Dal.Migrations
 
                     b.HasIndex("BattleReportID1");
 
-                    b.ToTable("LostUnits");
+                    b.ToTable("LostUnit");
                 });
 
             modelBuilder.Entity("StrategyGame.Model.Price", b =>
@@ -565,7 +567,7 @@ namespace StrategyGame.Dal.Migrations
 
                     b.HasIndex("BattleReportID1");
 
-                    b.ToTable("ReportedUnits");
+                    b.ToTable("ReportedUnit");
                 });
 
             modelBuilder.Entity("StrategyGame.Model.Resource", b =>
