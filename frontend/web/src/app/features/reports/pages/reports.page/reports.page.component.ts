@@ -10,6 +10,7 @@ import { FullReport } from '../../models/full-report';
 export class ReportsPageComponent implements OnInit {
 
   countryId: number = 0;
+  currentRound: number = 0;
   report: FullReport;
 
   constructor(private reportService: ReportService) { }
@@ -19,6 +20,7 @@ export class ReportsPageComponent implements OnInit {
       this.countryId = cid;
       this.reportService.getReports(this.countryId).subscribe((report) => this.report = report);
     });
+    this.reportService.getCurrentRound().subscribe((round) => this.currentRound = round);
   }
 
 }

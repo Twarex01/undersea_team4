@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CountryClient, BattleReport } from '../../../shared/clients';
+import { CountryClient, BattleReport, RoundClient } from '../../../shared/clients';
 import { map } from 'rxjs/operators';
 import { FullReport } from '../models/full-report';
 import { BattleReportModel } from '../models/battle-report-model';
@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class ReportService {
 
-  constructor(private countryClient: CountryClient) { }
+  constructor(private countryClient: CountryClient, private roundClient: RoundClient) { }
 
   getReports(countryId: number): Observable<FullReport> {
     return this.countryClient.getCountryReport().pipe(
@@ -37,6 +37,12 @@ export class ReportService {
   getCountryId(): Observable<number> {
     return this.countryClient.getCountryDeatils().pipe(
       map((cd) => cd.id)
+    )
+  }
+
+  getCurrentRound(): Observable<number> {
+    return this.roundClient.getCountryRound().pipe(
+      map((cr) => cr.round)
     )
   }
 
