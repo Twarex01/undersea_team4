@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BattleReport } from '../../models/battle-report';
+import { BattleReportModel } from '../../models/battle-report-model';
 import { ExplorationReport } from '../../models/exploration-report';
 import { ReportService } from '../../services/report.service';
 
@@ -10,7 +10,7 @@ import { ReportService } from '../../services/report.service';
 })
 export class ReportsPageComponent implements OnInit {
 
-  battleReports: BattleReport[] = [];
+  battleReports: BattleReportModel[] = [];
   explorationReports: ExplorationReport[] = [];
 
   constructor(private reportService: ReportService) { }

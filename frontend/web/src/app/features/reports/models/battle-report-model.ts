@@ -1,7 +1,7 @@
 import { ReportResourceChanges } from "./report-resource-changes";
 import { ReportUnits } from "./report-units";
 
-export interface BattleReport {
+export interface BattleReportModel {
     attackerCountryName: string;
     attackerArmy: ReportUnits[];
     attackerPower: number;
