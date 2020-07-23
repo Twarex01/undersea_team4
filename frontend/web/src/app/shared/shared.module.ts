@@ -6,11 +6,13 @@ import { IconBoxComponent } from './icon-box/icon-box.component';
 import { CountryClient, BattleClient, PlayersClient, DetailsClient } from './clients';
 import { PlayerListComponent } from './player-list/player-list.component';
 import { ChooseUnitComponent } from './choose-unit/choose-unit.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [BasicCardComponent, IconBoxComponent, PlayerListComponent, ChooseUnitComponent],
-  imports: [CommonModule, FormsModule],
-  exports: [CommonModule, BasicCardComponent, IconBoxComponent, PlayerListComponent, ChooseUnitComponent],
+  imports: [CommonModule, FormsModule, MatTabsModule, MatExpansionModule],
+  exports: [CommonModule, MatTabsModule, MatExpansionModule, BasicCardComponent, IconBoxComponent, PlayerListComponent, ChooseUnitComponent],
   providers: [CountryClient, BattleClient, PlayersClient, DetailsClient]
 })
 export class SharedModule { }
