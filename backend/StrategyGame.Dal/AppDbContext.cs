@@ -24,6 +24,13 @@ namespace StrategyGame.Dal
         public DbSet<Exploration> Explorations { get; set; }
         public DbSet<ExplorationInfo> ExplorationInfos { get; set; }
         public DbSet<Round> Round { get; set; }
+        public DbSet<BattleReport> BattleReports {get; set;}
+        public DbSet<ExplorationReport> ExplorationReports { get; set; }
+        public DbSet<Loot> Loots { get; set; }
+        public DbSet<LostUnit> LostUnits { get; set; }
+        public DbSet<ReportedUnit> ReportedUnits { get; set; }
+
+
 
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
@@ -99,6 +106,17 @@ namespace StrategyGame.Dal
             builder.Entity<ExplorationInfo>().HasKey(e => e.ID);
             builder.Entity<ExplorationInfo>().HasOne(e => e.InformedCountry).WithMany().HasForeignKey(e => e.InformedCountryID);
             builder.Entity<ExplorationInfo>().HasOne(e => e.ExposedCountry).WithMany().HasForeignKey(e => e.ExposedCountryID);
+
+            builder.Entity<BattleReport>().HasKey(b => b.ID);
+            builder.Entity<BattleReport>().HasMany(b => b.UnitsLost).WithOne().HasForeignKey(l => l.BattleReportID);
+            builder.Entity<BattleReport>().HasMany(b => b.AttackerArmy).WithOne().HasForeignKey(r => r.BattleReportID);
+            builder.Entity<BattleReport>().HasMany(b => b.Loot).WithOne().HasForeignKey(l => l.BattleReportID);
+
+            builder.Entity<LostUnit>().HasKey(l => l.ID);
+            builder.Entity<ReportedUnit>().HasKey(r => r.ID);
+            builder.Entity<Loot>().HasKey(l => l.ID);
+
+            builder.Entity<ExplorationReport>().HasKey(e => e.ID);
 
 
 
