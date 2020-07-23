@@ -7,19 +7,19 @@ namespace StrategyGame.Bll.Services
     public interface IBattleService
     {
 
-        public void SendAllTypesToAttack(BattleDTO battleDto);
+        public Task SendAllTypesToAttack(BattleDTO battleDto);
 
-        public void CommenceBattle(int battleId);
+        public Task CommenceBattle(int battleId);
 
         public Task<List<BattleDetailsDTO>> GetCountryBattles(int countryId);
 
-        public void SimulateExploration(int explorationId);
+        public Task SimulateExploration(int explorationId);
 
-        public void SendExplorersToCountry(SendExplorationDTO explorationDTO);
+        public Task SendExplorersToCountry(SendExplorationDTO explorationDTO);
 
-        public List<ExplorationInfoDTO> GetExplorationInfo(int countryId);
+        public Task<List<ExplorationInfoDTO>> GetExplorationInfo(int countryId);
 
-        public List<ExplorationDetailsDTO> GetCountryExplorations(int countryId);
+        public Task<List<ExplorationDetailsDTO>> GetCountryExplorations(int countryId);
 
     }
 }
