@@ -274,8 +274,7 @@ namespace StrategyGame.Bll.Services
 
 			foreach (AttackingUnit attackingUnit in attackingUnits) 
 			{
-				reportedUnits.Add(new ReportedUnit { Name = attackingUnit.UnitData.Name, Count = attackingUnit.Count });
-			
+				reportedUnits.Add(new ReportedUnit { Name = attackingUnit.UnitData.Name, Count = attackingUnit.Count });	
 			}
 
 			BattleReport battleHistory = 
@@ -310,6 +309,7 @@ namespace StrategyGame.Bll.Services
 
 					lostUnits.Add(new LostUnit { LostAmount = unitAtHomeLost, UnitName = unit.UnitData.Name });
 				}
+				battleHistory.UnitsLost = lostUnits;
 
 				var loot = new List<Loot>();
 
@@ -327,6 +327,8 @@ namespace StrategyGame.Bll.Services
 
 					loot.Add(new Loot { ResourceName = resource.ResourceData.Name, Amount = resourcesTaken });
 				}
+				battleHistory.Loot = loot;
+
 			}
 			else
 			{
@@ -347,6 +349,8 @@ namespace StrategyGame.Bll.Services
 
 					lostUnits.Add(new LostUnit { LostAmount = unitAttackingLost, UnitName = unit.UnitData.Name });
 				}
+				battleHistory.UnitsLost = lostUnits;
+
 			}
 
 			_context.BattleReports.Add(battleHistory);
