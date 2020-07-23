@@ -17,14 +17,14 @@
                   Sikeres/Nem sikeres támadás
                 </mat-panel-description>
               </mat-expansion-panel-header>
-              <div class="attack-force">
+              <div class="home-force">
                 <p>Támadóerő: 25</p>
                 <p>Küldött egységek:</p>
                 <span>10 lézercápa </span>
                 <span>5 rohamfóka </span>
                 <span>2 csatacsikó </span>
               </div>
-              <div class="defense-force">
+              <div class="other-force">
                 <p>Védőerő: 12</p>
                 <p>Elvesztett egységek:</p>
                 <span>10 lézercápa </span>
@@ -51,14 +51,14 @@
                   Sikeres/Nem sikeres támadás
                 </mat-panel-description>
               </mat-expansion-panel-header>
-              <div class="attack-force">
+              <div class="home-force">
                 <p>Támadóerő: 25</p>
                 <p>Küldött egységek:</p>
                 <span>10 lézercápa </span>
                 <span>5 rohamfóka </span>
                 <span>2 csatacsikó </span>
               </div>
-              <div class="defense-force">
+              <div class="other-force">
                 <p>Védőerő: 12</p>
                 <p>Elvesztett egységek:</p>
                 <span>10 lézercápa </span>
@@ -76,7 +76,70 @@
         </div>
       </div>
     </mat-tab>
-    <mat-tab label="Védekezés"> </mat-tab>
-    <mat-tab label="Felfedezés"> </mat-tab>
+    <mat-tab label="Védekezés">
+        <div class="choose-round-container">
+            <app-choose-round></app-choose-round>
+        </div>
+        <div class="line">
+            <mat-accordion>
+              <mat-expansion-panel class="expansion-panel">
+                <mat-expansion-panel-header class="expansion-panel-header">
+                  <mat-panel-title>
+                    AttackerCityName
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Sikeres/Nem sikeres támadás
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div class="home-force">
+                    <p>Védőerő: 12</p>
+                    <p>Elvesztett egységek:</p>
+                    <span>10 lézercápa </span>
+                    <span>5 rohamfóka </span>
+                    <span>2 csatacsikó </span>
+                  </div>
+                <div class="other-force">
+                  <p>Támadóerő: 25</p>
+                  <p>Támadó egységek:</p>
+                  <span>10 lézercápa </span>
+                  <span>5 rohamfóka </span>
+                  <span>2 csatacsikó </span>
+                </div>
+                <div>
+                  <p>Elvesztett erőforrások:</p>
+                  <span>200 Gyöngy </span>
+                  <span>100 Korall </span>
+                  <span>50 Kő </span>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+    </mat-tab>
+    <mat-tab label="Felfedezés">
+        <div class="choose-round-container">
+            <app-choose-round></app-choose-round>
+        </div>
+        <div class="line">
+            <mat-accordion>
+              <mat-expansion-panel class="expansion-panel">
+                <mat-expansion-panel-header class="expansion-panel-header">
+                  <mat-panel-title>
+                    TargetCityName
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Sikeres/Nem sikeres felfedezés
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div class="home-force">
+                    <p>Elküldött felfedezők száma: 4</p>
+                  </div>
+                <div class="other-force">
+                  <p>Megszerzett tudás: </p>
+                  <p>Ellenfél védekező ereje: 25</p>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+    </mat-tab>
   </mat-tab-group>
 </app-basic-card>

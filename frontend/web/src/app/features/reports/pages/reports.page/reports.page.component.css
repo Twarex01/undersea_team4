@@ -13,12 +13,13 @@
     color: white;
 }
 
-.attack-force {
+.home-force {
     display: inline-block;
-    margin-right: 5rem;
+    width: 20rem;
 }
 
-.defense-force {
+.other-force {
+    width: 20rem;
     display: inline-block;
 }
 
