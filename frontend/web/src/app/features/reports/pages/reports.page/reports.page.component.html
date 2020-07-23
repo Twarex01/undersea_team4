@@ -5,150 +5,19 @@
       <ng-template mat-tab-label>
         <p>Támadás</p>
       </ng-template>
-      <div>
-        <div class="choose-round-container">
-          <app-choose-round></app-choose-round>
-        </div>
-        <div class="line">
-          <mat-accordion>
-            <mat-expansion-panel class="expansion-panel">
-              <mat-expansion-panel-header class="expansion-panel-header">
-                <mat-panel-title>
-                  TargetCityName
-                </mat-panel-title>
-                <mat-panel-description>
-                  <p class="success">Sikeres támadás</p>
-                </mat-panel-description>
-              </mat-expansion-panel-header>
-              <div class="home-force">
-                <p class="data-title">Támadóerő: 25</p>
-                <p class="data-title">Küldött egységek:</p>
-                <span>10 lézercápa </span>
-                <span>5 rohamfóka </span>
-                <span>2 csatacsikó </span>
-              </div>
-              <div class="other-force">
-                <p class="data-title">Védőerő: 12</p>
-                <p class="data-title">Elvesztett egységek:</p>
-                <span>10 lézercápa </span>
-                <span>5 rohamfóka </span>
-                <span>2 csatacsikó </span>
-              </div>
-              <div>
-                <p class="data-title">Megszerzett erőforrások:</p>
-                <span>200 Gyöngy </span>
-                <span>100 Korall </span>
-                <span>50 Kő </span>
-              </div>
-            </mat-expansion-panel>
-          </mat-accordion>
-        </div>
-        <div class="line">
-          <mat-accordion>
-            <mat-expansion-panel class="expansion-panel">
-              <mat-expansion-panel-header class="expansion-panel-header">
-                <mat-panel-title>
-                  TargetCityName
-                </mat-panel-title>
-                <mat-panel-description>
-                  <p class="failure">Sikertelen támadás</p>
-                </mat-panel-description>
-              </mat-expansion-panel-header>
-              <div class="home-force">
-                <p class="data-title">Támadóerő: 25</p>
-                <p class="data-title">Küldött egységek:</p>
-                <span>10 lézercápa </span>
-                <span>5 rohamfóka </span>
-                <span>2 csatacsikó </span>
-              </div>
-              <div class="other-force">
-                <p class="data-title">Védőerő: 12</p>
-                <p class="data-title">Elvesztett egységek:</p>
-                <span>10 lézercápa </span>
-                <span>5 rohamfóka </span>
-                <span>2 csatacsikó </span>
-              </div>
-              <div>
-                <p class="data-title">Megszerzett erőforrások:</p>
-                <span>200 Gyöngy </span>
-                <span>100 Korall </span>
-                <span>50 Kő </span>
-              </div>
-            </mat-expansion-panel>
-          </mat-accordion>
-        </div>
-      </div>
+      <app-attacks [attackReports]="report.attackReports"></app-attacks>
     </mat-tab>
     <mat-tab>
-        <ng-template mat-tab-label>
-          <p>Védekezés</p>
-        </ng-template>
-      <div class="choose-round-container">
-        <app-choose-round></app-choose-round>
-      </div>
-      <div class="line">
-        <mat-accordion>
-          <mat-expansion-panel class="expansion-panel">
-            <mat-expansion-panel-header class="expansion-panel-header">
-              <mat-panel-title>
-                AttackerCityName
-              </mat-panel-title>
-              <mat-panel-description>
-                <p class="failure">Sikertelen támadás</p>
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-            <div class="home-force">
-              <p class="data-title">Védőerő: 12</p>
-              <p class="data-title">Elvesztett egységek:</p>
-              <span>10 lézercápa </span>
-              <span>5 rohamfóka </span>
-              <span>2 csatacsikó </span>
-            </div>
-            <div class="other-force">
-              <p class="data-title">Támadóerő: 25</p>
-              <p class="data-title">Támadó egységek:</p>
-              <span>10 lézercápa </span>
-              <span>5 rohamfóka </span>
-              <span>2 csatacsikó </span>
-            </div>
-            <div>
-              <p class="data-title">Elvesztett erőforrások:</p>
-              <span>200 Gyöngy </span>
-              <span>100 Korall </span>
-              <span>50 Kő </span>
-            </div>
-          </mat-expansion-panel>
-        </mat-accordion>
-      </div>
+      <ng-template mat-tab-label>
+        <p>Védekezés</p>
+      </ng-template>
+      <app-defenses [defenseReports]="report.defendReports"></app-defenses>
     </mat-tab>
     <mat-tab>
-        <ng-template mat-tab-label>
-          <p>Felfedezés</p>
-        </ng-template>
-      <div class="choose-round-container">
-        <app-choose-round></app-choose-round>
-      </div>
-      <div class="line">
-        <mat-accordion>
-          <mat-expansion-panel class="expansion-panel">
-            <mat-expansion-panel-header class="expansion-panel-header">
-              <mat-panel-title>
-                TargetCityName
-              </mat-panel-title>
-              <mat-panel-description>
-                <p class="success">Sikeres felfedezés</p>
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-            <div class="home-force">
-              <p>Elküldött felfedezők száma: 4</p>
-            </div>
-            <div class="other-force">
-              <p class="data-title">Megszerzett tudás:</p>
-              <p>Ellenfél védekező ereje: 25</p>
-            </div>
-          </mat-expansion-panel>
-        </mat-accordion>
-      </div>
+      <ng-template mat-tab-label>
+        <p>Felfedezés</p>
+      </ng-template>
+      <app-explorations [explorationReports]="report.explorationReports"></app-explorations>
     </mat-tab>
   </mat-tab-group>
 </app-basic-card>
