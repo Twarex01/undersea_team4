@@ -43,7 +43,7 @@ namespace StrategyGame.Api.Controllers
         {
 
             var Country = await _userService.GetCountryByUserID(User.Identity.Name);
-            return Ok(_roundService.GetCountryRound(Country.ID));
+            return Ok(await _roundService.GetCountryRound(Country.ID));
         }
     }
 }
