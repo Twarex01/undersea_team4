@@ -12,7 +12,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 @NgModule({
   declarations: [BasicCardComponent, IconBoxComponent, PlayerListComponent, ChooseUnitComponent],
   imports: [CommonModule, FormsModule, MatTabsModule, MatExpansionModule],
-  exports: [CommonModule, MatTabsModule, MatExpansionModule, BasicCardComponent, IconBoxComponent, PlayerListComponent, ChooseUnitComponent],
+  exports: [CommonModule, FormsModule, MatTabsModule, MatExpansionModule, BasicCardComponent, IconBoxComponent, PlayerListComponent, ChooseUnitComponent],
   providers: [CountryClient, BattleClient, PlayersClient, DetailsClient]
 })
 export class SharedModule { }
