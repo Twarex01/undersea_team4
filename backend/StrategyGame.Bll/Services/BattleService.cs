@@ -260,7 +260,7 @@ namespace StrategyGame.Bll.Services
 		{
 
 
-			var battle = _context.Battles.Where(b => b.ID == battleId).FirstOrDefault();
+			var battle = _context.Battles.Include(b => b.AttackingUnits).Where(b => b.ID == battleId).FirstOrDefault();
 			if (battle == null) throw new HttpResponseException { Status = 400, Value = "Nincs ilyen csata"};
 
 			double multiplier = moraleGenerator.Next(0, 2) > 0 ? 1.05 : 0.95;
