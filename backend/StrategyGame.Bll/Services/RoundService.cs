@@ -40,21 +40,21 @@ namespace StrategyGame.Bll.Services
         {
             var pearls = country.Resources.SingleOrDefault(r => r.ResourceDataID == ResourceData.Pearl.ID);
             pearls.Amount += (int)Math.Truncate(pearls.ProductionBase * pearls.ProductionMultiplier);
-            _dbContext.SaveChanges();
+            
         }
 
         private void GenerateCoralIncome(Country country)
         {
             var corals = country.Resources.SingleOrDefault(r => r.ResourceDataID == ResourceData.Coral.ID);
             corals.Amount += (int)Math.Truncate(corals.ProductionBase * corals.ProductionMultiplier);
-            _dbContext.SaveChanges();
+            
         }
 
         private void GenerateStoneIncome(Country country)
         {
             var stones = country.Resources.SingleOrDefault(r => r.ResourceDataID == ResourceData.Stone.ID);
             stones.Amount += (int)Math.Truncate(stones.ProductionBase * stones.ProductionMultiplier);
-            _dbContext.SaveChanges();
+           
         }
 
         private void PaySoldiers(Country country)
@@ -62,7 +62,7 @@ namespace StrategyGame.Bll.Services
 
             foreach (var unit in country.Units)
             {
-                var resource = country.Resources.Where(c => c.ResourceDataID == unit.UnitData.SalaryUnitID).FirstOrDefault();
+                var resource = country.Resources.SingleOrDefault(c => c.ResourceDataID == unit.UnitData.SalaryUnitID);
                 var resourcesLost = unit.UnitData.Salary * unit.Count;
 
                 if (resource.Amount - resourcesLost >= 0)
@@ -70,7 +70,7 @@ namespace StrategyGame.Bll.Services
                 else
                     resource.Amount = 0;
             }
-            _dbContext.SaveChanges();
+            
 
         }
 
@@ -79,7 +79,7 @@ namespace StrategyGame.Bll.Services
 
             foreach (var unit in country.Units)
             {
-                var resource = country.Resources.Where(c => c.ResourceDataID == unit.UnitData.ConsumptionUnitID).FirstOrDefault();
+                var resource = country.Resources.SingleOrDefault(c => c.ResourceDataID == unit.UnitData.ConsumptionUnitID);
                 var resourcesEaten = unit.UnitData.Consumption * unit.Count;
 
                 if (resource.Amount - resourcesEaten >= 0)
@@ -87,7 +87,7 @@ namespace StrategyGame.Bll.Services
                 else
                     resource.Amount = 0;
             }
-            _dbContext.SaveChanges();
+            
 
         }
 
@@ -99,7 +99,7 @@ namespace StrategyGame.Bll.Services
             if (currentlyUpgrading == null) return;
             currentlyUpgrading.Progress--;
             if (currentlyUpgrading.Progress == 0) currentlyUpgrading.UpgradeData.ApplyEffects(country);
-            _dbContext.SaveChanges();
+            
 
         }
         private void ProceedWithBuilding(Country country)
@@ -111,18 +111,18 @@ namespace StrategyGame.Bll.Services
             {
                 currentlyBuilding.Count++;
                 currentlyBuilding.BuildingData.ApplyEffect(country);
-                _dbContext.SaveChanges();
+                
             }
         }
         public async Task SimulateRound()
         {
 
-            var countryList = _dbContext.Countries
+            var countryList = await _dbContext.Countries
                 .Include(c => c.Buildings).ThenInclude(b => b.BuildingData)
                 .Include(c => c.Upgrades).ThenInclude(u => u.UpgradeData)
                 .Include(c => c.Units).ThenInclude(u => u.UnitData)
                 .Include(c => c.Resources).ThenInclude(r => r.ResourceData)
-                .ToList();
+                .ToListAsync();
 
             // változások az egyes országokban
             foreach (var country in countryList)
@@ -138,13 +138,13 @@ namespace StrategyGame.Bll.Services
             }
 
             //Harc
-            var BattleIDs = _dbContext.Battles.Select(b => b.ID).ToList();
+            var BattleIDs = await _dbContext.Battles.Select(b => b.ID).ToListAsync();
             foreach (var battleID in BattleIDs)
             {
                 _battleService.CommenceBattle(battleID);
             }
             //felfedezés
-            var explorationIDs = _dbContext.Explorations.Select(e => e.ID).ToList();
+            var explorationIDs = await _dbContext.Explorations.Select(e => e.ID).ToListAsync();
             foreach(var expID in explorationIDs)
 			{
                 _battleService.SimulateExploration(expID);
