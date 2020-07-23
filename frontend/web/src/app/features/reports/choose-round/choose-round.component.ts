@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 
 @Component({
   selector: 'app-choose-round',
@@ -8,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 export class ChooseRoundComponent implements OnInit {
 
   chosenRound: number = 1;
-  actualRound: number = 20;
+  
+  @Input() actualRound: number = 20;
+  @Output() chosenRoundChanged = new EventEmitter<number>();
 
   constructor() { }
 
@@ -19,6 +21,7 @@ export class ChooseRoundComponent implements OnInit {
     if(this.chosenRound == 1 && num < 0)  return;
     if(this.chosenRound == this.actualRound && num > 0) return;
     this.chosenRound += num;
+    this.chosenRoundChanged.emit(this.chosenRound);
   }
 
 }
