@@ -1,3 +1,7 @@
+p {
+    color: white;
+}
+
 .choose-round-container {
     margin: 5% auto 5% auto;
     text-align: center;
@@ -10,7 +14,6 @@
 .expansion-panel {
     background-color: #3B7DBD;
     font-family: "Baloo Regular";
-    color: white;
 }
 
 .home-force {
@@ -25,10 +28,6 @@
 
 .line {
     margin: 2% auto 2% auto;
-}
-
-.tab-label {
-    color: white;
 }
 
 .card {
