@@ -49,5 +49,11 @@ img {
 
 .steppers {
     text-align: center;
+    display: flex;
     margin: 10% auto 10% auto;
+    width: 10rem;
+}
+
+.number-input {
+    width: 2rem;
 }
