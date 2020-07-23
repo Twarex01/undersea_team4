@@ -21,3 +21,7 @@
 .defense-force {
     display: inline-block;
 }
+
+.line {
+    margin: 2% auto 2% auto;
+}

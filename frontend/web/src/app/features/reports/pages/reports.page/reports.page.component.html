@@ -1,52 +1,82 @@
 <app-basic-card>
-    <p class="header">Jelentések</p>
-    <mat-tab-group class="details">
-        <mat-tab label="Támadások">
-            <div>
-                <div class="choose-round-container">
-                    <app-choose-round></app-choose-round>
-                </div>
-                <div>
-                    <mat-accordion>
-                        <mat-expansion-panel class="expansion-panel">
-                          <mat-expansion-panel-header class="expansion-panel-header">
-                            <mat-panel-title>
-                              TargetCityName
-                            </mat-panel-title>
-                            <mat-panel-description>
-                              Sikeres/Nem sikeres támadás
-                            </mat-panel-description>
-                          </mat-expansion-panel-header>
-                          <div class="attack-force">
-                            <p>Támadóerő: 25</p>
-                            <p>Küldött egységek: </p>
-                            <span>10 lézercápa </span>
-                            <span>5 rohamfóka </span>
-                            <span>2 csatacsikó </span>
-                          </div>
-                          <div class="defense-force">
-                            <p>Védőerő: 12</p>
-                            <p>Elvesztett egységek:</p>
-                            <span>10 lézercápa </span>
-                            <span>5 rohamfóka </span>
-                            <span>2 csatacsikó </span>
-                          </div>
-                          <div>
-                            <p>Megszerzett erőforrások:</p>
-                            <span>200 Gyöngy </span>
-                            <span>100 Korall </span>
-                            <span>50 Kő </span>
-                          </div>
-                        </mat-expansion-panel>
-                      </mat-accordion>
-                </div>
-            </div>
-        </mat-tab>
-        <mat-tab label="Védekezés">
-
-        </mat-tab>
-        <mat-tab label="Felfedezés">
-
-        </mat-tab>
-    </mat-tab-group>
+  <p class="header">Jelentések</p>
+  <mat-tab-group class="details">
+    <mat-tab label="Támadások">
+      <div>
+        <div class="choose-round-container">
+          <app-choose-round></app-choose-round>
+        </div>
+        <div class="line">
+          <mat-accordion>
+            <mat-expansion-panel class="expansion-panel">
+              <mat-expansion-panel-header class="expansion-panel-header">
+                <mat-panel-title>
+                  TargetCityName
+                </mat-panel-title>
+                <mat-panel-description>
+                  Sikeres/Nem sikeres támadás
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <div class="attack-force">
+                <p>Támadóerő: 25</p>
+                <p>Küldött egységek:</p>
+                <span>10 lézercápa </span>
+                <span>5 rohamfóka </span>
+                <span>2 csatacsikó </span>
+              </div>
+              <div class="defense-force">
+                <p>Védőerő: 12</p>
+                <p>Elvesztett egységek:</p>
+                <span>10 lézercápa </span>
+                <span>5 rohamfóka </span>
+                <span>2 csatacsikó </span>
+              </div>
+              <div>
+                <p>Megszerzett erőforrások:</p>
+                <span>200 Gyöngy </span>
+                <span>100 Korall </span>
+                <span>50 Kő </span>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+        <div class="line">
+          <mat-accordion>
+            <mat-expansion-panel class="expansion-panel">
+              <mat-expansion-panel-header class="expansion-panel-header">
+                <mat-panel-title>
+                  TargetCityName
+                </mat-panel-title>
+                <mat-panel-description>
+                  Sikeres/Nem sikeres támadás
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <div class="attack-force">
+                <p>Támadóerő: 25</p>
+                <p>Küldött egységek:</p>
+                <span>10 lézercápa </span>
+                <span>5 rohamfóka </span>
+                <span>2 csatacsikó </span>
+              </div>
+              <div class="defense-force">
+                <p>Védőerő: 12</p>
+                <p>Elvesztett egységek:</p>
+                <span>10 lézercápa </span>
+                <span>5 rohamfóka </span>
+                <span>2 csatacsikó </span>
+              </div>
+              <div>
+                <p>Megszerzett erőforrások:</p>
+                <span>200 Gyöngy </span>
+                <span>100 Korall </span>
+                <span>50 Kő </span>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Védekezés"> </mat-tab>
+    <mat-tab label="Felfedezés"> </mat-tab>
+  </mat-tab-group>
 </app-basic-card>
