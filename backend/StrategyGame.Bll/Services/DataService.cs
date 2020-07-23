@@ -168,58 +168,11 @@ namespace StrategyGame.Bll.Services
             };
         }
 
-        public FullReportDTO GetFullReport(int countryId)
+        public async Task<FullReportDTO> GetFullReport(int countryId)
         {
 
-            var battleReports = new List<BattleReport>();
-            var allBattleReports = _context.BattleReports.Include(b => b.Loot).Include(b => b.UnitsLost).Include(b => b.AttackerArmy)
-                .Where(b => b.AttackerID == countryId || b.DefenderID == countryId);
-            if (allBattleReports != null)
-            {
-                foreach (BattleReport battleReport in allBattleReports)
-                {
-                    var temp = new BattleReport
-                    {
-                        AttackerID = battleReport.AttackerID,
-                        DefenderID = battleReport.DefenderID,
-                        AttackerName = battleReport.AttackerName,
-                        DefenderName = battleReport.DefenderName,
-                        Succesful = battleReport.Succesful,
-                        AttackerArmy = battleReport.AttackerArmy,
-                        Loot = battleReport.Loot,
-                        UnitsLost = battleReport.UnitsLost,
-                        Round = battleReport.Round,
-                        ATKPower = battleReport.ATKPower,
-                        DEFPower = battleReport.DEFPower
-                    };
-                    foreach (var item in temp.AttackerArmy)
-                    {
-                        item.BattleReport = null;
-                    }
-                    battleReports.Add(temp);
-                }
-            }
-
-            var explorationReports = new List<ExplorationReport>();
-            var allExplorationReports = _context.ExplorationReports.Where(e => e.SenderCountryID == countryId);
-            if (allExplorationReports != null)
-            {
-                foreach (ExplorationReport explorationReport in allExplorationReports)
-                {
-                    explorationReports.Add(new ExplorationReport
-                    {
-                        SenderCountryName = explorationReport.SenderCountryName,
-                        VictimCountryName = explorationReport.VictimCountryName,
-                        SenderCountryID = explorationReport.SenderCountryID,
-                        VictimCountryID = explorationReport.VictimCountryID,
-                        ExplorersSent = explorationReport.ExplorersSent,
-                        Successful = explorationReport.Successful,
-                        ExposedDefensePower = explorationReport.ExposedDefensePower
-                    });
-
-                }
-            }
-
+            var battleReports = await _context.BattleReports.Include(b => b.Loot).Include(b => b.UnitsLost).Include(b => b.AttackerArmy).Where(b => b.AttackerID == countryId || b.DefenderID == countryId).ToListAsync();
+            var explorationReports = await _context.ExplorationReports.Where(e => e.SenderCountryID == countryId).ToListAsync();
             return new FullReportDTO { BattleReports = battleReports, ExplorationReports = explorationReports };
         }
 

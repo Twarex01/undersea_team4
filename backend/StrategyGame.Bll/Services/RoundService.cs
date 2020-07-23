@@ -141,13 +141,13 @@ namespace StrategyGame.Bll.Services
             var BattleIDs = await _dbContext.Battles.Select(b => b.ID).ToListAsync();
             foreach (var battleID in BattleIDs)
             {
-                _battleService.CommenceBattle(battleID);
+                await _battleService.CommenceBattle(battleID);
             }
             //felfedezés
             var explorationIDs = await _dbContext.Explorations.Select(e => e.ID).ToListAsync();
             foreach(var expID in explorationIDs)
 			{
-                _battleService.SimulateExploration(expID);
+                await _battleService.SimulateExploration(expID);
 			}
 
             //pont számolás

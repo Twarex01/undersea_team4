@@ -38,7 +38,7 @@ namespace StrategyGame.Api.Controllers
             var atkCountry = await _userService.GetCountryByUserID(User.Identity.Name);
             battleDTO.IdAtt = atkCountry.ID;
 
-             _battleService.SendAllTypesToAttack(battleDTO);
+            await _battleService.SendAllTypesToAttack(battleDTO);
 
             return Ok();
         }
@@ -65,7 +65,7 @@ namespace StrategyGame.Api.Controllers
         {
             var atkCountry = await _userService.GetCountryByUserID(User.Identity.Name);
             explorationDTO.SenderCountryID = atkCountry.ID;
-            _battleService.SendExplorersToCountry(explorationDTO);
+            await _battleService.SendExplorersToCountry(explorationDTO);
             return Ok();
         }
 
@@ -77,7 +77,7 @@ namespace StrategyGame.Api.Controllers
         public async Task<ActionResult<List<ExplorationDetailsDTO>>> GetCountryExplorations()
         {
             var atkCountry = await _userService.GetCountryByUserID(User.Identity.Name);
-            var result = _battleService.GetCountryExplorations(atkCountry.ID);
+            var result = await _battleService.GetCountryExplorations(atkCountry.ID);
             return Ok(result);
 
         }

@@ -245,7 +245,7 @@ namespace StrategyGame.Bll.Services
 			{
 				var existingInfo = await _context.ExplorationInfos.SingleOrDefaultAsync(e => e.InformedCountryID == senderCountry.ID && e.ExposedCountryID == victimCountry.ID);
 				explorationReport.Successful = true;
-				explorationReport.ExposedDefensePower = CalculateMaximumPotentialDefensePower(victimCountry.ID);
+				explorationReport.ExposedDefensePower = await CalculateMaximumPotentialDefensePower(victimCountry.ID);
 				
 				if (existingInfo != null)
 				{
