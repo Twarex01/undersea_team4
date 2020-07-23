@@ -1,0 +1,23 @@
+.choose-round-container {
+    margin: 5% auto 5% auto;
+    text-align: center;
+}
+
+.expansion-panel-header {
+    background-color: #346da7;
+}
+
+.expansion-panel {
+    background-color: #3B7DBD;
+    font-family: "Baloo Regular";
+    color: white;
+}
+
+.attack-force {
+    display: inline-block;
+    margin-right: 5rem;
+}
+
+.defense-force {
+    display: inline-block;
+}

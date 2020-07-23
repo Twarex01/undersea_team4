@@ -3,11 +3,13 @@
     <mat-tab-group class="details">
         <mat-tab label="Támadások">
             <div>
-                <app-choose-round></app-choose-round>
+                <div class="choose-round-container">
+                    <app-choose-round></app-choose-round>
+                </div>
                 <div>
                     <mat-accordion>
-                        <mat-expansion-panel>
-                          <mat-expansion-panel-header>
+                        <mat-expansion-panel class="expansion-panel">
+                          <mat-expansion-panel-header class="expansion-panel-header">
                             <mat-panel-title>
                               TargetCityName
                             </mat-panel-title>
@@ -15,13 +17,14 @@
                               Sikeres/Nem sikeres támadás
                             </mat-panel-description>
                           </mat-expansion-panel-header>
-                          <div>
+                          <div class="attack-force">
                             <p>Támadóerő: 25</p>
+                            <p>Küldött egységek: </p>
                             <span>10 lézercápa </span>
                             <span>5 rohamfóka </span>
                             <span>2 csatacsikó </span>
                           </div>
-                          <div>
+                          <div class="defense-force">
                             <p>Védőerő: 12</p>
                             <p>Elvesztett egységek:</p>
                             <span>10 lézercápa </span>

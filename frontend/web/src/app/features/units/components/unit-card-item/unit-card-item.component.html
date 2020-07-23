@@ -25,7 +25,6 @@
     <div class="steppers">
       <button (click)="changeNumberOfUnitsToBuy(-1)" [disabled]="!canDecrease()"  [ngClass]="{'button-not-selected': !canDecrease()}">-</button>{{unit.numToBuy}}
       <button (click)="changeNumberOfUnitsToBuy(1)" [disabled]="!canIncrease()"  [ngClass]="{'button-not-selected': !canIncrease()}">+</button>
-      <!--  -->
     </div>
   </div>
 </div>
