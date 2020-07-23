@@ -718,6 +718,61 @@ export class CountryClient {
         }
         return _observableOf<BuildingDTO[]>(<any>null);
     }
+
+    getCountryReport(): Observable<FullReportDTO> {
+        let url_ = this.baseUrl + "/api/Country/Report";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCountryReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCountryReport(<any>response_);
+                } catch (e) {
+                    return <Observable<FullReportDTO>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FullReportDTO>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetCountryReport(response: HttpResponseBase): Observable<FullReportDTO> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result401: any = null;
+            let resultData401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result401 = ProblemDetails.fromJS(resultData401);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FullReportDTO.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FullReportDTO>(<any>null);
+    }
 }
 
 @Injectable()
@@ -1733,6 +1788,386 @@ export interface IBuildingDTO {
     buildingTypeID: number;
     progress: number;
     count: number;
+}
+
+export class FullReportDTO implements IFullReportDTO {
+    battleReports?: BattleReport[] | undefined;
+    explorationReports?: ExplorationReport[] | undefined;
+
+    constructor(data?: IFullReportDTO) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["battleReports"])) {
+                this.battleReports = [] as any;
+                for (let item of _data["battleReports"])
+                    this.battleReports!.push(BattleReport.fromJS(item));
+            }
+            if (Array.isArray(_data["explorationReports"])) {
+                this.explorationReports = [] as any;
+                for (let item of _data["explorationReports"])
+                    this.explorationReports!.push(ExplorationReport.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): FullReportDTO {
+        data = typeof data === 'object' ? data : {};
+        let result = new FullReportDTO();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.battleReports)) {
+            data["battleReports"] = [];
+            for (let item of this.battleReports)
+                data["battleReports"].push(item.toJSON());
+        }
+        if (Array.isArray(this.explorationReports)) {
+            data["explorationReports"] = [];
+            for (let item of this.explorationReports)
+                data["explorationReports"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IFullReportDTO {
+    battleReports?: BattleReport[] | undefined;
+    explorationReports?: ExplorationReport[] | undefined;
+}
+
+export class BattleReport implements IBattleReport {
+    id!: number;
+    attackerID!: number;
+    defenderID!: number;
+    attackerName?: string | undefined;
+    defenderName?: string | undefined;
+    succesful!: boolean;
+    attackerArmy?: ReportedUnit[] | undefined;
+    loot?: Loot[] | undefined;
+    unitsLost?: LostUnit[] | undefined;
+    round!: number;
+    atkPower!: number;
+    defPower!: number;
+
+    constructor(data?: IBattleReport) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.attackerID = _data["attackerID"];
+            this.defenderID = _data["defenderID"];
+            this.attackerName = _data["attackerName"];
+            this.defenderName = _data["defenderName"];
+            this.succesful = _data["succesful"];
+            if (Array.isArray(_data["attackerArmy"])) {
+                this.attackerArmy = [] as any;
+                for (let item of _data["attackerArmy"])
+                    this.attackerArmy!.push(ReportedUnit.fromJS(item));
+            }
+            if (Array.isArray(_data["loot"])) {
+                this.loot = [] as any;
+                for (let item of _data["loot"])
+                    this.loot!.push(Loot.fromJS(item));
+            }
+            if (Array.isArray(_data["unitsLost"])) {
+                this.unitsLost = [] as any;
+                for (let item of _data["unitsLost"])
+                    this.unitsLost!.push(LostUnit.fromJS(item));
+            }
+            this.round = _data["round"];
+            this.atkPower = _data["atkPower"];
+            this.defPower = _data["defPower"];
+        }
+    }
+
+    static fromJS(data: any): BattleReport {
+        data = typeof data === 'object' ? data : {};
+        let result = new BattleReport();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["attackerID"] = this.attackerID;
+        data["defenderID"] = this.defenderID;
+        data["attackerName"] = this.attackerName;
+        data["defenderName"] = this.defenderName;
+        data["succesful"] = this.succesful;
+        if (Array.isArray(this.attackerArmy)) {
+            data["attackerArmy"] = [];
+            for (let item of this.attackerArmy)
+                data["attackerArmy"].push(item.toJSON());
+        }
+        if (Array.isArray(this.loot)) {
+            data["loot"] = [];
+            for (let item of this.loot)
+                data["loot"].push(item.toJSON());
+        }
+        if (Array.isArray(this.unitsLost)) {
+            data["unitsLost"] = [];
+            for (let item of this.unitsLost)
+                data["unitsLost"].push(item.toJSON());
+        }
+        data["round"] = this.round;
+        data["atkPower"] = this.atkPower;
+        data["defPower"] = this.defPower;
+        return data; 
+    }
+}
+
+export interface IBattleReport {
+    id: number;
+    attackerID: number;
+    defenderID: number;
+    attackerName?: string | undefined;
+    defenderName?: string | undefined;
+    succesful: boolean;
+    attackerArmy?: ReportedUnit[] | undefined;
+    loot?: Loot[] | undefined;
+    unitsLost?: LostUnit[] | undefined;
+    round: number;
+    atkPower: number;
+    defPower: number;
+}
+
+export class ReportedUnit implements IReportedUnit {
+    id!: number;
+    battleReport?: BattleReport | undefined;
+    battleReportID!: number;
+    name?: string | undefined;
+    count!: number;
+
+    constructor(data?: IReportedUnit) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.battleReport = _data["battleReport"] ? BattleReport.fromJS(_data["battleReport"]) : <any>undefined;
+            this.battleReportID = _data["battleReportID"];
+            this.name = _data["name"];
+            this.count = _data["count"];
+        }
+    }
+
+    static fromJS(data: any): ReportedUnit {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReportedUnit();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["battleReport"] = this.battleReport ? this.battleReport.toJSON() : <any>undefined;
+        data["battleReportID"] = this.battleReportID;
+        data["name"] = this.name;
+        data["count"] = this.count;
+        return data; 
+    }
+}
+
+export interface IReportedUnit {
+    id: number;
+    battleReport?: BattleReport | undefined;
+    battleReportID: number;
+    name?: string | undefined;
+    count: number;
+}
+
+export class Loot implements ILoot {
+    id!: number;
+    resourceName?: string | undefined;
+    amount!: number;
+    battleReport?: BattleReport | undefined;
+    battleReportID!: number;
+
+    constructor(data?: ILoot) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.resourceName = _data["resourceName"];
+            this.amount = _data["amount"];
+            this.battleReport = _data["battleReport"] ? BattleReport.fromJS(_data["battleReport"]) : <any>undefined;
+            this.battleReportID = _data["battleReportID"];
+        }
+    }
+
+    static fromJS(data: any): Loot {
+        data = typeof data === 'object' ? data : {};
+        let result = new Loot();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["resourceName"] = this.resourceName;
+        data["amount"] = this.amount;
+        data["battleReport"] = this.battleReport ? this.battleReport.toJSON() : <any>undefined;
+        data["battleReportID"] = this.battleReportID;
+        return data; 
+    }
+}
+
+export interface ILoot {
+    id: number;
+    resourceName?: string | undefined;
+    amount: number;
+    battleReport?: BattleReport | undefined;
+    battleReportID: number;
+}
+
+export class LostUnit implements ILostUnit {
+    id!: number;
+    unitName?: string | undefined;
+    lostAmount!: number;
+    battleReport?: BattleReport | undefined;
+    battleReportID!: number;
+
+    constructor(data?: ILostUnit) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.unitName = _data["unitName"];
+            this.lostAmount = _data["lostAmount"];
+            this.battleReport = _data["battleReport"] ? BattleReport.fromJS(_data["battleReport"]) : <any>undefined;
+            this.battleReportID = _data["battleReportID"];
+        }
+    }
+
+    static fromJS(data: any): LostUnit {
+        data = typeof data === 'object' ? data : {};
+        let result = new LostUnit();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["unitName"] = this.unitName;
+        data["lostAmount"] = this.lostAmount;
+        data["battleReport"] = this.battleReport ? this.battleReport.toJSON() : <any>undefined;
+        data["battleReportID"] = this.battleReportID;
+        return data; 
+    }
+}
+
+export interface ILostUnit {
+    id: number;
+    unitName?: string | undefined;
+    lostAmount: number;
+    battleReport?: BattleReport | undefined;
+    battleReportID: number;
+}
+
+export class ExplorationReport implements IExplorationReport {
+    id!: number;
+    senderCountryName?: string | undefined;
+    victimCountryName?: string | undefined;
+    senderCountryID!: number;
+    victimCountryID!: number;
+    explorersSent!: number;
+    successful!: boolean;
+    exposedDefensePower!: number;
+
+    constructor(data?: IExplorationReport) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.senderCountryName = _data["senderCountryName"];
+            this.victimCountryName = _data["victimCountryName"];
+            this.senderCountryID = _data["senderCountryID"];
+            this.victimCountryID = _data["victimCountryID"];
+            this.explorersSent = _data["explorersSent"];
+            this.successful = _data["successful"];
+            this.exposedDefensePower = _data["exposedDefensePower"];
+        }
+    }
+
+    static fromJS(data: any): ExplorationReport {
+        data = typeof data === 'object' ? data : {};
+        let result = new ExplorationReport();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["senderCountryName"] = this.senderCountryName;
+        data["victimCountryName"] = this.victimCountryName;
+        data["senderCountryID"] = this.senderCountryID;
+        data["victimCountryID"] = this.victimCountryID;
+        data["explorersSent"] = this.explorersSent;
+        data["successful"] = this.successful;
+        data["exposedDefensePower"] = this.exposedDefensePower;
+        return data; 
+    }
+}
+
+export interface IExplorationReport {
+    id: number;
+    senderCountryName?: string | undefined;
+    victimCountryName?: string | undefined;
+    senderCountryID: number;
+    victimCountryID: number;
+    explorersSent: number;
+    successful: boolean;
+    exposedDefensePower: number;
 }
 
 export class UpgradeDetailsDTO implements IUpgradeDetailsDTO {

@@ -18,6 +18,7 @@ import { AuthGuardService } from './core/services/auth-guard.service';
 import { LoginClient, RegisterClient, RoundClient } from './shared/clients';
 import { MenuLogoComponent } from './core/menu-logo/menu-logo.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
 import {
   MatSnackBarModule,
   MAT_SNACK_BAR_DEFAULT_OPTIONS,
@@ -42,7 +43,7 @@ import {
     ReactiveFormsModule,
     HttpClientModule,
     NoopAnimationsModule,
-    MatSnackBarModule,
+    MatSnackBarModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

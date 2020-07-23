@@ -1,0 +1,44 @@
+<div *ngIf="attackReports.length > 0">
+  <div class="choose-round-container">
+    <app-choose-round [currentRound]="currentRound"></app-choose-round>
+  </div>
+  <div class="line" *ngFor="let attackReport of attackReports">
+    <mat-accordion>
+      <mat-expansion-panel class="expansion-panel">
+        <mat-expansion-panel-header class="expansion-panel-header">
+          <mat-panel-title>
+            {{ attackReport.defenderCountryName }}
+          </mat-panel-title>
+          <mat-panel-description>
+            <p *ngIf="attackReport.isSuccessful" class="success">
+              Sikeres támadás
+            </p>
+            <p *ngIf="!attackReport.isSuccessful" class="failure">
+              Sikertelen támadás
+            </p>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div class="home-force">
+          <p class="data-title">Támadóerő: {{ attackReport.attackerPower }}</p>
+          <p class="data-title">Küldött egységek:</p>
+          <span *ngFor="let unit of attackReport.attackerArmy"
+            >{{ unit.count }} {{ unit.name }}</span
+          >
+        </div>
+        <div class="other-force">
+          <p class="data-title">Védőerő: {{ attackReport.defenderPower }}</p>
+          <p class="data-title">Elvesztett egységek:</p>
+          <span *ngFor="let unit of attackReport.unitsLost"
+            >{{ unit.count }} {{ unit.name }}</span
+          >
+        </div>
+        <div>
+          <p class="data-title">Megszerzett erőforrások:</p>
+          <span *ngFor="let resource of attackReport.resourceChanges"
+            >{{ resource.change }} {{ resource.name }}</span
+          >
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>

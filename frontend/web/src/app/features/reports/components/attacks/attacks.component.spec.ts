@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SpyinfoPageComponent } from './spyinfo.page.component';
+import { AttacksComponent } from './attacks.component';
 
-describe('Spyinfo.PageComponent', () => {
-  let component: SpyinfoPageComponent;
-  let fixture: ComponentFixture<SpyinfoPageComponent>;
+describe('AttacksComponent', () => {
+  let component: AttacksComponent;
+  let fixture: ComponentFixture<AttacksComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SpyinfoPageComponent ]
+      declarations: [ AttacksComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SpyinfoPageComponent);
+    fixture = TestBed.createComponent(AttacksComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
