@@ -9,11 +9,17 @@ import { ExplorationReport } from '../../models/exploration-report';
 export class ExplorationsComponent implements OnInit {
 
   @Input() explorationReports: ExplorationReport[] = [];
-  @Input() currentRound: number = 0;
+  @Input() prevRound: number = 0;
+
+  chosenRound: number = 0;
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  getReports() {
+    return this.explorationReports.filter((er) => er.round === this.chosenRound);
   }
 
 }

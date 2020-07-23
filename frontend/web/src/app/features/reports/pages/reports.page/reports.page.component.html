@@ -5,19 +5,19 @@
       <ng-template mat-tab-label>
         <p>Támadás</p>
       </ng-template>
-      <app-attacks *ngIf="report" [attackReports]="report.attackReports" [currentRound]="currentRound"></app-attacks>
+      <app-attacks *ngIf="report" [attackReports]="report.attackReports" [prevRound]="prevRound"></app-attacks>
     </mat-tab>
     <mat-tab>
       <ng-template mat-tab-label>
         <p>Védekezés</p>
       </ng-template>
-      <app-defenses *ngIf="report" [defenseReports]="report.defendReports" [currentRound]="currentRound"></app-defenses>
+      <app-defenses *ngIf="report" [defenseReports]="report.defendReports" [prevRound]="prevRound"></app-defenses>
     </mat-tab>
     <mat-tab>
       <ng-template mat-tab-label>
         <p>Felfedezés</p>
       </ng-template>
-      <app-explorations *ngIf="report" [explorationReports]="report.explorationReports" [currentRound]="currentRound"></app-explorations>
+      <app-explorations *ngIf="report" [explorationReports]="report.explorationReports" [prevRound]="prevRound"></app-explorations>
     </mat-tab>
   </mat-tab-group>
 </app-basic-card>

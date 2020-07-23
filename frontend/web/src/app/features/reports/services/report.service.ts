@@ -40,9 +40,9 @@ export class ReportService {
     )
   }
 
-  getCurrentRound(): Observable<number> {
+  getPrevoiusRound(): Observable<number> {
     return this.roundClient.getCountryRound().pipe(
-      map((cr) => cr.round)
+      map((cr) => cr.round-1)
     )
   }
 

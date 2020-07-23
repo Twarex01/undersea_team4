@@ -10,11 +10,18 @@ import { BattleReportModel } from '../../models/battle-report-model';
 export class AttacksComponent implements OnInit {
 
   @Input() attackReports: BattleReportModel[] = [];
-  @Input() currentRound: number = 0;
+  @Input() prevRound: number = 0;
+
+  chosenRound: number = 0;
 
   constructor() { }
 
   ngOnInit(): void {
+    this.chosenRound = this.prevRound;
+  }
+
+  getReports() {
+    return this.attackReports.filter((ar) => ar.round === this.chosenRound);
   }
 
 }

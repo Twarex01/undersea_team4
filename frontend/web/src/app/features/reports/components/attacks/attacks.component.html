@@ -1,8 +1,8 @@
 <div *ngIf="attackReports.length > 0">
   <div class="choose-round-container">
-    <app-choose-round [currentRound]="currentRound"></app-choose-round>
+    <app-choose-round [prevRound]="prevRound"></app-choose-round>
   </div>
-  <div class="line" *ngFor="let attackReport of attackReports">
+  <div class="line" *ngFor="let attackReport of getReports()">
     <mat-accordion>
       <mat-expansion-panel class="expansion-panel">
         <mat-expansion-panel-header class="expansion-panel-header">
