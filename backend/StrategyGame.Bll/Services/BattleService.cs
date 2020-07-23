@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Results;
+using FluentValidation.Validators;
 using Microsoft.EntityFrameworkCore;
 using StrategyGame.Bll.DTO;
 using StrategyGame.Bll.DTO.Validators;
@@ -257,23 +258,52 @@ namespace StrategyGame.Bll.Services
 
 		public void CommenceBattle(int battleId)
 		{
+
+
+			var battle = _context.Battles.Where(b => b.ID == battleId).FirstOrDefault();
+			if (battle == null) throw new HttpResponseException { Status = 400, Value = "Nincs ilyen csata"};
+
 			double multiplier = moraleGenerator.Next(0, 2) > 0 ? 1.05 : 0.95;
 			var ATKPower = CountAttackPowerInBattle(battleId) * multiplier;
 			var DEFPower = CountDefensePowerInBattle(battleId);
 			var defCountry = _context.Battles.Include(b=> b.DefendingCountry).Where(b => b.ID == battleId).SingleOrDefault().DefendingCountry;
 			var atkCountry = _context.Battles.Include(b=> b.AttackingCountry).Where(b => b.ID == battleId).SingleOrDefault().AttackingCountry;
+			var roundNumber = _context.Round.FirstOrDefault().RoundNumber;
+			var attackingUnits = battle.AttackingUnits;
+			var reportedUnits = new List<ReportedUnit>();
+
+			foreach (AttackingUnit attackingUnit in attackingUnits) 
+			{
+				reportedUnits.Add(new ReportedUnit { Name = attackingUnit.UnitData.Name, Count = attackingUnit.Count });
+			
+			}
+
+			BattleReport battleHistory = 
+				new BattleReport 
+				{ 
+					ATKPower = ATKPower, 
+					DEFPower = DEFPower, 
+					AttackerID = atkCountry.ID, 
+					DefenderID = defCountry.ID,
+					AttackerName = atkCountry.Name,
+					DefenderName = defCountry.Name,
+					Round = roundNumber,
+					AttackerArmy = reportedUnits,
+					Loot = null, //TODO
+					UnitsLost = null //TODO
+				};
 
 			if (ATKPower > DEFPower)
 			{
 
+				battleHistory.Succesful = true;
+
 				foreach (int unitDataId in _context.UnitData.Select(u => u.ID))
 				{
-
 					int unitAtHomeLost = CountUnitsOfTypeAtHome(defCountry.ID, unitDataId);
 					if (unitAtHomeLost == 0) continue;
 					unitAtHomeLost = (int)Math.Ceiling(unitAtHomeLost * 0.1);
-					_context.Units.Where(u => u.CountryID == defCountry.ID && u.UnitDataID == unitDataId).SingleOrDefault().Count -= unitAtHomeLost;
-					
+					_context.Units.Where(u => u.CountryID == defCountry.ID && u.UnitDataID == unitDataId).SingleOrDefault().Count -= unitAtHomeLost;				
 				}
 
 				foreach (int resourceDataId in _context.ResourceData.Select(u => u.ID))
@@ -283,22 +313,29 @@ namespace StrategyGame.Bll.Services
 					_context.Resources.Include(r => r.Country).Where(u => u.CoutryID == atkCountry.ID && u.ResourceDataID == resourceDataId).SingleOrDefault().Amount += resourcesTaken;
 					var defenderResource = _context.Resources.SingleOrDefault(r => r.ResourceDataID == resourceDataId && r.CoutryID == defCountry.ID);
 					if (defenderResource.Amount < resourcesTaken) defenderResource.Amount = 0;
-					else defenderResource.Amount -= resourcesTaken;
-					
+					else defenderResource.Amount -= resourcesTaken;					
 				}
 			}
 			else
 			{
-				var attackingUnits = _context.AttackingUnits.Include(a => a.Battle).Include(a => a.UnitData).Where(a => a.BattleID == battleId).ToList();
+
+				battleHistory.Succesful = false;
+
+				var allAttackingUnits = _context.AttackingUnits.Include(a => a.Battle).Include(a => a.UnitData).Where(a => a.BattleID == battleId).ToList();
 
 				foreach (int unitDataId in _context.UnitData.Select(u => u.ID))
 				{
-					int unitAttackingLost = attackingUnits.Where(a => a.UnitData.ID == unitDataId).Select(a => a.Count).SingleOrDefault();
+					int unitAttackingLost = allAttackingUnits.Where(a => a.UnitData.ID == unitDataId).Select(a => a.Count).SingleOrDefault();
 					if (unitAttackingLost == 0) continue;
 					unitAttackingLost = (int)Math.Ceiling(unitAttackingLost * 0.1);
 					_context.Units.Where(u => u.CountryID == atkCountry.ID && u.UnitDataID == unitDataId).SingleOrDefault().Count -= unitAttackingLost;			
 				}
 			}
+
+			_context.BattleReports.Add(battleHistory);
+
+			_context.SaveChanges();
+
 		}
 
 		public async Task<List<BattleDetailsDTO>> GetCountryBattles(int countryId)
