@@ -6,9 +6,9 @@ namespace StrategyGame.Bll.Services
 {
     public interface IPurchaseService
     {
-        public Task<int> PurchaseCountryBuildingAsync(int countryId, int buildingId);
-        public Task<int> PurchaseCountryUpgradeAsync(int countryId, int upgradeId);
-        public Task<int> PurchaseCountryUnitsAsync(int countryId, List<UnitDTO> army);
+        public Task PurchaseCountryBuildingAsync(int countryId, int buildingId);
+        public Task PurchaseCountryUpgradeAsync(int countryId, int upgradeId);
+        public Task PurchaseCountryUnitsAsync(int countryId, List<UnitDTO> army);
 
     }
 }
