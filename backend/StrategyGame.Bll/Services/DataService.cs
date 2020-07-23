@@ -165,7 +165,7 @@ namespace StrategyGame.Bll.Services
             };
         }
 
-        public FullReportDTO GetReport(int countryId)
+        public FullReportDTO GetFullReport(int countryId)
         {
 
             var battleReports = new List<BattleReport>();
