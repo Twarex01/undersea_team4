@@ -1,37 +1,55 @@
-import React, {useEffect} from 'react'
-import {View, Text, StyleSheet, ListRenderItemInfo} from 'react-native'
+import React, {useEffect, useState} from 'react'
+import {
+  View,
+  Text,
+  StyleSheet,
+  ListRenderItemInfo,
+  RefreshControl,
+} from 'react-native'
 import {Colors} from '../constants/colors'
-import ScrollablePagesTemplate from '../components/pages/scrollablePagesTemplate'
 import {Strings} from '../constants/strings'
 import {Fonts, FontSizes} from '../constants/fonts'
 import {Margins} from '../constants/margins'
 import BuildingCard from '../components/card/buildingCard'
-import {Images} from '../constants/images'
 import {BuildingDetails} from '../model/building/buildingDetails'
-import {UpgradeDetails} from '../model/upgrade/upgradeDetails'
-import PagesTemplate from '../components/pages/pagesTemplate'
 import {FlatList} from 'react-native-gesture-handler'
-import TransparentButton from '../components/button/transparentButton'
-import {StackNavigationProp} from '@react-navigation/stack'
 import {useSelector, useDispatch} from 'react-redux'
 import {IApplicationState} from '../../store'
 import {getBuildings} from '../store/buildings/buildings.actions'
 import {getMyBuildings} from '../store/myBuildings/myBuildings.action'
 import {createSelector} from 'reselect'
-import {BuildingStore} from '../store/buildings/buildings.store'
+import {MyBuildingDetails} from '../model/building/myBuildingDetails'
+import TransparentButton from '../components/button/transparentButton'
 
-interface BuildingsScreenProps {
-  navigation: StackNavigationProp<any>
-}
-
-const BuildingsScreen = ({navigation}: BuildingsScreenProps) => {
-  const {buildings, buildingsError, isBuildingsLoading} = useSelector(
+const BuildingsScreen = () => {
+  const {buildingsError, isBuildingsLoading} = useSelector(
     (state: IApplicationState) => state.app.building,
   )
-  const {myBuildings, myBuildingsError, isMyBuildingsLoading} = useSelector(
+  const {myBuildingsError, isMyBuildingsLoading} = useSelector(
     (state: IApplicationState) => state.app.myBuilding,
   )
-  //map
+
+  const buildingsDataSelector = createSelector(
+    (state: IApplicationState) => state.app,
+    appstate =>
+      appstate.building.buildings.map(building => {
+        const myBuildingInfo = appstate.myBuilding.myBuildings.find(
+          b => building.buildingTypeID === b.buildingTypeID,
+        )
+        return {
+          buildingTypeID: building.buildingTypeID,
+          name: building.name,
+          prices: building.prices,
+          effect: building.effect,
+          buildTime: building.buildTime,
+          imageURL: building.imageURL,
+          progress: myBuildingInfo?.progress,
+          count: myBuildingInfo?.count,
+        }
+      }),
+  )
+
+  const buildings = useSelector(buildingsDataSelector)
 
   const dispatch = useDispatch()
 
@@ -40,9 +58,19 @@ const BuildingsScreen = ({navigation}: BuildingsScreenProps) => {
     dispatch(getMyBuildings())
   }, [dispatch])
 
-  const onBuyPressed = () => {}
+  const refreshBuildings = () => {
+    dispatch(getBuildings())
+    dispatch(getMyBuildings())
+  }
 
-  const renderItem = (itemInfo: ListRenderItemInfo<BuildingDetails>) => {
+  const [index, setIndex] = useState(-1)
+
+  const onBuyPressed = () => {}
+  const onItemPressed = () => {}
+
+  const renderItem = (
+    itemInfo: ListRenderItemInfo<BuildingDetails & MyBuildingDetails>,
+  ) => {
     const {
       buildingTypeID,
       name,
@@ -50,6 +78,8 @@ const BuildingsScreen = ({navigation}: BuildingsScreenProps) => {
       effect,
       buildTime,
       imageURL,
+      progress,
+      count,
     } = itemInfo.item
     return (
       <BuildingCard
@@ -58,7 +88,9 @@ const BuildingsScreen = ({navigation}: BuildingsScreenProps) => {
         prices={prices}
         description={effect}
         image={imageURL}
-        count={5}
+        count={count ? count : 0}
+        onPress={onItemPressed}
+        selected={index === buildingTypeID ? true : false}
       />
     )
   }
@@ -79,14 +111,27 @@ const BuildingsScreen = ({navigation}: BuildingsScreenProps) => {
   }
 
   return (
-    <FlatList
-      data={buildings}
-      renderItem={renderItem}
-      ListHeaderComponent={renderHeaderComponent}
-      keyExtractor={keyExtractor}
-      style={styles.flatlistPadding}
-      contentContainerStyle={{paddingBottom: 120}}
-    />
+    <View style={styles.container}>
+      <FlatList
+        data={buildings}
+        renderItem={renderItem}
+        ListHeaderComponent={renderHeaderComponent}
+        keyExtractor={keyExtractor}
+        style={styles.flatlistPadding}
+        contentContainerStyle={{paddingBottom: 120}}
+        refreshControl={
+          <RefreshControl
+            refreshing={isBuildingsLoading && isMyBuildingsLoading}
+            onRefresh={refreshBuildings}
+          />
+        }
+      />
+      <TransparentButton
+        title={Strings.buy}
+        onPress={onBuyPressed}
+        style={{position: 'absolute', bottom: 0}}
+      />
+    </View>
   )
 }
 

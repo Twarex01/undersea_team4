@@ -24,6 +24,8 @@ interface Props {
   description?: string
   image: string
   count: number
+  onPress: () => void
+  selected: boolean
 }
 
 const BuildingCard = ({
@@ -33,6 +35,8 @@ const BuildingCard = ({
   description,
   image,
   count,
+  onPress,
+  selected,
 }: Props) => {
   const renderItem = (item: Prices, index: number) => {
     const {price, priceTypeName} = item
@@ -46,7 +50,17 @@ const BuildingCard = ({
   }
 
   return (
-    <TouchableOpacity style={[styles.container, style]}>
+    <TouchableOpacity
+      style={[
+        styles.container,
+        style,
+        {
+          backgroundColor: selected
+            ? Colors.transparentWhite
+            : Colors.middleDarkBlue,
+        },
+      ]}
+      onPress={onPress}>
       <Image
         source={{uri: `${Config.baseURL}${image}`}}
         style={[styles.image, Margins.mtBig, Margins.mbNormal]}

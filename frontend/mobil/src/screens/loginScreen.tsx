@@ -11,7 +11,6 @@ import {postLogin} from '../store/login/login.actions'
 import AsyncStorage from '@react-native-community/async-storage'
 import {Token} from '../constants/token'
 import jwt_decode from 'jwt-decode'
-import {exp} from 'react-native-reanimated'
 
 interface LoginScreenProps {
   navigation: StackNavigationProp<any>

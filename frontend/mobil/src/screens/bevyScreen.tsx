@@ -1,44 +1,85 @@
 import React, {useEffect} from 'react'
-import {View, Text, StyleSheet, ListRenderItemInfo} from 'react-native'
+import {
+  View,
+  Text,
+  StyleSheet,
+  ListRenderItemInfo,
+  RefreshControl,
+} from 'react-native'
 import {Colors} from '../constants/colors'
-import ScrollablePagesTemplate from '../components/pages/scrollablePagesTemplate'
 import {Strings} from '../constants/strings'
 import {Fonts, FontSizes} from '../constants/fonts'
 import {UnitDetails} from '../model/unit/unitDetails'
 import BevyCard from '../components/card/bevyCard'
-import {Images} from '../constants/images'
-import PagesTemplate from '../components/pages/pagesTemplate'
 import {FlatList} from 'react-native-gesture-handler'
-import TransparentButton from '../components/button/transparentButton'
 import {StackNavigationProp} from '@react-navigation/stack'
 import SeparatorComponent from '../components/separator/separatorComponent'
 import {useSelector, useDispatch} from 'react-redux'
-import {IApplicationState} from '../../store'
+import {IApplicationState, IAppStore} from '../../store'
 import {getUnits} from '../store/units/units.actions'
+import {createSelector} from 'reselect'
+import {MyUnitDetails} from '../model/unit/myUnitDetails'
+import {getMyUnits} from '../store/myUnits/myUnits.actions'
+import TransparentButton from '../components/button/transparentButton'
 
 interface BevyScreenProps {
   navigation: StackNavigationProp<any>
 }
 
 const BevyScreen = ({navigation}: BevyScreenProps) => {
-  const {units, unitsError, isUnitsLoading} = useSelector(
+  const {unitsError, isUnitsLoading} = useSelector(
     (state: IApplicationState) => state.app.unit,
   )
-  const {myUnits, myUnitsError, isMyUnitsLoading} = useSelector(
+  const {myUnitsError, isMyUnitsLoading} = useSelector(
     (state: IApplicationState) => state.app.myUnit,
   )
+
+  const unitDetailsSelector = createSelector(
+    (state: IApplicationState) => state.app,
+    appstate =>
+      appstate.unit.units.map(unit => {
+        const myUnitInfo = appstate.myUnit.myUnits.find(
+          u => unit.unitTypeID === u.unitTypeID,
+        )
+        return {
+          unitTypeID: unit.unitTypeID,
+          name: unit.name,
+          atk: unit.atk,
+          def: unit.def,
+          salary: unit.salary,
+          consumption: unit.consumption,
+          price: unit.price,
+          salaryTypeName: unit.salaryTypeName,
+          consumptionTypeName: unit.consumptionTypeName,
+          priceTypeName: unit.priceTypeName,
+          imageURL: unit.imageURL,
+          count: myUnitInfo?.count,
+        }
+      }),
+  )
+
+  const units = useSelector(unitDetailsSelector)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(getUnits())
+    dispatch(getMyUnits())
   }, [dispatch])
+
+  const refreshUnits = () => {
+    dispatch(getUnits())
+    dispatch(getMyUnits())
+  }
 
   const onBuyPressed = () => {}
   const onMinusPressed = () => {}
   const onPlusPressed = () => {}
-  const renderItem = (itemInfo: ListRenderItemInfo<UnitDetails>) => {
+  const renderItem = (
+    itemInfo: ListRenderItemInfo<UnitDetails & MyUnitDetails>,
+  ) => {
     const {
+      unitTypeID,
       name,
       atk,
       def,
@@ -49,7 +90,9 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
       salaryTypeName,
       consumptionTypeName,
       imageURL,
+      count,
     } = itemInfo.item
+
     return (
       <BevyCard
         image={imageURL}
@@ -62,7 +105,7 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
         salaryType={salaryTypeName}
         consumptionType={consumptionTypeName}
         priceType={priceTypeName}
-        count={5}
+        count={count ? count : 0}
         onMinusPress={onMinusPressed}
         onPlusPress={onPlusPressed}
       />
@@ -78,15 +121,28 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
   }
 
   return (
-    <FlatList
-      data={units}
-      renderItem={renderItem}
-      ListHeaderComponent={renderHeaderComponent}
-      ItemSeparatorComponent={SeparatorComponent}
-      keyExtractor={keyExtractor}
-      style={styles.flatlistPadding}
-      contentContainerStyle={{paddingBottom: 120}}
-    />
+    <View style={styles.container}>
+      <FlatList
+        data={units}
+        renderItem={renderItem}
+        ListHeaderComponent={renderHeaderComponent}
+        ItemSeparatorComponent={SeparatorComponent}
+        keyExtractor={keyExtractor}
+        style={styles.flatlistPadding}
+        contentContainerStyle={{paddingBottom: 120}}
+        refreshControl={
+          <RefreshControl
+            refreshing={isUnitsLoading && isMyUnitsLoading}
+            onRefresh={refreshUnits}
+          />
+        }
+      />
+      <TransparentButton
+        title={Strings.buy}
+        onPress={onBuyPressed}
+        style={{position: 'absolute', bottom: 0}}
+      />
+    </View>
   )
 }
 

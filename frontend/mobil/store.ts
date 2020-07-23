@@ -27,6 +27,8 @@ import {registerReducer} from './src/store/register/register.reducer'
 import {RegisterStore} from './src/store/register/register.store'
 import {NextRoundStore} from './src/store/nextRound/nextRound.store'
 import {nextRoundReducer} from './src/store/nextRound/nextRound.reducer'
+import {ExplorationStore} from './src/store/explorations/explorations.store'
+import {explorationReducer} from './src/store/explorations/explorations.reducer'
 
 export interface IAppStore {
   upgrade: UpgradeStore
@@ -43,6 +45,7 @@ export interface IAppStore {
   resource: ResourceStore
   register: RegisterStore
   nextRound: NextRoundStore
+  exploration: ExplorationStore
 }
 
 export interface IApplicationState {
@@ -74,6 +77,7 @@ export const appReducer = combineReducers<IAppStore>({
   resource: resourceReducer,
   register: registerReducer,
   nextRound: nextRoundReducer,
+  exploration: explorationReducer,
 })
 
 export const appRootReducer: Reducer<IAppStore> = (

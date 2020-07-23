@@ -13,6 +13,7 @@ import {countrySaga} from './src/store/country/country.saga'
 import {resourceSaga} from './src/store/resources/resources.saga'
 import {registerSaga} from './src/store/register/register.saga'
 import {nextRoundSaga} from './src/store/nextRound/nextRound.saga'
+import {explorationSaga} from './src/store/explorations/explorations.saga'
 
 export function* rootSaga() {
   yield all([
@@ -30,5 +31,6 @@ export function* rootSaga() {
     resourceSaga(),
     registerSaga(),
     nextRoundSaga(),
+    explorationSaga(),
   ])
 }

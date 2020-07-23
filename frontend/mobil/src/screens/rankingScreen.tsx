@@ -35,7 +35,7 @@ const RankingScreen = ({navigation}: RankingScreenProps) => {
   }
   const renderItem = (itemInfo: ListRenderItemInfo<PlayerDetails>) => {
     const {name} = itemInfo.item
-    return <RankingCard place={itemInfo.item.countryID} username={name} />
+    return <RankingCard place={itemInfo.index + 1} username={name} />
   }
 
   const renderHeaderComponent = () => {
