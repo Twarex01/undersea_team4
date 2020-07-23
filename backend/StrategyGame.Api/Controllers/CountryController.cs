@@ -137,6 +137,16 @@ namespace StrategyGame.Api.Controllers
             return Ok(await _dataService.GetCountryBuildingsAsync(country.ID));
         }
 
+        [HttpGet("Report")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
 
+        public async Task<ActionResult<FullReportDTO>> GetCountryReport()
+        {
+            var country = await _userService.GetCountryByUserID(User.Identity.Name);
+            //TODO
+            return Ok();
+        }
     }
 }
