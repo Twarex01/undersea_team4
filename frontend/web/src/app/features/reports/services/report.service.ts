@@ -34,7 +34,13 @@ export class ReportService {
     )
   }
 
-  mapBattleReportDTO(battleReportDTO: BattleReport): BattleReportModel {
+  getCountryId(): Observable<number> {
+    return this.countryClient.getCountryDeatils().pipe(
+      map((cd) => cd.id)
+    )
+  }
+
+  private mapBattleReportDTO(battleReportDTO: BattleReport): BattleReportModel {
     return {
       attackerCountryName: battleReportDTO.attackerName!,
       attackerArmy: battleReportDTO.attackerArmy?.map((unit) => ({

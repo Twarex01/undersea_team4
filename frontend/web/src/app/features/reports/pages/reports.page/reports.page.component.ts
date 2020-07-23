@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { BattleReportModel } from '../../models/battle-report-model';
-import { ExplorationReport } from '../../models/exploration-report';
 import { ReportService } from '../../services/report.service';
+import { FullReport } from '../../models/full-report';
 
 @Component({
   selector: 'app-reports.page',
@@ -10,12 +9,16 @@ import { ReportService } from '../../services/report.service';
 })
 export class ReportsPageComponent implements OnInit {
 
-  battleReports: BattleReportModel[] = [];
-  explorationReports: ExplorationReport[] = [];
+  countryId: number = 0;
+  report: FullReport;
 
   constructor(private reportService: ReportService) { }
 
   ngOnInit(): void {
+    this.reportService.getCountryId().subscribe((cid) => {
+      this.countryId = cid;
+      this.reportService.getReports(this.countryId).subscribe((report) => this.report = report);
+    });
   }
 
 }
