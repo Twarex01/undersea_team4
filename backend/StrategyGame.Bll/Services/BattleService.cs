@@ -136,6 +136,8 @@ namespace StrategyGame.Bll.Services
 					battle.AttackingUnits.Add(new AttackingUnit { Count = numberOfUnits, UnitData = unitData });
 					_context.Battles.Add(battle);
 
+					await _context.SaveChangesAsync();
+
 				}
 				else
 				{
