@@ -21,7 +21,18 @@ export class UpgradesPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUpgradesData();
-    this.statusNotificationService.notifications.subscribe(() => this.getUpgradesData());
+    this.statusNotificationService.notifications.subscribe(() => this.updateUpgradesData());
+  }
+
+  updateUpgradesData() {
+    this.upgrades.forEach((u) => {
+      if(u.roundsLeft > 0){
+        u.roundsLeft -= 1;
+        if(u.roundsLeft == 0)
+          u.isDone = true;
+      }
+      u.isSelected = false;
+    })
   }
 
   getUpgradesData(): void {
