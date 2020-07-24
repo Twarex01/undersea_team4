@@ -17,6 +17,8 @@ import { UpgradeDetails } from '../../features/upgrades/models/upgrade-details';
 })
 export class PlayerInfoService {
 
+  baseUrl: string = "https://localhost:5001/";
+
   constructor(
     private countryClient: CountryClient,
     private detailsClient: DetailsClient,
@@ -30,7 +32,7 @@ export class PlayerInfoService {
           id: buildingsDTO.buildingTypeID,
           progress: buildingsDTO.progress,
           count: buildingsDTO.count,
-          imgSrc: "../../../assets/background-buildings/zatonyvar.png"
+          imgSrc: ""
         }));
       })
     );
@@ -53,7 +55,7 @@ export class PlayerInfoService {
       map((unitDetailsDTOarray) => {
         return unitDetailsDTOarray.map((unitDetailsDTO) => ({
           id: unitDetailsDTO.unitTypeID,
-          imgSrc: unitDetailsDTO?.imageURL ?? ""
+          imgSrc: this.baseUrl + unitDetailsDTO?.imageURL ?? ""
         }));
       })
     );
@@ -65,7 +67,9 @@ export class PlayerInfoService {
         return buildingDetailsDTOarray.map((buildingDetailsDTO) => ({
           id: buildingDetailsDTO.buildingTypeID,
           name: buildingDetailsDTO.name!,
-          imgSrc: buildingDetailsDTO?.imageURL ?? ""
+          imgSrc: this.baseUrl + buildingDetailsDTO?.iconURL ?? "",
+          backgroundSrc: this.baseUrl + buildingDetailsDTO?.backgroundURL ?? "",
+          iconSrc: this.baseUrl + buildingDetailsDTO?.imageURL ?? ""
         }));
       })
     );
@@ -79,7 +83,7 @@ export class PlayerInfoService {
           id: resourceDTO.resourceTypeID,
           count: resourceDTO.amount,
           output: resourceDTO.production,
-          imgSrc: resourceDTO?.imageURL ?? "",
+          imgSrc: this.baseUrl + resourceDTO?.imageURL ?? "",
           name: resourceDTO.name!
         }));
       })
@@ -122,7 +126,7 @@ export class PlayerInfoService {
         return upgradeDTOArrray.map((upgradeDTO) => ({
           id: upgradeDTO.upgradeTypeID,
           roundsLeft: upgradeDTO.progress,
-          imgSrc: "../../../assets/background-buildings/szonaragyu.png"
+          imgSrc: ""
         }));
       })
     );

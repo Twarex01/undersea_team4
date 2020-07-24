@@ -2232,6 +2232,8 @@ export class BuildingDetailsDTO implements IBuildingDetailsDTO {
     effect?: string | undefined;
     buildTime!: number;
     imageURL?: string | undefined;
+    iconURL?: string | undefined;
+    backgroundURL?: string | undefined;
 
     constructor(data?: IBuildingDetailsDTO) {
         if (data) {
@@ -2254,6 +2256,8 @@ export class BuildingDetailsDTO implements IBuildingDetailsDTO {
             this.effect = _data["effect"];
             this.buildTime = _data["buildTime"];
             this.imageURL = _data["imageURL"];
+            this.iconURL = _data["iconURL"];
+            this.backgroundURL = _data["backgroundURL"];
         }
     }
 
@@ -2276,6 +2280,8 @@ export class BuildingDetailsDTO implements IBuildingDetailsDTO {
         data["effect"] = this.effect;
         data["buildTime"] = this.buildTime;
         data["imageURL"] = this.imageURL;
+        data["iconURL"] = this.iconURL;
+        data["backgroundURL"] = this.backgroundURL;
         return data; 
     }
 }
@@ -2287,6 +2293,8 @@ export interface IBuildingDetailsDTO {
     effect?: string | undefined;
     buildTime: number;
     imageURL?: string | undefined;
+    iconURL?: string | undefined;
+    backgroundURL?: string | undefined;
 }
 
 export class PriceDTO implements IPriceDTO {

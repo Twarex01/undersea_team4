@@ -11,6 +11,8 @@ import { StatusNotificationService } from '../services/status-notification.servi
 })
 export class MainLayoutComponent implements OnInit {
 
+  baseUrl: string = "http://localhost:5001/"
+
   hasSonarCannon: boolean = false;
 
   aramlasImg: string | undefined;
@@ -33,22 +35,22 @@ export class MainLayoutComponent implements OnInit {
       this.playerInfoService.getUpgradeDetails(),
       this.playerInfoService.getBuildingDetails()
     ).subscribe(([countryBuildings, countryUpgrades, upgradeDetails, buildingDetails]) => {
-      const zatonyId = buildingDetails.find((bd) => bd.name === "Zátonyvár")?.id;
-      const aramlasId = buildingDetails.find((bd) => bd.name === "Áramlásirányító")?.id
-      const sonarId = upgradeDetails.find((ud) => ud.name === "Szonár ágyú")?.id;
+      const zatonyDetails = buildingDetails.find((bd) => bd.name === "Zátonyvár");
+      const aramlasDetails = buildingDetails.find((bd) => bd.name === "Áramlásirányító")
+      const sonarDetails = upgradeDetails.find((ud) => ud.name === "Szonár ágyú");
 
-      const zatony = countryBuildings.find((cb) => cb.id === zatonyId);
-      const aramlas = countryBuildings.find((cb) => cb.id === aramlasId);
-      const sonar = countryUpgrades.find((cb) => cb.id === sonarId);
+      const zatony = countryBuildings.find((cb) => cb.id === zatonyDetails?.id);
+      const aramlas = countryBuildings.find((cb) => cb.id === aramlasDetails?.id);
+      const sonar = countryUpgrades.find((cb) => cb.id === sonarDetails?.id);
 
       if(zatony)
-        this.zatonyImg = zatony?.count > 0 ? zatony?.imgSrc : undefined;
+        this.zatonyImg = zatony?.count > 0 ? zatonyDetails?.backgroundSrc : undefined;
 
       if(aramlas)
-        this.aramlasImg = aramlas?.count > 0 ? "../../../assets/background-buildings/aramlasiranyito.png" : undefined;
+        this.aramlasImg = aramlas?.count > 0 ? aramlasDetails?.backgroundSrc : undefined;
 
       if(sonar)
-        this.sonarImg = sonar.roundsLeft == 0 ? sonar.imgSrc : undefined;
+        this.sonarImg = sonar.roundsLeft == 0 ?  this.baseUrl + "Assets/background-buildings/sonarcannon_background.png" : undefined;
 
     });
   }

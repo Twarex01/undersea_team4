@@ -26,8 +26,6 @@ export class StatusBarComponent implements OnInit {
     rank: 0
   };
 
-  imgBaseUrl: string = "https://localhost:5001/";
-
   constructor(private playerInfo: PlayerInfoService,  private statusNotificationService: StatusNotificationService) { }
 
   ngOnInit(): void {
