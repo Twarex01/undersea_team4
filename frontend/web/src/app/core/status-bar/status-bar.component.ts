@@ -16,11 +16,8 @@ import { StatusNotificationService } from '../services/status-notification.servi
 export class StatusBarComponent implements OnInit {
 
   buildings: CountryBuilding[] = [];
-
   units: CountryUnit[] = [];
-
   resources: CountryResource[] = [];
-
   countryRound: CountryRound = {
     round: 0,
     rank: 0
@@ -31,6 +28,37 @@ export class StatusBarComponent implements OnInit {
   ngOnInit(): void {
     this.getStatusBarData();
     this.statusNotificationService.notifications.subscribe(() => this.getStatusBarData());
+  }
+
+  updateStatusBarData() {
+    forkJoin(
+      this.playerInfo.getCountryResources(),
+      this.playerInfo.getCountryUnits(),
+      this.playerInfo.getCountryRound()
+    ).subscribe(([countryResources, countryUnits, countryRound]) => {
+      countryUnits.forEach((cu) => {
+        const unit = this.units.find((u) => u.id === cu.id)!;
+        unit.count = cu.count;
+      });
+      countryResources.forEach((cr) => {
+        const resource = this.resources.find((res) => res.id == cr.id)!;
+        resource.count = cr.count;
+        resource.output = cr.output;
+      });
+      this.countryRound = countryRound;
+    });
+
+    this.updateBuildings();
+  }
+
+  private updateBuildings() {
+    this.buildings.forEach((b) => {
+      if(b.progress > 0){
+        b.progress -= 1;
+        if(b.progress == 0)
+          b.count = 0;
+      }
+    })
   }
 
   getStatusBarData() {
