@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { PlayerInfoService } from '../services/player-info.service';
-import { CountryBuilding } from './country-building';
-import { CountryUnit } from './country-unit';
-import { CountryResource } from './country-resource';
+import { CountryBuilding } from './models/country-building';
+import { CountryUnit } from './models/country-unit';
+import { CountryResource } from './models/country-resource';
 import { forkJoin } from 'rxjs';
-import { CountryRound } from './country-round';
+import { CountryRound } from './models/country-round';
 import { StatusNotificationService } from '../services/status-notification.service';
 
 

@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { CountryClient, DetailsClient, RoundClient } from '../../shared/clients';
-import { CountryBuilding } from '../status-bar/country-building';
+import { CountryBuilding } from '../status-bar/models/country-building';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CountryUnit } from '../status-bar/country-unit';
-import { CountryResource } from '../status-bar/country-resource';
+import { CountryUnit } from '../status-bar/models/country-unit';
+import { CountryResource } from '../status-bar/models/country-resource';
 import { UnitDetails } from '../status-bar/unit-detail';
-import { BuildingDetails } from '../status-bar/building-detail';
-import { CountryRound } from '../status-bar/country-round';
+import { BuildingDetails } from '../status-bar/models/building-detail';
+import { CountryRound } from '../status-bar/models/country-round';
 import { CountryDetail } from '../../features/units/models/country-detail';
 import { CountryUpgrade } from '../../features/upgrades/models/country-upgrade';
 import { UpgradeDetails } from '../../features/upgrades/models/upgrade-details';
