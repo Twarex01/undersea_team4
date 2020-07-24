@@ -53,9 +53,7 @@ export class UnitCardItemComponent implements OnInit {
     }
     
     this.unitBuyInfo.estimatedUnitsCount += deltaNum;
-    console.log(this.unitBuyInfo.estimatedPearlCost);
     this.unitBuyInfo.estimatedPearlCost += (deltaNum * this.unit.price);
-    console.log(this.unitBuyInfo.estimatedPearlCost);
     this.unit.numToBuy = oldNum + deltaNum;
   }
 
