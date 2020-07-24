@@ -24,7 +24,7 @@
     </div>
     <div class="steppers">
       <button class="stepper" (click)="changeNumberOfUnitsToBuy(-1)" [disabled]="!canDecrease()"  [ngClass]="{'button-not-selected': !canDecrease()}">-</button>
-      <input class="number-input" type="number" min="0" [(ngModel)]="unit.numToBuy" >
+      <input class="number-input" type="number" min="0" [ngModel]="unit.numToBuy" step="1" (ngModelChange)="onInputChange($event)" [disabled]="!canIncrease()">
       <button class="stepper" (click)="changeNumberOfUnitsToBuy(1)" [disabled]="!canIncrease()"  [ngClass]="{'button-not-selected': !canIncrease()}">+</button>
     </div>
   </div>
