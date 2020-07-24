@@ -14,5 +14,6 @@ namespace StrategyGame.Model
 		public int ExplorersSent { get; set; }
 		public bool Successful { get; set; }
 		public int ExposedDefensePower { get; set; }
+		public int Round { get; set; }
 	}
 }

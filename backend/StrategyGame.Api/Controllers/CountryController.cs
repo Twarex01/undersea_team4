@@ -137,15 +137,15 @@ namespace StrategyGame.Api.Controllers
             return Ok(await _dataService.GetCountryBuildingsAsync(country.ID));
         }
 
-        [HttpGet("Report")]
+        [HttpGet("Report/{Round}")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
 
-        public async Task<ActionResult<FullReportDTO>> GetCountryReport()
+        public async Task<ActionResult<FullReportDTO>> GetCountryReport(int Round)
         {
             var country = await _userService.GetCountryByUserID(User.Identity.Name);
-            return Ok(await _dataService.GetFullReport(country.ID));
+            return Ok(await _dataService.GetFullReport(country.ID,Round));
         }
     }
 }
