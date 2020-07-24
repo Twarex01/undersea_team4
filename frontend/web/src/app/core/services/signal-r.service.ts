@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import * as signalR from "@aspnet/signalr";
 import { StatusNotificationService } from './status-notification.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SignalRService {
 
-  constructor(private notiService: StatusNotificationService) { }
+  constructor(private snackBar: MatSnackBar, private notiService: StatusNotificationService) { }
 
   private hubConnection: signalR.HubConnection;
 
@@ -18,6 +19,7 @@ export class SignalRService {
 
   public addChangeRoundListener() {
     this.hubConnection.on("RefreshInfo", () => {
+      this.snackBar.open("Körváltás történt!");
       this.notiService.updateStatus(true);
     })
   }
