@@ -102,7 +102,7 @@ export class UnitsPageComponent implements OnInit {
         this.units[i].count += unit.count;
         this.units[i].numToBuy = 0;
       });
-      this.getResources();
+      this.unitBuyInfo.pearl -= this.unitBuyInfo.estimatedPearlCost;
       this.unitBuyInfo.estimatedPearlCost = 0;
     },
       (error) => this.snackBar.open(error.response));
