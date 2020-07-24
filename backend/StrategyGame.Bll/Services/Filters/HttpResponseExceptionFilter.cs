@@ -33,6 +33,15 @@ namespace StrategyGame.Bll
                 _logger.LogError("{StatusCode} {Value}", exception.Status, exception.Value);
                 context.ExceptionHandled = true;
             }
+            else if (context.Exception is Exception ex)
+            {
+                context.Result = new ObjectResult("Internal server error")
+                {
+                    StatusCode = 500
+                };
+                _logger.LogError(ex.Message);
+                context.ExceptionHandled = true;
+            }
         }
     }
 }
