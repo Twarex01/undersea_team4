@@ -11,5 +11,7 @@ namespace StrategyGame.Bll.DTO
         public string Effect { get; set; }
         public int BuildTime { get; set; }
         public string ImageURL { get; set; }
+        public string IconURL { get; set; }
+        public string BackgroundURL { get; set; }
     }
 }
