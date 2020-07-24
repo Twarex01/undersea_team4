@@ -24,4 +24,8 @@ export class AttacksComponent implements OnInit {
     return this.attackReports.filter((ar) => ar.round === this.chosenRound);
   }
 
+  onChosenRoundChanged(round: number){
+    this.chosenRound = round;
+  }
+
 }

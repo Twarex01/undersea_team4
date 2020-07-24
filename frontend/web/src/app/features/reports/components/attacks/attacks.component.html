@@ -1,9 +1,12 @@
 <div *ngIf="attackReports.length > 0">
   <div class="choose-round-container">
-    <app-choose-round [prevRound]="prevRound"></app-choose-round>
+    <app-choose-round
+      [prevRound]="prevRound"
+      (chosenRoundChanged)="onChosenRoundChanged($event)"
+    ></app-choose-round>
   </div>
-  <div class="line" *ngFor="let attackReport of getReports()">
-    <mat-accordion>
+  <mat-accordion>
+    <div class="line" *ngFor="let attackReport of getReports()">
       <mat-expansion-panel class="expansion-panel">
         <mat-expansion-panel-header class="expansion-panel-header">
           <mat-panel-title>
@@ -22,23 +25,30 @@
           <p class="data-title">Támadóerő: {{ attackReport.attackerPower }}</p>
           <p class="data-title">Küldött egységek:</p>
           <span *ngFor="let unit of attackReport.attackerArmy"
-            >{{ unit.count }} {{ unit.name }}</span
+            >{{ unit.count }} {{ unit.name }} </span
           >
         </div>
         <div class="other-force">
           <p class="data-title">Védőerő: {{ attackReport.defenderPower }}</p>
-          <p class="data-title">Elvesztett egységek:</p>
+          <p class="data-title">Legyőzött egységek:</p>
           <span *ngFor="let unit of attackReport.unitsLost"
-            >{{ unit.count }} {{ unit.name }}</span
+            >{{ unit.count }} {{ unit.name }} </span
           >
+          <span *ngIf="attackReport.unitsLost.length == 0">-</span>
         </div>
         <div>
           <p class="data-title">Megszerzett erőforrások:</p>
           <span *ngFor="let resource of attackReport.resourceChanges"
-            >{{ resource.change }} {{ resource.name }}</span
+            >{{ resource.change }} {{ resource.name }} </span
           >
+          <span *ngIf="attackReport.resourceChanges.length == 0">-</span>
         </div>
       </mat-expansion-panel>
-    </mat-accordion>
+    </div>
+  </mat-accordion>
+</div>
+<div *ngIf="attackReports.length == 0">
+  <div class="line no-info">
+    Nincs megjeleníthető jelentés
   </div>
 </div>

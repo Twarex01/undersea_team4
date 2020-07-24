@@ -16,10 +16,15 @@ export class ExplorationsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.chosenRound = this.prevRound;
   }
 
   getReports() {
     return this.explorationReports.filter((er) => er.round === this.chosenRound);
+  }
+
+  onChosenRoundChanged(round: number){
+    this.chosenRound = round;
   }
 
 }

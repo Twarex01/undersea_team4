@@ -1,9 +1,12 @@
 <div *ngIf="explorationReports.length > 0">
   <div class="choose-round-container">
-    <app-choose-round [prevRound]="prevRound"></app-choose-round>
+    <app-choose-round
+      [prevRound]="prevRound"
+      (chosenRoundChanged)="onChosenRoundChanged($event)"
+    ></app-choose-round>
   </div>
-  <div class="line" *ngFor="let explorationReport of getReports()">
-    <mat-accordion>
+  <mat-accordion>
+    <div class="line" *ngFor="let explorationReport of getReports()">
       <mat-expansion-panel class="expansion-panel">
         <mat-expansion-panel-header class="expansion-panel-header">
           <mat-panel-title>
@@ -31,6 +34,11 @@
           </p>
         </div>
       </mat-expansion-panel>
-    </mat-accordion>
+    </div>
+  </mat-accordion>
+</div>
+<div *ngIf="explorationReports.length == 0">
+  <div class="line no-info">
+    Nincs megjeleníthető jelentés
   </div>
 </div>

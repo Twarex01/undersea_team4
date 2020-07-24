@@ -43,3 +43,8 @@ p {
 .data-title {
     font-family: "Baloo Bold";
 }
+
+.no-info {
+    margin-top: 5%;
+    text-align: center;
+}

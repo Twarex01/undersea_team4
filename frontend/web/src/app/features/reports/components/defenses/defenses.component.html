@@ -1,34 +1,54 @@
 <div *ngIf="defenseReports.length > 0">
-<div class="choose-round-container">
-    <app-choose-round [prevRound]="prevRound"></app-choose-round>
+  <div class="choose-round-container">
+    <app-choose-round
+      [prevRound]="prevRound"
+      (chosenRoundChanged)="onChosenRoundChanged($event)"
+    ></app-choose-round>
   </div>
-  <div class="line" *ngFor="let defenseReport of getReports()">
-    <mat-accordion>
+  <mat-accordion>
+    <div class="line" *ngFor="let defenseReport of getReports()">
       <mat-expansion-panel class="expansion-panel">
         <mat-expansion-panel-header class="expansion-panel-header">
           <mat-panel-title>
-            {{defenseReport.attackerCountryName}}
+            {{ defenseReport.attackerCountryName }}
           </mat-panel-title>
           <mat-panel-description>
-            <p class="failure" *ngIf="defenseReport.isSuccessful">Sikeres támadás</p>
-            <p class="failure" *ngIf="!defenseReport.isSuccessful">Sikertelen támadás</p>
+            <p class="failure" *ngIf="defenseReport.isSuccessful">
+              Sikeres támadás
+            </p>
+            <p class="failure" *ngIf="!defenseReport.isSuccessful">
+              Sikertelen támadás
+            </p>
           </mat-panel-description>
         </mat-expansion-panel-header>
         <div class="home-force">
-          <p class="data-title">Védőerő: {{defenseReport.defenderPower}}</p>
+          <p class="data-title">Védőerő: {{ defenseReport.defenderPower }}</p>
           <p class="data-title">Elvesztett egységek:</p>
-          <span *ngFor="let unit of defenseReport.unitsLost">{{unit.count}} {{unit.name}}</span>
+          <span *ngFor="let unit of defenseReport.unitsLost"
+            >{{ unit.count }} {{ unit.name }}</span
+          >
+          <span *ngIf="defenseReport.unitsLost.length == 0">-</span>
         </div>
         <div class="other-force">
-          <p class="data-title">Támadóerő: {{defenseReport.attackerPower}}</p>
+          <p class="data-title">Támadóerő: {{ defenseReport.attackerPower }}</p>
           <p class="data-title">Támadó egységek:</p>
-          <span *ngFor="let unit of defenseReport.attackerArmy">{{unit.count}} {{unit.name}}</span>
+          <span *ngFor="let unit of defenseReport.attackerArmy"
+            >{{ unit.count }} {{ unit.name }}</span
+          >
         </div>
         <div>
           <p class="data-title">Elvesztett erőforrások:</p>
-          <span *ngFor="let resource of defenseReport.resourceChanges">{{resource.change}} {{resource.name}}</span>
+          <span *ngFor="let resource of defenseReport.resourceChanges"
+            >{{ resource.change }} {{ resource.name }}</span
+          >
+          <span *ngIf="defenseReport.resourceChanges.length == 0">-</span>
         </div>
       </mat-expansion-panel>
-    </mat-accordion>
+    </div>
+  </mat-accordion>
+</div>
+<div *ngIf="defenseReports.length == 0">
+  <div class="line no-info">
+    Nincs megjeleníthető jelentés
   </div>
 </div>
