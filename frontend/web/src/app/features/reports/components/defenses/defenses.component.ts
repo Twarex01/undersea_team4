@@ -16,10 +16,15 @@ export class DefensesComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.chosenRound = this.prevRound;
   }
 
   getReports() {
     return this.defenseReports.filter((dr) => dr.round === this.chosenRound);
+  }
+
+  onChosenRoundChanged(round: number){
+    this.chosenRound = round;
   }
 
 }
