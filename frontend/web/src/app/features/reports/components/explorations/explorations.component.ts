@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ExplorationReport } from '../../models/exploration-report';
 
 @Component({
@@ -10,21 +10,15 @@ export class ExplorationsComponent implements OnInit {
 
   @Input() explorationReports: ExplorationReport[] = [];
   @Input() prevRound: number = 0;
-
-  chosenRound: number = 0;
+  @Output() roundChanged = new EventEmitter<number>();
 
   constructor() { }
 
   ngOnInit(): void {
-    this.chosenRound = this.prevRound;
-  }
-
-  getReports() {
-    return this.explorationReports.filter((er) => er.round === this.chosenRound);
   }
 
   onChosenRoundChanged(round: number){
-    this.chosenRound = round;
+    this.roundChanged.emit(round);
   }
 
 }

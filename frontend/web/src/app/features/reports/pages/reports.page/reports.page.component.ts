@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReportService } from '../../services/report.service';
 import { FullReport } from '../../models/full-report';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-reports.page',
@@ -10,17 +11,28 @@ import { FullReport } from '../../models/full-report';
 export class ReportsPageComponent implements OnInit {
 
   countryId: number = 0;
-  prevRound: number = 0;
+  prevRound: number;
   report: FullReport;
 
   constructor(private reportService: ReportService) { }
 
   ngOnInit(): void {
-    this.reportService.getCountryId().subscribe((cid) => {
+    forkJoin(
+      this.reportService.getCountryId(),
+      this.reportService.getPrevoiusRound()
+    ).subscribe(([cid, prevRound]) => {
       this.countryId = cid;
-      this.reportService.getReports(this.countryId).subscribe((report) => this.report = report);
-    });
-    this.reportService.getPrevoiusRound().subscribe((round) => this.prevRound = round);
+      this.prevRound = prevRound;
+      this.getReportsData(this.prevRound);
+    })
+  }
+
+  getReportsData(round: number) {
+    this.reportService.getReports(this.countryId, round).subscribe((report) => this.report = report);
+  }
+
+  onRoundChanged(round: number) {
+    this.getReportsData(round);
   }
 
 }

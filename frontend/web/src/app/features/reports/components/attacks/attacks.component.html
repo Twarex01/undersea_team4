@@ -1,12 +1,12 @@
-<div *ngIf="attackReports.length > 0">
+<div>
   <div class="choose-round-container">
     <app-choose-round
       [prevRound]="prevRound"
       (chosenRoundChanged)="onChosenRoundChanged($event)"
     ></app-choose-round>
   </div>
-  <mat-accordion>
-    <div class="line" *ngFor="let attackReport of getReports()">
+  <mat-accordion *ngIf="attackReports.length > 0">
+    <div class="line" *ngFor="let attackReport of attackReports">
       <mat-expansion-panel class="expansion-panel">
         <mat-expansion-panel-header class="expansion-panel-header">
           <mat-panel-title>
