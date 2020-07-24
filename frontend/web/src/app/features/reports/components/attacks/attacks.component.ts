@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { BattleReport } from '../../../../shared/clients';
 import { BattleReportModel } from '../../models/battle-report-model';
 
@@ -9,23 +9,18 @@ import { BattleReportModel } from '../../models/battle-report-model';
 })
 export class AttacksComponent implements OnInit {
 
+  _prevRound: number = 1;
   @Input() attackReports: BattleReportModel[] = [];
-  @Input() prevRound: number = 0;
-
-  chosenRound: number = 0;
+  @Input() prevRound: number = 1;
+  @Output() roundChanged = new EventEmitter<number>();
 
   constructor() { }
 
   ngOnInit(): void {
-    this.chosenRound = this.prevRound;
-  }
-
-  getReports() {
-    return this.attackReports.filter((ar) => ar.round === this.chosenRound);
   }
 
   onChosenRoundChanged(round: number){
-    this.chosenRound = round;
+    this.roundChanged.emit(round);
   }
 
 }

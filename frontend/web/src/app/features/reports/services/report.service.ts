@@ -12,8 +12,8 @@ export class ReportService {
 
   constructor(private countryClient: CountryClient, private roundClient: RoundClient) { }
 
-  getReports(countryId: number): Observable<FullReport> {
-    return this.countryClient.getCountryReport().pipe(
+  getReports(countryId: number, round: number): Observable<FullReport> {
+    return this.countryClient.getCountryReport(round).pipe(
       map((fullReportDTO) => {
         const attackReports = fullReportDTO.battleReports?.filter((br) => br.attackerID === countryId).map((ar) => this.mapBattleReportDTO(ar)) ?? [];
         const defendReports = fullReportDTO.battleReports?.filter((br) => br.defenderID === countryId).map((dr) => this.mapBattleReportDTO(dr)) ?? [];

@@ -719,8 +719,11 @@ export class CountryClient {
         return _observableOf<BuildingDTO[]>(<any>null);
     }
 
-    getCountryReport(): Observable<FullReportDTO> {
-        let url_ = this.baseUrl + "/api/Country/Report";
+    getCountryReport(round: number): Observable<FullReportDTO> {
+        let url_ = this.baseUrl + "/api/Country/Report/{Round}";
+        if (round === undefined || round === null)
+            throw new Error("The parameter 'round' must be defined.");
+        url_ = url_.replace("{Round}", encodeURIComponent("" + round));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2115,6 +2118,7 @@ export class ExplorationReport implements IExplorationReport {
     explorersSent!: number;
     successful!: boolean;
     exposedDefensePower!: number;
+    round!: number;
 
     constructor(data?: IExplorationReport) {
         if (data) {
@@ -2135,6 +2139,7 @@ export class ExplorationReport implements IExplorationReport {
             this.explorersSent = _data["explorersSent"];
             this.successful = _data["successful"];
             this.exposedDefensePower = _data["exposedDefensePower"];
+            this.round = _data["round"];
         }
     }
 
@@ -2155,6 +2160,7 @@ export class ExplorationReport implements IExplorationReport {
         data["explorersSent"] = this.explorersSent;
         data["successful"] = this.successful;
         data["exposedDefensePower"] = this.exposedDefensePower;
+        data["round"] = this.round;
         return data; 
     }
 }
@@ -2168,6 +2174,7 @@ export interface IExplorationReport {
     explorersSent: number;
     successful: boolean;
     exposedDefensePower: number;
+    round: number;
 }
 
 export class UpgradeDetailsDTO implements IUpgradeDetailsDTO {
