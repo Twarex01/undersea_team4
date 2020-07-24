@@ -42,9 +42,13 @@ export class UnitsPageComponent implements OnInit {
   }
 
   getResources() {
-    this.palyerInfoService.getCountryResources().subscribe(res => {
+    forkJoin(
+      this.palyerInfoService.getCountryResources(),
+      this.palyerInfoService.getCountryInfo()
+    ).subscribe(([res, countryinfo]) => {
       const countryResource = res.find(resource => resource.name == 'Gyöngy')
       this.unitBuyInfo.pearl = countryResource?.count ?? 0;
+      this.unitBuyInfo.armyCapacity = countryinfo.armyCapacity;
     });
   }
 
