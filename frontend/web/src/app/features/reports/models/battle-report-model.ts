@@ -4,9 +4,9 @@ import { ReportUnits } from "./report-units";
 export interface BattleReportModel {
     attackerCountryName: string;
     attackerArmy: ReportUnits[];
-    attackerPower: number;
+    attackerPower: string;
     defenderCountryName: string;
-    defenderPower: number;
+    defenderPower: string;
     isSuccessful: boolean;
     resourceChanges: ReportResourceChanges[];
     unitsLost: ReportUnits[];
