@@ -1,7 +1,7 @@
 <app-basic-card class="card" *ngIf="units?.length > 0 && unitBuyInfo">
   <p class="header">Sereg</p>
   <p class="short-description">Kattints rá, amelyiket szeretnéd megvenni.</p>
-    <app-unit-card-item class="card-item" *ngFor="let unit of units" [unit]="unit" [unitBuyInfo]="unitBuyInfo" (unitChange)="changeUnits($event)">
+    <app-unit-card-item class="card-item" *ngFor="let unit of units" [unit]="unit" [(unitBuyInfo)]="unitBuyInfo">
     </app-unit-card-item>
   <div class="footer">
     <button [disabled]="!isReadyToAttack()" [ngClass]="{ 'button-not-selected': !isReadyToAttack()}" (click)="buyUnits()">Megveszem</button>
