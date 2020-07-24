@@ -14,6 +14,9 @@ import {resourceSaga} from './src/store/resources/resources.saga'
 import {registerSaga} from './src/store/register/register.saga'
 import {nextRoundSaga} from './src/store/nextRound/nextRound.saga'
 import {explorationSaga} from './src/store/explorations/explorations.saga'
+import {putBuildingSaga} from './src/store/putBuilding/putBuilding.saga'
+import {putUpgradeSaga} from './src/store/putUpgrade/putUpgrade.saga'
+import {putUnitsSaga} from './src/store/putUnits/putUnits.saga'
 
 export function* rootSaga() {
   yield all([
@@ -32,5 +35,8 @@ export function* rootSaga() {
     registerSaga(),
     nextRoundSaga(),
     explorationSaga(),
+    putBuildingSaga(),
+    putUpgradeSaga(),
+    putUnitsSaga(),
   ])
 }

@@ -16,6 +16,7 @@ import {TouchableOpacity, FlatList} from 'react-native-gesture-handler'
 import {Strings} from '../../constants/strings'
 import {Prices} from '../../model/building/buildingDetails'
 import {Config} from '../../constants/config'
+import {color} from 'react-native-reanimated'
 
 interface Props {
   style?: StyleProp<ViewStyle>
@@ -24,8 +25,8 @@ interface Props {
   description?: string
   image: string
   count: number
-  onPress: () => void
   selected: boolean
+  disabled?: boolean
 }
 
 const BuildingCard = ({
@@ -35,8 +36,8 @@ const BuildingCard = ({
   description,
   image,
   count,
-  onPress,
   selected,
+  disabled,
 }: Props) => {
   const renderItem = (item: Prices, index: number) => {
     const {price, priceTypeName} = item
@@ -50,7 +51,7 @@ const BuildingCard = ({
   }
 
   return (
-    <TouchableOpacity
+    <View
       style={[
         styles.container,
         style,
@@ -59,8 +60,7 @@ const BuildingCard = ({
             ? Colors.transparentWhite
             : Colors.middleDarkBlue,
         },
-      ]}
-      onPress={onPress}>
+      ]}>
       <Image
         source={{uri: `${Config.baseURL}${image}`}}
         style={[styles.image, Margins.mtBig, Margins.mbNormal]}
@@ -74,7 +74,7 @@ const BuildingCard = ({
         {count} {Strings.piece}
       </Text>
       {prices.map((item, index) => renderItem(item, index))}
-    </TouchableOpacity>
+    </View>
   )
 }
 

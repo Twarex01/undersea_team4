@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {
   View,
   Text,
@@ -21,6 +21,7 @@ import {createSelector} from 'reselect'
 import {MyUnitDetails} from '../model/unit/myUnitDetails'
 import {getMyUnits} from '../store/myUnits/myUnits.actions'
 import TransparentButton from '../components/button/transparentButton'
+import {PutUnitDetails} from '../model/unit/putUnitRequest'
 
 interface BevyScreenProps {
   navigation: StackNavigationProp<any>
@@ -41,6 +42,9 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
         const myUnitInfo = appstate.myUnit.myUnits.find(
           u => unit.unitTypeID === u.unitTypeID,
         )
+        const putUnitInfo = appstate.putUnits.putUnits.find(
+          p => unit.unitTypeID === p.unitTypeID,
+        )
         return {
           unitTypeID: unit.unitTypeID,
           name: unit.name,
@@ -54,6 +58,7 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
           priceTypeName: unit.priceTypeName,
           imageURL: unit.imageURL,
           count: myUnitInfo?.count,
+          number: putUnitInfo?.count,
         }
       }),
   )
@@ -73,10 +78,8 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
   }
 
   const onBuyPressed = () => {}
-  const onMinusPressed = () => {}
-  const onPlusPressed = () => {}
   const renderItem = (
-    itemInfo: ListRenderItemInfo<UnitDetails & MyUnitDetails>,
+    itemInfo: ListRenderItemInfo<UnitDetails & MyUnitDetails & PutUnitDetails>,
   ) => {
     const {
       unitTypeID,
@@ -93,6 +96,9 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
       count,
     } = itemInfo.item
 
+    const onMinusPressed = () => {}
+    const onPlusPressed = () => {}
+
     return (
       <BevyCard
         image={imageURL}
@@ -108,6 +114,7 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
         count={count ? count : 0}
         onMinusPress={onMinusPressed}
         onPlusPress={onPlusPressed}
+        number={count}
       />
     )
   }

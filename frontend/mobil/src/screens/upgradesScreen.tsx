@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {
   View,
   Text,
@@ -12,7 +12,7 @@ import {Fonts, FontSizes} from '../constants/fonts'
 import {Margins} from '../constants/margins'
 import UpgradeCard from '../components/card/upgradeCard'
 import {UpgradeDetails} from '../model/upgrade/upgradeDetails'
-import {FlatList} from 'react-native-gesture-handler'
+import {FlatList, TouchableOpacity} from 'react-native-gesture-handler'
 import {StackNavigationProp} from '@react-navigation/stack'
 import {useDispatch, useSelector} from 'react-redux'
 import {IApplicationState} from '../../store'
@@ -20,6 +20,7 @@ import {getUpgrades} from '../store/upgrades/upgrades.actions'
 import {createSelector} from 'reselect'
 import {getMyUpgrades} from '../store/myUpgrades/myUpgrades.actions'
 import TransparentButton from '../components/button/transparentButton'
+import {putUpgrade} from '../store/putUpgrade/putUpgrade.action'
 
 interface UpgradesScreenProps {
   navigation: StackNavigationProp<any>
@@ -64,17 +65,32 @@ const UpgradesScreen = ({navigation}: UpgradesScreenProps) => {
     dispatch(getMyUpgrades())
   }
 
-  const onBuyPressed = () => {}
+  const [index, setIndex] = useState(-1)
+
+  const onBuyPressed = () => {
+    if (!(index === -1)) dispatch(putUpgrade(index))
+  }
 
   const renderItem = (itemInfo: ListRenderItemInfo<any>) => {
     const {upgradeTypeID, effect, name, imageURL, progress} = itemInfo.item
+    const onItemPressed = () => {
+      if (index === upgradeTypeID) {
+        setIndex(-1)
+      } else {
+        setIndex(upgradeTypeID)
+      }
+    }
     return (
-      <UpgradeCard
-        image={imageURL}
-        title={name}
-        description={effect}
-        style={Margins.mbNormal}
-      />
+      <TouchableOpacity onPress={onItemPressed}>
+        <UpgradeCard
+          image={imageURL}
+          title={name}
+          description={effect}
+          style={Margins.mbNormal}
+          selected={index === upgradeTypeID ? true : false}
+          progress={progress}
+        />
+      </TouchableOpacity>
     )
   }
   const renderHeaderComponent = () => {
@@ -109,7 +125,8 @@ const UpgradesScreen = ({navigation}: UpgradesScreenProps) => {
       <TransparentButton
         title={Strings.buy}
         onPress={onBuyPressed}
-        style={{position: 'absolute', bottom: 0}}
+        style={styles.button}
+        disabled={index === -1 ? true : false}
       />
     </View>
   )
@@ -133,6 +150,10 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 25,
     paddingHorizontal: 20,
+  },
+  button: {
+    position: 'absolute',
+    bottom: 0,
   },
 })
 

@@ -1,5 +1,12 @@
 import React, {useEffect} from 'react'
-import {View, Text, StyleSheet, ListRenderItemInfo, Image} from 'react-native'
+import {
+  View,
+  Text,
+  StyleSheet,
+  ListRenderItemInfo,
+  Image,
+  RefreshControl,
+} from 'react-native'
 import {Colors} from '../constants/colors'
 import {Strings} from '../constants/strings'
 import {Fonts, FontSizes} from '../constants/fonts'
@@ -63,6 +70,11 @@ const AttacSecondScreen = ({navigation}: AttacSecondScreenProps) => {
     dispatch(getMyUnits())
   }, [dispatch])
 
+  const refreshUnits = () => {
+    dispatch(getUnits())
+    dispatch(getMyUnits())
+  }
+
   const onBackPressed = () => {
     navigation.pop(1)
   }
@@ -121,6 +133,12 @@ const AttacSecondScreen = ({navigation}: AttacSecondScreenProps) => {
           keyExtractor={keyExtractor}
           style={styles.flatlistPadding}
           contentContainerStyle={{paddingBottom: 120}}
+          refreshControl={
+            <RefreshControl
+              refreshing={isUnitsLoading && isMyUnitsLoading}
+              onRefresh={refreshUnits}
+            />
+          }
         />
       </PagesTemplate>
       <TransparentButton

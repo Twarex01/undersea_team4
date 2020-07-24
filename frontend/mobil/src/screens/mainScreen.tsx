@@ -11,10 +11,10 @@ import PopupMenu from '../components/main/popupMenu'
 import {StackNavigationProp} from '@react-navigation/stack'
 import {Screens} from '../constants/screens'
 import Constants from 'expo-constants'
-import WhiteButton from '../components/button/whiteButton'
 import {useSelector, useDispatch} from 'react-redux'
 import {IApplicationState} from '../../store'
 import {getRound} from '../store/round/round.actions'
+import {postNextRound} from '../store/nextRound/nextRound.actions'
 
 interface MainscreenProps {
   navigation: StackNavigationProp<any>
@@ -38,15 +38,20 @@ const MainScreen = ({navigation}: MainscreenProps) => {
   const onStarPress = () => {
     navigation.navigate(Screens.Ranking)
   }
+  const onNextRoundPressed = () => {
+    dispatch(postNextRound())
+  }
+
   const [showPopup, setShowPopup] = useState(false)
-  const shell = 230
-  const coral = 230
 
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
       <ImageBackground style={styles.imageBackground} source={Images.main_bg}>
-        <MainHeader onPressButton={onProfilePress} />
+        <MainHeader
+          onPressProfil={onProfilePress}
+          onNextRoundPressed={onNextRoundPressed}
+        />
 
         <RoundBar
           round={round.round}
@@ -56,7 +61,7 @@ const MainScreen = ({navigation}: MainscreenProps) => {
 
         <View style={styles.emptyView}></View>
 
-        <PopupMenu shell={shell} coral={coral} />
+        <PopupMenu />
       </ImageBackground>
     </View>
   )

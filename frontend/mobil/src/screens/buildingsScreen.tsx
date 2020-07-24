@@ -12,7 +12,7 @@ import {Fonts, FontSizes} from '../constants/fonts'
 import {Margins} from '../constants/margins'
 import BuildingCard from '../components/card/buildingCard'
 import {BuildingDetails} from '../model/building/buildingDetails'
-import {FlatList} from 'react-native-gesture-handler'
+import {FlatList, TouchableOpacity} from 'react-native-gesture-handler'
 import {useSelector, useDispatch} from 'react-redux'
 import {IApplicationState} from '../../store'
 import {getBuildings} from '../store/buildings/buildings.actions'
@@ -20,6 +20,7 @@ import {getMyBuildings} from '../store/myBuildings/myBuildings.action'
 import {createSelector} from 'reselect'
 import {MyBuildingDetails} from '../model/building/myBuildingDetails'
 import TransparentButton from '../components/button/transparentButton'
+import {putBuilding} from '../store/putBuilding/putBuilding.actions'
 
 const BuildingsScreen = () => {
   const {buildingsError, isBuildingsLoading} = useSelector(
@@ -64,9 +65,11 @@ const BuildingsScreen = () => {
   }
 
   const [index, setIndex] = useState(-1)
+  const [disabled, setDisabled] = useState(false)
 
-  const onBuyPressed = () => {}
-  const onItemPressed = () => {}
+  const onBuyPressed = () => {
+    if (!(index === -1)) dispatch(putBuilding(index))
+  }
 
   const renderItem = (
     itemInfo: ListRenderItemInfo<BuildingDetails & MyBuildingDetails>,
@@ -81,17 +84,27 @@ const BuildingsScreen = () => {
       progress,
       count,
     } = itemInfo.item
+
+    const onItemPressed = () => {
+      if (index === buildingTypeID) {
+        setIndex(-1)
+      } else {
+        setIndex(buildingTypeID)
+      }
+    }
     return (
-      <BuildingCard
-        style={Margins.mbNormal}
-        name={name}
-        prices={prices}
-        description={effect}
-        image={imageURL}
-        count={count ? count : 0}
-        onPress={onItemPressed}
-        selected={index === buildingTypeID ? true : false}
-      />
+      <TouchableOpacity onPress={onItemPressed} disabled={disabled}>
+        <BuildingCard
+          style={Margins.mbNormal}
+          name={name}
+          prices={prices}
+          description={effect}
+          image={imageURL}
+          count={count ? count : 0}
+          selected={index === buildingTypeID ? true : false}
+          disabled={disabled}
+        />
+      </TouchableOpacity>
     )
   }
 
@@ -129,7 +142,8 @@ const BuildingsScreen = () => {
       <TransparentButton
         title={Strings.buy}
         onPress={onBuyPressed}
-        style={{position: 'absolute', bottom: 0}}
+        style={styles.button}
+        disabled={index === -1 ? true : false}
       />
     </View>
   )
@@ -153,6 +167,10 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 25,
     paddingHorizontal: 20,
+  },
+  button: {
+    position: 'absolute',
+    bottom: 0,
   },
 })
 

@@ -1,5 +1,5 @@
 import React, {useState, Children} from 'react'
-import CustomButton from '../../components/button/customButton'
+import GradientButton from '../button/gradientButton'
 import {StatusBar} from 'expo-status-bar'
 import {
   StyleSheet,
@@ -45,7 +45,7 @@ const LoginTemplate = ({
             {title}
           </Text>
           {children}
-          <CustomButton
+          <GradientButton
             style={[Margins.mtBig, Margins.mbBig]}
             title={title}
             onPress={onPressButton}

@@ -1,5 +1,11 @@
-import React, {useEffect} from 'react'
-import {View, Text, StyleSheet, ListRenderItemInfo} from 'react-native'
+import React, {useEffect, useState} from 'react'
+import {
+  View,
+  Text,
+  StyleSheet,
+  ListRenderItemInfo,
+  RefreshControl,
+} from 'react-native'
 import {Colors} from '../constants/colors'
 import {Strings} from '../constants/strings'
 import {Fonts, FontSizes} from '../constants/fonts'
@@ -11,7 +17,7 @@ import {Margins} from '../constants/margins'
 import {PlayerDetails} from '../model/player/playerDetails'
 import AttackFirstCard from '../components/card/attackFirstCard'
 import PagesTemplate from '../components/pages/pagesTemplate'
-import {FlatList} from 'react-native-gesture-handler'
+import {FlatList, TouchableOpacity} from 'react-native-gesture-handler'
 import SeparatorComponent from '../components/separator/separatorComponent'
 import {IApplicationState} from '../../store'
 import {useSelector, useDispatch} from 'react-redux'
@@ -31,16 +37,33 @@ const AttackFirstScreen = ({navigation}: AttacFirstScreenProps) => {
     dispatch(getPlayers())
   }, [dispatch])
 
-  const onBackPressed = () => {
-    navigation.pop(1)
+  const refreshPlayers = () => {
+    dispatch(getPlayers())
   }
+
+  const [index, setIndex] = useState(-1)
+
   const onNextPressed = () => {
     navigation.navigate(Screens.AttackSecond)
   }
-  const onItemPressed = () => {}
+
   const renderItem = (itemInfo: ListRenderItemInfo<PlayerDetails>) => {
-    const {name} = itemInfo.item
-    return <AttackFirstCard username={name} onPress={onItemPressed} />
+    const {name, countryID, score} = itemInfo.item
+    const onItemPressed = () => {
+      if (index === countryID) {
+        setIndex(-1)
+      } else {
+        setIndex(countryID)
+      }
+    }
+    return (
+      <TouchableOpacity onPress={onItemPressed}>
+        <AttackFirstCard
+          name={name}
+          selected={index === countryID ? true : false}
+        />
+      </TouchableOpacity>
+    )
   }
 
   const renderHeaderComponent = () => {
@@ -69,7 +92,7 @@ const AttackFirstScreen = ({navigation}: AttacFirstScreenProps) => {
 
   return (
     <View style={styles.container}>
-      <PagesTemplate title={Strings.attack} onPressButton={onBackPressed}>
+      <PagesTemplate title={Strings.attack}>
         <FlatList
           data={players}
           renderItem={renderItem}
@@ -78,12 +101,16 @@ const AttackFirstScreen = ({navigation}: AttacFirstScreenProps) => {
           keyExtractor={keyExtractor}
           style={styles.flatlistPadding}
           contentContainerStyle={{paddingBottom: 120}}
+          refreshControl={
+            <RefreshControl refreshing={isLoading} onRefresh={refreshPlayers} />
+          }
         />
       </PagesTemplate>
       <TransparentButton
         title={Strings.next}
         onPress={onNextPressed}
-        style={{position: 'absolute', bottom: 0}}
+        style={styles.button}
+        disabled={index === -1 ? true : false}
       />
     </View>
   )
@@ -108,6 +135,10 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 25,
     paddingHorizontal: 20,
+  },
+  button: {
+    position: 'absolute',
+    bottom: 0,
   },
 })
 

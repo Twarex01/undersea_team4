@@ -88,7 +88,7 @@ const BevyCard = ({
           <Image source={Images.minus} />
         </TouchableOpacity>
         <Text style={[styles.numberText, Margins.mlLarge, Margins.mrLarge]}>
-          {'3'}
+          {number}
         </Text>
         <TouchableOpacity onPress={onPlusPress}>
           <Image source={Images.plus} />

@@ -3,4 +3,5 @@ export interface ResourceDetails {
   amount: number
   name: string
   production: number
+  imageURL: string
 }

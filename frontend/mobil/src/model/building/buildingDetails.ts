@@ -5,6 +5,8 @@ export interface BuildingDetails {
   effect: string | undefined
   buildTime: number
   imageURL: string
+  iconURL: string
+  backgroundURL: string
 }
 
 export interface Prices {

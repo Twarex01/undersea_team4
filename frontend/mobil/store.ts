@@ -29,6 +29,12 @@ import {NextRoundStore} from './src/store/nextRound/nextRound.store'
 import {nextRoundReducer} from './src/store/nextRound/nextRound.reducer'
 import {ExplorationStore} from './src/store/explorations/explorations.store'
 import {explorationReducer} from './src/store/explorations/explorations.reducer'
+import {PutBuildingStore} from './src/store/putBuilding/putBuilding.store'
+import {putBuildingReducer} from './src/store/putBuilding/putBuilding.reducer'
+import {PutUpgradeStore} from './src/store/putUpgrade/putUpgrade.store'
+import {putUpgradeReducer} from './src/store/putUpgrade/putUpgrade.reducer'
+import {PutUnitsStore} from './src/store/putUnits/putUnits.store'
+import {putUnitsReducer} from './src/store/putUnits/putUnits.reducer'
 
 export interface IAppStore {
   upgrade: UpgradeStore
@@ -46,6 +52,9 @@ export interface IAppStore {
   register: RegisterStore
   nextRound: NextRoundStore
   exploration: ExplorationStore
+  putBuilding: PutBuildingStore
+  putUpgrade: PutUpgradeStore
+  putUnits: PutUnitsStore
 }
 
 export interface IApplicationState {
@@ -78,6 +87,9 @@ export const appReducer = combineReducers<IAppStore>({
   register: registerReducer,
   nextRound: nextRoundReducer,
   exploration: explorationReducer,
+  putBuilding: putBuildingReducer,
+  putUpgrade: putUpgradeReducer,
+  putUnits: putUnitsReducer,
 })
 
 export const appRootReducer: Reducer<IAppStore> = (

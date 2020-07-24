@@ -14,24 +14,50 @@ import {Margins} from '../../constants/margins'
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import UpgradesScreen from '../../screens/upgradesScreen'
 import {Config} from '../../constants/config'
+import {Images} from '../../constants/images'
 
 interface Props {
   style?: StyleProp<ViewStyle>
   image: string
   title?: String
   description?: String
+  selected: boolean
+  progress?: number
 }
 
-const UpgradeCard = ({style, image, title, description}: Props) => {
+const UpgradeCard = ({
+  style,
+  image,
+  title,
+  description,
+  selected,
+  progress,
+}: Props) => {
   return (
-    <TouchableOpacity style={[styles.container, style]}>
+    <View
+      style={[
+        styles.container,
+        style,
+        {
+          backgroundColor: selected
+            ? Colors.transparentWhite
+            : Colors.middleDarkBlue,
+        },
+      ]}>
       <Image
         source={{uri: `${Config.baseURL}${image}`}}
         style={[styles.image, Margins.mtBig, Margins.mbNormal]}
       />
       <Text style={styles.titleText}>{title}</Text>
       <Text style={[styles.descriptionText, Margins.mbBig]}>{description}</Text>
-    </TouchableOpacity>
+      <Image
+        source={progress === 0 ? Images.done : null}
+        style={styles.progressImage}
+      />
+      <Text style={styles.progressText}>
+        {progress > 0 ? `még ${progress} kör` : ''}
+      </Text>
+    </View>
   )
 }
 
@@ -59,6 +85,19 @@ const styles = StyleSheet.create({
   image: {
     height: 70,
     width: 70,
+  },
+  progressImage: {
+    position: 'absolute',
+    left: 10,
+    top: 10,
+  },
+  progressText: {
+    color: Colors.vibrantLightBlue,
+    fontFamily: Fonts.OpenSans_SemiBold,
+    fontSize: FontSizes.os_small,
+    position: 'absolute',
+    left: 10,
+    top: 10,
   },
 })
 

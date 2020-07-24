@@ -14,24 +14,30 @@ interface Props {
   title: string
   onPress: () => void
   style: StyleProp<ViewStyle>
+  disabled?: boolean
 }
 
-const CustomButton = ({onPress, title, style}: Props) => {
+const GradientButton = ({onPress, title, style, disabled}: Props) => {
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={[styles.customButtonContainer, style]}>
-      <LinearGradient
-        colors={[
-          Colors.vibrantDarkBlue,
-          Colors.vibrantMiddleBlue,
-          Colors.vibrantLightBlue,
-        ]}
-        style={styles.customButtonGradient}
-        start={{x: -1, y: 0}}
-        end={{x: 1, y: 0}}>
+      style={[styles.customButtonContainer, style]}
+      disabled={disabled}>
+      {disabled ? (
         <Text style={styles.customButtonText}>{title}</Text>
-      </LinearGradient>
+      ) : (
+        <LinearGradient
+          colors={[
+            Colors.vibrantDarkBlue,
+            Colors.vibrantMiddleBlue,
+            Colors.vibrantLightBlue,
+          ]}
+          style={styles.customButtonGradient}
+          start={{x: -1, y: 0}}
+          end={{x: 1, y: 0}}>
+          <Text style={styles.customButtonText}>{title}</Text>
+        </LinearGradient>
+      )}
     </TouchableOpacity>
   )
 }
@@ -39,9 +45,9 @@ const CustomButton = ({onPress, title, style}: Props) => {
 const styles = StyleSheet.create({
   customButtonContainer: {
     borderRadius: 30,
-    height: 48,
+    height: 60,
     width: 192,
-    backgroundColor: Colors.vibrantLightBlue,
+    backgroundColor: Colors.transparentWhite,
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: Colors.black,
@@ -64,4 +70,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default CustomButton
+export default GradientButton
