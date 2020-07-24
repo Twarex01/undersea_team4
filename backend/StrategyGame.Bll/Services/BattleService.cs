@@ -108,6 +108,9 @@ namespace StrategyGame.Bll.Services
 
 		public async Task SendUnitsOfTypeToAttack(Country attackingCountry, Country defendingCountry, int numberOfUnits, int unitDataId)
 		{
+
+			if (attackingCountry.ID == defendingCountry.ID)
+				throw new HttpResponseException { Status = 400, Value = "Ne bántsd magad :c" };
 			
 			var unitData = await _context.UnitData.FirstOrDefaultAsync(u => u.ID == unitDataId);
 			if (unitData == null)
@@ -165,6 +168,9 @@ namespace StrategyGame.Bll.Services
 
 		public async Task SendExplorersToCountry(SendExplorationDTO explorationDTO)
 		{
+			if (explorationDTO.SenderCountryID == explorationDTO.VictimCountryID)
+				throw new HttpResponseException { Status = 400, Value = "Ne bántsd magad :c" };
+
 			SendExplorationDTOValidator explorationValidator = new SendExplorationDTOValidator();
 			ValidationResult validatorResults = explorationValidator.Validate(explorationDTO);
 
