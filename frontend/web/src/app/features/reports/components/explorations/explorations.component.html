@@ -1,10 +1,4 @@
 <div>
-  <div class="choose-round-container">
-    <app-choose-round
-      [prevRound]="prevRound"
-      (chosenRoundChanged)="onChosenRoundChanged($event)"
-    ></app-choose-round>
-  </div>
   <mat-accordion *ngIf="explorationReports.length > 0">
     <div class="line" *ngFor="let explorationReport of explorationReports">
       <mat-expansion-panel class="expansion-panel">

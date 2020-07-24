@@ -18,9 +18,4 @@ export class AttacksComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  onChosenRoundChanged(round: number){
-    this.roundChanged.emit(round);
-  }
-
 }
