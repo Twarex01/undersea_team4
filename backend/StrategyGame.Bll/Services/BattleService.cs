@@ -247,6 +247,7 @@ namespace StrategyGame.Bll.Services
 					SenderCountryName = senderCountry.Name,
 					VictimCountryID = victimCountry.ID,
 					VictimCountryName = victimCountry.Name,
+					Round = round
 				};
 
 			if (spyProbability.Next(0, 100) <= chance * 100 || chance >= 1) //sikeres volt a kémkedés

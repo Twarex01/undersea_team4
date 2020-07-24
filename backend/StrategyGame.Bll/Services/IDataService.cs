@@ -18,7 +18,7 @@ namespace StrategyGame.Bll.Services
 
         public Task<List<RankDTO>> GetPlayerRanks();
 
-        public Task<FullReportDTO> GetFullReport(int countryId);
+        public Task<FullReportDTO> GetFullReport(int countryId,int round);
 
 
 
