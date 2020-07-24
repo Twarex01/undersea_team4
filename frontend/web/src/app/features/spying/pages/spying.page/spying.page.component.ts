@@ -6,6 +6,7 @@ import { forkJoin } from 'rxjs';
 import { BattlesService } from '../../../battles/services/battles.service';
 import { Battle } from '../../../battles/models/battle';
 import { UnitWithName } from '../../../../shared/clients';
+import { StatusNotificationService } from '../../../../core/services/status-notification.service';
 
 @Component({
   selector: 'app-spying.page',
@@ -18,9 +19,14 @@ export class SpyingPageComponent implements OnInit {
   explorerUnits: AttackUnit[] = [];
   players: AttackPlayer[] = [];
 
-  constructor(private spyingService: SpyingService, private battleService: BattlesService) { }
+  constructor(private spyingService: SpyingService, private battleService: BattlesService, private notificationService: StatusNotificationService) { }
 
   ngOnInit(): void {
+    this.getAllData();
+    this.notificationService.notifications.subscribe(() => this.updateCountryUnits());
+  }
+
+  private getAllData() {
     forkJoin(
       this.spyingService.getPlayerList(),
       this.spyingService.getCountryName()
@@ -43,6 +49,14 @@ export class SpyingPageComponent implements OnInit {
           count: countryExplorersCount - unitsToSubtract,
           countToAttack: 0
       })
+    })
+  }
+
+  private updateCountryUnits() {
+    this.spyingService.getCountryUnits().subscribe((cus) => {
+      const countryExplorers = cus.find((cu) => cu.id === this.explorerUnits[0].id)!;
+      this.explorerUnits[0].count = countryExplorers.count;
+      this.explorerUnits[0].countToAttack = 0;
     })
   }
 

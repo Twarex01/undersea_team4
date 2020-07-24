@@ -31,7 +31,6 @@ export class UpgradesPageComponent implements OnInit {
     ).subscribe(([countryUpgrades, upgradeDetails]) => {
       this.upgrades = [];
       upgradeDetails.forEach((upgradeDetail) => {
-        console.log(upgradeDetail)
         const countryUpgrade = countryUpgrades.find(
           (cd) => cd.id == upgradeDetail.id
         )!;
