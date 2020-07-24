@@ -1,10 +1,4 @@
 <div>
-  <div class="choose-round-container">
-    <app-choose-round
-      [prevRound]="prevRound"
-      (chosenRoundChanged)="onChosenRoundChanged($event)"
-    ></app-choose-round>
-  </div>
   <mat-accordion *ngIf="defenseReports.length > 0">
     <div class="line" *ngFor="let defenseReport of defenseReports">
       <mat-expansion-panel class="expansion-panel">
@@ -24,7 +18,7 @@
         <div class="home-force">
           <p class="data-title">Védőerő: {{ defenseReport.defenderPower }}</p>
           <p class="data-title">Elvesztett egységek:</p>
-          <span *ngFor="let unit of defenseReport.unitsLost"
+          <span class="list-item" *ngFor="let unit of defenseReport.unitsLost"
             >{{ unit.count }} {{ unit.name }}</span
           >
           <span *ngIf="defenseReport.unitsLost.length == 0">-</span>
@@ -32,16 +26,16 @@
         <div class="other-force">
           <p class="data-title">Támadóerő: {{ defenseReport.attackerPower }}</p>
           <p class="data-title">Támadó egységek:</p>
-          <span *ngFor="let unit of defenseReport.attackerArmy"
+          <span class="list-item" *ngFor="let unit of defenseReport.attackerArmy"
             >{{ unit.count }} {{ unit.name }}</span
           >
         </div>
         <div>
           <p class="data-title">Elvesztett erőforrások:</p>
-          <span *ngFor="let resource of defenseReport.resourceChanges"
+          <span class="list-item" *ngFor="let resource of defenseReport.resourceChanges"
             >{{ resource.change }} {{ resource.name }}</span
           >
-          <span *ngIf="defenseReport.resourceChanges.length == 0">-</span>
+          <span class="list-item" *ngIf="defenseReport.resourceChanges.length == 0">-</span>
         </div>
       </mat-expansion-panel>
     </div>

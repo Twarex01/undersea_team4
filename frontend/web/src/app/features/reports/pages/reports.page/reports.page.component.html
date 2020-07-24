@@ -1,23 +1,37 @@
 <app-basic-card class="card" *ngIf="prevRound && report">
   <p class="header">Jelentések</p>
-  <mat-tab-group class="details">
-    <mat-tab>
-      <ng-template mat-tab-label>
-        <p>Támadás</p>
-      </ng-template>
-      <app-attacks (roundChanged)="onRoundChanged($event)" [attackReports]="report.attackReports" [prevRound]="prevRound"></app-attacks>
-    </mat-tab>
-    <mat-tab>
-      <ng-template mat-tab-label>
-        <p>Védekezés</p>
-      </ng-template>
-      <app-defenses (roundChanged)="onRoundChanged($event)" [defenseReports]="report.defendReports" [prevRound]="prevRound"></app-defenses>
-    </mat-tab>
-    <mat-tab>
-      <ng-template mat-tab-label>
-        <p>Felfedezés</p>
-      </ng-template>
-      <app-explorations (roundChanged)="onRoundChanged($event)" [explorationReports]="report.explorationReports" [prevRound]="prevRound"></app-explorations>
-    </mat-tab>
-  </mat-tab-group>
+  <div class="details">
+    <mat-tab-group>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <p>Támadás</p>
+        </ng-template>
+        <div class="choose-round-container">
+        </div>
+        <app-attacks (roundChanged)="onRoundChanged($event)" [attackReports]="report.attackReports" [prevRound]="prevRound"></app-attacks>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <p>Védekezés</p>
+        </ng-template>
+        <div class="choose-round-container">
+        </div>
+        <app-defenses (roundChanged)="onRoundChanged($event)" [defenseReports]="report.defendReports" [prevRound]="prevRound"></app-defenses>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <p>Felfedezés</p>
+        </ng-template>
+        <div class="choose-round-container">
+        </div>
+        <app-explorations (roundChanged)="onRoundChanged($event)" [explorationReports]="report.explorationReports" [prevRound]="prevRound"></app-explorations>
+      </mat-tab>
+    </mat-tab-group>
+    <app-choose-round
+    [prevRound]="prevRound"
+    (chosenRoundChanged)="onRoundChanged($event)"
+    class="choose-round"
+  ></app-choose-round>
+  </div>
+
 </app-basic-card>

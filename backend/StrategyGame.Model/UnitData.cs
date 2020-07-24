@@ -63,7 +63,7 @@
             ATK = 0,
             DEF = 0,
             PointValue = 0,
-            ImageURL = "/Assets/Units/shark.png"
+            ImageURL = "/Assets/Units/exploradora.png"
 
         };
 

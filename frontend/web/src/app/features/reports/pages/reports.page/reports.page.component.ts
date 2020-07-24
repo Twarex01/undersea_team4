@@ -18,18 +18,18 @@ export class ReportsPageComponent implements OnInit {
   constructor(private reportService: ReportService, private notificationService: StatusNotificationService) { }
 
   ngOnInit(): void {
-    this.getAllData(this.prevRound);
+    this.getAllData();
     this.notificationService.notifications.subscribe(() => this.prevRound += 1);
   }
 
-  getAllData(round: number) {
+  getAllData() {
     forkJoin(
       this.reportService.getCountryId(),
       this.reportService.getPrevoiusRound()
     ).subscribe(([cid, prevRound]) => {
       this.countryId = cid;
       this.prevRound = prevRound;
-      this.getReportsData(round);
+      this.getReportsData(prevRound);
     });
   }
 

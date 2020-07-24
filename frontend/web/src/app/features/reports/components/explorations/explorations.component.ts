@@ -17,8 +17,4 @@ export class ExplorationsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onChosenRoundChanged(round: number){
-    this.roundChanged.emit(round);
-  }
-
 }

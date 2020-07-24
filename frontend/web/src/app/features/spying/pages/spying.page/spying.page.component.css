@@ -2,3 +2,8 @@
     position: relative;
     right: 15%;
 }
+
+button {
+    font-size: 1.1rem;
+    padding: 1% 4% 1% 4%;
+}
