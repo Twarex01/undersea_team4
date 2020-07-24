@@ -55,6 +55,7 @@ export class BuildingsPageComponent implements OnInit {
         })
       });
       
+      this.countryResources = [];
       resources.forEach((resource) => {
         this.countryResources.push({
           id: resource.id,
