@@ -27,6 +27,7 @@
           <span *ngFor="let unit of defenseReport.unitsLost"
             >{{ unit.count }} {{ unit.name }}</span
           >
+          <span *ngIf="defenseReport.unitsLost.length == 0">-</span>
         </div>
         <div class="other-force">
           <p class="data-title">Támadóerő: {{ defenseReport.attackerPower }}</p>
@@ -40,6 +41,7 @@
           <span *ngFor="let resource of defenseReport.resourceChanges"
             >{{ resource.change }} {{ resource.name }}</span
           >
+          <span *ngIf="defenseReport.resourceChanges.length == 0">-</span>
         </div>
       </mat-expansion-panel>
     </div>
