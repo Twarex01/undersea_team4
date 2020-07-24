@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Building } from '../models/building';
+import { Building } from '../../models/building';
 
 @Component({
   selector: 'app-building-card-item',
