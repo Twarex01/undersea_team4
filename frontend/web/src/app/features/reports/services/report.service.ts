@@ -23,7 +23,7 @@ export class ReportService {
           sentExplorersCount: er.explorersSent,
           isSuccessful: er.successful,
           victimDefensePower: er.exposedDefensePower,
-          round: 1
+          round: er.round
         })) ?? [];
         return {
           attackReports: attackReports,

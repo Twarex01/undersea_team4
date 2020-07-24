@@ -28,6 +28,7 @@ p {
 
 .line {
     margin: 2% auto 2% auto;
+    width: 45rem;
 }
 
 .success {
@@ -45,6 +46,5 @@ p {
 }
 
 .no-info {
-    margin-top: 5%;
     text-align: center;
 }
