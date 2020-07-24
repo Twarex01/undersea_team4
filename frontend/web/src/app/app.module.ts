@@ -23,6 +23,7 @@ import {
   MatSnackBarModule,
   MAT_SNACK_BAR_DEFAULT_OPTIONS,
 } from '@angular/material/snack-bar';
+import { ToastInterceptor } from './toast-interceptor';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import {
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ToastInterceptor, multi: true },
     AuthGuardService,
     LoginClient,
     RegisterClient,

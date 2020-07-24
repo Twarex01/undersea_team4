@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AttackUnit } from '../../../attack/models/attack-unit';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { AttackPlayer } from '../../../attack/models/attack-player';
 import { SpyingService } from '../../services/spying.service';
 import { forkJoin } from 'rxjs';
@@ -19,7 +18,7 @@ export class SpyingPageComponent implements OnInit {
   explorerUnits: AttackUnit[] = [];
   players: AttackPlayer[] = [];
 
-  constructor(private spyingService: SpyingService, private snackBar: MatSnackBar, private battleService: BattlesService) { }
+  constructor(private spyingService: SpyingService, private battleService: BattlesService) { }
 
   ngOnInit(): void {
     forkJoin(
@@ -62,11 +61,9 @@ export class SpyingPageComponent implements OnInit {
 
   onExplore() {
     this.spyingService.explore({targetCountryId: this.selectedPlayerId, numberOfExplorers: this.explorerUnits[0].countToAttack}).subscribe(() => {
-      this.snackBar.open("Sikeresen elindítottad a felfedezést!", '', {panelClass: "custom-snackbar"});
       this.explorerUnits[0].count -= this.explorerUnits[0].countToAttack;
       this.explorerUnits[0].countToAttack = 0;
-    },
-    (error) => this.snackBar.open(error.response));
+    });
   }
 
   onSelectedPlayerChanged(id: number) {

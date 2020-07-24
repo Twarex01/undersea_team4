@@ -4,8 +4,6 @@ import { UnitToBuy } from '../../models/unitToBuy';
 import { Unit } from '../../models/unit';
 import { forkJoin } from 'rxjs';
 import { PlayerInfoService } from '../../../../core/services/player-info.service';
-import { CountryResource } from '../../models/resources';
-import { Router } from '@angular/router';
 import { StatusNotificationService } from '../../../../core/services/status-notification.service';
 import { UnitBuyInfo } from '../../models/unit-buy-info';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -95,7 +93,6 @@ export class UnitsPageComponent implements OnInit {
     });
     if (!onlyInteger) return;
     this.unitService.buyUnits(unitsToBuy).subscribe(() => {
-      this.snackBar.open("Sikeres vásárlás!", '', { panelClass: "custom-snackbar-units" });
       this.statusNotificationService.updateStatus(true);
       unitsToBuy.forEach((unit) => {
         const i = this.units.findIndex(u => u.id === unit.unitTypeID);
@@ -104,8 +101,7 @@ export class UnitsPageComponent implements OnInit {
       });
       this.unitBuyInfo.pearl -= this.unitBuyInfo.estimatedPearlCost;
       this.unitBuyInfo.estimatedPearlCost = 0;
-    },
-      (error) => this.snackBar.open(error.response));
+    });
   }
 
   isReadyToAttack(): boolean {

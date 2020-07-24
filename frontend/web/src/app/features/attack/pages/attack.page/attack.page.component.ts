@@ -4,7 +4,6 @@ import { AttackService } from '../../services/attack.service';
 import { AttackPlayer } from '../../models/attack-player';
 import { forkJoin } from 'rxjs';
 import { AttackBattle } from '../../models/attack-battle';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Battle } from '../../../battles/models/battle';
 import { UnitWithName } from '../../../../shared/clients';
 import { BattlesService } from '../../../battles/services/battles.service';
@@ -23,7 +22,7 @@ export class AttackPageComponent implements OnInit {
 
   players: AttackPlayer[] = new Array<AttackPlayer>();
 
-  constructor(private attackService: AttackService, private snackBar: MatSnackBar, private battleService: BattlesService) { }
+  constructor(private attackService: AttackService, private battleService: BattlesService) { }
 
   ngOnInit(): void {
     forkJoin(
@@ -74,13 +73,12 @@ export class AttackPageComponent implements OnInit {
       army: this.units.map((unit) => ({id: unit.id, count: unit.countToAttack}))
     }
     this.attackService.attack(battle).subscribe(() => {
-      this.snackBar.open("Sikeresen elindítottad a támadást!", '', {panelClass: "custom-snackbar"})
       this.units.forEach(unit => {
         unit.count -= unit.countToAttack;
         unit.countToAttack = 0
       });
     },
-    (error) => this.snackBar.open(error.response))
+    (error) => console.log(""))
   }
 
   onSelectedPlayerChanged(id: number) {
