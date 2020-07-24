@@ -22,20 +22,45 @@ export class BuildingsPageComponent implements OnInit {
   constructor(
     private buildingsService: BuildingsService,
     private statusNotificationService: StatusNotificationService,
-    private palyerInfoService: PlayerInfoService,
+    private playerInfoService: PlayerInfoService,
     private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
     this.getBuildingData(); 
-    this.statusNotificationService.notifications.subscribe(() => this.getBuildingData());   
+    this.statusNotificationService.notifications.subscribe(() => this.updateCountryData());   
+  }
+
+  updateCountryData() {
+    this.updateResourcesData();
+    this.updateBuildingsData();
+  }
+
+  private updateBuildingsData() {
+    this.buildings.forEach((b) => {
+      if(b.progress != 0){
+        b.progress -= 1;
+        if(b.progress == 0)
+          b.count += 1;
+        b.isSelected = false;
+      }
+    })
+  }
+
+  private updateResourcesData() {
+    this.playerInfoService.getCountryResources().subscribe((resources) => {
+      resources.forEach((res) => {
+        const countryResource = this.countryResources.find((r) => r.id === res.id)!;
+        countryResource.amount = res.count;
+      })
+    })
   }
 
   getBuildingData(): void{
     forkJoin(
       this.buildingsService.getCountryBuildings(),
       this.buildingsService.getBuildingsData(),
-      this.palyerInfoService.getCountryResources()
+      this.playerInfoService.getCountryResources()
     ).subscribe(([countryBuildings, buildingDetails, resources]) => {
       this.buildings = [];
       buildingDetails.forEach((buildingDetail) => {
