@@ -7,6 +7,7 @@ import { AttackBattle } from '../../models/attack-battle';
 import { Battle } from '../../../battles/models/battle';
 import { UnitWithName } from '../../../../shared/clients';
 import { BattlesService } from '../../../battles/services/battles.service';
+import { StatusNotificationService } from '../../../../core/services/status-notification.service';
 
 @Component({
   selector: 'app-attack.page',
@@ -15,16 +16,18 @@ import { BattlesService } from '../../../battles/services/battles.service';
 })
 export class AttackPageComponent implements OnInit {
 
-
   selectedPlayerId: number = -1;
-
   units: AttackUnit[] = new Array<AttackUnit>();
-
   players: AttackPlayer[] = new Array<AttackPlayer>();
 
-  constructor(private attackService: AttackService, private battleService: BattlesService) { }
+  constructor(private attackService: AttackService, private battleService: BattlesService, private notificationService: StatusNotificationService) { }
 
   ngOnInit(): void {
+    this.getAllData();
+    this.notificationService.notifications.subscribe(() => this.updateCountryUnits());
+  }
+
+  private getAllData() {
     forkJoin(
       this.attackService.getPlayerList(),
       this.attackService.getCountryName()
@@ -53,6 +56,16 @@ export class AttackPageComponent implements OnInit {
     })
   }
 
+  private updateCountryUnits() {
+    this.attackService.getCountryUnits().subscribe((cus) => {
+      cus.forEach((cu) => {
+        const unit = this.units.find((u) => u.id == cu.id)!;
+        unit.count = cu.count;
+        unit.countToAttack = 0;
+      })
+    })
+  }
+
   private getNumberOfUnitsWhoAreInBattle(countryBattles: Battle[]): UnitWithName[] {
     let results: UnitWithName[] =  [];
     countryBattles.forEach((cb) => {
@@ -77,8 +90,7 @@ export class AttackPageComponent implements OnInit {
         unit.count -= unit.countToAttack;
         unit.countToAttack = 0
       });
-    },
-    (error) => console.log(""))
+    })
   }
 
   onSelectedPlayerChanged(id: number) {
