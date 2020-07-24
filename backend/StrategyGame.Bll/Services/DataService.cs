@@ -136,7 +136,9 @@ namespace StrategyGame.Bll.Services
                     Effect = buildingData.Effect,
                     Name = buildingData.Name,
                     Prices = pricelist,
-                    ImageURL = buildingData.ImageURL
+                    ImageURL = buildingData.ImageURL,
+                    IconURL = buildingData.IconURL,
+                    BackgroundURL = buildingData.BackgroundURL
                 });
                 
             }
