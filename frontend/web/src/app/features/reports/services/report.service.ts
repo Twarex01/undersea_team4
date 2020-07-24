@@ -53,9 +53,9 @@ export class ReportService {
           name: unit.name!,
           count: unit.count
       })) ?? [],
-      attackerPower: battleReportDTO.atkPower,
+      attackerPower: battleReportDTO.atkPower.toFixed(2),
       defenderCountryName: battleReportDTO.defenderName!,
-      defenderPower: battleReportDTO.defPower,
+      defenderPower: battleReportDTO.defPower.toFixed(2),
       isSuccessful: battleReportDTO.succesful,
       resourceChanges: battleReportDTO.loot?.map((loot) => ({
           name: loot.resourceName!,

@@ -29,8 +29,11 @@
         </div>
         <div class="other-force">
           <p class="data-title">Megszerzett tudás:</p>
-          <p>
+          <p *ngIf="explorationReport.isSuccessful">
             Ellenfél védekező ereje: {{ explorationReport.victimDefensePower }}
+          </p>
+          <p *ngIf="!explorationReport.isSuccessful">
+            -
           </p>
         </div>
       </mat-expansion-panel>
