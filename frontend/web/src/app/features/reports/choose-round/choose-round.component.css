@@ -10,3 +10,18 @@ button {
     border-radius: 50%;
     line-height: 0.05;
 }
+
+.round-steppers {
+    text-align: center;
+    display: flex;
+    margin: 0 auto 0 auto;
+    width: 12rem;
+}
+
+.number-input {
+    width: 3rem;
+}
+
+span {
+    margin-top: 5%;
+}

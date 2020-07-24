@@ -25,4 +25,12 @@ export class ChooseRoundComponent implements OnInit {
     this.chosenRoundChanged.emit(this.chosenRound);
   }
 
+  setRound(num: number) {
+    if(num < 1 || num > this.prevRound) {
+      this.chosenRound = this.prevRound;
+      return;
+    }
+    this.chosenRoundChanged.emit(this.chosenRound);
+  }
+
 }
