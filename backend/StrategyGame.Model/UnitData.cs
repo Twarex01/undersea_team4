@@ -67,6 +67,23 @@
 
         };
 
+        public static UnitData General = new UnitData
+        {
+            ID = 5,
+            Name = "Hadvezér",
+            Salary = 4,
+            SalaryUnitID = ResourceData.Pearl.ID,
+            Price = 200,
+            PriceUnitID = ResourceData.Pearl.ID,
+            Consumption = 2,
+            ConsumptionUnitID = ResourceData.Coral.ID,
+            ATK = 0,
+            DEF = 0,
+            PointValue = 0,
+            ImageURL = "/Assets/Units/exploradora.png"
+
+        };
+
         public int ID { get; set; }
         public string Name { get; set; }
         public int Price { get; set; }
