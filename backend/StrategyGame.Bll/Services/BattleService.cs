@@ -377,7 +377,7 @@ namespace StrategyGame.Bll.Services
 					int unitAttackingLost = allAttackingUnits.Where(a => a.UnitData.ID == unitDataId).Select(a => a.Count).SingleOrDefault();
 					if (unitAttackingLost == 0) continue;
 					unitAttackingLost = (int)Math.Ceiling(unitAttackingLost * 0.1);
-					var unit = await _context.Units.Include(u => u.UnitData).SingleOrDefaultAsync(u => u.CountryID == defCountry.ID && u.UnitDataID == unitDataId);
+					var unit = await _context.Units.Include(u => u.UnitData).SingleOrDefaultAsync(u => u.CountryID == atkCountry.ID && u.UnitDataID == unitDataId);
 					unit.Count -= unitAttackingLost;
 
 					lostUnits.Add(new LostUnit { LostAmount = unitAttackingLost, UnitName = unit.UnitData.Name });
