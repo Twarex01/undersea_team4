@@ -18,8 +18,8 @@
         <div class="home-force">
           <p class="data-title">Védőerő: {{ defenseReport.defenderPower }}</p>
           <p class="data-title">Elvesztett egységek:</p>
-          <span class="list-item" *ngFor="let unit of defenseReport.unitsLost"
-            ><span *ngIf="unit.count !== 0"
+          <span *ngFor="let unit of defenseReport.unitsLost"
+            ><span class="list-item" *ngIf="unit.count !== 0"
               >{{ unit.count }} {{ unit.name }}</span
             ></span
           >
@@ -29,9 +29,9 @@
           <p class="data-title">Támadóerő: {{ defenseReport.attackerPower }}</p>
           <p class="data-title">Támadó egységek:</p>
           <span
-            class="list-item"
+            
             *ngFor="let unit of defenseReport.attackerArmy"
-            ><span *ngIf="unit.count !== 0"
+            ><span class="list-item" *ngIf="unit.count !== 0"
               >{{ unit.count }} {{ unit.name }}</span
             ></span
           >
@@ -39,9 +39,9 @@
         <div>
           <p class="data-title">Elvesztett erőforrások:</p>
           <span
-            class="list-item"
+            
             *ngFor="let resource of defenseReport.resourceChanges"
-            ><span *ngIf="resource.change !== 0"
+            ><span class="list-item" *ngIf="resource.change !== 0"
               >{{ resource.change }} {{ resource.name }}</span
             ></span
           >
