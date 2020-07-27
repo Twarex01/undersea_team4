@@ -12,7 +12,7 @@ import { AttackBattle } from '../models/attack-battle';
 })
 export class AttackService {
 
-  baseUrl = "https://localhost:5001/";
+  baseUrl = "https://undersea.azurewebsites.net/";
 
   constructor(private playersClient: PlayersClient, private countryClient: CountryClient, private detailsClient: DetailsClient, private battleClient: BattleClient) { }
 

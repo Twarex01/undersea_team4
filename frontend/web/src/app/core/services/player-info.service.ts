@@ -17,7 +17,7 @@ import { UpgradeDetails } from '../../features/upgrades/models/upgrade-details';
 })
 export class PlayerInfoService {
 
-  baseUrl: string = "https://localhost:5001/";
+  baseUrl: string = "https://undersea.azurewebsites.net/";
 
   constructor(
     private countryClient: CountryClient,
