@@ -13,7 +13,7 @@ export class SignalRService {
   private hubConnection: signalR.HubConnection;
 
   public startConnection() {
-    this.hubConnection = new signalR.HubConnectionBuilder().withUrl("https://localhost:5001/roundhub").build();
+    this.hubConnection = new signalR.HubConnectionBuilder().withUrl("https://undersea.azurewebsites.net/roundhub").build();
     this.hubConnection.start();
   }
 
