@@ -1,8 +1,8 @@
 <main>
     <div [formGroup]="loginForm" class="form-container">
         <app-basic-form-card [form]="loginForm" (submitted)="onSubmit()" title="Belépés">
-            <input type="text" placeholder="Felhasználónév" formControlName="userName">
-            <input type="password" placeholder="Jelszó" formControlName="password">
+            <input id="userName" type="text" placeholder="Felhasználónév" formControlName="userName">
+            <input id="password" type="password" placeholder="Jelszó" formControlName="password">
             <div *ngIf="serverError" class="error">{{serverMessage}}</div>
             <div *ngIf="validationError && (userName.errors?.required || password.errors?.required)" class="error">Add meg a felhasználóneved és a jelszavad!</div>
             <div *ngIf="validationError && userName.errors?.whitespace && !userName.errors?.required" class="error">Érvénytelen felhasználónév!</div>

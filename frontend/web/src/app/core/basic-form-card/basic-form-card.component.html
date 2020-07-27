@@ -5,7 +5,7 @@
 <form [formGroup]="form" class="login-reg-form" (ngSubmit)="onSubmit()">
   <h2>{{ title }}</h2>
   <ng-content></ng-content>
-  <button type="submit">
+  <button id="submitBtn" type="submit">
     <p class="button-text">{{ title }}</p>
   </button>
   <ng-content select="a"></ng-content>
