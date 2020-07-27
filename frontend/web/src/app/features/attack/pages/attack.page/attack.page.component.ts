@@ -60,8 +60,10 @@ export class AttackPageComponent implements OnInit {
     this.attackService.getCountryUnits().subscribe((cus) => {
       cus.forEach((cu) => {
         const unit = this.units.find((u) => u.id == cu.id)!;
-        unit.count = cu.count;
-        unit.countToAttack = 0;
+        if(unit){
+          unit.count = cu.count;
+          unit.countToAttack = 0;
+        }
       })
     })
   }
