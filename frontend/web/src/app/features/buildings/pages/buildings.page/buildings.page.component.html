@@ -8,6 +8,6 @@
   </app-building-card-item>
 
   <div class="footer">
-    <button [disabled]="selectedIndex === -1" [ngClass]="{ 'button-not-selected': selectedIndex === -1}" (click)="buySelectedBuilding()">Megveszem</button>
+    <button id="buyBtn" [disabled]="selectedIndex === -1" [ngClass]="{ 'button-not-selected': selectedIndex === -1}" (click)="buySelectedBuilding()">Megveszem</button>
   </div>
 </app-basic-card>
