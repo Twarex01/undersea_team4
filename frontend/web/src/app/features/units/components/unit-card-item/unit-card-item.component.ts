@@ -16,7 +16,7 @@ export class UnitCardItemComponent implements OnInit {
 
   constructor(private unitService: UnitService) { }
 
-  imgBaseUrl: string = "https://localhost:5001/";
+  imgBaseUrl: string = "https://undersea.azurewebsites.net/";
 
   ngOnInit(): void {
   }

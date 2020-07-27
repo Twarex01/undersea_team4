@@ -41,7 +41,7 @@ export class SpyingService {
   getUnitDetails(): Observable<AttackUnitDetails[]>{
     return this.detailsClient.getAllUnitDetails().pipe(
       map((unitDetailsDTOArray) => {
-        return unitDetailsDTOArray.map((unitDetailsDTO) => ({id: unitDetailsDTO.unitTypeID, name: unitDetailsDTO.name!, imageSrc: "../../../../assets/icons/shark.svg"}))
+        return unitDetailsDTOArray.map((unitDetailsDTO) => ({id: unitDetailsDTO.unitTypeID, name: unitDetailsDTO.name!, imageSrc: unitDetailsDTO.imageURL!}))
       })
     );
   }

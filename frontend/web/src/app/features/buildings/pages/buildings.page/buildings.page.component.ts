@@ -17,7 +17,7 @@ export class BuildingsPageComponent implements OnInit {
   buildings: Building[] = [];
   countryResources: Resource[] = [];
   selectedIndex: number = -1;
-  imgBaseUrl: string = "https://localhost:5001/";
+  imgBaseUrl: string = "https://undersea.azurewebsites.net/";
 
   constructor(
     private buildingsService: BuildingsService,

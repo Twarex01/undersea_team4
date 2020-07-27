@@ -12,7 +12,7 @@ import { StatusNotificationService } from '../../../../core/services/status-noti
 export class UpgradesPageComponent implements OnInit {
   selectedUpgradeIndex: number = -1;
   upgrades: Upgrade[] = [];
-  imgBaseUrl: string = "https://localhost:5001/";
+  imgBaseUrl: string = "https://undersea.azurewebsites.net/";
 
   constructor(
     private upgradeService: UpgradeService,

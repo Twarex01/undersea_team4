@@ -15,6 +15,8 @@ import { StatusNotificationService } from '../../../../core/services/status-noti
 })
 export class SpyingPageComponent implements OnInit {
 
+  baseUrl: string = "https://undersea.azurewebsites.net/";
+
   selectedPlayerId: number = -1;
   explorerUnits: AttackUnit[] = [];
   players: AttackPlayer[] = [];
@@ -44,7 +46,7 @@ export class SpyingPageComponent implements OnInit {
       const unitsToSubtract = this.getNumberOfUnitsWhoAreInBattle(sentSpiesDetails).count;
       this.explorerUnits.push({
         id: explorerDetails.id,
-          imageSrc: explorerDetails.imageSrc,
+          imageSrc: this.baseUrl + explorerDetails.imageSrc,
           name: explorerDetails.name,
           count: countryExplorersCount - unitsToSubtract,
           countToAttack: 0

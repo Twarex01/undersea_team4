@@ -11,7 +11,7 @@ import { StatusNotificationService } from '../services/status-notification.servi
 })
 export class MainLayoutComponent implements OnInit {
 
-  baseUrl: string = "https://localhost:5001/"
+  baseUrl: string = "https://undersea.azurewebsites.net/"
 
   hasSonarCannon: boolean = false;
 
