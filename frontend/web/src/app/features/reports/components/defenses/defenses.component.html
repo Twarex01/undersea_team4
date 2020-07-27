@@ -19,23 +19,37 @@
           <p class="data-title">Védőerő: {{ defenseReport.defenderPower }}</p>
           <p class="data-title">Elvesztett egységek:</p>
           <span class="list-item" *ngFor="let unit of defenseReport.unitsLost"
-            >{{ unit.count }} {{ unit.name }}</span
+            ><span *ngIf="unit.count !== 0"
+              >{{ unit.count }} {{ unit.name }}</span
+            ></span
           >
           <span *ngIf="defenseReport.unitsLost.length == 0">-</span>
         </div>
         <div class="other-force">
           <p class="data-title">Támadóerő: {{ defenseReport.attackerPower }}</p>
           <p class="data-title">Támadó egységek:</p>
-          <span class="list-item" *ngFor="let unit of defenseReport.attackerArmy"
-            >{{ unit.count }} {{ unit.name }}</span
+          <span
+            class="list-item"
+            *ngFor="let unit of defenseReport.attackerArmy"
+            ><span *ngIf="unit.count !== 0"
+              >{{ unit.count }} {{ unit.name }}</span
+            ></span
           >
         </div>
         <div>
           <p class="data-title">Elvesztett erőforrások:</p>
-          <span class="list-item" *ngFor="let resource of defenseReport.resourceChanges"
-            >{{ resource.change }} {{ resource.name }}</span
+          <span
+            class="list-item"
+            *ngFor="let resource of defenseReport.resourceChanges"
+            ><span *ngIf="resource.change !== 0"
+              >{{ resource.change }} {{ resource.name }}</span
+            ></span
           >
-          <span class="list-item" *ngIf="defenseReport.resourceChanges.length == 0">-</span>
+          <span
+            class="list-item"
+            *ngIf="defenseReport.resourceChanges.length == 0"
+            >-</span
+          >
         </div>
       </mat-expansion-panel>
     </div>
