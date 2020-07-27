@@ -120,7 +120,7 @@ namespace StrategyGame.Api
                                   builder =>
                                   {
                                       builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
-                                      builder.WithOrigins("https://undersea.azurewebsites.net/").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+                                      builder.WithOrigins("https://underseaclient.azurewebsites.net/").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
                                   });
             });
 
