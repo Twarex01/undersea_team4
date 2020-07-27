@@ -46,7 +46,7 @@ namespace StrategyGame.Bll.Services
             {
                 output.Add(new UnitDTO()
                 {
-                    Count = unit.Count,
+                    UnitCount = unit.Count,
                     UnitTypeID = unit.UnitDataID
                 });
             }

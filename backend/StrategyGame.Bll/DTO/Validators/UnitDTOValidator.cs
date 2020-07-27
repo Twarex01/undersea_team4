@@ -6,7 +6,7 @@ namespace StrategyGame.Bll.DTO.Validators
     {
         public UnitDTOValidator()
         {
-            RuleFor(unit => unit.Count).GreaterThanOrEqualTo(0);
+            RuleFor(unit => unit.UnitCount).GreaterThanOrEqualTo(0);
         }
     }
 }
