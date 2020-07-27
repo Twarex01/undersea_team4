@@ -56,11 +56,13 @@ export class SpyingPageComponent implements OnInit {
 
   private updateCountryUnits() {
     this.spyingService.getCountryUnits().subscribe((cus) => {
-      const countryExplorers = cus.find((cu) => cu.id === this.explorerUnits[0].id) ?? {
-        count: 0
-      };
-      this.explorerUnits[0].count = countryExplorers.count;
-      this.explorerUnits[0].countToAttack = 0;
+      if(this.explorerUnits[0]){
+        const countryExplorers = cus.find((cu) => cu.id === this.explorerUnits[0].id) ?? {
+          count: 0
+        };
+        this.explorerUnits[0].count = countryExplorers.count;
+        this.explorerUnits[0].countToAttack = 0;
+      }
     })
   }
 
