@@ -1,0 +1,59 @@
+<div>
+  <mat-accordion *ngIf="attackReports.length > 0">
+    <div class="line" *ngFor="let attackReport of attackReports">
+      <mat-expansion-panel class="expansion-panel">
+        <mat-expansion-panel-header class="expansion-panel-header">
+          <mat-panel-title>
+            {{ attackReport.defenderCountryName }}
+          </mat-panel-title>
+          <mat-panel-description>
+            <p *ngIf="attackReport.isSuccessful" class="success">
+              Sikeres támadás
+            </p>
+            <p *ngIf="!attackReport.isSuccessful" class="failure">
+              Sikertelen támadás
+            </p>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div class="home-force">
+          <p class="data-title">Támadóerő: {{ attackReport.attackerPower }}</p>
+          <p class="data-title">Küldött egységek:</p>
+          <span
+            
+            *ngFor="let unit of attackReport.attackerArmy"
+          >
+            <span class="list-item" *ngIf="unit.count !== 0"
+              >{{ unit.count }} {{ unit.name }}</span
+            >
+          </span>
+        </div>
+        <div class="other-force">
+          <p class="data-title">Védőerő: {{ attackReport.defenderPower }}</p>
+          <p class="data-title">Legyőzött egységek:</p>
+          <span *ngFor="let unit of attackReport.unitsLost">
+            <span class="list-item" *ngIf="unit.count !== 0"
+              >{{ unit.count }} {{ unit.name }}</span
+            >
+          </span>
+          <span *ngIf="attackReport.unitsLost.length == 0">-</span>
+        </div>
+        <div>
+          <p class="data-title">Megszerzett erőforrások:</p>
+          <span
+            *ngFor="let resource of attackReport.resourceChanges"
+          >
+            <span class="list-item" *ngIf="resource.change !== 0"
+              >{{ resource.change }} {{ resource.name }}</span
+            >
+          </span>
+          <span *ngIf="attackReport.resourceChanges.length == 0">-</span>
+        </div>
+      </mat-expansion-panel>
+    </div>
+  </mat-accordion>
+</div>
+<div *ngIf="attackReports.length == 0">
+  <div class="line no-info">
+    Nincs megjeleníthető jelentés
+  </div>
+</div>

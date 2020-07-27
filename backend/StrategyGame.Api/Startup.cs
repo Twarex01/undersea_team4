@@ -1,4 +1,5 @@
-﻿using Hangfire;
+﻿using FluentValidation;
+using Hangfire;
 using Hangfire.SqlServer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -13,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using NSwag;
 using NSwag.Generation.Processors.Security;
 using StrategyGame.Api.Services;
+using StrategyGame.Bll;
 using StrategyGame.Bll.Hubs;
 using StrategyGame.Bll.Services;
 using StrategyGame.Dal;
@@ -52,7 +54,10 @@ namespace StrategyGame.Api
             services.AddRazorPages();
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AppDbContext")));
             services.AddIdentityCore<Model.User>().AddEntityFrameworkStores<AppDbContext>();
-            services.AddControllers();
+
+            services.AddScoped<HttpResponseExceptionFilter>();
+            services.AddControllers(options =>
+                    options.Filters.Add(typeof(HttpResponseExceptionFilter)));
 
             services.AddSwaggerDocument(document =>
             {
@@ -105,6 +110,9 @@ namespace StrategyGame.Api
                 options.Password.RequiredUniqueChars = 1;
             });
 
+            //Lokalizáció
+            ValidatorOptions.Global.LanguageManager.Enabled = true;
+
             services.AddSignalR();
             services.AddCors(options =>
             {
@@ -129,6 +137,7 @@ namespace StrategyGame.Api
                 app.UseHsts();
             }
 
+            //app.UseMiddleware<TestExceptionHandler>();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

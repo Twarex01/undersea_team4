@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Upgrade } from '../../models/upgrade';
 import { UpgradeService } from '../../services/upgrade.service';
 import { forkJoin } from 'rxjs';
+import { StatusNotificationService } from '../../../../core/services/status-notification.service';
 
 @Component({
   selector: 'app-upgrades.page',
@@ -10,66 +11,31 @@ import { forkJoin } from 'rxjs';
 })
 export class UpgradesPageComponent implements OnInit {
   selectedUpgradeIndex: number = -1;
-  upgrades: Upgrade[] = new Array<Upgrade>(
-    {
-      id: 0,
-      imageSrc: '../../../../../assets/upgrades/iszaptraktor.png',
-      name: 'Iszaptraktor',
-      description: 'növeli a krumpli termesztést 10%-kal',
-      roundsLeft: 3,
-      isDone: false,
-      isSelected: false,
-    },
-    {
-      id: 1,
-      imageSrc: '../../../../../assets/upgrades/iszaptraktor.png',
-      name: 'Iszaptraktor',
-      description: 'növeli a krumpli termesztést 10%-kal',
-      roundsLeft: 15,
-      isDone: false,
-      isSelected: false,
-    },
-    {
-      id: 2,
-      imageSrc: '../../../../../assets/upgrades/iszaptraktor.png',
-      name: 'Iszaptraktor',
-      description: 'növeli a krumpli termesztést 10%-kal',
-      roundsLeft: 15,
-      isDone: false,
-      isSelected: false,
-    },
-    {
-      id: 3,
-      imageSrc: '../../../../../assets/upgrades/iszaptraktor.png',
-      name: 'Iszaptraktor',
-      description: 'növeli a krumpli termesztést 10%-kal',
-      roundsLeft: 15,
-      isDone: false,
-      isSelected: false,
-    },
-    {
-      id: 4,
-      imageSrc: '../../../../../assets/upgrades/iszaptraktor.png',
-      name: 'Iszaptraktor',
-      description: 'növeli a krumpli termesztést 10%-kal',
-      roundsLeft: 0,
-      isDone: true,
-      isSelected: false,
-    },
-    {
-      id: 5,
-      imageSrc: '../../../../../assets/upgrades/iszaptraktor.png',
-      name: 'Iszaptraktor',
-      description: 'növeli a krumpli termesztést 10%-kal',
-      roundsLeft: 0,
-      isDone: true,
-      isSelected: false,
-    }
-  );
+  upgrades: Upgrade[] = [];
+  imgBaseUrl: string = "https://undersea.azurewebsites.net/";
 
-  constructor(private upgradeService: UpgradeService) {}
+  constructor(
+    private upgradeService: UpgradeService,
+    private statusNotificationService: StatusNotificationService,
+  ) { }
 
   ngOnInit(): void {
+    this.getUpgradesData();
+    this.statusNotificationService.notifications.subscribe(() => this.updateUpgradesData());
+  }
+
+  updateUpgradesData() {
+    this.upgrades.forEach((u) => {
+      if(u.roundsLeft > 0){
+        u.roundsLeft -= 1;
+        if(u.roundsLeft == 0)
+          u.isDone = true;
+      }
+      u.isSelected = false;
+    })
+  }
+
+  getUpgradesData(): void {
     forkJoin(
       this.upgradeService.getCountryUpgrades(),
       this.upgradeService.getUpgradeDetails()
@@ -108,9 +74,9 @@ export class UpgradesPageComponent implements OnInit {
   }
 
   isSelectedEnabledToBuy(): boolean {
-    if(this.selectedUpgradeIndex === -1)  return false;
-    for(let i = 0; i < this.upgrades.length; i++){
-      if(!!this.upgrades[i].roundsLeft)
+    if (this.selectedUpgradeIndex === -1) return false;
+    for (let i = 0; i < this.upgrades.length; i++) {
+      if (!!this.upgrades[i].roundsLeft)
         return false;
     }
     const selectedUpgrade = this.upgrades[this.selectedUpgradeIndex];

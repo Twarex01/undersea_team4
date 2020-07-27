@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { SharedModule } from './shared/shared.module';
-import {ReactiveFormsModule} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,8 +15,15 @@ import { BasicFormCardComponent } from './core/basic-form-card/basic-form-card.c
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './jwt-interceptor';
 import { AuthGuardService } from './core/services/auth-guard.service';
-import { LoginClient, RegisterClient, CountryClient, RoundClient } from './shared/clients';
+import { LoginClient, RegisterClient, RoundClient } from './shared/clients';
 import { MenuLogoComponent } from './core/menu-logo/menu-logo.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
+import {
+  MatSnackBarModule,
+  MAT_SNACK_BAR_DEFAULT_OPTIONS,
+} from '@angular/material/snack-bar';
+import { ToastInterceptor } from './toast-interceptor';
 
 @NgModule({
   declarations: [
@@ -28,16 +35,26 @@ import { MenuLogoComponent } from './core/menu-logo/menu-logo.component';
     MenuComponent,
     ProfileComponent,
     BasicFormCardComponent,
-    MenuLogoComponent
+    MenuLogoComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     SharedModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NoopAnimationsModule,
+    MatSnackBarModule
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }, AuthGuardService, LoginClient, RegisterClient, RoundClient],
-  bootstrap: [AppComponent]
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ToastInterceptor, multi: true },
+    AuthGuardService,
+    LoginClient,
+    RegisterClient,
+    RoundClient,
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

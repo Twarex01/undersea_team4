@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using FluentValidation.Results;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using StrategyGame.Bll.DTO.common;
+using StrategyGame.Bll.Services.Validators;
 using StrategyGame.Dal;
 using StrategyGame.Model;
 using System.Collections.Generic;
@@ -33,8 +36,20 @@ namespace StrategyGame.Bll.Services
             var xd = new IdentityResult();
             if (_dbContext.Countries.Any(c => c.Name == registerDTO.CountryName))
             {
-                var fail = new IdentityResult();
-                fail.Errors.Append(new IdentityError() { Description = "Már van ilyen nevű ország" });
+                throw new HttpResponseException() { Status = StatusCodes.Status400BadRequest, Value = "Már van ilyen nevű ország" };
+            }
+
+            var countries = _dbContext.Countries.ToList();
+
+            RegisterDTOValidator userValidator = new RegisterDTOValidator(countries);
+            ValidationResult validatorResults = userValidator.Validate(registerDTO);
+
+            if (!validatorResults.IsValid)
+            {
+                foreach (var failure in validatorResults.Errors)
+                {
+                    throw new HttpResponseException { Status = 400, Value = failure.ErrorMessage };
+                }
             }
 
             Country country = new Country()
@@ -43,7 +58,8 @@ namespace StrategyGame.Bll.Services
                 Resources = new List<Resource>
                 {
                     new Resource { ResourceDataID = ResourceData.Coral.ID, Amount=0, ProductionBase=ResourceData.BaseCoralProduction },
-                    new Resource { ResourceDataID = ResourceData.Pearl.ID, Amount=0, ProductionBase=ResourceData.BasePopulation*ResourceData.TaxAmount, }
+                    new Resource { ResourceDataID = ResourceData.Pearl.ID, Amount=0, ProductionBase=ResourceData.BasePopulation*ResourceData.TaxAmount, },
+                    new Resource { ResourceDataID = ResourceData.Stone.ID, Amount=0, ProductionBase = 0}
                 },
                 Buildings = new List<Building>(),
                 Upgrades = new List<Upgrade>(),

@@ -14,7 +14,9 @@ const routes: Routes = [
       { path: 'upgrades', loadChildren: () => import('./features/upgrades/upgrades.module').then(m => m.UpgradesModule) },
       { path: 'rankings', loadChildren: () => import('./features/rankings/rankings.module').then(m => m.RankingsModule) },
       { path: 'units', loadChildren: () => import('./features/units/units.module').then(m => m.UnitsModule) },
-      { path: 'battles', loadChildren: () => import('./features/battles/battles.module').then(m => m.BattlesModule) }
+      { path: 'battles', loadChildren: () => import('./features/battles/battles.module').then(m => m.BattlesModule) },
+      { path: 'spying', loadChildren: () => import('./features/spying/spying.module').then(m => m.SpyingModule)},
+      { path: 'reports', loadChildren: () => import('./features/reports/reports.module').then(m => m.ReportsModule)}
     ],
     canActivate: [AuthGuardService]
   },

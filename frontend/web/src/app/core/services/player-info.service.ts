@@ -1,19 +1,23 @@
 import { Injectable } from '@angular/core';
 import { CountryClient, DetailsClient, RoundClient } from '../../shared/clients';
-import { CountryBuilding } from '../status-bar/country-building';
+import { CountryBuilding } from '../status-bar/models/country-building';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CountryUnit } from '../status-bar/country-unit';
-import { CountryResource } from '../status-bar/country-resource';
+import { CountryUnit } from '../status-bar/models/country-unit';
+import { CountryResource } from '../status-bar/models/country-resource';
 import { UnitDetails } from '../status-bar/unit-detail';
-import { BuildingDetails } from '../status-bar/building-detail';
-import { CountryRound } from '../status-bar/country-round';
+import { BuildingDetails } from '../status-bar/models/building-detail';
+import { CountryRound } from '../status-bar/models/country-round';
 import { CountryDetail } from '../../features/units/models/country-detail';
+import { CountryUpgrade } from '../../features/upgrades/models/country-upgrade';
+import { UpgradeDetails } from '../../features/upgrades/models/upgrade-details';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlayerInfoService {
+
+  baseUrl: string = "https://localhost:5001/";
 
   constructor(
     private countryClient: CountryClient,
@@ -51,7 +55,7 @@ export class PlayerInfoService {
       map((unitDetailsDTOarray) => {
         return unitDetailsDTOarray.map((unitDetailsDTO) => ({
           id: unitDetailsDTO.unitTypeID,
-          imgSrc: "../../../assets/icons/shark.svg"
+          imgSrc: this.baseUrl + unitDetailsDTO?.imageURL ?? ""
         }));
       })
     );
@@ -62,7 +66,10 @@ export class PlayerInfoService {
       map((buildingDetailsDTOarray) => {
         return buildingDetailsDTOarray.map((buildingDetailsDTO) => ({
           id: buildingDetailsDTO.buildingTypeID,
-          imgSrc: "../../../assets/icons/coral.svg"
+          name: buildingDetailsDTO.name!,
+          imgSrc: this.baseUrl + buildingDetailsDTO?.iconURL ?? "",
+          backgroundSrc: this.baseUrl + buildingDetailsDTO?.backgroundURL ?? "",
+          iconSrc: this.baseUrl + buildingDetailsDTO?.imageURL ?? ""
         }));
       })
     );
@@ -76,7 +83,8 @@ export class PlayerInfoService {
           id: resourceDTO.resourceTypeID,
           count: resourceDTO.amount,
           output: resourceDTO.production,
-          imgSrc: ""
+          imgSrc: this.baseUrl + resourceDTO?.imageURL ?? "",
+          name: resourceDTO.name!
         }));
       })
     );
@@ -99,6 +107,30 @@ export class PlayerInfoService {
     );
   }
 
+  getUpgradeDetails(): Observable<UpgradeDetails[]> {
+    return this.detailsClient.getAllUpgradeDetails().pipe(
+      map((upgradeDetailsDTOArray) => {
+        return upgradeDetailsDTOArray.map((upgradeDetailsDTO) => ({
+          id: upgradeDetailsDTO.upgradeTypeID,
+          name: upgradeDetailsDTO.name!,
+          description: upgradeDetailsDTO.effect!,
+          imageSrc: "",
+        }));
+      })
+    );
+  }
+
+  getCountryUpgrades(): Observable<CountryUpgrade[]> {
+    return this.countryClient.getCountryUpgrades().pipe(
+      map((upgradeDTOArrray) => {
+        return upgradeDTOArrray.map((upgradeDTO) => ({
+          id: upgradeDTO.upgradeTypeID,
+          roundsLeft: upgradeDTO.progress,
+          imgSrc: ""
+        }));
+      })
+    );
+  }
 
   getPlayerName(): string {
     return localStorage.getItem("playerName") ?? '';

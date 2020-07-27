@@ -4,7 +4,9 @@ import { AttackService } from '../../services/attack.service';
 import { AttackPlayer } from '../../models/attack-player';
 import { forkJoin } from 'rxjs';
 import { AttackBattle } from '../../models/attack-battle';
-import { CountryUnit } from '../../models/country-unit';
+import { Battle } from '../../../battles/models/battle';
+import { UnitWithName } from '../../../../shared/clients';
+import { BattlesService } from '../../../battles/services/battles.service';
 import { StatusNotificationService } from '../../../../core/services/status-notification.service';
 
 @Component({
@@ -14,32 +16,18 @@ import { StatusNotificationService } from '../../../../core/services/status-noti
 })
 export class AttackPageComponent implements OnInit {
 
-  countryName: string = "";
-
   selectedPlayerId: number = -1;
+  units: AttackUnit[] = new Array<AttackUnit>();
+  players: AttackPlayer[] = new Array<AttackPlayer>();
 
-  units: AttackUnit[] = new Array<AttackUnit>(
-    {id: 0, name: "Lézercápa", imageSrc: "../../../../assets/icons/shark.svg", count: 20, countToAttack: 0},
-    {id: 1, name: "Rohamóka", imageSrc: "../../../../assets/icons/seal.svg", count: 50, countToAttack: 0},
-    {id: 2, name: "Csatacsikó", imageSrc: "../../../../assets/icons/seahorse.svg", count: 70, countToAttack: 0}
-  );
-
-  players: AttackPlayer[] = new Array<AttackPlayer>(
-    {id: 0, name: "józsiiwinner12", isSelected: false },
-    {id: 1, name: "kiscsiko1990", isSelected: false },
-    {id: 2, name: "józsiiwinner12", isSelected: false },
-    {id: 3, name: "kiscsiko1990", isSelected: false },
-    {id: 4, name: "józsiiwinner12", isSelected: false },
-    {id: 5, name: "kiscsiko1990", isSelected: false },
-    {id: 6, name: "józsiiwinner12", isSelected: false },
-    {id: 7, name: "kiscsiko1990", isSelected: false },
-    {id: 9, name: "józsiiwinner12", isSelected: false },
-    {id: 10, name: "kiscsiko1990", isSelected: false }
-  );
-
-  constructor(private attackService: AttackService) { }
+  constructor(private attackService: AttackService, private battleService: BattlesService, private notificationService: StatusNotificationService) { }
 
   ngOnInit(): void {
+    this.getAllData();
+    this.notificationService.notifications.subscribe(() => this.updateCountryUnits());
+  }
+
+  private getAllData() {
     forkJoin(
       this.attackService.getPlayerList(),
       this.attackService.getCountryName()
@@ -49,19 +37,47 @@ export class AttackPageComponent implements OnInit {
     forkJoin(
       this.attackService.getCountryUnits(),
       this.attackService.getUnitDetails(),
-    ).subscribe(([countryUnits, unitDetails]) => {
-      this.units = [];
+      this.battleService.getCountryBattles()
+    ).subscribe(([countryUnits, unitDetails, countryBattles]) => {
+      const unitsToSubtract = this.getNumberOfUnitsWhoAreInBattle(countryBattles);
       unitDetails.forEach((unitDetail) => {
-        const countryUnit = countryUnits.find((cu) => cu.id == unitDetail.id)!;
-        this.units.push({
-          id: unitDetail.id,
-          imageSrc: unitDetail.imageSrc,
-          name: unitDetail.name,
-          count: countryUnit?.count ?? 0,
-          countToAttack: 0
-        })
+        if(unitDetail.name !== "Felfedező") {
+          const numberOfUnitsToSubtract = unitsToSubtract.find((uts) => uts.name == unitDetail.name)?.count ?? 0;
+          const countryUnitCount = countryUnits.find((cu) => cu.id == unitDetail.id)?.count ?? 0;
+          this.units.push({
+            id: unitDetail.id,
+            imageSrc: unitDetail.imageSrc,
+            name: unitDetail.name,
+            count: countryUnitCount - numberOfUnitsToSubtract,
+            countToAttack: 0
+          })
+        }
+      });
+    })
+  }
+
+  private updateCountryUnits() {
+    this.attackService.getCountryUnits().subscribe((cus) => {
+      cus.forEach((cu) => {
+        const unit = this.units.find((u) => u.id == cu.id)!;
+        unit.count = cu.count;
+        unit.countToAttack = 0;
       })
     })
+  }
+
+  private getNumberOfUnitsWhoAreInBattle(countryBattles: Battle[]): UnitWithName[] {
+    let results: UnitWithName[] =  [];
+    countryBattles.forEach((cb) => {
+      cb.units.forEach((unit) => {
+        const resultUnitIdx = results.findIndex((resultUnit) => resultUnit.name === unit.name);
+        if(resultUnitIdx !== -1)
+          results[resultUnitIdx].count += unit.count;
+        else
+          results.push(unit);
+      })
+    })
+    return results;
   }
 
   onAttack() {
@@ -69,9 +85,11 @@ export class AttackPageComponent implements OnInit {
       defenderId: this.selectedPlayerId,
       army: this.units.map((unit) => ({id: unit.id, count: unit.countToAttack}))
     }
-    console.log(battle);
     this.attackService.attack(battle).subscribe(() => {
-      this.units.forEach(unit => unit.countToAttack = 0);
+      this.units.forEach(unit => {
+        unit.count -= unit.countToAttack;
+        unit.countToAttack = 0
+      });
     })
   }
 

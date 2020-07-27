@@ -1,0 +1,62 @@
+<div>
+  <mat-accordion *ngIf="defenseReports.length > 0">
+    <div class="line" *ngFor="let defenseReport of defenseReports">
+      <mat-expansion-panel class="expansion-panel">
+        <mat-expansion-panel-header class="expansion-panel-header">
+          <mat-panel-title>
+            {{ defenseReport.attackerCountryName }}
+          </mat-panel-title>
+          <mat-panel-description>
+            <p class="failure" *ngIf="defenseReport.isSuccessful">
+              Sikeres támadás
+            </p>
+            <p class="failure" *ngIf="!defenseReport.isSuccessful">
+              Sikertelen támadás
+            </p>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div class="home-force">
+          <p class="data-title">Védőerő: {{ defenseReport.defenderPower }}</p>
+          <p class="data-title">Elvesztett egységek:</p>
+          <span *ngFor="let unit of defenseReport.unitsLost"
+            ><span class="list-item" *ngIf="unit.count !== 0"
+              >{{ unit.count }} {{ unit.name }}</span
+            ></span
+          >
+          <span *ngIf="defenseReport.unitsLost.length == 0">-</span>
+        </div>
+        <div class="other-force">
+          <p class="data-title">Támadóerő: {{ defenseReport.attackerPower }}</p>
+          <p class="data-title">Támadó egységek:</p>
+          <span
+            
+            *ngFor="let unit of defenseReport.attackerArmy"
+            ><span class="list-item" *ngIf="unit.count !== 0"
+              >{{ unit.count }} {{ unit.name }}</span
+            ></span
+          >
+        </div>
+        <div>
+          <p class="data-title">Elvesztett erőforrások:</p>
+          <span
+            
+            *ngFor="let resource of defenseReport.resourceChanges"
+            ><span class="list-item" *ngIf="resource.change !== 0"
+              >{{ resource.change }} {{ resource.name }}</span
+            ></span
+          >
+          <span
+            class="list-item"
+            *ngIf="defenseReport.resourceChanges.length == 0"
+            >-</span
+          >
+        </div>
+      </mat-expansion-panel>
+    </div>
+  </mat-accordion>
+</div>
+<div *ngIf="defenseReports.length == 0">
+  <div class="line no-info">
+    Nincs megjeleníthető jelentés
+  </div>
+</div>

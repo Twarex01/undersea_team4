@@ -4,8 +4,11 @@ export interface Building {
     name: string;
     description: string;
     count: number;
-    price: number;
-    priceType: string;
+    prices: {
+        price: number;
+        priceTypeName: string;
+    }[];
     isSelected: boolean;
     progress: number;
+    buildTime: number;
 }

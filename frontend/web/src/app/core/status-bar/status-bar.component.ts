@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { PlayerInfoService } from '../services/player-info.service';
-import { CountryBuilding } from './country-building';
-import { CountryUnit } from './country-unit';
-import { CountryResource } from './country-resource';
+import { CountryBuilding } from './models/country-building';
+import { CountryUnit } from './models/country-unit';
+import { CountryResource } from './models/country-resource';
 import { forkJoin } from 'rxjs';
-import { CountryRound } from './country-round';
+import { CountryRound } from './models/country-round';
 import { StatusNotificationService } from '../services/status-notification.service';
 
 
@@ -15,19 +15,50 @@ import { StatusNotificationService } from '../services/status-notification.servi
 })
 export class StatusBarComponent implements OnInit {
 
-  buildings: CountryBuilding[];
-
-  units: CountryUnit[];
-
-  resources: CountryResource[];
-
-  countryRound: CountryRound;
+  buildings: CountryBuilding[] = [];
+  units: CountryUnit[] = [];
+  resources: CountryResource[] = [];
+  countryRound: CountryRound = {
+    round: 0,
+    rank: 0
+  };
 
   constructor(private playerInfo: PlayerInfoService,  private statusNotificationService: StatusNotificationService) { }
 
   ngOnInit(): void {
     this.getStatusBarData();
     this.statusNotificationService.notifications.subscribe(() => this.getStatusBarData());
+  }
+
+  updateStatusBarData() {
+    forkJoin(
+      this.playerInfo.getCountryResources(),
+      this.playerInfo.getCountryUnits(),
+      this.playerInfo.getCountryRound()
+    ).subscribe(([countryResources, countryUnits, countryRound]) => {
+      countryUnits.forEach((cu) => {
+        const unit = this.units.find((u) => u.id === cu.id)!;
+        unit.count = cu.count;
+      });
+      countryResources.forEach((cr) => {
+        const resource = this.resources.find((res) => res.id == cr.id)!;
+        resource.count = cr.count;
+        resource.output = cr.output;
+      });
+      this.countryRound = countryRound;
+    });
+
+    this.updateBuildings();
+  }
+
+  private updateBuildings() {
+    this.buildings.forEach((b) => {
+      if(b.progress > 0){
+        b.progress -= 1;
+        if(b.progress == 0)
+          b.count = 0;
+      }
+    })
   }
 
   getStatusBarData() {
@@ -70,11 +101,6 @@ export class StatusBarComponent implements OnInit {
       })
       this.countryRound = countryRound;
       this.resources = resources;
-      //missing endpont:(
-      resources.forEach((resource) => {
-        if (resource.id == 1) { resource.imgSrc = "../../../assets/icons/coral.svg";}
-        if (resource.id == 2) { resource.imgSrc = "../../../assets/icons/shell.svg";}
-      })
     })
   }
 

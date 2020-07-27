@@ -24,7 +24,7 @@ export class UpgradeService {
           id: upgradeDetailsDTO.upgradeTypeID,
           name: upgradeDetailsDTO.name!,
           description: upgradeDetailsDTO.effect!,
-          imageSrc: '../../../../../assets/upgrades/iszaptraktor.png',
+          imageSrc: upgradeDetailsDTO?.imageURL ?? ""
         }));
       })
     );
@@ -35,7 +35,8 @@ export class UpgradeService {
       map((upgradeDTOArrray) => {
         return upgradeDTOArrray.map((upgradeDTO) => ({
           id: upgradeDTO.upgradeTypeID,
-          roundsLeft: upgradeDTO.progress
+          roundsLeft: upgradeDTO.progress,
+          imgSrc: ""
         }));
       })
     );

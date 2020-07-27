@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BattlesService } from '../../services/battles.service';
 import { Battle } from '../../models/battle';
+import { StatusNotificationService } from '../../../../core/services/status-notification.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-battles.page',
@@ -9,13 +11,26 @@ import { Battle } from '../../models/battle';
 })
 export class BattlesPageComponent implements OnInit {
 
-  battles: Battle[];
-  
-  constructor(private battleService: BattlesService) { }
+  battles: Battle[] = [];
+  spydetails: Battle[] = [];
+
+  constructor(
+    private battleService: BattlesService,
+    private statusNotificationService: StatusNotificationService
+  ) { }
 
   ngOnInit(): void {
-    this.battleService.getCountryBattles().subscribe((battles) => {
-      this.battles = battles;
+    this.getBattlesData();
+    this.statusNotificationService.notifications.subscribe(() => this.getBattlesData());
+  }
+
+  getBattlesData(): void {
+    forkJoin(
+      this.battleService.getCountryBattles(),
+      this.battleService.getCountrySpiesDetails()
+    ).subscribe(([countryBattles, spiesDetails]) => {
+      this.battles = countryBattles;
+      this.spydetails = spiesDetails;
     })
   }
 

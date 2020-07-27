@@ -11,11 +11,12 @@
     text-align: center;
     padding: 5%;
     line-height: 1;
-    width: 10rem;
+    width: 12rem;
+    height: 12rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: auto 2rem auto 2rem;
+    margin: auto 2rem 0.5rem 2rem;
 }
 
 .upgrade-card-item-selected {

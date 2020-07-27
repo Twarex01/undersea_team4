@@ -1,15 +1,19 @@
 <main>
-    <div class="status-bar">
-        <app-status-bar></app-status-bar>
+  <div class="status-bar">
+    <app-status-bar></app-status-bar>
+  </div>
+  <div class="layout-body">
+    <div class="layout-left">
+      <app-menu></app-menu>
+      <app-profile></app-profile>
+      <app-menu-logo></app-menu-logo>
     </div>
-    <div class="layout-body">
-        <div class="layout-left">
-            <app-menu></app-menu>
-            <app-profile></app-profile>
-            <app-menu-logo></app-menu-logo>
-        </div>
-        <div class="layout-right">
-            <router-outlet></router-outlet>
-        </div>
+    <div class="layout-right">
+      <router-outlet></router-outlet>
     </div>
+  </div>
+    <img class="zatonyvar" src="{{ zatonyImg }}" >
+    <img class="aramlasiranyito" src="{{aramlasImg}}">
+    <img class="sonar" *ngIf="sonarImg" src="{{ sonarImg }}">
+    <img class="stonemine" *ngIf="stoneMineImg" src="{{ stoneMineImg }}">
 </main>

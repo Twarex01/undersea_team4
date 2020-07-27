@@ -12,10 +12,12 @@ import { AttackBattle } from '../models/attack-battle';
 })
 export class AttackService {
 
+  baseUrl = "https://localhost:5001/";
+
   constructor(private playersClient: PlayersClient, private countryClient: CountryClient, private detailsClient: DetailsClient, private battleClient: BattleClient) { }
 
   getPlayerList(): Observable<AttackPlayer[]>{
-      return this.playersClient.playerList().pipe( 
+      return this.playersClient.playerList().pipe(
         map((rankDTOArray => {
           return rankDTOArray.map((rankDTO => ({id: rankDTO.countryID, name: rankDTO.name!, isSelected: false})))
         })) 
@@ -41,7 +43,7 @@ export class AttackService {
   getUnitDetails(): Observable<AttackUnitDetails[]>{
     return this.detailsClient.getAllUnitDetails().pipe(
       map((unitDetailsDTOArray) => {
-        return unitDetailsDTOArray.map((unitDetailsDTO) => ({id: unitDetailsDTO.unitTypeID, name: unitDetailsDTO.name!, imageSrc: "../../../../assets/icons/shark.svg"}))
+        return unitDetailsDTOArray.map((unitDetailsDTO) => ({id: unitDetailsDTO.unitTypeID, name: unitDetailsDTO.name!, imageSrc: this.baseUrl + unitDetailsDTO.imageURL!}))
       })
     );
   }

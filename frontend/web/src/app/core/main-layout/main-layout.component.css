@@ -7,6 +7,8 @@ main {
 }
 
 .layout-body {
+    position: relative;
+    z-index: 5;
     display: flex;
     margin-top: 2%;
     margin-left: 1%;
@@ -21,5 +23,35 @@ main {
 }
 
 .status-bar {
+    position: relative;
+    z-index: 5;
     padding: 1%;
+}
+
+.zatonyvar {
+    bottom: 25%;
+    left: 35%;
+    position: absolute;
+    z-index: 2;
+}
+
+.aramlasiranyito {
+    position: absolute;
+    bottom: 20%;
+    left: 45%;
+    z-index: 3;
+}
+
+.sonar {
+    position: absolute;
+    bottom: 30%;
+    left: 50%;
+    z-index: 1;
+}
+
+.stonemine {
+    position: absolute;
+    left: 39%;
+    bottom: 8%;
+    z-index: 4;
 }

@@ -4,6 +4,8 @@ import { forkJoin } from 'rxjs';
 import { Building } from '../../models/building';
 import { StatusNotificationService } from '../../../../core/services/status-notification.service';
 import { PlayerInfoService } from '../../../../core/services/player-info.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Resource } from '../../models/resource';
 
 @Component({
   selector: 'app-buildings',
@@ -13,21 +15,54 @@ import { PlayerInfoService } from '../../../../core/services/player-info.service
 export class BuildingsPageComponent implements OnInit {
 
   buildings: Building[] = [];
-  countryPearl: number = 0;
+  countryResources: Resource[] = [];
   selectedIndex: number = -1;
+  imgBaseUrl: string = "https://undersea.azurewebsites.net/";
 
   constructor(
     private buildingsService: BuildingsService,
     private statusNotificationService: StatusNotificationService,
-    private palyerInfoService: PlayerInfoService
+    private playerInfoService: PlayerInfoService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
+    this.getBuildingData(); 
+    this.statusNotificationService.notifications.subscribe(() => this.updateCountryData());   
+  }
+
+  updateCountryData() {
+    this.updateResourcesData();
+    this.updateBuildingsData();
+  }
+
+  private updateBuildingsData() {
+    this.buildings.forEach((b) => {
+      if(b.progress != 0){
+        b.progress -= 1;
+        if(b.progress == 0)
+          b.count += 1;
+        b.isSelected = false;
+      }
+    })
+  }
+
+  private updateResourcesData() {
+    this.playerInfoService.getCountryResources().subscribe((resources) => {
+      resources.forEach((res) => {
+        const countryResource = this.countryResources.find((r) => r.id === res.id)!;
+        countryResource.amount = res.count;
+      })
+    })
+  }
+
+  getBuildingData(): void{
     forkJoin(
       this.buildingsService.getCountryBuildings(),
       this.buildingsService.getBuildingsData(),
-      this.palyerInfoService.getCountryResources()
+      this.playerInfoService.getCountryResources()
     ).subscribe(([countryBuildings, buildingDetails, resources]) => {
+      this.buildings = [];
       buildingDetails.forEach((buildingDetail) => {
         const countryBuilding = countryBuildings.find(
           (cb) => cb.id == buildingDetail.id
@@ -36,15 +71,23 @@ export class BuildingsPageComponent implements OnInit {
           id: buildingDetail.id,
           imgSrc: buildingDetail.imageSrc,
           name: buildingDetail.name,
-          price: buildingDetail.price,
-          priceType: buildingDetail.priceType,
+          prices: buildingDetail.prices,
           description: buildingDetail.description,
           count: countryBuilding?.count ?? 0,
           isSelected: false,
-          progress: countryBuilding?.progress ?? -1
+          progress: countryBuilding?.progress ?? -1,
+          buildTime: buildingDetail.buildTime
         })
       });
-      this.countryPearl = resources.find(resource => resource.id == 2)?.count ?? 0;
+      
+      this.countryResources = [];
+      resources.forEach((resource) => {
+        this.countryResources.push({
+          id: resource.id,
+          amount: resource.count,
+          name: resource.name
+        })
+      })
     })
   }
 
@@ -52,9 +95,18 @@ export class BuildingsPageComponent implements OnInit {
     if (!this.canBeSelected(index)) return;
     if (this.selectedIndex !== -1)
       this.buildings[this.selectedIndex].isSelected = false;
-    if (this.countryPearl < this.buildings[index].price) return;
+    if (!this.hasEnoughResource) return;
     this.selectedIndex = index;
     this.buildings[index].isSelected = true;
+  }
+
+  hasEnoughResource(): boolean {
+    const selectedBuilding = this.buildings[this.selectedIndex];
+    for(let i = 0; i < selectedBuilding.prices.length; i++){
+      const countryResource = this.countryResources.find((cr) => cr.name === selectedBuilding.prices[i].priceTypeName)!;
+      if(countryResource?.amount < selectedBuilding.prices[i].price)  return false;
+    }
+    return true;
   }
 
   canBeSelected(index: number): boolean {
@@ -62,10 +114,15 @@ export class BuildingsPageComponent implements OnInit {
   }
 
   buySelectedBuilding() {
+    if(!this.hasEnoughResource()){
+      this.snackBar.open("Nincs elegendő nyersanyag!");
+      return;
+    }
+
     this.buildingsService.buyBuilding(this.buildings[this.selectedIndex].id).subscribe(() => {
       this.statusNotificationService.updateStatus(true);
       this.buildings[this.selectedIndex].isSelected = false;
-      this.buildings[this.selectedIndex].progress = 1;
+      this.buildings[this.selectedIndex].progress = this.buildings[this.selectedIndex].buildTime;
       this.selectedIndex = -1;
     });
   }

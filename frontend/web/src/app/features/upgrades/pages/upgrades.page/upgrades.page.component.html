@@ -1,4 +1,4 @@
-<div class="card-container">
+<div class="card-container" *ngIf="upgrades?.length > 0">
   <app-basic-card>
     <p class="header">Fejlesztések</p>
     <p class="short-description">
@@ -9,7 +9,7 @@
     </div>
 
       <app-upgrade-card-item class="card-item" *ngFor="let upgrade of upgrades; let i = index" [upgrade]="upgrade" (click)="selectUpgrade(i)">
-        <img class="item-image" src={{upgrade.imageSrc}}>
+        <img class="item-image" src="{{imgBaseUrl}}{{upgrade.imageSrc}}">
       </app-upgrade-card-item>
 
     <div class="footer">

@@ -1,0 +1,41 @@
+<div>
+  <mat-accordion *ngIf="explorationReports.length > 0">
+    <div class="line" *ngFor="let explorationReport of explorationReports">
+      <mat-expansion-panel class="expansion-panel">
+        <mat-expansion-panel-header class="expansion-panel-header">
+          <mat-panel-title>
+            {{ explorationReport.victimCountryName }}
+          </mat-panel-title>
+          <mat-panel-description>
+            <p class="success" *ngIf="explorationReport.isSuccessful">
+              Sikeres felfedezés
+            </p>
+            <p class="failure" *ngIf="!explorationReport.isSuccessful">
+              Sikertelen felfedezés
+            </p>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div class="home-force">
+          <p>
+            Elküldött felfedezők száma:
+            {{ explorationReport.sentExplorersCount }}
+          </p>
+        </div>
+        <div class="other-force">
+          <p class="data-title">Megszerzett tudás:</p>
+          <p *ngIf="explorationReport.isSuccessful">
+            Ellenfél védekező ereje: {{ explorationReport.victimDefensePower }}
+          </p>
+          <p *ngIf="!explorationReport.isSuccessful">
+            -
+          </p>
+        </div>
+      </mat-expansion-panel>
+    </div>
+  </mat-accordion>
+</div>
+<div *ngIf="explorationReports.length == 0">
+  <div class="line no-info">
+    Nincs megjeleníthető jelentés
+  </div>
+</div>

@@ -12,6 +12,7 @@ import { UnitToBuy } from '../models/unitToBuy';
 export class UnitService {
 
   units: UnitDTO[] = [];
+  
   constructor(private countryClient: CountryClient, private detailsClient: DetailsClient) { }
 
   getCountryUnits(): Observable<CountryUnit[]> {
@@ -33,7 +34,7 @@ export class UnitService {
           pay: unitDetailsDTO.salary,
           consumption: unitDetailsDTO.consumption,
           price: unitDetailsDTO.price,
-          imgSrc: "../../../../assets/icons/shark.svg"
+          imgSrc: unitDetailsDTO?.imageURL ?? ""
         }))
       })
     );

@@ -1,7 +1,7 @@
 <div class="unit-card-item">
   <div class="item-image">
     <app-icon-box>
-        <img src="../../../../../assets/icons/shark.svg">
+        <img src="{{imgBaseUrl}}{{unit.imageSrc}}">
     </app-icon-box>
   </div>
   <div class="header">
@@ -23,9 +23,9 @@
       <p>{{unit.price}} Gyöngy</p>
     </div>
     <div class="steppers">
-      <button (click)="changeNumberOfUnitsToBuy(-1)" [disabled]="!canDecrease()"  [ngClass]="{'button-not-selected': !canDecrease()}">-</button>{{unit.numToBuy}}
-      <button (click)="changeNumberOfUnitsToBuy(1)" [disabled]="!canIncrease()"  [ngClass]="{'button-not-selected': !canIncrease()}">+</button>
-      <!--  -->
+      <button class="stepper" (click)="changeNumberOfUnitsToBuy(-1)" [disabled]="!canDecrease()"  [ngClass]="{'button-not-selected': !canDecrease()}">-</button>
+      <input class="number-input" type="number" min="0" [ngModel]="unit.numToBuy" step="1" (ngModelChange)="onInputChange($event)" [disabled]="!canIncrease()">
+      <button class="stepper" (click)="changeNumberOfUnitsToBuy(1)" [disabled]="!canIncrease()"  [ngClass]="{'button-not-selected': !canIncrease()}">+</button>
     </div>
   </div>
 </div>

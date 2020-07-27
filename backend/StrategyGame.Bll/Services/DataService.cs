@@ -85,11 +85,12 @@ namespace StrategyGame.Bll.Services
             }
             return output;
         }
-        public List<UpgradeDetailsDTO> GetUpgradeDetails()
+        public async Task<List<UpgradeDetailsDTO>> GetUpgradeDetails()
         {
             List<UpgradeDetailsDTO> upgradeDetails = new List<UpgradeDetailsDTO>();
+            var upgradeDatas = await _context.UpgradeData.ToListAsync();
 
-            foreach (UpgradeData upgradeData in _context.UpgradeData)
+            foreach (UpgradeData upgradeData in upgradeDatas)
             {
                 upgradeDetails.Add(new UpgradeDetailsDTO
                 {
@@ -123,25 +124,31 @@ namespace StrategyGame.Bll.Services
         {
             List<BuildingDetailsDTO> buildingDetails = new List<BuildingDetailsDTO>();
             var resourceTypes = await _context.ResourceData.ToListAsync();
-            foreach (BuildingData buildingData in _context.BuildingData)
+            var buildingDatas = await _context.BuildingData.Include(b => b.Prices).ThenInclude(p => p.PriceUnit).ToListAsync();
+            foreach (BuildingData buildingData in buildingDatas)
             {
+                var pricelist = new List<PriceDTO>();
+                pricelist.AddRange(buildingData.Prices.Select(p => new PriceDTO() { Price = p.Amount, PriceTypeName = p.PriceUnit.Name }));
                 buildingDetails.Add(new BuildingDetailsDTO()
                 {
                     BuildingTypeID = buildingData.ID,
                     BuildTime = buildingData.BuildTime,
                     Effect = buildingData.Effect,
                     Name = buildingData.Name,
-                    Price = buildingData.Price,
-                    PriceTypeName = resourceTypes.SingleOrDefault(r => r.ID == buildingData.PriceUnitID).Name,
-                    ImageURL = buildingData.ImageURL
+                    Prices = pricelist,
+                    ImageURL = buildingData.ImageURL,
+                    IconURL = buildingData.IconURL,
+                    BackgroundURL = buildingData.BackgroundURL
                 });
+                
             }
             return buildingDetails;
         }
-        public List<RankDTO> GetPlayerRanks()
+        public async Task<List<RankDTO>> GetPlayerRanks()
         {
             var output = new List<RankDTO>();
-            foreach (var country in _context.Countries)
+            var countries = await _context.Countries.ToListAsync();
+            foreach (var country in countries)
             {
                 output.Add(new RankDTO { CountryID = country.ID, Name = country.Name, Score = country.Score });
             }
@@ -162,5 +169,13 @@ namespace StrategyGame.Bll.Services
 
             };
         }
+
+        public async Task<FullReportDTO> GetFullReport(int countryId, int round)
+        {
+            var battleReports = await _context.BattleReports.Include(b => b.Loot).Include(b => b.UnitsLost).Include(b => b.AttackerArmy).Where(b =>( b.AttackerID == countryId || b.DefenderID == countryId) && b.Round == round ).ToListAsync();
+            var explorationReports = await _context.ExplorationReports.Where(e => e.SenderCountryID == countryId && e.Round == round).ToListAsync();
+            return new FullReportDTO { BattleReports = battleReports, ExplorationReports = explorationReports };
+        }
+
     }
 }

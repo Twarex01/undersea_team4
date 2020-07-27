@@ -3,8 +3,10 @@
         <app-basic-form-card [form]="loginForm" (submitted)="onSubmit()" title="Belépés">
             <input type="text" placeholder="Felhasználónév" formControlName="userName">
             <input type="password" placeholder="Jelszó" formControlName="password">
-            <div *ngIf="error" class="error">Felhasználónév/jelszó hibás!</div>
-            <div *ngIf="validationError" class="error">Add meg a felhasználóneved és a jelszavad!</div>
+            <div *ngIf="serverError" class="error">{{serverMessage}}</div>
+            <div *ngIf="validationError && (userName.errors?.required || password.errors?.required)" class="error">Add meg a felhasználóneved és a jelszavad!</div>
+            <div *ngIf="validationError && userName.errors?.whitespace && !userName.errors?.required" class="error">Érvénytelen felhasználónév!</div>
+            <div *ngIf="validationError && password.errors?.whitespace && !password.errors?.required" class="error">Érvénytelen jelszó!</div>
             <a routerLink="/registration" class="login-reg-link">Regisztráció</a>
         </app-basic-form-card>
     </div>

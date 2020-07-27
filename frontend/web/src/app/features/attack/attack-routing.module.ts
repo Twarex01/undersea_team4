@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AttackPageComponent } from './pages/attack.page/attack.page.component';
-import { PlayerListComponent } from './components/player-list/player-list.component';
 
 
 const routes: Routes = [

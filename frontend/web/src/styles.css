@@ -92,3 +92,16 @@ form {
     color: #051D3F;
     font-family: "Baloo Regular";
 }
+
+
+/*Snackbar*/
+
+.custom-snackbar {
+    position: relative;
+    left: 3rem;
+}
+
+.custom-snackbar-units {
+    position: relative;
+    left: 4rem;
+}

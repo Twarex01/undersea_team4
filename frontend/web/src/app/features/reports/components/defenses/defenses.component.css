@@ -1,0 +1,55 @@
+p {
+    color: white;
+}
+
+.choose-round-container {
+    margin: 5% auto 5% auto;
+    text-align: center;
+}
+
+.expansion-panel-header {
+    background-color: #346da7;
+}
+
+.expansion-panel {
+    background-color: #3B7DBD;
+    font-family: "Baloo Regular";
+}
+
+.home-force {
+    display: inline-block;
+    width: 20rem;
+}
+
+.other-force {
+    width: 20rem;
+    display: inline-block;
+}
+
+.line {
+    margin: 2% auto 2% auto;
+    width: 45rem;
+}
+
+.success {
+    color: #ffffff;
+    margin: 0;
+}
+
+.failure {
+    color: #051D3F;
+    margin: 0;
+}
+
+.data-title {
+    font-family: "Baloo Bold";
+}
+
+.no-info {
+    margin-top: 5%;
+    text-align: center;
+}
+
+.list-item {
+    margin-right: 2%;
+}

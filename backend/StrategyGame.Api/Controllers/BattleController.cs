@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using StrategyGame.Bll;
 using StrategyGame.Bll.DTO;
 using StrategyGame.Bll.Services;
 using System;
@@ -30,7 +31,6 @@ namespace StrategyGame.Api.Controllers
         [Authorize]
         [Route("Attack")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
 
         public async Task<IActionResult> AttackAsync([FromBody] BattleDTO battleDTO)
@@ -38,14 +38,7 @@ namespace StrategyGame.Api.Controllers
             var atkCountry = await _userService.GetCountryByUserID(User.Identity.Name);
             battleDTO.IdAtt = atkCountry.ID;
 
-            try
-            {
-                _battleService.SendAllTypesToAttack(battleDTO);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            await _battleService.SendAllTypesToAttack(battleDTO);
 
             return Ok();
         }
@@ -59,6 +52,33 @@ namespace StrategyGame.Api.Controllers
         {
             var atkCountry = await _userService.GetCountryByUserID(User.Identity.Name);
             return Ok(await _battleService.GetCountryBattles(atkCountry.ID));
+
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("Explore")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+
+        public async Task<ActionResult> Explore([FromBody] SendExplorationDTO explorationDTO)
+        {
+            var atkCountry = await _userService.GetCountryByUserID(User.Identity.Name);
+            explorationDTO.SenderCountryID = atkCountry.ID;
+            await _battleService.SendExplorersToCountry(explorationDTO);
+            return Ok();
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("Explorations")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<List<ExplorationDetailsDTO>>> GetCountryExplorations()
+        {
+            var atkCountry = await _userService.GetCountryByUserID(User.Identity.Name);
+            var result = await _battleService.GetCountryExplorations(atkCountry.ID);
+            return Ok(result);
 
         }
     }

@@ -1,0 +1,5 @@
+<div class="round-steppers">
+    <button (click)="changeRound(-1)">-</button>
+    <input class="number-input" type="number" min="1" max={{prevRound}} [(ngModel)]="chosenRound" (change)="setRound($event)" ><span>. kör</span>
+    <button (click)="changeRound(1)">+</button>
+</div>

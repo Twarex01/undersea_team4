@@ -1,0 +1,13 @@
+p {
+    color: white;
+}
+
+.choose-round-container {
+    margin: 5% auto 5% auto;
+    text-align: center;
+}
+
+.card {
+    position: relative;
+    right: 15%;
+}

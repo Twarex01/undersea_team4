@@ -200,6 +200,42 @@ namespace StrategyGame.Dal.Migrations
                     b.ToTable("Battles");
                 });
 
+            modelBuilder.Entity("StrategyGame.Model.BattleReport", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("ATKPower")
+                        .HasColumnType("float");
+
+                    b.Property<int>("AttackerID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AttackerName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("DEFPower")
+                        .HasColumnType("float");
+
+                    b.Property<int>("DefenderID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DefenderName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Round")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Succesful")
+                        .HasColumnType("bit");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("BattleReports");
+                });
+
             modelBuilder.Entity("StrategyGame.Model.Building", b =>
                 {
                     b.Property<int>("ID")
@@ -235,6 +271,9 @@ namespace StrategyGame.Dal.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("BackgroundURL")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("BuildTime")
                         .HasColumnType("int");
 
@@ -245,21 +284,16 @@ namespace StrategyGame.Dal.Migrations
                     b.Property<string>("Effect")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("IconURL")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ImageURL")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PriceUnitID")
-                        .HasColumnType("int");
-
                     b.HasKey("ID");
-
-                    b.HasIndex("PriceUnitID");
 
                     b.ToTable("BuildingData");
 
@@ -301,6 +335,246 @@ namespace StrategyGame.Dal.Migrations
                         .HasFilter("[UserID] IS NOT NULL");
 
                     b.ToTable("Countries");
+                });
+
+            modelBuilder.Entity("StrategyGame.Model.Exploration", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("NumberOfExplorers")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SenderCountryID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("VictimCountryID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("SenderCountryID");
+
+                    b.HasIndex("VictimCountryID");
+
+                    b.ToTable("Explorations");
+                });
+
+            modelBuilder.Entity("StrategyGame.Model.ExplorationInfo", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ExposedCountryID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("InformedCountryID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LastKnownDefensePower")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Round")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ExposedCountryID");
+
+                    b.HasIndex("InformedCountryID");
+
+                    b.ToTable("ExplorationInfos");
+                });
+
+            modelBuilder.Entity("StrategyGame.Model.ExplorationReport", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ExplorersSent")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ExposedDefensePower")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Round")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SenderCountryID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SenderCountryName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Successful")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("VictimCountryID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("VictimCountryName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("ExplorationReports");
+                });
+
+            modelBuilder.Entity("StrategyGame.Model.Loot", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BattleReportID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("BattleReportID1")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ResourceName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("BattleReportID");
+
+                    b.HasIndex("BattleReportID1");
+
+                    b.ToTable("Loots");
+                });
+
+            modelBuilder.Entity("StrategyGame.Model.LostUnit", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BattleReportID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("BattleReportID1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LostAmount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UnitName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("BattleReportID");
+
+                    b.HasIndex("BattleReportID1");
+
+                    b.ToTable("LostUnits");
+                });
+
+            modelBuilder.Entity("StrategyGame.Model.Price", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BuildingID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("BuildingID1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PriceUnitID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("BuildingID");
+
+                    b.HasIndex("BuildingID1");
+
+                    b.HasIndex("PriceUnitID");
+
+                    b.ToTable("Prices");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Amount = 50,
+                            BuildingID = 1,
+                            PriceUnitID = 3
+                        },
+                        new
+                        {
+                            ID = 2,
+                            Amount = 1000,
+                            BuildingID = 1,
+                            PriceUnitID = 2
+                        },
+                        new
+                        {
+                            ID = 3,
+                            Amount = 50,
+                            BuildingID = 2,
+                            PriceUnitID = 3
+                        },
+                        new
+                        {
+                            ID = 4,
+                            Amount = 1000,
+                            BuildingID = 2,
+                            PriceUnitID = 2
+                        },
+                        new
+                        {
+                            ID = 5,
+                            Amount = 1000,
+                            BuildingID = 3,
+                            PriceUnitID = 2
+                        });
+                });
+
+            modelBuilder.Entity("StrategyGame.Model.ReportedUnit", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BattleReportID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("BattleReportID1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("BattleReportID");
+
+                    b.HasIndex("BattleReportID1");
+
+                    b.ToTable("ReportedUnits");
                 });
 
             modelBuilder.Entity("StrategyGame.Model.Resource", b =>
@@ -355,14 +629,42 @@ namespace StrategyGame.Dal.Migrations
                         new
                         {
                             ID = 2,
-                            ImageURL = "https://public-v2links.adobecc.com/a6f48b49-2354-4be7-78c0-090bdb752a04/component?params=component_id%3A2767b629-5fa0-46a8-a9bb-d7a3f7bf0054&params=version%3A0&token=1595286086_fac29e2b_58e760f6d8b9aa02eda4f5c868eded6278ccce9b&api_key=CometServer1",
+                            ImageURL = "/Assets/Resources/pearl.png",
                             Name = "Gyöngy"
                         },
                         new
                         {
                             ID = 1,
-                            ImageURL = "https://public-v2links.adobecc.com/a6f48b49-2354-4be7-78c0-090bdb752a04/component?params=component_id%3Ab0dfd1d9-b7e9-4c19-aca4-a06b36fa415b&params=version%3A0&token=1595286086_fac29e2b_58e760f6d8b9aa02eda4f5c868eded6278ccce9b&api_key=CometServer1",
+                            ImageURL = "/Assets/Resources/coral.png",
                             Name = "Korall"
+                        },
+                        new
+                        {
+                            ID = 3,
+                            ImageURL = "/Assets/Resources/stone.png",
+                            Name = "Kő"
+                        });
+                });
+
+            modelBuilder.Entity("StrategyGame.Model.Round", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("RoundNumber")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Round");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            RoundNumber = 1
                         });
                 });
 
@@ -449,7 +751,7 @@ namespace StrategyGame.Dal.Migrations
                             Consumption = 1,
                             ConsumptionUnitID = 1,
                             DEF = 2,
-                            ImageURL = "https://public-v2links.adobecc.com/a6f48b49-2354-4be7-78c0-090bdb752a04/component?params=component_id%3A782a7431-630e-4149-b9cb-6130e5f8cbee&params=version%3A1&token=1595286086_fac29e2b_58e760f6d8b9aa02eda4f5c868eded6278ccce9b&api_key=CometServer1",
+                            ImageURL = "/Assets/Units/seal.png",
                             Name = "Roham Fóka",
                             PointValue = 5,
                             Price = 50,
@@ -464,7 +766,7 @@ namespace StrategyGame.Dal.Migrations
                             Consumption = 1,
                             ConsumptionUnitID = 1,
                             DEF = 6,
-                            ImageURL = "https://public-v2links.adobecc.com/a6f48b49-2354-4be7-78c0-090bdb752a04/component?params=component_id%3A239bcebd-c8e3-4590-95af-3248182c4bc8&params=version%3A1&token=1595286086_fac29e2b_58e760f6d8b9aa02eda4f5c868eded6278ccce9b&api_key=CometServer1",
+                            ImageURL = "/Assets/Units/seahorse.png",
                             Name = "Csata Csikó",
                             PointValue = 5,
                             Price = 50,
@@ -479,12 +781,27 @@ namespace StrategyGame.Dal.Migrations
                             Consumption = 2,
                             ConsumptionUnitID = 1,
                             DEF = 5,
-                            ImageURL = "https://public-v2links.adobecc.com/a6f48b49-2354-4be7-78c0-090bdb752a04/component?params=component_id%3Aa2557965-c21f-4fc5-a489-66bdf366178d&params=version%3A0&token=1595286086_fac29e2b_58e760f6d8b9aa02eda4f5c868eded6278ccce9b&api_key=CometServer1",
+                            ImageURL = "/Assets/Units/shark.png",
                             Name = "Lézer Cápa",
                             PointValue = 10,
                             Price = 100,
                             PriceUnitID = 2,
                             Salary = 3,
+                            SalaryUnitID = 2
+                        },
+                        new
+                        {
+                            ID = 4,
+                            ATK = 0,
+                            Consumption = 1,
+                            ConsumptionUnitID = 1,
+                            DEF = 0,
+                            ImageURL = "/Assets/Units/shark.png",
+                            Name = "Felfedező",
+                            PointValue = 0,
+                            Price = 50,
+                            PriceUnitID = 2,
+                            Salary = 1,
                             SalaryUnitID = 2
                         });
                 });
@@ -619,12 +936,31 @@ namespace StrategyGame.Dal.Migrations
                         new
                         {
                             ID = 1,
+                            BackgroundURL = "/Assets/Buildings/flowregulator_background.png",
                             BuildTime = 5,
                             Effect = "50 lakost ad a népességhez és 200 korallt termel körönként",
-                            ImageURL = "https://public-v2links.adobecc.com/a6f48b49-2354-4be7-78c0-090bdb752a04/component?params=component_id%3Ae4a8d9ef-dcca-4b53-addd-0e9ec6b1ca39&params=version%3A0&token=1595286086_fac29e2b_58e760f6d8b9aa02eda4f5c868eded6278ccce9b&api_key=CometServer1",
-                            Name = "Áramlásirányító",
-                            Price = 1000,
-                            PriceUnitID = 2
+                            IconURL = "/Assets/Buildings/flowregulator_icon.png",
+                            ImageURL = "/Assets/Buildings/flowregulator.png",
+                            Name = "Áramlásirányító"
+                        });
+                });
+
+            modelBuilder.Entity("StrategyGame.Model.BuildingTypes.StoneMine", b =>
+                {
+                    b.HasBaseType("StrategyGame.Model.BuildingData");
+
+                    b.HasDiscriminator().HasValue("StoneMine");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 3,
+                            BackgroundURL = "/Assets/Buildings/stonemine_background.png",
+                            BuildTime = 5,
+                            Effect = "Körönként 25 kővel gazdagítja a játékost",
+                            IconURL = "/Assets/Buildings/stonemine_icon.png",
+                            ImageURL = "/Assets/Buildings/stonemine_icon.png",
+                            Name = "Kőbánya"
                         });
                 });
 
@@ -638,12 +974,12 @@ namespace StrategyGame.Dal.Migrations
                         new
                         {
                             ID = 2,
+                            BackgroundURL = "/Assets/Buildings/reeffort_background.png",
                             BuildTime = 5,
                             Effect = "200 egység katonának nyújt szállást",
-                            ImageURL = "https://public-v2links.adobecc.com/a6f48b49-2354-4be7-78c0-090bdb752a04/component?params=component_id%3Addde0d54-f997-446a-b0b1-14a6b27b3a2c&params=version%3A0&token=1595286086_fac29e2b_58e760f6d8b9aa02eda4f5c868eded6278ccce9b&api_key=CometServer1",
-                            Name = "Zátonyvár",
-                            Price = 1000,
-                            PriceUnitID = 2
+                            IconURL = "/Assets/Buildings/reeffort_icon.png",
+                            ImageURL = "/Assets/Buildings/reeffort.png",
+                            Name = "Zátonyvár"
                         });
                 });
 
@@ -658,7 +994,7 @@ namespace StrategyGame.Dal.Migrations
                         {
                             ID = 1,
                             Effect = "Növeli a beszedett adót 30%-kal",
-                            ImageURL = "https://public-v2links.adobecc.com/8134ca2d-5f55-4f05-6e62-a957ac393f15/component?params=component_id%3A25076959-83e0-4e6f-ae17-d112b3cb9ca7&params=version%3A0&token=1595285518_12125b8d_b2a88399aa4d4ee75c3f36fcfa511cf2a3d05e54&api_key=CometServer1",
+                            ImageURL = "/Assets/Upgrades/alchemy.png",
                             Name = "Alkímia",
                             UpgradeTime = 15
                         });
@@ -675,7 +1011,7 @@ namespace StrategyGame.Dal.Migrations
                         {
                             ID = 2,
                             Effect = "Növeli a védelmi pontokat 20%-kal",
-                            ImageURL = "https://public-v2links.adobecc.com/8134ca2d-5f55-4f05-6e62-a957ac393f15/component?params=component_id%3A171b5058-25fc-408f-bdf3-34bb4b3d358c&params=version%3A0&token=1595285518_12125b8d_b2a88399aa4d4ee75c3f36fcfa511cf2a3d05e54&api_key=CometServer1",
+                            ImageURL = "/Assets/Upgrades/coralwall.png",
                             Name = "Korall fal",
                             UpgradeTime = 15
                         });
@@ -692,7 +1028,7 @@ namespace StrategyGame.Dal.Migrations
                         {
                             ID = 3,
                             Effect = "Növeli a védelmi és támadóerőt 10%-kal",
-                            ImageURL = "https://public-v2links.adobecc.com/8134ca2d-5f55-4f05-6e62-a957ac393f15/component?params=component_id%3A8132cd33-064a-479a-a3e5-7466d133a54c&params=version%3A0&token=1595285518_12125b8d_b2a88399aa4d4ee75c3f36fcfa511cf2a3d05e54&api_key=CometServer1",
+                            ImageURL = "/Assets/Upgrades/martialarts.png",
                             Name = "Vízalatti harcművészetek",
                             UpgradeTime = 15
                         });
@@ -709,7 +1045,7 @@ namespace StrategyGame.Dal.Migrations
                         {
                             ID = 4,
                             Effect = "Növeli a korall termesztést 15%-kal",
-                            ImageURL = "https://public-v2links.adobecc.com/a6f48b49-2354-4be7-78c0-090bdb752a04/component?params=component_id%3A59672c6c-11d1-4ae3-a51c-b742f21ceb29&params=version%3A0&token=1595285550_fac29e2b_de6e44afa993a25b96be240def1a89a9c4f471aa&api_key=CometServer1",
+                            ImageURL = "/Assets/Upgrades/mudharvester.png",
                             Name = "Iszap Kombájn",
                             UpgradeTime = 15
                         });
@@ -726,7 +1062,7 @@ namespace StrategyGame.Dal.Migrations
                         {
                             ID = 5,
                             Effect = "Növeli a korall termesztést 10%-kal",
-                            ImageURL = "https://public-v2links.adobecc.com/a6f48b49-2354-4be7-78c0-090bdb752a04/component?params=component_id%3A3a603cad-c8ac-4583-affc-41a05e86af31&params=version%3A0&token=1595285550_fac29e2b_de6e44afa993a25b96be240def1a89a9c4f471aa&api_key=CometServer1",
+                            ImageURL = "/Assets/Upgrades/mudtractor.png",
                             Name = "Iszap Traktor",
                             UpgradeTime = 15
                         });
@@ -743,7 +1079,7 @@ namespace StrategyGame.Dal.Migrations
                         {
                             ID = 6,
                             Effect = "Növeli a támadópontokat 20%-kal",
-                            ImageURL = "https://public-v2links.adobecc.com/a6f48b49-2354-4be7-78c0-090bdb752a04/component?params=component_id%3Ac5e81461-9dd4-4144-9af9-e3f5471b46be&params=version%3A0&token=1595286086_fac29e2b_58e760f6d8b9aa02eda4f5c868eded6278ccce9b&api_key=CometServer1",
+                            ImageURL = "/Assets/Upgrades/sonarcannon.png",
                             Name = "Szonár ágyú",
                             UpgradeTime = 15
                         });
@@ -841,8 +1177,73 @@ namespace StrategyGame.Dal.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("StrategyGame.Model.BuildingData", b =>
+            modelBuilder.Entity("StrategyGame.Model.Country", b =>
                 {
+                    b.HasOne("StrategyGame.Model.User", "User")
+                        .WithOne("Country")
+                        .HasForeignKey("StrategyGame.Model.Country", "UserID");
+                });
+
+            modelBuilder.Entity("StrategyGame.Model.Exploration", b =>
+                {
+                    b.HasOne("StrategyGame.Model.Country", "SenderCountry")
+                        .WithMany()
+                        .HasForeignKey("SenderCountryID");
+
+                    b.HasOne("StrategyGame.Model.Country", "VictimCountry")
+                        .WithMany()
+                        .HasForeignKey("VictimCountryID");
+                });
+
+            modelBuilder.Entity("StrategyGame.Model.ExplorationInfo", b =>
+                {
+                    b.HasOne("StrategyGame.Model.Country", "ExposedCountry")
+                        .WithMany()
+                        .HasForeignKey("ExposedCountryID");
+
+                    b.HasOne("StrategyGame.Model.Country", "InformedCountry")
+                        .WithMany()
+                        .HasForeignKey("InformedCountryID");
+                });
+
+            modelBuilder.Entity("StrategyGame.Model.Loot", b =>
+                {
+                    b.HasOne("StrategyGame.Model.BattleReport", null)
+                        .WithMany("Loot")
+                        .HasForeignKey("BattleReportID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StrategyGame.Model.BattleReport", "BattleReport")
+                        .WithMany()
+                        .HasForeignKey("BattleReportID1");
+                });
+
+            modelBuilder.Entity("StrategyGame.Model.LostUnit", b =>
+                {
+                    b.HasOne("StrategyGame.Model.BattleReport", null)
+                        .WithMany("UnitsLost")
+                        .HasForeignKey("BattleReportID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StrategyGame.Model.BattleReport", "BattleReport")
+                        .WithMany()
+                        .HasForeignKey("BattleReportID1");
+                });
+
+            modelBuilder.Entity("StrategyGame.Model.Price", b =>
+                {
+                    b.HasOne("StrategyGame.Model.BuildingData", null)
+                        .WithMany("Prices")
+                        .HasForeignKey("BuildingID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StrategyGame.Model.BuildingData", "Building")
+                        .WithMany()
+                        .HasForeignKey("BuildingID1");
+
                     b.HasOne("StrategyGame.Model.ResourceData", "PriceUnit")
                         .WithMany()
                         .HasForeignKey("PriceUnitID")
@@ -850,11 +1251,17 @@ namespace StrategyGame.Dal.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("StrategyGame.Model.Country", b =>
+            modelBuilder.Entity("StrategyGame.Model.ReportedUnit", b =>
                 {
-                    b.HasOne("StrategyGame.Model.User", "User")
-                        .WithOne("Country")
-                        .HasForeignKey("StrategyGame.Model.Country", "UserID");
+                    b.HasOne("StrategyGame.Model.BattleReport", null)
+                        .WithMany("AttackerArmy")
+                        .HasForeignKey("BattleReportID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StrategyGame.Model.BattleReport", "BattleReport")
+                        .WithMany()
+                        .HasForeignKey("BattleReportID1");
                 });
 
             modelBuilder.Entity("StrategyGame.Model.Resource", b =>
