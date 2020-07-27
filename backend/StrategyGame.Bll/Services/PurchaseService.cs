@@ -98,9 +98,9 @@ namespace StrategyGame.Bll.Services
             {
                 var unitdata = unitDatas.SingleOrDefault(u => u.ID == unit.UnitTypeID);
                 var existingCost = totalCost.SingleOrDefault(c => c.ResourceDataID == unitdata.PriceUnitID);
-                if (existingCost == null) totalCost.Add(new Resource { Amount = unitdata.Price * unit.Count, ResourceDataID = (int)unitdata.PriceUnitID });
-                else existingCost.Amount += unitdata.Price * unit.Count;
-                unitsToBuy.Add(new Unit() { UnitDataID = unit.UnitTypeID, Count = unit.Count, CountryID = countryId, });
+                if (existingCost == null) totalCost.Add(new Resource { Amount = unitdata.Price * unit.UnitCount, ResourceDataID = (int)unitdata.PriceUnitID });
+                else existingCost.Amount += unitdata.Price * unit.UnitCount;
+                unitsToBuy.Add(new Unit() { UnitDataID = unit.UnitTypeID, Count = unit.UnitCount, CountryID = countryId, });
             }
             foreach (var resource in country.Resources)
             {

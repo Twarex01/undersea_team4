@@ -99,7 +99,7 @@ namespace StrategyGame.Bll.Services
 			foreach (UnitDTO unitDto in battleDto.Army)
 			{
 
-				await SendUnitsOfTypeToAttack(attackingCountry, defendingCountry, unitDto.Count, unitDto.UnitTypeID);
+				await SendUnitsOfTypeToAttack(attackingCountry, defendingCountry, unitDto.UnitCount, unitDto.UnitTypeID);
 			}
 
 			await _context.SaveChangesAsync();
