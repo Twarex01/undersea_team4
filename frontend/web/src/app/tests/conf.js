@@ -1,7 +1,7 @@
 exports.config = {
     framework: 'jasmine',
     seleniumAddress: 'http://localhost:4444/wd/hub',
-    specs: ['loginSpec.js'],
+    specs: ['buildingsSpec.js'],
     onPrepare: function() {
         browser.driver.get('http://localhost:4200/login');
 
@@ -11,7 +11,7 @@ exports.config = {
 
         return browser.driver.wait(() => {
             return browser.driver.getCurrentUrl().then((url) => {
-                return url;
+                return url === 'http://localhost:4200/';
             })
         }, 10000)
     }

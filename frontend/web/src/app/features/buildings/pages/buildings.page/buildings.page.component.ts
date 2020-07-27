@@ -50,8 +50,9 @@ export class BuildingsPageComponent implements OnInit {
   private updateResourcesData() {
     this.playerInfoService.getCountryResources().subscribe((resources) => {
       resources.forEach((res) => {
-        const countryResource = this.countryResources.find((r) => r.id === res.id)!;
-        countryResource.amount = res.count;
+        const countryResource = this.countryResources.find((r) => r.id === res.id);
+        if(countryResource)
+          countryResource.amount = res.count;
       })
     })
   }
