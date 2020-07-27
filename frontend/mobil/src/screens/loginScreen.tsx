@@ -17,8 +17,8 @@ interface LoginScreenProps {
 }
 
 const LoginScreen = ({navigation}: LoginScreenProps) => {
-  const [username, setUsername] = useState(Strings.user_name)
-  const [password, setPassword] = useState(Strings.password)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
   const dispatch = useDispatch()
 

@@ -22,6 +22,7 @@ import SeparatorComponent from '../components/separator/separatorComponent'
 import {IApplicationState} from '../../store'
 import {useSelector, useDispatch} from 'react-redux'
 import {getPlayers} from '../store/players/players.action'
+import {createSelector} from 'reselect'
 
 interface AttacFirstScreenProps {
   navigation: StackNavigationProp<any>
@@ -31,6 +32,23 @@ const AttackFirstScreen = ({navigation}: AttacFirstScreenProps) => {
   const {players, error, isLoading} = useSelector(
     (state: IApplicationState) => state.app.player,
   )
+
+  // const playersSelector = createSelector(
+  //   (state: IApplicationState) => state.app.player.players,
+  //   players => {
+  //     if (username === '') {
+  //       return players
+  //     }
+  //     players.map(player => {
+  //       if (player.name === username) {
+  //         return player
+  //       }
+  //     })
+  //   },
+  // )
+
+  // const searchplayers = useSelector(playersSelector)
+
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -42,6 +60,7 @@ const AttackFirstScreen = ({navigation}: AttacFirstScreenProps) => {
   }
 
   const [index, setIndex] = useState(-1)
+  const [username, setUsername] = useState('')
 
   const onNextPressed = () => {
     navigation.navigate(Screens.AttackSecond)
@@ -66,26 +85,6 @@ const AttackFirstScreen = ({navigation}: AttacFirstScreenProps) => {
     )
   }
 
-  const renderHeaderComponent = () => {
-    return (
-      <View>
-        <Text style={styles.titleText}>{Strings.attack_first_title}</Text>
-        <Text style={styles.descriptionText}>
-          {Strings.attack_first_description}
-        </Text>
-        <CustomTextInput
-          placeholder={Strings.user_name}
-          placeholderTextColor={Colors.darkBlue}
-          style={[
-            Margins.mbNormal,
-            Margins.mtBig,
-            {backgroundColor: Colors.transparentWhite},
-          ]}
-        />
-      </View>
-    )
-  }
-
   const keyExtractor = (item: PlayerDetails) => {
     return item.countryID.toString()
   }
@@ -93,10 +92,21 @@ const AttackFirstScreen = ({navigation}: AttacFirstScreenProps) => {
   return (
     <View style={styles.container}>
       <PagesTemplate title={Strings.attack}>
+        <View style={styles.headerPadding}>
+          <Text style={styles.titleText}>{Strings.attack_first_title}</Text>
+          <Text style={styles.descriptionText}>
+            {Strings.attack_first_description}
+          </Text>
+          <CustomTextInput
+            placeholder={Strings.user_name}
+            placeholderTextColor={Colors.darkBlue}
+            onChangeText={setUsername}
+            style={[Margins.mtBig, {backgroundColor: Colors.transparentWhite}]}
+          />
+        </View>
         <FlatList
           data={players}
           renderItem={renderItem}
-          ListHeaderComponent={renderHeaderComponent}
           ItemSeparatorComponent={SeparatorComponent}
           keyExtractor={keyExtractor}
           style={styles.flatlistPadding}
@@ -133,6 +143,10 @@ const styles = StyleSheet.create({
   },
   flatlistPadding: {
     flex: 1,
+    paddingTop: 10,
+    paddingHorizontal: 20,
+  },
+  headerPadding: {
     paddingTop: 25,
     paddingHorizontal: 20,
   },

@@ -58,7 +58,7 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
           priceTypeName: unit.priceTypeName,
           imageURL: unit.imageURL,
           count: myUnitInfo?.count,
-          number: putUnitInfo?.count,
+          attackCount: putUnitInfo?.attackCount,
         }
       }),
   )
@@ -94,6 +94,7 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
       consumptionTypeName,
       imageURL,
       count,
+      attackCount,
     } = itemInfo.item
 
     const onMinusPressed = () => {}
@@ -101,6 +102,7 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
 
     return (
       <BevyCard
+        unitTypeID={unitTypeID}
         image={imageURL}
         name={name}
         attack={atk}
@@ -112,9 +114,9 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
         consumptionType={consumptionTypeName}
         priceType={priceTypeName}
         count={count ? count : 0}
-        onMinusPress={onMinusPressed}
-        onPlusPress={onPlusPressed}
-        number={count}
+        // onMinusPress={onMinusPressed}
+        // onPlusPress={onPlusPressed}
+        number={attackCount ? attackCount : 0}
       />
     )
   }

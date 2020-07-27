@@ -1,6 +1,6 @@
 export interface PutUnitDetails {
   unitTypeID: number
-  count: number
+  attackCount: number
 }
 
 export interface PutUnitRequest extends Array<PutUnitDetails> {}

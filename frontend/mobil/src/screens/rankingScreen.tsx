@@ -55,10 +55,21 @@ const RankingScreen = ({navigation}: RankingScreenProps) => {
   return (
     <View style={styles.container}>
       <PagesTemplateBack title={Strings.ranking} onPress={onBackPressed}>
+        <View style={styles.headerPadding}>
+          <CustomTextInput
+            placeholder={Strings.user_name}
+            placeholderTextColor={Colors.darkBlue}
+            style={[
+              Margins.mbNormal,
+              {backgroundColor: Colors.transparentWhite},
+            ]}
+          />
+        </View>
+
         <FlatList
           data={players}
           renderItem={renderItem}
-          ListHeaderComponent={renderHeaderComponent}
+          //ListHeaderComponent={renderHeaderComponent}
           ItemSeparatorComponent={SeparatorComponent}
           keyExtractor={keyExtractor}
           style={styles.flatlistPadding}
@@ -75,6 +86,10 @@ const styles = StyleSheet.create({
   },
   flatlistPadding: {
     flex: 1,
+    paddingTop: 10,
+    paddingHorizontal: 20,
+  },
+  headerPadding: {
     paddingTop: 25,
     paddingHorizontal: 20,
   },

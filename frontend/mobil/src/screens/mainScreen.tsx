@@ -15,6 +15,14 @@ import {useSelector, useDispatch} from 'react-redux'
 import {IApplicationState} from '../../store'
 import {getRound} from '../store/round/round.actions'
 import {postNextRound} from '../store/nextRound/nextRound.actions'
+import {getCountry} from '../store/country/country.actions'
+import {getBuildings} from '../store/buildings/buildings.actions'
+import {getMyBuildings} from '../store/myBuildings/myBuildings.action'
+import {getUnits} from '../store/units/units.actions'
+import {getMyUnits} from '../store/myUnits/myUnits.actions'
+import {getResources} from '../store/resources/resources.actions'
+import {getUpgrades} from '../store/upgrades/upgrades.actions'
+import {getMyUpgrades} from '../store/myUpgrades/myUpgrades.actions'
 
 interface MainscreenProps {
   navigation: StackNavigationProp<any>
@@ -40,6 +48,15 @@ const MainScreen = ({navigation}: MainscreenProps) => {
   }
   const onNextRoundPressed = () => {
     dispatch(postNextRound())
+    dispatch(getRound())
+    dispatch(getCountry())
+    dispatch(getBuildings())
+    dispatch(getMyBuildings())
+    dispatch(getUnits())
+    dispatch(getMyUnits())
+    dispatch(getResources())
+    dispatch(getUpgrades())
+    dispatch(getMyUpgrades())
   }
 
   const [showPopup, setShowPopup] = useState(false)

@@ -8,8 +8,11 @@ import {Colors} from '../../constants/colors'
 import {Margins} from '../../constants/margins'
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import {Config} from '../../constants/config'
+import {useSelector} from 'react-redux'
+import {IApplicationState} from '../../../store'
 
 interface Props {
+  unitTypeID?: number
   image: string
   name?: string
   attack: number
@@ -20,13 +23,14 @@ interface Props {
   salaryType: string
   consumptionType: string
   priceType: string
-  onMinusPress: () => void
-  onPlusPress: () => void
+  onMinusPress?: () => void
+  onPlusPress?: () => void
   count: number
   number?: number
 }
 
 const BevyCard = ({
+  unitTypeID,
   image,
   name,
   attack,
@@ -37,11 +41,16 @@ const BevyCard = ({
   salaryType,
   consumptionType,
   priceType,
-  onMinusPress,
-  onPlusPress,
   count,
   number,
 }: Props) => {
+  const {putUnits} = useSelector(
+    (state: IApplicationState) => state.app.putUnits,
+  )
+
+  const onMinusPressed = () => {}
+  const onPlusPressed = () => {}
+
   return (
     <View>
       <View style={styles.centerView}>
@@ -84,13 +93,13 @@ const BevyCard = ({
         </View>
       </View>
       <View style={[styles.buttonView, Margins.mbBig]}>
-        <TouchableOpacity onPress={onMinusPress}>
+        <TouchableOpacity onPress={onMinusPressed}>
           <Image source={Images.minus} />
         </TouchableOpacity>
         <Text style={[styles.numberText, Margins.mlLarge, Margins.mrLarge]}>
           {number}
         </Text>
-        <TouchableOpacity onPress={onPlusPress}>
+        <TouchableOpacity onPress={onPlusPressed}>
           <Image source={Images.plus} />
         </TouchableOpacity>
       </View>
