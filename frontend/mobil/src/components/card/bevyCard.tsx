@@ -8,11 +8,14 @@ import {Colors} from '../../constants/colors'
 import {Margins} from '../../constants/margins'
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import {Config} from '../../constants/config'
-import {useSelector} from 'react-redux'
-import {IApplicationState} from '../../../store'
+import {useDispatch} from 'react-redux'
+import {
+  decreaseCount,
+  increaseCount,
+} from '../../store/putUnits/putUnits.actions'
 
 interface Props {
-  unitTypeID?: number
+  unitTypeID: number
   image: string
   name?: string
   attack: number
@@ -23,8 +26,8 @@ interface Props {
   salaryType: string
   consumptionType: string
   priceType: string
-  onMinusPress?: () => void
-  onPlusPress?: () => void
+  onMinusPress?: (id: number) => void
+  onPlusPress?: (id: number) => void
   count: number
   number?: number
 }
@@ -43,14 +46,19 @@ const BevyCard = ({
   priceType,
   count,
   number,
+  onMinusPress,
+  onPlusPress,
 }: Props) => {
-  const {putUnits} = useSelector(
-    (state: IApplicationState) => state.app.putUnits,
-  )
-
-  const onMinusPressed = () => {}
-  const onPlusPressed = () => {}
-
+  const onMinusPressed = () => {
+    if (onMinusPress) {
+      onMinusPress(unitTypeID)
+    }
+  }
+  const onPlusPressed = () => {
+    if (onPlusPress) {
+      onPlusPress(unitTypeID)
+    }
+  }
   return (
     <View>
       <View style={styles.centerView}>

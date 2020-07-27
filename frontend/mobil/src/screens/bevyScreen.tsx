@@ -21,7 +21,12 @@ import {createSelector} from 'reselect'
 import {MyUnitDetails} from '../model/unit/myUnitDetails'
 import {getMyUnits} from '../store/myUnits/myUnits.actions'
 import TransparentButton from '../components/button/transparentButton'
-import {PutUnitDetails} from '../model/unit/putUnitRequest'
+import {PutUnitDetails, PutUnitRequest} from '../model/unit/putUnitRequest'
+import {
+  decreaseCount,
+  increaseCount,
+  putUnits,
+} from '../store/putUnits/putUnits.actions'
 
 interface BevyScreenProps {
   navigation: StackNavigationProp<any>
@@ -58,7 +63,7 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
           priceTypeName: unit.priceTypeName,
           imageURL: unit.imageURL,
           count: myUnitInfo?.count,
-          attackCount: putUnitInfo?.attackCount,
+          unitCount: putUnitInfo?.unitCount,
         }
       }),
   )
@@ -77,7 +82,23 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
     dispatch(getMyUnits())
   }
 
-  const onBuyPressed = () => {}
+  const onMinusPressed = (unitTypeID: number) => {
+    dispatch(decreaseCount(unitTypeID))
+  }
+  const onPlusPressed = (unitTypeID: number) => {
+    dispatch(increaseCount(unitTypeID))
+  }
+
+  const onBuyPressed = () => {
+    var buyUnits: PutUnitRequest = []
+    units.map(u =>
+      buyUnits.push({
+        unitTypeID: u.unitTypeID,
+        unitCount: u.unitCount ? u.unitCount : 0,
+      }),
+    )
+    dispatch(putUnits(buyUnits))
+  }
   const renderItem = (
     itemInfo: ListRenderItemInfo<UnitDetails & MyUnitDetails & PutUnitDetails>,
   ) => {
@@ -94,11 +115,8 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
       consumptionTypeName,
       imageURL,
       count,
-      attackCount,
+      unitCount,
     } = itemInfo.item
-
-    const onMinusPressed = () => {}
-    const onPlusPressed = () => {}
 
     return (
       <BevyCard
@@ -114,9 +132,9 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
         consumptionType={consumptionTypeName}
         priceType={priceTypeName}
         count={count ? count : 0}
-        // onMinusPress={onMinusPressed}
-        // onPlusPress={onPlusPressed}
-        number={attackCount ? attackCount : 0}
+        onMinusPress={onMinusPressed}
+        onPlusPress={onPlusPressed}
+        number={unitCount ? unitCount : 0}
       />
     )
   }

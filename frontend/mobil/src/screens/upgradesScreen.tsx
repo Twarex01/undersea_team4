@@ -68,7 +68,11 @@ const UpgradesScreen = ({navigation}: UpgradesScreenProps) => {
   const [index, setIndex] = useState(-1)
 
   const onBuyPressed = () => {
-    if (!(index === -1)) dispatch(putUpgrade(index))
+    if (!(index === -1)) {
+      dispatch(putUpgrade(index))
+      setIndex(-1)
+      refreshUpgrades()
+    }
   }
 
   const renderItem = (itemInfo: ListRenderItemInfo<any>) => {

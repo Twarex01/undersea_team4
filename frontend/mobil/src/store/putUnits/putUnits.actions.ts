@@ -3,6 +3,8 @@ import {PutUnitRequest} from '../../model/unit/putUnitRequest'
 export const PUT_UNITS_REQUEST = 'PUT_UNITS_REQUEST'
 export const PUT_UNITS_SUCCESS = 'PUT_UNITS_SUCCESS'
 export const PUT_UNITS_FAILURE = 'PUT_UNITS_FAILURE'
+export const INCREASE_COUNT = 'INCREASE_COUNT'
+export const DECREASE_COUNT = 'DECREASE_COUNT'
 
 export interface PutUnitsRequestAction {
   type: typeof PUT_UNITS_REQUEST
@@ -18,10 +20,22 @@ export interface PutUnitsFailAction {
   reason: string | undefined
 }
 
+export interface IncreaseCountAction {
+  type: typeof INCREASE_COUNT
+  unitTypeID: number
+}
+
+export interface DecreaseCountAction {
+  type: typeof DECREASE_COUNT
+  unitTypeID: number
+}
+
 export type PutUnitsActions =
   | PutUnitsRequestAction
   | PutUnitsSuccessAction
   | PutUnitsFailAction
+  | IncreaseCountAction
+  | DecreaseCountAction
 
 export const putUnits = (
   unitRequest: PutUnitRequest,
@@ -39,4 +53,14 @@ export const putUnitsFailActionCreator = (
 ): PutUnitsFailAction => ({
   type: PUT_UNITS_FAILURE,
   reason,
+})
+
+export const increaseCount = (unitTypeID: number): IncreaseCountAction => ({
+  type: INCREASE_COUNT,
+  unitTypeID,
+})
+
+export const decreaseCount = (unitTypeID: number): DecreaseCountAction => ({
+  type: DECREASE_COUNT,
+  unitTypeID,
 })

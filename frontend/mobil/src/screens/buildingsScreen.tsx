@@ -68,7 +68,11 @@ const BuildingsScreen = () => {
   const [disabled, setDisabled] = useState(false)
 
   const onBuyPressed = () => {
-    if (!(index === -1)) dispatch(putBuilding(index))
+    if (!(index === -1)) {
+      dispatch(putBuilding(index))
+      setIndex(-1)
+      refreshBuildings()
+    }
   }
 
   const renderItem = (
@@ -103,6 +107,7 @@ const BuildingsScreen = () => {
           count={count ? count : 0}
           selected={index === buildingTypeID ? true : false}
           disabled={disabled}
+          progress={progress}
         />
       </TouchableOpacity>
     )

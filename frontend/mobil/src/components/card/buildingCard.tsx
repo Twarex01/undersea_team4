@@ -27,6 +27,7 @@ interface Props {
   count: number
   selected: boolean
   disabled?: boolean
+  progress?: number
 }
 
 const BuildingCard = ({
@@ -38,6 +39,7 @@ const BuildingCard = ({
   count,
   selected,
   disabled,
+  progress,
 }: Props) => {
   const renderItem = (item: Prices, index: number) => {
     const {price, priceTypeName} = item
@@ -74,6 +76,9 @@ const BuildingCard = ({
         {count} {Strings.piece}
       </Text>
       {prices.map((item, index) => renderItem(item, index))}
+      <Text style={styles.progressText}>
+        {progress > 0 ? `még ${progress} kör` : ''}
+      </Text>
     </View>
   )
 }
@@ -103,6 +108,14 @@ const styles = StyleSheet.create({
   image: {
     width: 90,
     height: 90,
+  },
+  progressText: {
+    color: Colors.vibrantLightBlue,
+    fontFamily: Fonts.OpenSans_SemiBold,
+    fontSize: FontSizes.os_small,
+    position: 'absolute',
+    left: 10,
+    top: 10,
   },
 })
 
