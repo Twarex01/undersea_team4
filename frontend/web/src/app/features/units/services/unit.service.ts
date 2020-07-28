@@ -4,7 +4,6 @@ import { CountryUnit } from '../country-unit';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { UnitDetail } from '../units-detail';
-import { UnitToBuy } from '../models/unitToBuy';
 
 @Injectable({
   providedIn: 'root'
