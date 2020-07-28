@@ -105,7 +105,7 @@ export class AttackPageComponent implements OnInit {
 
   isGeneralUnitSelected(): boolean {
     const generalUnit = this.units.find((u) => u.name == "Hadvezér");
-    if(generalUnit && generalUnit?.count > 0)
+    if(generalUnit && generalUnit?.countToAttack > 0)
       return true;
     return false;
   }
