@@ -47,7 +47,7 @@ namespace StrategyGame.Bll.Services
 		{
 			var battle = await _context.Battles.SingleOrDefaultAsync(b => b.ID == battleId);
 			var attackingcountry = await _context.Countries.SingleOrDefaultAsync(c => c.ID == battle.AttackingCountryID);
-			var generalCount = await CountUnitsOfTypeNotAtHome(attackingcountry.ID, 5);
+			var generalCount = await CountUnitsOfTypeNotAtHome(attackingcountry.ID, UnitData.General.ID);
 			var count = await _context.AttackingUnits.Include(a => a.Battle).Include(a => a.UnitData).Where(a => a.BattleID == battleId).SumAsync(x => x.Count * x.UnitData.ATK);
 
 			return count * (1 + generalCount * 0.01) * attackingcountry.AttackModifier;
@@ -58,7 +58,7 @@ namespace StrategyGame.Bll.Services
 		{
 			var battle = await _context.Battles.SingleOrDefaultAsync(b => b.ID == battleId);
 			var defendingcountry = await _context.Countries.SingleOrDefaultAsync(c => c.ID == battle.DefendingCountryID);
-			var generalCount = await CountUnitsOfTypeAtHome(defendingcountry.ID, 5);
+			var generalCount = await CountUnitsOfTypeAtHome(defendingcountry.ID, UnitData.General.ID);
 			var unitDatas = await _context.UnitData.ToListAsync();
 			double count = 0;
 			foreach (var unitData in unitDatas)
