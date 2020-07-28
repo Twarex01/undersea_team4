@@ -1,9 +1,9 @@
 export interface FightDetails {
-  country: string
+  defenderName: string
   units: UnitCount[]
 }
 
 export interface UnitCount {
-  count: number
   name: string
+  count: number
 }

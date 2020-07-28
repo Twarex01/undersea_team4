@@ -9,23 +9,22 @@ import {TouchableOpacity} from 'react-native-gesture-handler'
 interface Props {
   place: number
   username?: string
-  onPress: () => void
 }
 
-const RankingCard = ({place, username, onPress}: Props) => {
+const RankingCard = ({place, username}: Props) => {
   return (
-    <TouchableOpacity style={styles.touchableOpacity} onPress={onPress}>
+    <View style={styles.textView}>
       <Text style={[styles.text, Margins.mlNormal]}>
         {place}
         {'.'}
       </Text>
       <Text style={[styles.text, Margins.mlLarge]}>{username}</Text>
-    </TouchableOpacity>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
-  touchableOpacity: {
+  textView: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-start',

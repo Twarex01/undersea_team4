@@ -60,8 +60,10 @@ export class AttackPageComponent implements OnInit {
     this.attackService.getCountryUnits().subscribe((cus) => {
       cus.forEach((cu) => {
         const unit = this.units.find((u) => u.id == cu.id)!;
-        unit.count = cu.count;
-        unit.countToAttack = 0;
+        if(unit){
+          unit.count = cu.count;
+          unit.countToAttack = 0;
+        }
       })
     })
   }
@@ -98,14 +100,13 @@ export class AttackPageComponent implements OnInit {
   }
 
   isReadyToBuy(): boolean {
-    return this.selectedPlayerId !== -1 && this.areUnitsSelected();
+    return this.selectedPlayerId !== -1 && this.isGeneralUnitSelected();
   }
 
-  areUnitsSelected(): boolean {
-    for(let i = 0; i < this.units.length; i++){
-      if(this.units[i].countToAttack > 0)
-        return true;
-    }
+  isGeneralUnitSelected(): boolean {
+    const generalUnit = this.units.find((u) => u.name == "Hadvezér");
+    if(generalUnit && generalUnit?.countToAttack > 0)
+      return true;
     return false;
   }
 

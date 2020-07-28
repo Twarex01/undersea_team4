@@ -22,7 +22,7 @@ export class BattleClient {
 
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "https://undersea.azurewebsites.net/";
+        this.baseUrl = baseUrl ? baseUrl : "https://localhost:5001/";
     }
 
     attack(battleDTO: BattleDTO): Observable<void> {
@@ -262,7 +262,7 @@ export class CountryClient {
 
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "https://undersea.azurewebsites.net/";
+        this.baseUrl = baseUrl ? baseUrl : "https://localhost:5001/";
     }
 
     getCountryDeatils(): Observable<CountryDetailsDTO> {
@@ -786,7 +786,7 @@ export class DetailsClient {
 
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "https://undersea.azurewebsites.net/";
+        this.baseUrl = baseUrl ? baseUrl : "https://localhost:5001/";
     }
 
     getAllUpgradeDetails(): Observable<UpgradeDetailsDTO[]> {
@@ -975,7 +975,7 @@ export class LoginClient {
 
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "https://undersea.azurewebsites.net/";
+        this.baseUrl = baseUrl ? baseUrl : "https://localhost:5001/";
     }
 
     postLogin(loginDTO: LoginDTO): Observable<FileResponse | null> {
@@ -1037,7 +1037,7 @@ export class PlayersClient {
 
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "https://undersea.azurewebsites.net/";
+        this.baseUrl = baseUrl ? baseUrl : "https://localhost:5001/";
     }
 
     playerList(): Observable<RankDTO[]> {
@@ -1101,7 +1101,7 @@ export class RegisterClient {
 
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "https://undersea.azurewebsites.net/";
+        this.baseUrl = baseUrl ? baseUrl : "https://localhost:5001/";
     }
 
     postRegister(registerDTO: RegisterDTO): Observable<FileResponse | null> {
@@ -1163,7 +1163,7 @@ export class RoundClient {
 
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "https://undersea.azurewebsites.net/";
+        this.baseUrl = baseUrl ? baseUrl : "https://localhost:5001/";
     }
 
     nextRound(): Observable<void> {
@@ -1395,7 +1395,7 @@ export interface IBattleDTO {
 
 export class UnitDTO implements IUnitDTO {
     unitTypeID!: number;
-    count!: number;
+    unitCount!: number;
 
     constructor(data?: IUnitDTO) {
         if (data) {
@@ -1409,7 +1409,7 @@ export class UnitDTO implements IUnitDTO {
     init(_data?: any) {
         if (_data) {
             this.unitTypeID = _data["unitTypeID"];
-            this.count = _data["count"];
+            this.unitCount = _data["unitCount"];
         }
     }
 
@@ -1423,14 +1423,14 @@ export class UnitDTO implements IUnitDTO {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["unitTypeID"] = this.unitTypeID;
-        data["count"] = this.count;
+        data["unitCount"] = this.unitCount;
         return data; 
     }
 }
 
 export interface IUnitDTO {
     unitTypeID: number;
-    count: number;
+    unitCount: number;
 }
 
 export class BattleDetailsDTO implements IBattleDetailsDTO {

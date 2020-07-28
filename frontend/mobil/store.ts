@@ -7,12 +7,54 @@ import {BuildingStore} from './src/store/buildings/buildings.store'
 import {buildingReducer} from './src/store/buildings/buildings.reducer'
 import {PlayerStore} from './src/store/players/player.store'
 import {playerReducer} from './src/store/players/player.reducer'
+import {LoginStore} from './src/store/login/login.store'
+import {loginReducer} from './src/store/login/login.reducer'
+import {RoundStore} from './src/store/round/round.store'
+import {roundReducer} from './src/store/round/round.reducer'
+import {fightReducer} from './src/store/fights/fights.reducer'
+import {FightStore} from './src/store/fights/fights.store'
+import {myBuildingReducer} from './src/store/myBuildings/myBuildings.reducer'
+import {MyBuildingStore} from './src/store/myBuildings/myBuildings.store'
+import {MyUnitStore} from './src/store/myUnits/myUnits.store'
+import {myUnitReducer} from './src/store/myUnits/myUnits.reducer'
+import {MyUpgradeStore} from './src/store/myUpgrades/myUpgrades.store'
+import {myUpgradeReducer} from './src/store/myUpgrades/myUpgrades.reducer'
+import {CountryStore} from './src/store/country/country.store'
+import {countryReducer} from './src/store/country/country.reducer'
+import {ResourceStore} from './src/store/resources/resources.store'
+import {resourceReducer} from './src/store/resources/resources.reducer'
+import {registerReducer} from './src/store/register/register.reducer'
+import {RegisterStore} from './src/store/register/register.store'
+import {NextRoundStore} from './src/store/nextRound/nextRound.store'
+import {nextRoundReducer} from './src/store/nextRound/nextRound.reducer'
+import {ExplorationStore} from './src/store/explorations/explorations.store'
+import {explorationReducer} from './src/store/explorations/explorations.reducer'
+import {PutBuildingStore} from './src/store/putBuilding/putBuilding.store'
+import {putBuildingReducer} from './src/store/putBuilding/putBuilding.reducer'
+import {PutUpgradeStore} from './src/store/putUpgrade/putUpgrade.store'
+import {putUpgradeReducer} from './src/store/putUpgrade/putUpgrade.reducer'
+import {PutUnitsStore} from './src/store/putUnits/putUnits.store'
+import {putUnitsReducer} from './src/store/putUnits/putUnits.reducer'
 
 export interface IAppStore {
   upgrade: UpgradeStore
   unit: UnitStore
   building: BuildingStore
   player: PlayerStore
+  login: LoginStore
+  round: RoundStore
+  fight: FightStore
+  myBuilding: MyBuildingStore
+  myUnit: MyUnitStore
+  myUpgrade: MyUpgradeStore
+  country: CountryStore
+  resource: ResourceStore
+  register: RegisterStore
+  nextRound: NextRoundStore
+  exploration: ExplorationStore
+  putBuilding: PutBuildingStore
+  putUpgrade: PutUpgradeStore
+  putUnits: PutUnitsStore
 }
 
 export interface IApplicationState {
@@ -34,6 +76,20 @@ export const appReducer = combineReducers<IAppStore>({
   unit: unitReducer,
   building: buildingReducer,
   player: playerReducer,
+  login: loginReducer,
+  round: roundReducer,
+  fight: fightReducer,
+  myBuilding: myBuildingReducer,
+  myUnit: myUnitReducer,
+  myUpgrade: myUpgradeReducer,
+  country: countryReducer,
+  resource: resourceReducer,
+  register: registerReducer,
+  nextRound: nextRoundReducer,
+  exploration: explorationReducer,
+  putBuilding: putBuildingReducer,
+  putUpgrade: putUpgradeReducer,
+  putUnits: putUnitsReducer,
 })
 
 export const appRootReducer: Reducer<IAppStore> = (

@@ -15,13 +15,16 @@ interface Props {
   count: number
   round: string
   style: StyleProp<ViewStyle>
+  imageStyle?: StyleProp<ViewStyle>
   image: ImageSourcePropType
 }
 
-const MenuButton = ({count, round, style, image}: Props) => {
+const MenuButton = ({count, round, style, image, imageStyle}: Props) => {
   return (
     <View style={[styles.popupIconContainer, style]}>
-      <Image source={image} />
+      <View style={[styles.imageBackground]}>
+        <Image source={image} style={styles.image} />
+      </View>
       <Text style={styles.menuButtonText}>{count}</Text>
       <Text style={styles.menuButtonText}>{round}</Text>
     </View>
@@ -37,6 +40,20 @@ const styles = StyleSheet.create({
     color: Colors.middleBlue,
     fontSize: FontSizes.b2_normal,
     fontFamily: Fonts.Baloo2_ExtraBold,
+  },
+  image: {
+    height: 25,
+    width: 25,
+  },
+  imageBackground: {
+    backgroundColor: Colors.vibrantLightBlue,
+    height: 35,
+    width: 35,
+    borderColor: Colors.lightBlue,
+    borderRadius: 5,
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 })
 

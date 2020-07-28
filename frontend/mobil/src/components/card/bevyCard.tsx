@@ -7,9 +7,13 @@ import {Strings} from '../../constants/strings'
 import {Colors} from '../../constants/colors'
 import {Margins} from '../../constants/margins'
 import {TouchableOpacity} from 'react-native-gesture-handler'
+import {Config} from '../../constants/config'
+import {useSelector} from 'react-redux'
+import {IApplicationState} from '../../../store'
 
 interface Props {
-  image: ImageSourcePropType
+  unitTypeID?: number
+  image: string
   name?: string
   attack: number
   defense: number
@@ -19,13 +23,14 @@ interface Props {
   salaryType: string
   consumptionType: string
   priceType: string
-  onMinusPress: () => void
-  onPlusPress: () => void
+  onMinusPress?: () => void
+  onPlusPress?: () => void
   count: number
   number?: number
 }
 
 const BevyCard = ({
+  unitTypeID,
   image,
   name,
   attack,
@@ -36,15 +41,25 @@ const BevyCard = ({
   salaryType,
   consumptionType,
   priceType,
-  onMinusPress,
-  onPlusPress,
   count,
   number,
 }: Props) => {
+  const {putUnits} = useSelector(
+    (state: IApplicationState) => state.app.putUnits,
+  )
+
+  const onMinusPressed = () => {}
+  const onPlusPressed = () => {}
+
   return (
     <View>
       <View style={styles.centerView}>
-        <Image source={image} style={[Margins.mtBig, Margins.mbNormal]} />
+        <View style={[styles.imageBackground, Margins.mtBig, Margins.mbNormal]}>
+          <Image
+            source={{uri: `${Config.baseURL}${image}`}}
+            style={[styles.image]}
+          />
+        </View>
         <Text style={styles.nameText}>{name}</Text>
       </View>
       <View style={[styles.rowView, Margins.mtBig, Margins.mbBig]}>
@@ -78,13 +93,13 @@ const BevyCard = ({
         </View>
       </View>
       <View style={[styles.buttonView, Margins.mbBig]}>
-        <TouchableOpacity onPress={onMinusPress}>
+        <TouchableOpacity onPress={onMinusPressed}>
           <Image source={Images.minus} />
         </TouchableOpacity>
         <Text style={[styles.numberText, Margins.mlLarge, Margins.mrLarge]}>
-          {'3'}
+          {number}
         </Text>
-        <TouchableOpacity onPress={onPlusPress}>
+        <TouchableOpacity onPress={onPlusPressed}>
           <Image source={Images.plus} />
         </TouchableOpacity>
       </View>
@@ -124,6 +139,20 @@ const styles = StyleSheet.create({
   },
   buttonView: {
     flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  image: {
+    height: 50,
+    width: 50,
+  },
+  imageBackground: {
+    backgroundColor: Colors.vibrantLightBlue,
+    height: 80,
+    width: 80,
+    borderColor: Colors.lightBlue,
+    borderRadius: 10,
+    borderWidth: 2,
     justifyContent: 'center',
     alignItems: 'center',
   },

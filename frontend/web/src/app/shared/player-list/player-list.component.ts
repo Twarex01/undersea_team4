@@ -21,8 +21,12 @@ export class PlayerListComponent implements OnInit {
 
   onPlayerClick(index: number) {
     this.playerList[this.selectedPlayerIndex].isSelected = false;
-    this.playerList[index].isSelected = true;
-    this.selectedPlayerIndex = index;
+    let actualPlayerList = this.getPlayerList();
+    let userName = actualPlayerList[index].name;
+
+    let playerIdx = this.playerList.findIndex((player) => player.name == userName)!;
+    this.playerList[playerIdx].isSelected = true;
+    this.selectedPlayerIndex = playerIdx;
     this.selectedPlayerChanged.emit(this.playerList[this.selectedPlayerIndex].id);
   }
 

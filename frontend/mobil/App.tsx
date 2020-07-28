@@ -28,6 +28,7 @@ import {Fonts, FontSizes} from './src/constants/fonts'
 import {Colors} from './src/constants/colors'
 import {Images} from './src/constants/images'
 import CityScreen from './src/screens/cityScreen'
+import UnitScreen from './src/screens/unitScreen'
 
 const RootStack = createStackNavigator()
 const LoginStack = createStackNavigator()
@@ -37,6 +38,7 @@ function RootStackScreen() {
     <RootStack.Navigator mode={'modal'} screenOptions={{headerShown: false}}>
       <RootStack.Screen name={'LoginStack'} component={LoginStackScreen} />
       <RootStack.Screen name={Screens.Profil} component={ProfilScreen} />
+      <RootStack.Screen name={Screens.Ranking} component={RankingScreen} />
     </RootStack.Navigator>
   )
 }
@@ -86,7 +88,7 @@ function TabStackScreen() {
             iconPath = Images.city_tab
           } else if (route.name === Screens.AttackFirst) {
             iconPath = Images.attack_tab
-          } else if (route.name === Screens.Fight) {
+          } else if (route.name === Screens.Unit) {
             iconPath = Images.bevy_tab
           }
           color = focused ? Colors.darkBlue : Colors.lightGray
@@ -104,7 +106,7 @@ function TabStackScreen() {
         name={Screens.AttackFirst}
         component={AttackStackScreen}
       />
-      <TabStack.Screen name={Screens.Fight} component={FightScreen} />
+      <TabStack.Screen name={Screens.Unit} component={UnitScreen} />
     </TabStack.Navigator>
   )
 }

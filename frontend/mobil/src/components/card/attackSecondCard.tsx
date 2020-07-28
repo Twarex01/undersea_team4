@@ -1,43 +1,47 @@
-import React from 'react'
-import {
-  View,
-  StyleSheet,
-  ImageSourcePropType,
-  Image,
-  StyleProp,
-  ViewStyle,
-  Text,
-} from 'react-native'
+import React, {useState} from 'react'
+import {View, StyleSheet, Image, StyleProp, ViewStyle, Text} from 'react-native'
 import {Margins} from '../../constants/margins'
 import {Colors} from '../../constants/colors'
 import {Fonts, FontSizes} from '../../constants/fonts'
-import {Strings} from '../../constants/strings'
 import Slider from '@react-native-community/slider'
+import {Config} from '../../constants/config'
 
 interface Props {
-  image: ImageSourcePropType
+  image: string
   name?: string
-  number: number
+  //count: number
   style?: StyleProp<ViewStyle>
-  count: number
+  maxCount: number
 }
 
-const AttackSecondCard = ({image, name, number, style, count}: Props) => {
+const AttackSecondCard = ({image, name, style, maxCount}: Props) => {
+  const [count, setCount] = useState(0)
+
   return (
     <View style={[styles.container, style]}>
-      <Image source={image} />
+      <View style={[styles.imageBackground, Margins.mtBig, Margins.mbNormal]}>
+        <Image
+          source={{uri: `${Config.baseURL}${image}`}}
+          style={[styles.image]}
+        />
+      </View>
+
       <View style={[styles.contentView, Margins.mlBig]}>
         <Text style={[styles.nameText, Margins.mbNormal]}>
-          {name} {number} {Strings.copy}
+          {name}
+          {': '} {count}
+          {'/'}
+          {maxCount}
         </Text>
         <Slider
           style={styles.slider}
           minimumValue={0}
-          maximumValue={count}
+          maximumValue={maxCount}
           step={1}
           thumbTintColor={Colors.vibrantLightBlue}
           minimumTrackTintColor={Colors.vibrantLightBlue}
           maximumTrackTintColor={Colors.lightGray}
+          onValueChange={setCount}
         />
       </View>
     </View>
@@ -61,6 +65,20 @@ const styles = StyleSheet.create({
   },
   slider: {
     width: '100%',
+  },
+  image: {
+    height: 40,
+    width: 40,
+  },
+  imageBackground: {
+    backgroundColor: Colors.vibrantLightBlue,
+    height: 60,
+    width: 60,
+    borderColor: Colors.lightBlue,
+    borderRadius: 10,
+    borderWidth: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 })
 

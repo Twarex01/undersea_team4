@@ -15,15 +15,13 @@ export function* upgradeSaga() {
 }
 
 function* watchPost() {
-  yield debounce(1000, GET_UPGRADES_REQUEST, getUpgradesActionWatcher)
+  yield takeEvery(GET_UPGRADES_REQUEST, getUpgradesActionWatcher)
 }
 
 function* getUpgradesActionWatcher(action: GetUpgradesRequestAction) {
   try {
-    //const response: AxiosResponse<UpgradesResponse> = yield upgradeService.getUpgrades()
-    const response: UpgradesResponse = yield upgradeService.getUpgrades()
-    //yield put(getUpgradesSuccessActionCreator(response.data.upgrades))
-    yield put(getUpgradesSuccessActionCreator(response))
+    const response: AxiosResponse<UpgradesResponse> = yield upgradeService.getUpgrades()
+    yield put(getUpgradesSuccessActionCreator(response.data))
   } catch (error) {
     console.log(error.response)
     const errorMessage = 'Hiba'

@@ -1,3 +1,3 @@
 export const Config = {
-  baseUrl: 'https://undersea.azurewebsites.net',
+  baseURL: 'https://undersea.azurewebsites.net',
 }

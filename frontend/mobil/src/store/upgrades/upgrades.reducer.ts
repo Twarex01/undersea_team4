@@ -14,21 +14,21 @@ export const upgradeReducer = (
     case GET_UPGRADES_REQUEST:
       return {
         ...state,
-        error: undefined,
-        isLoading: true,
+        upgradesError: undefined,
+        isUpgradesLoading: true,
       }
     case GET_UPGRADES_SUCCESS:
       return {
         ...state,
-        error: undefined,
-        isLoading: false,
+        upgradesError: undefined,
+        isUpgradesLoading: false,
         upgrades: action.response,
       }
     case GET_UPGRADES_FAILURE:
       return {
         ...state,
-        error: action.reason,
-        isLoading: false,
+        upgradesError: action.reason,
+        isUpgradesLoading: false,
         upgrades: [],
       }
     default:

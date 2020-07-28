@@ -7,8 +7,10 @@ export const Screens = {
   AttackFirst: 'Támadás',
   AttackSecond: 'AttackSecond',
   Upgrades: 'Fejlesztések',
-  Fight: 'Csapataim',
+  Fight: 'Csapatok',
   Bevy: 'Sereg',
   Profil: 'Profils',
   Ranking: 'Ranking',
+  Exploration: 'Felfedezők',
+  Unit: 'Csapataim',
 }

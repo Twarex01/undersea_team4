@@ -1,13 +1,13 @@
 import {UnitDetails} from '../../model/unit/unitDetails'
 
 export interface UnitStore {
-  isLoading: boolean
-  error: string | undefined
+  isUnitsLoading: boolean
+  unitsError: string | undefined
   units: UnitDetails[]
 }
 
 export const initialUnitStore: UnitStore = {
-  isLoading: false,
-  error: undefined,
+  isUnitsLoading: false,
+  unitsError: undefined,
   units: [],
 }

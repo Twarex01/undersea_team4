@@ -796,12 +796,27 @@ namespace StrategyGame.Dal.Migrations
                             Consumption = 1,
                             ConsumptionUnitID = 1,
                             DEF = 0,
-                            ImageURL = "/Assets/Units/shark.png",
+                            ImageURL = "/Assets/Units/exploradora.png",
                             Name = "Felfedező",
                             PointValue = 0,
                             Price = 50,
                             PriceUnitID = 2,
                             Salary = 1,
+                            SalaryUnitID = 2
+                        },
+                        new
+                        {
+                            ID = 5,
+                            ATK = 0,
+                            Consumption = 2,
+                            ConsumptionUnitID = 1,
+                            DEF = 0,
+                            ImageURL = "/Assets/Units/exploradora.png",
+                            Name = "Hadvezér",
+                            PointValue = 0,
+                            Price = 200,
+                            PriceUnitID = 2,
+                            Salary = 4,
                             SalaryUnitID = 2
                         });
                 });

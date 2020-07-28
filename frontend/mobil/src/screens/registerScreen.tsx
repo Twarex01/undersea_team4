@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import LoginTemplate from '../components/login/loginTemplate'
 import CustomTextInput from '../components/text-input/customTextInput'
 import {StackNavigationProp} from '@react-navigation/stack'
@@ -6,30 +6,44 @@ import {Margins} from '../constants/margins'
 import {Strings} from '../constants/strings'
 import {Screens} from '../constants/screens'
 import {Colors} from '../constants/colors'
+import {useDispatch} from 'react-redux'
+import {postRegister} from '../store/register/register.actions'
 
 interface LoninScreenProps {
   navigation: StackNavigationProp<any>
 }
 
 const RegisterScreen = ({navigation}: LoninScreenProps) => {
-  const [username, setUsername] = useState(Strings.user_name)
+  const [userName, setUsername] = useState(Strings.user_name)
   const [password, setPassword] = useState(Strings.password)
-  const [password2, setPassword2] = useState(Strings.password_again)
-  const [country, setCountry] = useState(Strings.city_name_what_you_bulid)
+  const [passwordConfirmation, setPassword2] = useState(Strings.password_again)
+  const [countryName, setCountry] = useState(Strings.city_name_what_you_bulid)
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {})
+
+  const onRegisterPress = () => {
+    dispatch(
+      postRegister(
+        {userName, password, passwordConfirmation, countryName},
+        successAction,
+      ),
+    )
+  }
+  const successAction = () => {
+    navigation.replace(Screens.Login)
+  }
 
   const onLoginPress = () => {
-    navigation.replace(Screens.Main)
-  }
-  const onRegisterPress = () => {
     navigation.replace(Screens.Login)
   }
   return (
     <LoginTemplate
       title={Strings.registration}
-      text={Strings.registration_text}
-      change={Strings.registration_replace_text}
-      onPressButton={onLoginPress}
-      onPressChange={onRegisterPress}>
+      change={Strings.login}
+      onPressButton={onRegisterPress}
+      onPressChange={onLoginPress}>
       <CustomTextInput
         placeholder={Strings.user_name}
         placeholderTextColor={Colors.darkBlue}

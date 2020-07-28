@@ -1,7 +1,13 @@
-import React from 'react'
-import {View, Text, StyleSheet, ListRenderItemInfo, Image} from 'react-native'
+import React, {useEffect} from 'react'
+import {
+  View,
+  Text,
+  StyleSheet,
+  ListRenderItemInfo,
+  Image,
+  RefreshControl,
+} from 'react-native'
 import {Colors} from '../constants/colors'
-import ScrollablePagesTemplate from '../components/pages/scrollablePagesTemplate'
 import {Strings} from '../constants/strings'
 import {Fonts, FontSizes} from '../constants/fonts'
 import TransparentButton from '../components/button/transparentButton'
@@ -12,49 +18,78 @@ import {Images} from '../constants/images'
 import PagesTemplate from '../components/pages/pagesTemplate'
 import {FlatList, TouchableOpacity} from 'react-native-gesture-handler'
 import {Margins} from '../constants/margins'
-import SeparatorComponent from '../components/separator/separatorComponent'
-
-const unitDetailsList: UnitDetails[] = [
-  {
-    unitTypeID: 1,
-    name: 'Lézercápa',
-    count: 50,
-    attack: 5,
-    def: 5,
-    pay: 1,
-    supply: 1,
-    price: 200,
-  },
-  {
-    unitTypeID: 2,
-    name: 'Rohamfóka',
-    count: 75,
-    attack: 5,
-    def: 5,
-    pay: 1,
-    supply: 1,
-    price: 200,
-  },
-]
+import {IApplicationState} from '../../store'
+import {useSelector, useDispatch} from 'react-redux'
+import {createSelector} from 'reselect'
+import {MyUnitDetails} from '../model/unit/myUnitDetails'
+import {getUnits} from '../store/units/units.actions'
+import {getMyUnits} from '../store/myUnits/myUnits.actions'
 
 interface AttacSecondScreenProps {
   navigation: StackNavigationProp<any>
 }
 
 const AttacSecondScreen = ({navigation}: AttacSecondScreenProps) => {
+  const {unitsError, isUnitsLoading} = useSelector(
+    (state: IApplicationState) => state.app.unit,
+  )
+  const {myUnitsError, isMyUnitsLoading} = useSelector(
+    (state: IApplicationState) => state.app.myUnit,
+  )
+
+  const unitDetailsSelector = createSelector(
+    (state: IApplicationState) => state.app,
+    appstate =>
+      appstate.myUnit.myUnits.map(myUnit => {
+        const unitInfo = appstate.unit.units.find(
+          u => myUnit.unitTypeID === u.unitTypeID,
+        )
+        return {
+          unitTypeID: unitInfo?.unitTypeID,
+          name: unitInfo?.name,
+          atk: unitInfo?.atk,
+          def: unitInfo?.def,
+          salary: unitInfo?.salary,
+          consumption: unitInfo?.consumption,
+          price: unitInfo?.price,
+          salaryTypeName: unitInfo?.salaryTypeName,
+          consumptionTypeName: unitInfo?.consumptionTypeName,
+          priceTypeName: unitInfo?.priceTypeName,
+          imageURL: unitInfo?.imageURL,
+          count: myUnit.count,
+        }
+      }),
+  )
+
+  const units = useSelector(unitDetailsSelector)
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getUnits())
+    dispatch(getMyUnits())
+  }, [dispatch])
+
+  const refreshUnits = () => {
+    dispatch(getUnits())
+    dispatch(getMyUnits())
+  }
+
   const onBackPressed = () => {
     navigation.pop(1)
   }
   const onAttackPressed = () => {}
-  const renderItem = (itemInfo: ListRenderItemInfo<UnitDetails>) => {
-    const {name, count} = itemInfo.item
+  const renderItem = (
+    itemInfo: ListRenderItemInfo<UnitDetails & MyUnitDetails>,
+  ) => {
+    const {name, count, imageURL} = itemInfo.item
     return (
       <AttackSecondCard
         style={[Margins.mtBig, Margins.mbBig]}
-        image={Images.profil}
+        image={imageURL}
         name={name}
-        count={count}
-        number={2}
+        maxCount={count}
+        // count={count}
       />
     )
   }
@@ -75,7 +110,7 @@ const AttacSecondScreen = ({navigation}: AttacSecondScreenProps) => {
       <TouchableOpacity
         style={[styles.footerButton, Margins.mtBig]}
         onPress={onBackPressed}>
-        <Image source={Images.profil_icon} />
+        <Image source={Images.back_arrow} style={styles.footerImage} />
         <Text style={[styles.footerText, Margins.mlNormal]}>
           {Strings.back}
         </Text>
@@ -91,13 +126,19 @@ const AttacSecondScreen = ({navigation}: AttacSecondScreenProps) => {
     <View style={styles.container}>
       <PagesTemplate title={Strings.attack}>
         <FlatList
-          data={unitDetailsList}
+          data={units}
           renderItem={renderItem}
           ListHeaderComponent={renderHeaderComponent}
           ListFooterComponent={renderFooterComponent}
           keyExtractor={keyExtractor}
           style={styles.flatlistPadding}
           contentContainerStyle={{paddingBottom: 120}}
+          refreshControl={
+            <RefreshControl
+              refreshing={isUnitsLoading && isMyUnitsLoading}
+              onRefresh={refreshUnits}
+            />
+          }
         />
       </PagesTemplate>
       <TransparentButton
@@ -131,6 +172,9 @@ const styles = StyleSheet.create({
   },
   footerButton: {
     flexDirection: 'row',
+  },
+  footerImage: {
+    tintColor: Colors.vibrantLightBlue,
   },
   footerText: {
     color: Colors.vibrantLightBlue,

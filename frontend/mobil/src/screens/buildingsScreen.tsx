@@ -1,58 +1,110 @@
-import React, {useEffect} from 'react'
-import {View, Text, StyleSheet, ListRenderItemInfo} from 'react-native'
+import React, {useEffect, useState} from 'react'
+import {
+  View,
+  Text,
+  StyleSheet,
+  ListRenderItemInfo,
+  RefreshControl,
+} from 'react-native'
 import {Colors} from '../constants/colors'
-import ScrollablePagesTemplate from '../components/pages/scrollablePagesTemplate'
 import {Strings} from '../constants/strings'
 import {Fonts, FontSizes} from '../constants/fonts'
 import {Margins} from '../constants/margins'
 import BuildingCard from '../components/card/buildingCard'
-import {Images} from '../constants/images'
 import {BuildingDetails} from '../model/building/buildingDetails'
-import {UpgradeDetails} from '../model/upgrade/upgradeDetails'
-import PagesTemplate from '../components/pages/pagesTemplate'
-import {FlatList} from 'react-native-gesture-handler'
-import TransparentButton from '../components/button/transparentButton'
-import {StackNavigationProp} from '@react-navigation/stack'
+import {FlatList, TouchableOpacity} from 'react-native-gesture-handler'
 import {useSelector, useDispatch} from 'react-redux'
 import {IApplicationState} from '../../store'
 import {getBuildings} from '../store/buildings/buildings.actions'
+import {getMyBuildings} from '../store/myBuildings/myBuildings.action'
+import {createSelector} from 'reselect'
+import {MyBuildingDetails} from '../model/building/myBuildingDetails'
+import TransparentButton from '../components/button/transparentButton'
+import {putBuilding} from '../store/putBuilding/putBuilding.actions'
 
-interface BuildingsScreenProps {
-  navigation: StackNavigationProp<any>
-}
-
-const BuildingsScreen = ({navigation}: BuildingsScreenProps) => {
-  const {buildings, error, isLoading} = useSelector(
+const BuildingsScreen = () => {
+  const {buildingsError, isBuildingsLoading} = useSelector(
     (state: IApplicationState) => state.app.building,
   )
+  const {myBuildingsError, isMyBuildingsLoading} = useSelector(
+    (state: IApplicationState) => state.app.myBuilding,
+  )
+
+  const buildingsDataSelector = createSelector(
+    (state: IApplicationState) => state.app,
+    appstate =>
+      appstate.building.buildings.map(building => {
+        const myBuildingInfo = appstate.myBuilding.myBuildings.find(
+          b => building.buildingTypeID === b.buildingTypeID,
+        )
+        return {
+          buildingTypeID: building.buildingTypeID,
+          name: building.name,
+          prices: building.prices,
+          effect: building.effect,
+          buildTime: building.buildTime,
+          imageURL: building.imageURL,
+          progress: myBuildingInfo?.progress,
+          count: myBuildingInfo?.count,
+        }
+      }),
+  )
+
+  const buildings = useSelector(buildingsDataSelector)
+
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(getBuildings())
+    dispatch(getMyBuildings())
   }, [dispatch])
 
-  const onBuyPressed = () => {}
+  const refreshBuildings = () => {
+    dispatch(getBuildings())
+    dispatch(getMyBuildings())
+  }
 
-  const renderItem = (itemInfo: ListRenderItemInfo<BuildingDetails>) => {
+  const [index, setIndex] = useState(-1)
+  const [disabled, setDisabled] = useState(false)
+
+  const onBuyPressed = () => {
+    if (!(index === -1)) dispatch(putBuilding(index))
+  }
+
+  const renderItem = (
+    itemInfo: ListRenderItemInfo<BuildingDetails & MyBuildingDetails>,
+  ) => {
     const {
       buildingTypeID,
       name,
-      price,
-      priceTypeName,
+      prices,
       effect,
       buildTime,
       imageURL,
+      progress,
+      count,
     } = itemInfo.item
+
+    const onItemPressed = () => {
+      if (index === buildingTypeID) {
+        setIndex(-1)
+      } else {
+        setIndex(buildingTypeID)
+      }
+    }
     return (
-      <BuildingCard
-        style={Margins.mbNormal}
-        name={name}
-        price={price}
-        priceType={priceTypeName}
-        description={effect}
-        image={Images.reef_castle}
-        count={5}
-      />
+      <TouchableOpacity onPress={onItemPressed} disabled={disabled}>
+        <BuildingCard
+          style={Margins.mbNormal}
+          name={name}
+          prices={prices}
+          description={effect}
+          image={imageURL}
+          count={count ? count : 0}
+          selected={index === buildingTypeID ? true : false}
+          disabled={disabled}
+        />
+      </TouchableOpacity>
     )
   }
 
@@ -72,14 +124,28 @@ const BuildingsScreen = ({navigation}: BuildingsScreenProps) => {
   }
 
   return (
-    <FlatList
-      data={buildings}
-      renderItem={renderItem}
-      ListHeaderComponent={renderHeaderComponent}
-      keyExtractor={keyExtractor}
-      style={styles.flatlistPadding}
-      contentContainerStyle={{paddingBottom: 120}}
-    />
+    <View style={styles.container}>
+      <FlatList
+        data={buildings}
+        renderItem={renderItem}
+        ListHeaderComponent={renderHeaderComponent}
+        keyExtractor={keyExtractor}
+        style={styles.flatlistPadding}
+        contentContainerStyle={{paddingBottom: 120}}
+        refreshControl={
+          <RefreshControl
+            refreshing={isBuildingsLoading && isMyBuildingsLoading}
+            onRefresh={refreshBuildings}
+          />
+        }
+      />
+      <TransparentButton
+        title={Strings.buy}
+        onPress={onBuyPressed}
+        style={styles.button}
+        disabled={index === -1 ? true : false}
+      />
+    </View>
   )
 }
 
@@ -101,6 +167,10 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 25,
     paddingHorizontal: 20,
+  },
+  button: {
+    position: 'absolute',
+    bottom: 0,
   },
 })
 

@@ -148,7 +148,8 @@ namespace StrategyGame.Dal
                 StrategyGame.Model.UnitData.AssaultSeal,
                 StrategyGame.Model.UnitData.BattleSeaHorse,
                 StrategyGame.Model.UnitData.LaserShark,
-                StrategyGame.Model.UnitData.Explorer
+                StrategyGame.Model.UnitData.Explorer,
+                StrategyGame.Model.UnitData.General
             });
 
             builder.Entity<Round>().HasKey(r=> r.ID);

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {
   View,
   StyleSheet,
@@ -10,75 +10,166 @@ import {Colors} from '../../constants/colors'
 import PopupIcon from '../icon/popupIcon'
 import {Images} from '../../constants/images'
 import {Margins} from '../../constants/margins'
-import WhiteButton from '../button/whiteButton'
+import PopupButton from '../button/popupButton'
 import Constants from 'expo-constants'
+import {useDispatch, useSelector} from 'react-redux'
+import {getResources} from '../../store/resources/resources.actions'
+import {getMyBuildings} from '../../store/myBuildings/myBuildings.action'
+import {getMyUnits} from '../../store/myUnits/myUnits.actions'
+import {IApplicationState} from '../../../store'
+import {State} from 'react-native-gesture-handler'
+import {createSelector} from 'reselect'
+import {ResourceDetails} from '../../model/resources/resourceDetails'
+import {Config} from '../../constants/config'
+import {UnitDetails} from '../../model/unit/unitDetails'
+import {MyUnitDetails} from '../../model/unit/myUnitDetails'
+import {getUnits} from '../../store/units/units.actions'
+import {getBuildings} from '../../store/buildings/buildings.actions'
+import {BuildingDetails} from '../../model/building/buildingDetails'
+import {MyBuildingDetails} from '../../model/building/myBuildingDetails'
 
-interface Props {
-  shell: number
-  coral: number
-}
-
-const PopupMenu = ({shell, coral}: Props) => {
+const PopupMenu = () => {
   //28 button, 56 header, statusbar
   var screenHeight =
     Dimensions.get('window').height - 28 - 50 - Constants.statusBarHeight
   const [isClosed, setIsClosed] = useState(true)
+
+  const {resources, isLoading, error} = useSelector(
+    (state: IApplicationState) => state.app.resource,
+  )
+
+  const {isMyBuildingsLoading, myBuildingsError} = useSelector(
+    (state: IApplicationState) => state.app.myBuilding,
+  )
+  const {buildingsError, isBuildingsLoading} = useSelector(
+    (state: IApplicationState) => state.app.building,
+  )
+
+  const {isMyUnitsLoading, myUnitsError} = useSelector(
+    (state: IApplicationState) => state.app.myUnit,
+  )
+  const {unitsError, isUnitsLoading} = useSelector(
+    (state: IApplicationState) => state.app.unit,
+  )
+
+  const buildingsDataSelector = createSelector(
+    (state: IApplicationState) => state.app,
+    appstate =>
+      appstate.building.buildings.map(building => {
+        const myBuildingInfo = appstate.myBuilding.myBuildings.find(
+          b => building.buildingTypeID === b.buildingTypeID,
+        )
+        return {
+          buildingTypeID: building.buildingTypeID,
+          name: building.name,
+          prices: building.prices,
+          effect: building.effect,
+          buildTime: building.buildTime,
+          imageURL: building.imageURL,
+          iconURL: building.iconURL,
+          backgroundURL: building.backgroundURL,
+          progress: myBuildingInfo?.progress,
+          count: myBuildingInfo?.count,
+        }
+      }),
+  )
+  const unitDetailsSelector = createSelector(
+    (state: IApplicationState) => state.app,
+    appstate =>
+      appstate.unit.units.map(unit => {
+        const myUnitInfo = appstate.myUnit.myUnits.find(
+          u => unit.unitTypeID === u.unitTypeID,
+        )
+        return {
+          unitTypeID: unit.unitTypeID,
+          name: unit.name,
+          atk: unit.atk,
+          def: unit.def,
+          salary: unit.salary,
+          consumption: unit.consumption,
+          price: unit.price,
+          salaryTypeName: unit.salaryTypeName,
+          consumptionTypeName: unit.consumptionTypeName,
+          priceTypeName: unit.priceTypeName,
+          imageURL: unit.imageURL,
+          count: myUnitInfo?.count,
+        }
+      }),
+  )
+
+  const units = useSelector(unitDetailsSelector)
+  const buildings = useSelector(buildingsDataSelector)
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getResources())
+    dispatch(getMyBuildings())
+    dispatch(getBuildings())
+    dispatch(getMyUnits())
+    dispatch(getUnits())
+  }, [dispatch])
 
   const onPress = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
     setIsClosed(!isClosed)
   }
 
+  const unitItem = (item: UnitDetails & MyUnitDetails, index: number) => {
+    const {count, imageURL} = item
+    return (
+      <PopupIcon
+        key={`${item}${index}`}
+        image={{uri: `${Config.baseURL}${imageURL}`}}
+        count={count ? count : 0}
+        round={''}
+        style={[Margins.mrNormal, Margins.mlNormal]}
+      />
+    )
+  }
+
+  const resourceItem = (item: ResourceDetails, index: number) => {
+    const {amount, production, imageURL} = item
+    return (
+      <PopupIcon
+        key={`${item}${index}`}
+        image={{uri: `${Config.baseURL}${imageURL}`}}
+        count={amount}
+        round={`${production}/kör`}
+        style={[Margins.mrNormal, Margins.mlNormal]}
+      />
+    )
+  }
+
+  const buildingsItem = (
+    item: BuildingDetails & MyBuildingDetails,
+    index: number,
+  ) => {
+    const {iconURL, count} = item
+    return (
+      <PopupIcon
+        key={`${item}${index}`}
+        image={{uri: `${Config.baseURL}${iconURL}`}}
+        count={count}
+        round={''}
+        style={[Margins.mrNormal, Margins.mlNormal]}
+      />
+    )
+  }
+
   return (
     <View
       style={[styles.container, isClosed ? {top: screenHeight} : {bottom: 0}]}>
-      <WhiteButton onPress={onPress} isClosed={isClosed} />
+      <PopupButton onPress={onPress} isClosed={isClosed} />
       <View style={styles.transparentView}>
         <View style={[styles.rowView, Margins.mtLarge]}>
-          <PopupIcon
-            image={Images.shark_icon}
-            count={0}
-            round={''}
-            style={[Margins.mrNormal, Margins.mlNormal]}
-          />
-          <PopupIcon
-            image={Images.seal_icon}
-            count={5}
-            round={''}
-            style={[Margins.mrNormal, Margins.mlNormal]}
-          />
-          <PopupIcon
-            image={Images.seahorse_icon}
-            count={13}
-            round={''}
-            style={[Margins.mrNormal, Margins.mlNormal]}
-          />
+          {units.map((item, index) => unitItem(item, index))}
         </View>
         <View style={[styles.rowView, Margins.mbLarge]}>
-          <PopupIcon
-            image={Images.shell_icon}
-            count={shell}
-            round={'12/kör'}
-            style={[Margins.mrNormal, Margins.mlNormal]}
-          />
-          <PopupIcon
-            image={Images.coral_icon}
-            count={coral}
-            round={'12/kör'}
-            style={[Margins.mrNormal, Margins.mlNormal]}
-          />
-          <PopupIcon
-            image={Images.reef_castle_icon}
-            count={1}
-            round={''}
-            style={[Margins.mrNormal, Margins.mlNormal]}
-          />
-          <PopupIcon
-            image={Images.flow_control_icon}
-            count={0}
-            round={''}
-            style={[Margins.mrNormal, Margins.mlNormal]}
-          />
+          {resources.map((item, index) => resourceItem(item, index))}
+        </View>
+        <View style={[styles.rowView]}>
+          {buildings.map((item, index) => buildingsItem(item, index))}
         </View>
       </View>
     </View>

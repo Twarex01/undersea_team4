@@ -1,5 +1,5 @@
-import React from 'react'
-import {View, Text, StyleSheet, Image} from 'react-native'
+import React, {useEffect} from 'react'
+import {View, Text, StyleSheet, Image, AsyncStorage} from 'react-native'
 import {Colors} from '../constants/colors'
 import ScrollablePagesTemplate from '../components/pages/scrollablePagesTemplate'
 import {Strings} from '../constants/strings'
@@ -10,19 +10,37 @@ import {StackNavigationProp} from '@react-navigation/stack'
 import {Screens} from '../constants/screens'
 import PagesTemplateBack from '../components/pages/pagesTemplateBack'
 import {TouchableOpacity} from 'react-native-gesture-handler'
+import {Token} from '../constants/token'
+import {useSelector, useDispatch} from 'react-redux'
+import {IApplicationState} from '../../store'
+import {getCountry} from '../store/country/country.actions'
 
 interface ProfilScreenProps {
   navigation: StackNavigationProp<any>
 }
 
 const ProfilScreen = ({navigation}: ProfilScreenProps) => {
+  const {country, isLoading, error} = useSelector(
+    (state: IApplicationState) => state.app.country,
+  )
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getCountry())
+  }, [dispatch])
+
   const onBackPressed = () => {
     navigation.goBack()
   }
-  const onEditPressed = () => {
-    //navigation.navigate(Screens.Ranking)
+  const onEditPressed = () => {}
+
+  const setToken = async () => {
+    await AsyncStorage.setItem(Token.ACCESS_TOKEN, '')
   }
+
   const onLogoutPressed = () => {
+    setToken()
     navigation.goBack()
     navigation.replace(Screens.Login)
   }
@@ -39,7 +57,7 @@ const ProfilScreen = ({navigation}: ProfilScreenProps) => {
           <View style={styles.rowView}>
             <View>
               <Text style={styles.rankingText}>{Strings.city_name}</Text>
-              <Text style={styles.cityText}>{'Óceánia'} </Text>
+              <Text style={styles.cityText}>{country.name} </Text>
             </View>
             <View style={{flex: 1}}></View>
             <TouchableOpacity onPress={onEditPressed}>

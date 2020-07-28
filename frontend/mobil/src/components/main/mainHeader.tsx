@@ -5,18 +5,22 @@ import {Colors} from '../../constants/colors'
 import {Margins} from '../../constants/margins'
 
 interface Props {
-  onPressButton: () => void
+  onPressProfil: () => void
+  onNextRoundPressed: () => void
 }
 
-const MainHeader = ({onPressButton}: Props) => {
+const MainHeader = ({onPressProfil, onNextRoundPressed}: Props) => {
   return (
     <View style={styles.headerView}>
-      <Image
-        source={Images.undersea_icon}
-        style={[styles.headerImage, Margins.mlNormal]}
-      />
+      <TouchableOpacity onPress={onNextRoundPressed}>
+        <Image
+          source={Images.undersea_icon}
+          style={[styles.headerImage, Margins.mlNormal]}
+        />
+      </TouchableOpacity>
+
       <View style={styles.emptyView}></View>
-      <TouchableOpacity style={Margins.mrNormal} onPress={onPressButton}>
+      <TouchableOpacity style={Margins.mrNormal} onPress={onPressProfil}>
         <Image source={Images.profil_icon} style={styles.headerImage} />
       </TouchableOpacity>
     </View>

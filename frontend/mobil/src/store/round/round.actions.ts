@@ -1,4 +1,4 @@
-import {RoundScore} from '../../model/round/roundScore'
+import {RoundDetails} from '../../model/round/roundDetails'
 
 export const GET_ROUND_REQUEST = 'GET_ROUND_REQUEST'
 export const GET_ROUND_SUCCESS = 'GET_ROUND_SUCCESS'
@@ -10,7 +10,7 @@ export interface GetRoundRequestAction {
 
 export interface GetRoundSuccessAction {
   type: typeof GET_ROUND_SUCCESS
-  response: RoundScore
+  response: RoundDetails
 }
 
 export interface GetRoundFailAction {
@@ -28,7 +28,7 @@ export const getRound = (): GetRoundRequestAction => ({
 })
 
 export const getRoundSuccessActionCreator = (
-  round: RoundScore,
+  round: RoundDetails,
 ): GetRoundSuccessAction => ({
   type: GET_ROUND_SUCCESS,
   response: round,

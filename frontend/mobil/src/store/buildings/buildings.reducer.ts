@@ -14,21 +14,21 @@ export const buildingReducer = (
     case GET_BUILDINGS_REQUEST:
       return {
         ...state,
-        error: undefined,
-        isLoading: true,
+        buildingsError: undefined,
+        isBuildingsLoading: true,
       }
     case GET_BUILDINGS_SUCCESS:
       return {
         ...state,
-        error: undefined,
-        isLoading: false,
+        buildingsError: undefined,
+        isBuildingsLoading: false,
         buildings: action.response,
       }
     case GET_BUILDINGS_FAILURE:
       return {
         ...state,
-        error: action.reason,
-        isLoading: false,
+        buildingsError: action.reason,
+        isBuildingsLoading: false,
         buildings: [],
       }
     default:

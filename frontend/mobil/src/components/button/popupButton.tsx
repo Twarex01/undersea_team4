@@ -9,7 +9,7 @@ interface Props {
   isClosed: boolean
 }
 
-const WhiteButton = ({onPress, isClosed}: Props) => {
+const PopupButton = ({onPress, isClosed}: Props) => {
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <Image source={isClosed ? Images.up_arrow : Images.down_arrow} />
@@ -27,4 +27,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default WhiteButton
+export default PopupButton

@@ -60,8 +60,8 @@ const PLAYERS_PATH = '/api/Players'
 
 class PlayerService {
   getPlayers = async () => {
-    //return await Network.get(PLAYERS_PATH)
-    return mockDataResponse
+    return await Network.get(PLAYERS_PATH)
+    //return mockDataResponse
   }
 }
 

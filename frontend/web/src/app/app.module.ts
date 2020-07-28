@@ -54,7 +54,7 @@ import { ToastInterceptor } from './toast-interceptor';
     RegisterClient,
     RoundClient,
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } },
-    { provide: API_BASE_URL, useValue: 'https://localhost:5001' }
+    { provide: API_BASE_URL, useValue: 'https://undersea.azurewebsites.net/' }
   ],
   bootstrap: [AppComponent],
 })

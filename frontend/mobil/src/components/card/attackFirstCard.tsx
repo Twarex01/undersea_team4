@@ -7,20 +7,20 @@ import {Images} from '../../constants/images'
 import {TouchableOpacity} from 'react-native-gesture-handler'
 
 interface Props {
-  username?: string
-  onPress: () => void
+  name?: string
+  selected: boolean
 }
 
-const AttackFirstCard = ({username, onPress}: Props) => {
+const AttackFirstCard = ({name, selected}: Props) => {
   return (
-    <TouchableOpacity style={styles.touchableOpacity} onPress={onPress}>
-      <Text style={[styles.text, Margins.mlNormal]}>{username}</Text>
+    <View style={styles.touchableOpacity}>
+      <Text style={[styles.text, Margins.mlNormal]}>{name}</Text>
       <View style={{flex: 1}} />
       <Image
-        source={Images.done}
+        source={selected ? Images.done : null}
         style={[styles.image, Margins.mrExtraLarge]}
       />
-    </TouchableOpacity>
+    </View>
   )
 }
 

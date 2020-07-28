@@ -9,7 +9,7 @@
         <div *ngFor="let unit of units" class="status-bar-item">
             <div class="image-with-text">
                 <app-icon-box>
-                    <img src="{{imgBaseUrl}}{{unit.imgSrc}}">
+                    <img src="{{unit.imgSrc}}">
                 </app-icon-box>
                 <p class="image-text">{{unit.count}}</p>
             </div>
@@ -18,7 +18,7 @@
         <div *ngFor="let resource of resources" class="status-bar-item">
             <div class="image-with-text">
                 <app-icon-box>
-                    <img src="{{imgBaseUrl}}{{resource.imgSrc}}">
+                    <img src="{{resource.imgSrc}}">
                 </app-icon-box>
                 <div>
                     <p class="image-text">{{resource.count}}</p>
@@ -30,7 +30,7 @@
         <div *ngFor="let building of buildings" class="status-bar-item">
             <div class="image-with-text">
                 <app-icon-box>
-                    <img  src="{{imgBaseUrl}}{{building.imgSrc}}">
+                    <img  src="{{building.imgSrc}}">
                 </app-icon-box>
                 <div>
                     <p class="image-text">{{building.count}}</p>

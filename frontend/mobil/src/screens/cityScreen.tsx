@@ -20,15 +20,6 @@ interface BuildingsScreenProps {
 }
 
 const CityScreen = ({navigation}: BuildingsScreenProps) => {
-  const {buildings, error, isLoading} = useSelector(
-    (state: IApplicationState) => state.app.building,
-  )
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(getBuildings())
-  }, [dispatch])
-
   const onBuyPressed = () => {}
 
   const [index, setIndex] = useState(0)
@@ -62,11 +53,6 @@ const CityScreen = ({navigation}: BuildingsScreenProps) => {
           )}
         />
       </PagesTemplate>
-      <TransparentButton
-        title={Strings.buy}
-        onPress={onBuyPressed}
-        style={{position: 'absolute', bottom: 0}}
-      />
     </View>
   )
 }

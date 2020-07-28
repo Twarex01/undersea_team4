@@ -12,6 +12,7 @@
 }
 
 .choose-unit-container{
+    max-width: 23rem;
     margin: 0.5rem;
     margin-right: 0;
 }

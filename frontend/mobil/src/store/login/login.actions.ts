@@ -1,3 +1,5 @@
+import {LoginRequest} from '../../model/login/loginRequest'
+
 export const POST_LOGIN_REQUEST = 'POST_LOGIN_REQUEST'
 export const POST_LOGIN_SUCCESS = 'POST_LOGIN_SUCCESS'
 export const POST_LOGIN_FAILURE = 'POST_LOGIN_FAILURE'
@@ -5,6 +7,7 @@ export const POST_LOGIN_FAILURE = 'POST_LOGIN_FAILURE'
 export interface PostLoginRequestAction {
   type: typeof POST_LOGIN_REQUEST
   successAction: () => void
+  loginRequest: LoginRequest
 }
 
 export interface PostLoginSuccesAction {
@@ -22,13 +25,15 @@ export type LoginActions =
   | PostLoginFailAction
 
 export const postLogin = (
+  loginRequest: LoginRequest,
   successAction: () => void,
 ): PostLoginRequestAction => ({
   type: POST_LOGIN_REQUEST,
   successAction,
+  loginRequest,
 })
 
-export const getLoginSuccessActionCreator = (): PostLoginSuccesAction => ({
+export const postLoginSuccessActionCreator = (): PostLoginSuccesAction => ({
   type: POST_LOGIN_SUCCESS,
 })
 

@@ -1,13 +1,13 @@
 import {BuildingDetails} from '../../model/building/buildingDetails'
 
 export interface BuildingStore {
-  isLoading: boolean
-  error: string | undefined
+  isBuildingsLoading: boolean
+  buildingsError: string | undefined
   buildings: BuildingDetails[]
 }
 
 export const initialBuildingStore: BuildingStore = {
-  isLoading: false,
-  error: undefined,
+  isBuildingsLoading: false,
+  buildingsError: undefined,
   buildings: [],
 }

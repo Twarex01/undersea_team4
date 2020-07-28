@@ -47,15 +47,18 @@ namespace StrategyGame.Bll.Services
 		{
 			var battle = await _context.Battles.SingleOrDefaultAsync(b => b.ID == battleId);
 			var attackingcountry = await _context.Countries.SingleOrDefaultAsync(c => c.ID == battle.AttackingCountryID);
+			var generalCount = await CountUnitsOfTypeNotAtHome(attackingcountry.ID, UnitData.General.ID);
 			var count = await _context.AttackingUnits.Include(a => a.Battle).Include(a => a.UnitData).Where(a => a.BattleID == battleId).SumAsync(x => x.Count * x.UnitData.ATK);
-			
-			return count * attackingcountry.AttackModifier;
+
+			return count * (1 + generalCount * 0.01) * attackingcountry.AttackModifier;
+
 		}
 
 		public async Task<double> CountDefensePowerInBattle(int battleId)
 		{
 			var battle = await _context.Battles.SingleOrDefaultAsync(b => b.ID == battleId);
 			var defendingcountry = await _context.Countries.SingleOrDefaultAsync(c => c.ID == battle.DefendingCountryID);
+			var generalCount = await CountUnitsOfTypeAtHome(defendingcountry.ID, UnitData.General.ID);
 			var unitDatas = await _context.UnitData.ToListAsync();
 			double count = 0;
 			foreach (var unitData in unitDatas)
@@ -65,7 +68,7 @@ namespace StrategyGame.Bll.Services
 				count += defendingUnitsofType * unitData.DEF;
 			}
 
-			return count * defendingcountry.DefenseModifier;
+			return count * (1 + generalCount * 0.01) * defendingcountry.DefenseModifier;
 		}
 
 		public async Task SendAllTypesToAttack(BattleDTO battleDto)
@@ -84,6 +87,7 @@ namespace StrategyGame.Bll.Services
 					}
 				}
 			}
+			if (!battleDto.Army.Any(u => u.UnitTypeID == UnitData.General.ID)) throw new HttpResponseException { Status = 400, Value = "A küldött csapat nem tartalmaz Hadvezért" };
 
 			var attackingCountry = await _context.Countries.FirstOrDefaultAsync(c => c.ID == battleDto.IdAtt);
 			var defendingCountry = await _context.Countries.FirstOrDefaultAsync(c => c.ID == battleDto.IdDef);
@@ -99,7 +103,7 @@ namespace StrategyGame.Bll.Services
 			foreach (UnitDTO unitDto in battleDto.Army)
 			{
 
-				await SendUnitsOfTypeToAttack(attackingCountry, defendingCountry, unitDto.Count, unitDto.UnitTypeID);
+				await SendUnitsOfTypeToAttack(attackingCountry, defendingCountry, unitDto.UnitCount, unitDto.UnitTypeID);
 			}
 
 			await _context.SaveChangesAsync();
@@ -377,7 +381,7 @@ namespace StrategyGame.Bll.Services
 					int unitAttackingLost = allAttackingUnits.Where(a => a.UnitData.ID == unitDataId).Select(a => a.Count).SingleOrDefault();
 					if (unitAttackingLost == 0) continue;
 					unitAttackingLost = (int)Math.Ceiling(unitAttackingLost * 0.1);
-					var unit = await _context.Units.Include(u => u.UnitData).SingleOrDefaultAsync(u => u.CountryID == defCountry.ID && u.UnitDataID == unitDataId);
+					var unit = await _context.Units.Include(u => u.UnitData).SingleOrDefaultAsync(u => u.CountryID == atkCountry.ID && u.UnitDataID == unitDataId);
 					unit.Count -= unitAttackingLost;
 
 					lostUnits.Add(new LostUnit { LostAmount = unitAttackingLost, UnitName = unit.UnitData.Name });
