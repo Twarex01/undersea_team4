@@ -15,7 +15,7 @@ import { BasicFormCardComponent } from './core/basic-form-card/basic-form-card.c
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './jwt-interceptor';
 import { AuthGuardService } from './core/services/auth-guard.service';
-import { LoginClient, RegisterClient, RoundClient } from './shared/clients';
+import { LoginClient, RegisterClient, RoundClient, API_BASE_URL } from './shared/clients';
 import { MenuLogoComponent } from './core/menu-logo/menu-logo.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -54,6 +54,7 @@ import { ToastInterceptor } from './toast-interceptor';
     RegisterClient,
     RoundClient,
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } },
+    { provide: API_BASE_URL, useValue: 'https://undersea.azurewebsites.net/' }
   ],
   bootstrap: [AppComponent],
 })

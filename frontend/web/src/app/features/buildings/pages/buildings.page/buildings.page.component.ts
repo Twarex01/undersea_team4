@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { BuildingsService } from '../../services/buildings.service';
 import { forkJoin } from 'rxjs';
 import { Building } from '../../models/building';
@@ -6,6 +6,7 @@ import { StatusNotificationService } from '../../../../core/services/status-noti
 import { PlayerInfoService } from '../../../../core/services/player-info.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Resource } from '../../models/resource';
+import { API_BASE_URL } from '../../../../shared/clients';
 
 @Component({
   selector: 'app-buildings',
@@ -17,13 +18,13 @@ export class BuildingsPageComponent implements OnInit {
   buildings: Building[] = [];
   countryResources: Resource[] = [];
   selectedIndex: number = -1;
-  imgBaseUrl: string = "https://undersea.azurewebsites.net/";
 
   constructor(
     private buildingsService: BuildingsService,
     private statusNotificationService: StatusNotificationService,
     private playerInfoService: PlayerInfoService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    @Inject(API_BASE_URL) public imgBaseUrl: string
   ) { }
 
   ngOnInit(): void {
@@ -51,7 +52,8 @@ export class BuildingsPageComponent implements OnInit {
     this.playerInfoService.getCountryResources().subscribe((resources) => {
       resources.forEach((res) => {
         const countryResource = this.countryResources.find((r) => r.id === res.id)!;
-        countryResource.amount = res.count;
+        if(countryResource)
+          countryResource.amount = res.count;
       })
     })
   }

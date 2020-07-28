@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Upgrade } from '../../models/upgrade';
 import { UpgradeService } from '../../services/upgrade.service';
 import { forkJoin } from 'rxjs';
 import { StatusNotificationService } from '../../../../core/services/status-notification.service';
+import { API_BASE_URL } from '../../../../shared/clients';
 
 @Component({
   selector: 'app-upgrades.page',
@@ -12,11 +13,11 @@ import { StatusNotificationService } from '../../../../core/services/status-noti
 export class UpgradesPageComponent implements OnInit {
   selectedUpgradeIndex: number = -1;
   upgrades: Upgrade[] = [];
-  imgBaseUrl: string = "https://undersea.azurewebsites.net/";
 
   constructor(
     private upgradeService: UpgradeService,
     private statusNotificationService: StatusNotificationService,
+    @Inject(API_BASE_URL) public imgBaseUrl: string
   ) { }
 
   ngOnInit(): void {

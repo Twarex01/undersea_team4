@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { CountryClient, DetailsClient, RoundClient } from '../../shared/clients';
+import { Injectable, Inject } from '@angular/core';
+import { CountryClient, DetailsClient, RoundClient, API_BASE_URL } from '../../shared/clients';
 import { CountryBuilding } from '../status-bar/models/country-building';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -17,12 +17,11 @@ import { UpgradeDetails } from '../../features/upgrades/models/upgrade-details';
 })
 export class PlayerInfoService {
 
-  baseUrl: string = "https://localhost:5001/";
-
   constructor(
     private countryClient: CountryClient,
     private detailsClient: DetailsClient,
-    private roundService: RoundClient
+    private roundService: RoundClient,
+    @Inject(API_BASE_URL) public baseUrl: string
   ) { }
 
   getCountryBuildings(): Observable<CountryBuilding[]> {
@@ -43,7 +42,7 @@ export class PlayerInfoService {
       map((untiDTOarray) => {
         return untiDTOarray.map((unitDTO) => ({
           id: unitDTO.unitTypeID,
-          count: unitDTO.count,
+          count: unitDTO.unitCount,
           imgSrc: ""
         }));
       })

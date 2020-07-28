@@ -67,7 +67,7 @@ export class UnitsPageComponent implements OnInit {
           id: unitDetail.id,
           imageSrc: unitDetail.imgSrc,
           name: unitDetail.name!,
-          count: unit?.count ?? 0,
+          unitCount: unit?.count ?? 0,
           attack: unitDetail.atk,
           defense: unitDetail.def,
           pricePerRound: unitDetail.pay,
@@ -86,10 +86,10 @@ export class UnitsPageComponent implements OnInit {
   }
 
   buyUnits() {
-    const unitsToBuy: UnitToBuy[] = this.units.map((unit) => ({ unitTypeID: unit.id, count: unit.numToBuy }));
+    const unitsToBuy: UnitToBuy[] = this.units.map((unit) => ({ unitTypeID: unit.id, unitCount: unit.numToBuy }));
     let onlyInteger = true;
     unitsToBuy.forEach(unit => {
-      if (unit.count - Math.floor(unit.count) != 0) {
+      if (unit.unitCount - Math.floor(unit.unitCount) != 0) {
         onlyInteger = false;
         this.snackBar.open('Csak egész egységeket lehet venni!', '', { panelClass: "custom-snackbar-units" });
         return;
@@ -100,7 +100,7 @@ export class UnitsPageComponent implements OnInit {
       this.statusNotificationService.updateStatus(true);
       unitsToBuy.forEach((unit) => {
         const i = this.units.findIndex(u => u.id === unit.unitTypeID);
-        this.units[i].count += unit.count;
+        this.units[i].unitCount += unit.unitCount;
         this.units[i].numToBuy = 0;
       });
       this.unitBuyInfo.pearl -= this.unitBuyInfo.estimatedPearlCost;

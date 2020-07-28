@@ -1,18 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { SignalRService } from '../services/signal-r.service';
 import { PlayerInfoService } from '../services/player-info.service';
 import { forkJoin } from 'rxjs';
 import { StatusNotificationService } from '../services/status-notification.service';
+import { API_BASE_URL } from '../../shared/clients';
 
 @Component({
   selector: 'app-main-layout',
   templateUrl: './main-layout.component.html',
-  styleUrls: ['./main-layout.component.css']
+  styleUrls: ['./main-layout.component.css'],
 })
 export class MainLayoutComponent implements OnInit {
-
-  baseUrl: string = "https://undersea.azurewebsites.net/"
-
   hasSonarCannon: boolean = false;
 
   aramlasImg: string | undefined;
@@ -20,11 +18,18 @@ export class MainLayoutComponent implements OnInit {
   sonarImg: string | undefined;
   stoneMineImg: string | undefined;
 
-  constructor(private signalRService: SignalRService, private playerInfoService: PlayerInfoService, private statusNotificationService: StatusNotificationService) { }
+  constructor(
+    private signalRService: SignalRService,
+    private playerInfoService: PlayerInfoService,
+    private statusNotificationService: StatusNotificationService,
+    @Inject(API_BASE_URL) public baseUrl: string
+  ) {}
 
   ngOnInit(): void {
     this.getData();
-    this.statusNotificationService.notifications.subscribe(() => this.getData());
+    this.statusNotificationService.notifications.subscribe(() =>
+      this.getData()
+    );
     this.signalRService.startConnection();
     this.signalRService.addChangeRoundListener();
   }
@@ -35,30 +40,55 @@ export class MainLayoutComponent implements OnInit {
       this.playerInfoService.getCountryUpgrades(),
       this.playerInfoService.getUpgradeDetails(),
       this.playerInfoService.getBuildingDetails()
-    ).subscribe(([countryBuildings, countryUpgrades, upgradeDetails, buildingDetails]) => {
-      const zatonyDetails = buildingDetails.find((bd) => bd.name === "Zátonyvár");
-      const aramlasDetails = buildingDetails.find((bd) => bd.name === "Áramlásirányító")
-      const sonarDetails = upgradeDetails.find((ud) => ud.name === "Szonár ágyú");
-      const stoneMineDetails = buildingDetails.find((bd) => bd.name === "Kőbánya");
+    ).subscribe(
+      ([
+        countryBuildings,
+        countryUpgrades,
+        upgradeDetails,
+        buildingDetails,
+      ]) => {
+        const zatonyDetails = buildingDetails.find(
+          (bd) => bd.name === 'Zátonyvár'
+        );
+        const aramlasDetails = buildingDetails.find(
+          (bd) => bd.name === 'Áramlásirányító'
+        );
+        const sonarDetails = upgradeDetails.find(
+          (ud) => ud.name === 'Szonár ágyú'
+        );
+        const stoneMineDetails = buildingDetails.find(
+          (bd) => bd.name === 'Kőbánya'
+        );
 
-      const zatony = countryBuildings.find((cb) => cb.id === zatonyDetails?.id);
-      const aramlas = countryBuildings.find((cb) => cb.id === aramlasDetails?.id);
-      const sonar = countryUpgrades.find((cb) => cb.id === sonarDetails?.id);
-      const stoneMine = countryBuildings.find((cb) => cb.id === stoneMineDetails?.id);
+        const zatony = countryBuildings.find(
+          (cb) => cb.id === zatonyDetails?.id
+        );
+        const aramlas = countryBuildings.find(
+          (cb) => cb.id === aramlasDetails?.id
+        );
+        const sonar = countryUpgrades.find((cb) => cb.id === sonarDetails?.id);
+        const stoneMine = countryBuildings.find(
+          (cb) => cb.id === stoneMineDetails?.id
+        );
 
-      if(zatony)
-        this.zatonyImg = zatony?.count > 0 ? zatonyDetails?.backgroundSrc : undefined;
+        if (zatony)
+          this.zatonyImg =
+            zatony?.count > 0 ? zatonyDetails?.backgroundSrc : undefined;
 
-      if(aramlas)
-        this.aramlasImg = aramlas?.count > 0 ? aramlasDetails?.backgroundSrc : undefined;
+        if (aramlas)
+          this.aramlasImg =
+            aramlas?.count > 0 ? aramlasDetails?.backgroundSrc : undefined;
 
-      if(stoneMine)
-        this.stoneMineImg = stoneMine?.count > 0 ? stoneMineDetails?.backgroundSrc : undefined;
+        if (stoneMine)
+          this.stoneMineImg =
+            stoneMine?.count > 0 ? stoneMineDetails?.backgroundSrc : undefined;
 
-      if(sonar)
-        this.sonarImg = sonar.roundsLeft == 0 ?  this.baseUrl + "Assets/Upgrades/sonarcannon_background.png" : undefined;
-
-    });
+        if (sonar)
+          this.sonarImg =
+            sonar.roundsLeft == 0
+              ? this.baseUrl + 'Assets/Upgrades/sonarcannon_background.png'
+              : undefined;
+      }
+    );
   }
-
 }

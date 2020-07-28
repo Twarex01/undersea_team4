@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { RankingsService } from '../../services/rankings.service';
-import { Observable } from 'rxjs';
 import { RankingsPlayer } from '../../models/player';
 import { StatusNotificationService } from '../../../../core/services/status-notification.service';
 

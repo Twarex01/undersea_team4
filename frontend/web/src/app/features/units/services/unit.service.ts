@@ -4,7 +4,6 @@ import { CountryUnit } from '../country-unit';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { UnitDetail } from '../units-detail';
-import { UnitToBuy } from '../models/unitToBuy';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +17,7 @@ export class UnitService {
   getCountryUnits(): Observable<CountryUnit[]> {
     return this.countryClient.getCountryUnits().pipe(
       map((unitDTOArray) => {
-        return unitDTOArray.map((unitDTO) => ({ id: unitDTO.unitTypeID, count: unitDTO.count }))
+        return unitDTOArray.map((unitDTO) => ({ id: unitDTO.unitTypeID, count: unitDTO.unitCount }))
       })
     );
   }
