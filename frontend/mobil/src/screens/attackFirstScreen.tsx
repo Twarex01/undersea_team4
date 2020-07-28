@@ -23,6 +23,7 @@ import {IApplicationState} from '../../store'
 import {useSelector, useDispatch} from 'react-redux'
 import {getPlayers} from '../store/players/players.action'
 import {createSelector} from 'reselect'
+import {setId} from '../store/battle/battle.actions'
 
 interface AttacFirstScreenProps {
   navigation: StackNavigationProp<any>
@@ -63,6 +64,7 @@ const AttackFirstScreen = ({navigation}: AttacFirstScreenProps) => {
   const [username, setUsername] = useState('')
 
   const onNextPressed = () => {
+    dispatch(setId(index))
     navigation.navigate(Screens.AttackSecond)
   }
 

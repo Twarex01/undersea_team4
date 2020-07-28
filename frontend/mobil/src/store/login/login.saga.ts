@@ -8,7 +8,6 @@ import {
 import loginService from '../../utility/services/loginService'
 import {AxiosResponse} from 'axios'
 import AsyncStorage from '@react-native-community/async-storage'
-import {Config} from '../../constants/config'
 import {Token} from '../../constants/token'
 
 export function* loginSaga() {

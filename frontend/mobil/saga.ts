@@ -17,6 +17,7 @@ import {explorationSaga} from './src/store/explorations/explorations.saga'
 import {putBuildingSaga} from './src/store/putBuilding/putBuilding.saga'
 import {putUpgradeSaga} from './src/store/putUpgrade/putUpgrade.saga'
 import {putUnitsSaga} from './src/store/putUnits/putUnits.saga'
+import {battleSaga} from './src/store/battle/battle.saga'
 
 export function* rootSaga() {
   yield all([
@@ -38,5 +39,6 @@ export function* rootSaga() {
     putBuildingSaga(),
     putUpgradeSaga(),
     putUnitsSaga(),
+    battleSaga(),
   ])
 }

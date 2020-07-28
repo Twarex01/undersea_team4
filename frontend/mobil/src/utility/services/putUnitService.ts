@@ -1,7 +1,5 @@
-import {PutUnitRequest} from '../../model/unit/putUnitRequest'
+import {BuyUnitRequest, PutUnitRequest} from '../../model/unit/putUnitRequest'
 import Network from '../network'
-import {useSelector} from 'react-redux'
-import {IApplicationState} from '../../../store'
 import {AxiosResponse} from 'axios'
 
 const PUT_UNITS_PATH = '/api/Country/Units'

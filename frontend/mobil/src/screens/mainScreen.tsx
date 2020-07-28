@@ -23,6 +23,7 @@ import {getMyUnits} from '../store/myUnits/myUnits.actions'
 import {getResources} from '../store/resources/resources.actions'
 import {getUpgrades} from '../store/upgrades/upgrades.actions'
 import {getMyUpgrades} from '../store/myUpgrades/myUpgrades.actions'
+import FlashMessage, {showMessage} from 'react-native-flash-message'
 
 interface MainscreenProps {
   navigation: StackNavigationProp<any>
@@ -57,6 +58,11 @@ const MainScreen = ({navigation}: MainscreenProps) => {
     dispatch(getResources())
     dispatch(getUpgrades())
     dispatch(getMyUpgrades())
+    showMessage({
+      message: 'NextRound',
+      backgroundColor: Colors.darkBlue,
+      color: Colors.vibrantLightBlue,
+    })
   }
 
   const [showPopup, setShowPopup] = useState(false)
@@ -80,6 +86,7 @@ const MainScreen = ({navigation}: MainscreenProps) => {
 
         <PopupMenu />
       </ImageBackground>
+      <FlashMessage />
     </View>
   )
 }

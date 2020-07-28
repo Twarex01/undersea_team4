@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import {
   View,
   Text,
@@ -21,11 +21,12 @@ import {createSelector} from 'reselect'
 import {MyUnitDetails} from '../model/unit/myUnitDetails'
 import {getMyUnits} from '../store/myUnits/myUnits.actions'
 import TransparentButton from '../components/button/transparentButton'
-import {PutUnitDetails, PutUnitRequest} from '../model/unit/putUnitRequest'
+import {BuyUnitDetails, PutUnitRequest} from '../model/unit/putUnitRequest'
 import {
   decreaseCount,
   increaseCount,
   putUnits,
+  resetCount,
 } from '../store/putUnits/putUnits.actions'
 
 interface BevyScreenProps {
@@ -47,7 +48,7 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
         const myUnitInfo = appstate.myUnit.myUnits.find(
           u => unit.unitTypeID === u.unitTypeID,
         )
-        const putUnitInfo = appstate.putUnits.putUnits.find(
+        const putUnitInfo = appstate.buyUnits.buyUnits.find(
           p => unit.unitTypeID === p.unitTypeID,
         )
         return {
@@ -62,8 +63,8 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
           consumptionTypeName: unit.consumptionTypeName,
           priceTypeName: unit.priceTypeName,
           imageURL: unit.imageURL,
-          count: myUnitInfo?.count,
-          unitCount: putUnitInfo?.unitCount,
+          count: myUnitInfo?.unitCount,
+          unitCount: putUnitInfo?.count,
         }
       }),
   )
@@ -98,9 +99,11 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
       }),
     )
     dispatch(putUnits(buyUnits))
+    dispatch(resetCount())
+    refreshUnits()
   }
   const renderItem = (
-    itemInfo: ListRenderItemInfo<UnitDetails & MyUnitDetails & PutUnitDetails>,
+    itemInfo: ListRenderItemInfo<UnitDetails & MyUnitDetails & BuyUnitDetails>,
   ) => {
     const {
       unitTypeID,

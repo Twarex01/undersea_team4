@@ -33,8 +33,10 @@ import {PutBuildingStore} from './src/store/putBuilding/putBuilding.store'
 import {putBuildingReducer} from './src/store/putBuilding/putBuilding.reducer'
 import {PutUpgradeStore} from './src/store/putUpgrade/putUpgrade.store'
 import {putUpgradeReducer} from './src/store/putUpgrade/putUpgrade.reducer'
-import {PutUnitsStore} from './src/store/putUnits/putUnits.store'
+import {BuyUnitsStore} from './src/store/putUnits/putUnits.store'
 import {putUnitsReducer} from './src/store/putUnits/putUnits.reducer'
+import {BattleStore} from './src/store/battle/battle.store'
+import {battleReducer} from './src/store/battle/battle.reducer'
 
 export interface IAppStore {
   upgrade: UpgradeStore
@@ -54,7 +56,8 @@ export interface IAppStore {
   exploration: ExplorationStore
   putBuilding: PutBuildingStore
   putUpgrade: PutUpgradeStore
-  putUnits: PutUnitsStore
+  buyUnits: BuyUnitsStore
+  battle: BattleStore
 }
 
 export interface IApplicationState {
@@ -89,7 +92,8 @@ export const appReducer = combineReducers<IAppStore>({
   exploration: explorationReducer,
   putBuilding: putBuildingReducer,
   putUpgrade: putUpgradeReducer,
-  putUnits: putUnitsReducer,
+  buyUnits: putUnitsReducer,
+  battle: battleReducer,
 })
 
 export const appRootReducer: Reducer<IAppStore> = (

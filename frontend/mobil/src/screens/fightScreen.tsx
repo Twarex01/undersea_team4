@@ -65,6 +65,7 @@ const FightScreen = () => {
   return (
     <SectionList
       style={styles.sectionlistPadding}
+      contentContainerStyle={{paddingBottom: 120}}
       keyExtractor={(item, index) => `${item}${index}`}
       sections={fights}
       renderItem={renderItem}

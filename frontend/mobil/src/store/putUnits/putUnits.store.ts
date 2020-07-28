@@ -1,13 +1,13 @@
-import {PutUnitRequest} from '../../model/unit/putUnitRequest'
+import {BuyUnitRequest} from '../../model/unit/putUnitRequest'
 
-export interface PutUnitsStore {
+export interface BuyUnitsStore {
   isLoading: boolean
   error: string | undefined
-  putUnits: PutUnitRequest
+  buyUnits: BuyUnitRequest
 }
 
-export const initialPutUnitsStore: PutUnitsStore = {
+export const initialBuyUnitsStore: BuyUnitsStore = {
   isLoading: false,
   error: undefined,
-  putUnits: [],
+  buyUnits: [],
 }

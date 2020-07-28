@@ -11,6 +11,7 @@ import {postLogin} from '../store/login/login.actions'
 import AsyncStorage from '@react-native-community/async-storage'
 import {Token} from '../constants/token'
 import jwt_decode from 'jwt-decode'
+import FlashMessage, {showMessage} from 'react-native-flash-message'
 
 interface LoginScreenProps {
   navigation: StackNavigationProp<any>
@@ -44,6 +45,7 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
   const successAction = () => {
     navigation.replace(Screens.Main)
   }
+
   const onRegisterPress = () => {
     navigation.replace(Screens.Registration)
   }
@@ -65,6 +67,7 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
         onChangeText={setPassword}
         secureTextEntry={true}
       />
+      <FlashMessage />
     </LoginTemplate>
   )
 }

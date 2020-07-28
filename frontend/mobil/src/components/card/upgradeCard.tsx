@@ -11,8 +11,6 @@ import {
 import {Fonts, FontSizes} from '../../constants/fonts'
 import {Colors} from '../../constants/colors'
 import {Margins} from '../../constants/margins'
-import {TouchableOpacity} from 'react-native-gesture-handler'
-import UpgradesScreen from '../../screens/upgradesScreen'
 import {Config} from '../../constants/config'
 import {Images} from '../../constants/images'
 
@@ -23,6 +21,7 @@ interface Props {
   description?: String
   selected: boolean
   progress?: number
+  disabled?: boolean
 }
 
 const UpgradeCard = ({
@@ -32,6 +31,7 @@ const UpgradeCard = ({
   description,
   selected,
   progress,
+  disabled,
 }: Props) => {
   return (
     <View
@@ -48,8 +48,21 @@ const UpgradeCard = ({
         source={{uri: `${Config.baseURL}${image}`}}
         style={[styles.image, Margins.mtBig, Margins.mbNormal]}
       />
-      <Text style={styles.titleText}>{title}</Text>
-      <Text style={[styles.descriptionText, Margins.mbBig]}>{description}</Text>
+      <Text
+        style={[
+          styles.titleText,
+          {color: disabled ? Colors.transparentWhite : Colors.white},
+        ]}>
+        {title}
+      </Text>
+      <Text
+        style={[
+          styles.descriptionText,
+          Margins.mbBig,
+          {color: disabled ? Colors.transparentWhite : Colors.white},
+        ]}>
+        {description}
+      </Text>
       <Image
         source={progress === 0 ? Images.done : null}
         style={styles.progressImage}

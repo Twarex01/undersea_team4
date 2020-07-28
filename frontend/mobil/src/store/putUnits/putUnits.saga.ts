@@ -21,7 +21,6 @@ function* putUnitsActionWatcher(action: PutUnitsRequestAction) {
     const response: AxiosResponse<string> = yield putUnitsService.putUnits(
       action.unitRequest,
     )
-    //console.log(response)
     yield put(putUnitsSuccessActionCreator())
   } catch (error) {
     console.log(error.response)

@@ -22,6 +22,7 @@ function* putBuildingActionWatcher(action: PutBuildingRequestAction) {
       action.buildingID,
     )
     yield put(putBuildingSuccessActionCreator())
+    action.successAction()
   } catch (error) {
     console.log(error.response)
     const errorMessage = 'Hiba'

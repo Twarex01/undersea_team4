@@ -45,6 +45,7 @@ const ExplorationScreen = () => {
     <FlatList
       data={explorations}
       style={styles.sectionlistPadding}
+      contentContainerStyle={{paddingBottom: 120}}
       renderItem={renderItem}
       keyExtractor={(item, index) => `${item}${index}`}
       ItemSeparatorComponent={SeparatorComponent}

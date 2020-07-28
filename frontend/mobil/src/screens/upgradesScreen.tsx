@@ -58,14 +58,29 @@ const UpgradesScreen = ({navigation}: UpgradesScreenProps) => {
   useEffect(() => {
     dispatch(getUpgrades())
     dispatch(getMyUpgrades())
+    setDisabled(checkProgress())
   }, [dispatch])
 
   const refreshUpgrades = () => {
     dispatch(getUpgrades())
     dispatch(getMyUpgrades())
+    setDisabled(checkProgress())
   }
 
   const [index, setIndex] = useState(-1)
+  const [disabled, setDisabled] = useState(false)
+
+  const checkProgress = (): boolean => {
+    var temp = false
+    upgrades.map(u => {
+      if (u.progress) {
+        if (u.progress > 0) {
+          temp = true
+        }
+      }
+    })
+    return temp
+  }
 
   const onBuyPressed = () => {
     if (!(index === -1)) {
@@ -85,7 +100,9 @@ const UpgradesScreen = ({navigation}: UpgradesScreenProps) => {
       }
     }
     return (
-      <TouchableOpacity onPress={onItemPressed}>
+      <TouchableOpacity
+        onPress={onItemPressed}
+        disabled={progress === 0 || disabled ? true : false}>
         <UpgradeCard
           image={imageURL}
           title={name}
@@ -93,6 +110,7 @@ const UpgradesScreen = ({navigation}: UpgradesScreenProps) => {
           style={Margins.mbNormal}
           selected={index === upgradeTypeID ? true : false}
           progress={progress}
+          disabled={disabled}
         />
       </TouchableOpacity>
     )

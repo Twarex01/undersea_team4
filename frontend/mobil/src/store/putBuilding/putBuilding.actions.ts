@@ -4,6 +4,7 @@ export const PUT_BUILDING_FAILURE = 'PUT_BUILDING_FAILURE'
 
 export interface PutBuildingRequestAction {
   type: typeof PUT_BUILDING_REQUEST
+  successAction: () => void
   buildingID: number
 }
 
@@ -21,9 +22,13 @@ export type PutBuildingActions =
   | PutBuildingSuccessAction
   | PutBuildingFailAction
 
-export const putBuilding = (buildingID: number): PutBuildingRequestAction => ({
+export const putBuilding = (
+  buildingID: number,
+  successAction: () => void,
+): PutBuildingRequestAction => ({
   type: PUT_BUILDING_REQUEST,
   buildingID,
+  successAction,
 })
 
 export const putBuildingSuccessActionCreator = (): PutBuildingSuccessAction => ({

@@ -44,7 +44,12 @@ const BuildingCard = ({
   const renderItem = (item: Prices, index: number) => {
     const {price, priceTypeName} = item
     return (
-      <Text key={`${item}${index}`} style={styles.dataText}>
+      <Text
+        key={`${item}${index}`}
+        style={[
+          styles.dataText,
+          {color: disabled ? Colors.transparentWhite : Colors.white},
+        ]}>
         {price} {priceTypeName}
         {'/'}
         {Strings.piece}
@@ -65,14 +70,28 @@ const BuildingCard = ({
       ]}>
       <Image
         source={{uri: `${Config.baseURL}${image}`}}
-        style={[styles.image, Margins.mtBig, Margins.mbNormal]}
+        style={[
+          styles.image,
+          Margins.mtBig,
+          Margins.mbNormal,
+          {opacity: disabled ? 0.65 : 1},
+        ]}
       />
-      <Text style={styles.descriptionText}>
+      <Text
+        style={[
+          styles.descriptionText,
+          {color: disabled ? Colors.transparentWhite : Colors.white},
+        ]}>
         {name}
         {'\n'}
         {description}
       </Text>
-      <Text style={[styles.dataText, Margins.mtNormal]}>
+      <Text
+        style={[
+          styles.dataText,
+          Margins.mtNormal,
+          {color: disabled ? Colors.transparentWhite : Colors.white},
+        ]}>
         {count} {Strings.piece}
       </Text>
       {prices.map((item, index) => renderItem(item, index))}

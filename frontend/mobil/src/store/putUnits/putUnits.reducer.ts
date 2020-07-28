@@ -5,16 +5,15 @@ import {
   PUT_UNITS_FAILURE,
   INCREASE_COUNT,
   DECREASE_COUNT,
+  RESET_COUNT,
 } from './putUnits.actions'
-import {initialPutUnitsStore, PutUnitsStore} from './putUnits.store'
-import {PutUnitRequest} from '../../model/unit/putUnitRequest'
-import {useSelector} from 'react-redux'
-import {IApplicationState} from '../../../store'
+import {initialBuyUnitsStore, BuyUnitsStore} from './putUnits.store'
+import {BuyUnitRequest} from '../../model/unit/putUnitRequest'
 
 export const putUnitsReducer = (
-  state = initialPutUnitsStore,
+  state = initialBuyUnitsStore,
   action: PutUnitsActions,
-): PutUnitsStore => {
+): BuyUnitsStore => {
   switch (action.type) {
     case PUT_UNITS_REQUEST:
       return {
@@ -37,12 +36,17 @@ export const putUnitsReducer = (
     case INCREASE_COUNT:
       return {
         ...state,
-        putUnits: increaseCount(action.unitTypeID, state.putUnits),
+        buyUnits: increaseCount(action.unitTypeID, state.buyUnits),
       }
     case DECREASE_COUNT:
       return {
         ...state,
-        putUnits: decreaseCount(action.unitTypeID, state.putUnits),
+        buyUnits: decreaseCount(action.unitTypeID, state.buyUnits),
+      }
+    case RESET_COUNT:
+      return {
+        ...state,
+        buyUnits: [],
       }
     default:
       return state
@@ -51,26 +55,26 @@ export const putUnitsReducer = (
 
 const increaseCount = (
   unitTypeID: number,
-  units: PutUnitRequest,
-): PutUnitRequest => {
+  units: BuyUnitRequest,
+): BuyUnitRequest => {
   const index = units.findIndex(u => u.unitTypeID === unitTypeID)
   if (index === -1) {
-    units.push({unitTypeID: unitTypeID, unitCount: 1})
+    units.push({unitTypeID: unitTypeID, count: 1})
   } else {
-    units[index].unitCount += 1
+    units[index].count += 1
   }
   return units
 }
 
 const decreaseCount = (
   unitTypeID: number,
-  units: PutUnitRequest,
-): PutUnitRequest => {
+  units: BuyUnitRequest,
+): BuyUnitRequest => {
   const index = units.findIndex(u => u.unitTypeID === unitTypeID)
   if (index === -1) {
-    units.push({unitTypeID: unitTypeID, unitCount: 0})
+    units.push({unitTypeID: unitTypeID, count: 0})
   } else {
-    if (units[index].unitCount > 0) units[index].unitCount -= 1
+    if (units[index].count > 0) units[index].count -= 1
   }
   return units
 }

@@ -21,7 +21,7 @@ function* getExplorationsActionWatcher(action: GetExplorationsRequestAction) {
     const response: AxiosResponse<ExplorationResponse> = yield explorationService.getExplorations()
     yield put(GetExplorationsSuccessActionCreator(response.data))
   } catch (error) {
-    console.log(error)
+    console.log(error.response)
     const errorMessage = 'Hiba'
     yield put(GetExplorationsFailActionCreator(errorMessage))
   }

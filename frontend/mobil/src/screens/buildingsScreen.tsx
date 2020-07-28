@@ -57,21 +57,37 @@ const BuildingsScreen = () => {
   useEffect(() => {
     dispatch(getBuildings())
     dispatch(getMyBuildings())
+    setDisabled(checkProgress())
   }, [dispatch])
 
   const refreshBuildings = () => {
     dispatch(getBuildings())
     dispatch(getMyBuildings())
+    setDisabled(checkProgress())
   }
 
+  const successAction = () => {
+    setIndex(-1)
+    refreshBuildings()
+  }
   const [index, setIndex] = useState(-1)
   const [disabled, setDisabled] = useState(false)
 
+  const checkProgress = (): boolean => {
+    var temp = false
+    buildings.map(b => {
+      if (b.progress) {
+        if (b.progress > 0) {
+          temp = true
+        }
+      }
+    })
+    return temp
+  }
+
   const onBuyPressed = () => {
     if (!(index === -1)) {
-      dispatch(putBuilding(index))
-      setIndex(-1)
-      refreshBuildings()
+      dispatch(putBuilding(index, successAction))
     }
   }
 

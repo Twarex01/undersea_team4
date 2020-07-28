@@ -9,13 +9,27 @@ import {Config} from '../../constants/config'
 interface Props {
   image: string
   name?: string
-  //count: number
+  count: number
   style?: StyleProp<ViewStyle>
   maxCount: number
+  unitTypeId: number
+  setCount?: (id: number, count: number) => void
 }
 
-const AttackSecondCard = ({image, name, style, maxCount}: Props) => {
-  const [count, setCount] = useState(0)
+const AttackSecondCard = ({
+  image,
+  name,
+  style,
+  maxCount,
+  count,
+  unitTypeId,
+  setCount,
+}: Props) => {
+  const setValue = (value: number) => {
+    if (setCount) {
+      setCount(unitTypeId, value)
+    }
+  }
 
   return (
     <View style={[styles.container, style]}>
@@ -41,7 +55,8 @@ const AttackSecondCard = ({image, name, style, maxCount}: Props) => {
           thumbTintColor={Colors.vibrantLightBlue}
           minimumTrackTintColor={Colors.vibrantLightBlue}
           maximumTrackTintColor={Colors.lightGray}
-          onValueChange={setCount}
+          onValueChange={setValue}
+          value={count}
         />
       </View>
     </View>

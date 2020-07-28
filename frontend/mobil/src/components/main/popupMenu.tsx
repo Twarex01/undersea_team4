@@ -92,7 +92,7 @@ const PopupMenu = () => {
           consumptionTypeName: unit.consumptionTypeName,
           priceTypeName: unit.priceTypeName,
           imageURL: unit.imageURL,
-          count: myUnitInfo?.count,
+          unitCount: myUnitInfo?.unitCount,
         }
       }),
   )
@@ -116,12 +116,12 @@ const PopupMenu = () => {
   }
 
   const unitItem = (item: UnitDetails & MyUnitDetails, index: number) => {
-    const {count, imageURL} = item
+    const {unitCount, imageURL} = item
     return (
       <PopupIcon
         key={`${item}${index}`}
         image={{uri: `${Config.baseURL}${imageURL}`}}
-        count={count ? count : 0}
+        count={unitCount ? unitCount : 0}
         round={''}
         style={[Margins.mrNormal, Margins.mlNormal]}
       />
@@ -134,7 +134,7 @@ const PopupMenu = () => {
       <PopupIcon
         key={`${item}${index}`}
         image={{uri: `${Config.baseURL}${imageURL}`}}
-        count={amount}
+        count={amount ? amount : 0}
         round={`${production}/kör`}
         style={[Margins.mrNormal, Margins.mlNormal]}
       />
@@ -150,7 +150,7 @@ const PopupMenu = () => {
       <PopupIcon
         key={`${item}${index}`}
         image={{uri: `${Config.baseURL}${iconURL}`}}
-        count={count}
+        count={count ? count : 0}
         round={''}
         style={[Margins.mrNormal, Margins.mlNormal]}
       />

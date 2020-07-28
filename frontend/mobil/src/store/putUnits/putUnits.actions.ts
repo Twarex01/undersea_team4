@@ -1,10 +1,11 @@
-import {PutUnitRequest} from '../../model/unit/putUnitRequest'
+import {BuyUnitRequest, PutUnitRequest} from '../../model/unit/putUnitRequest'
 
 export const PUT_UNITS_REQUEST = 'PUT_UNITS_REQUEST'
 export const PUT_UNITS_SUCCESS = 'PUT_UNITS_SUCCESS'
 export const PUT_UNITS_FAILURE = 'PUT_UNITS_FAILURE'
 export const INCREASE_COUNT = 'INCREASE_COUNT'
 export const DECREASE_COUNT = 'DECREASE_COUNT'
+export const RESET_COUNT = 'RESET_COUNT'
 
 export interface PutUnitsRequestAction {
   type: typeof PUT_UNITS_REQUEST
@@ -30,12 +31,17 @@ export interface DecreaseCountAction {
   unitTypeID: number
 }
 
+export interface ResetCountAction {
+  type: typeof RESET_COUNT
+}
+
 export type PutUnitsActions =
   | PutUnitsRequestAction
   | PutUnitsSuccessAction
   | PutUnitsFailAction
   | IncreaseCountAction
   | DecreaseCountAction
+  | ResetCountAction
 
 export const putUnits = (
   unitRequest: PutUnitRequest,
@@ -63,4 +69,8 @@ export const increaseCount = (unitTypeID: number): IncreaseCountAction => ({
 export const decreaseCount = (unitTypeID: number): DecreaseCountAction => ({
   type: DECREASE_COUNT,
   unitTypeID,
+})
+
+export const resetCount = (): ResetCountAction => ({
+  type: RESET_COUNT,
 })
