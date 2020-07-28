@@ -87,7 +87,7 @@ namespace StrategyGame.Bll.Services
 					}
 				}
 			}
-			if (!battleDto.Army.Any(u => u.UnitTypeID == UnitData.General.ID)) throw new HttpResponseException { Status = 400, Value = "A küldött csapat nemtartalmaz Hadvezért" };
+			if (!battleDto.Army.Any(u => u.UnitTypeID == UnitData.General.ID)) throw new HttpResponseException { Status = 400, Value = "A küldött csapat nem tartalmaz Hadvezért" };
 
 			var attackingCountry = await _context.Countries.FirstOrDefaultAsync(c => c.ID == battleDto.IdAtt);
 			var defendingCountry = await _context.Countries.FirstOrDefaultAsync(c => c.ID == battleDto.IdDef);
