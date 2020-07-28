@@ -14,5 +14,5 @@ exports.config = {
                 return url === 'http://localhost:4200/';
             })
         }, 10000)
-    }
   }
+}
