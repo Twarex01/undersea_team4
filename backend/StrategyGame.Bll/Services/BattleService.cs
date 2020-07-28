@@ -47,15 +47,18 @@ namespace StrategyGame.Bll.Services
 		{
 			var battle = await _context.Battles.SingleOrDefaultAsync(b => b.ID == battleId);
 			var attackingcountry = await _context.Countries.SingleOrDefaultAsync(c => c.ID == battle.AttackingCountryID);
+			var generalCount = await CountUnitsOfTypeNotAtHome(attackingcountry.ID, 5);
 			var count = await _context.AttackingUnits.Include(a => a.Battle).Include(a => a.UnitData).Where(a => a.BattleID == battleId).SumAsync(x => x.Count * x.UnitData.ATK);
-			
-			return count * attackingcountry.AttackModifier;
+
+			return count * (1 + generalCount * 0.01) * attackingcountry.AttackModifier;
+
 		}
 
 		public async Task<double> CountDefensePowerInBattle(int battleId)
 		{
 			var battle = await _context.Battles.SingleOrDefaultAsync(b => b.ID == battleId);
 			var defendingcountry = await _context.Countries.SingleOrDefaultAsync(c => c.ID == battle.DefendingCountryID);
+			var generalCount = await CountUnitsOfTypeAtHome(defendingcountry.ID, 5);
 			var unitDatas = await _context.UnitData.ToListAsync();
 			double count = 0;
 			foreach (var unitData in unitDatas)
@@ -65,7 +68,7 @@ namespace StrategyGame.Bll.Services
 				count += defendingUnitsofType * unitData.DEF;
 			}
 
-			return count * defendingcountry.DefenseModifier;
+			return count * (1 + generalCount * 0.01) * defendingcountry.DefenseModifier;
 		}
 
 		public async Task SendAllTypesToAttack(BattleDTO battleDto)
@@ -96,6 +99,14 @@ namespace StrategyGame.Bll.Services
 			{
 				throw new HttpResponseException { Status = 400, Value = "Védekező ország nem található" };
 			}
+
+			var battle = await _context.Battles.Include(b => b.AttackingCountry).Include(b => b.DefendingCountry)
+					.FirstOrDefaultAsync(b => b.AttackingCountry.ID == battleDto.IdAtt && b.DefendingCountry.ID == battleDto.IdDef);
+
+			var general = battleDto.Army.FirstOrDefault(u => u.UnitTypeID == UnitData.General.ID);
+
+			if (battle == null && general == null)
+				throw new HttpResponseException { Status = 400, Value = "Kell lennie egy hadvezérnek a csatában." };
 
 			foreach (UnitDTO unitDto in battleDto.Army)
 			{
