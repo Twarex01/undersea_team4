@@ -27,7 +27,7 @@ namespace StrategyGame.Bll.Services
 
             if (await _appDbContext.Buildings.Where(b => b.CoutryID == countryId).AnyAsync(b => b.Progress > 0))
             {
-                throw new HttpResponseException { Status = 400, Value = "Already building something" };   //már épül valami
+                throw new HttpResponseException { Status = 400, Value = "Már épül valami" };   //már épül valami
             }
 
             Country country = await _appDbContext.Countries.Include(c => c.Resources).ThenInclude(r => r.ResourceData).SingleOrDefaultAsync(c => c.ID == countryId);
