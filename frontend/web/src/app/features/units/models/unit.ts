@@ -2,7 +2,7 @@ export interface Unit {
     id: number;
     imageSrc: string;
     name: string;
-    count: number;
+    unitCount: number;
     attack: number;
     defense: number;
     pricePerRound: number;

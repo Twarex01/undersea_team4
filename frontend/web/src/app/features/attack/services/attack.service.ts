@@ -27,7 +27,7 @@ export class AttackService {
   getCountryUnits(): Observable<CountryUnit[]>{
     return this.countryClient.getCountryUnits().pipe(
       map((unitDTOArray) => {
-        return unitDTOArray.map((unitDTO) => ({id: unitDTO.unitTypeID, count: unitDTO.count}))
+        return unitDTOArray.map((unitDTO) => ({id: unitDTO.unitTypeID, count: unitDTO.unitCount}))
       })
     );
   }
@@ -52,7 +52,7 @@ export class AttackService {
     return this.battleClient.attack(
       new BattleDTO(({
         idDef: battle.defenderId,
-        army: battle.army.map((cu) => new UnitDTO(({unitTypeID: cu.id, count: cu.count})))
+        army: battle.army.map((cu) => new UnitDTO(({unitTypeID: cu.id, unitCount: cu.count})))
       }))
     );
   }

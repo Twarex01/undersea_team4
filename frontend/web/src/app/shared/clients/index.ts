@@ -1395,7 +1395,7 @@ export interface IBattleDTO {
 
 export class UnitDTO implements IUnitDTO {
     unitTypeID!: number;
-    count!: number;
+    unitCount!: number;
 
     constructor(data?: IUnitDTO) {
         if (data) {
@@ -1409,7 +1409,7 @@ export class UnitDTO implements IUnitDTO {
     init(_data?: any) {
         if (_data) {
             this.unitTypeID = _data["unitTypeID"];
-            this.count = _data["count"];
+            this.unitCount = _data["unitCount"];
         }
     }
 
@@ -1423,14 +1423,14 @@ export class UnitDTO implements IUnitDTO {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["unitTypeID"] = this.unitTypeID;
-        data["count"] = this.count;
+        data["unitCount"] = this.unitCount;
         return data; 
     }
 }
 
 export interface IUnitDTO {
     unitTypeID: number;
-    count: number;
+    unitCount: number;
 }
 
 export class BattleDetailsDTO implements IBattleDetailsDTO {

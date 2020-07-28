@@ -18,7 +18,7 @@ export class UnitService {
   getCountryUnits(): Observable<CountryUnit[]> {
     return this.countryClient.getCountryUnits().pipe(
       map((unitDTOArray) => {
-        return unitDTOArray.map((unitDTO) => ({ id: unitDTO.unitTypeID, count: unitDTO.count }))
+        return unitDTOArray.map((unitDTO) => ({ id: unitDTO.unitTypeID, count: unitDTO.unitCount }))
       })
     );
   }

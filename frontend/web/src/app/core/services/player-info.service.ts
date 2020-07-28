@@ -43,7 +43,7 @@ export class PlayerInfoService {
       map((untiDTOarray) => {
         return untiDTOarray.map((unitDTO) => ({
           id: unitDTO.unitTypeID,
-          count: unitDTO.count,
+          count: unitDTO.unitCount,
           imgSrc: ""
         }));
       })
