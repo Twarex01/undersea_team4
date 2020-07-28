@@ -51,6 +51,7 @@ namespace StrategyGame.Bll.Services
 			var count = await _context.AttackingUnits.Include(a => a.Battle).Include(a => a.UnitData).Where(a => a.BattleID == battleId).SumAsync(x => x.Count * x.UnitData.ATK);
 
 			return count * (1 + generalCount * 0.01) * attackingcountry.AttackModifier;
+
 		}
 
 		public async Task<double> CountDefensePowerInBattle(int battleId)
@@ -97,6 +98,14 @@ namespace StrategyGame.Bll.Services
 			{
 				throw new HttpResponseException { Status = 400, Value = "Védekező ország nem található" };
 			}
+
+			var battle = await _context.Battles.Include(b => b.AttackingCountry).Include(b => b.DefendingCountry)
+					.FirstOrDefaultAsync(b => b.AttackingCountry.ID == battleDto.IdAtt && b.DefendingCountry.ID == battleDto.IdDef);
+
+			var general = battleDto.Army.FirstOrDefault(u => u.UnitTypeID == UnitData.General.ID);
+
+			if (battle == null && general == null)
+				throw new HttpResponseException { Status = 400, Value = "Kell lennie egy hadvezérnek a csatában." };
 
 			foreach (UnitDTO unitDto in battleDto.Army)
 			{
