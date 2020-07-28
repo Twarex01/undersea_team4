@@ -57,7 +57,7 @@ namespace StrategyGame.Bll.Services
 		{
 			var battle = await _context.Battles.SingleOrDefaultAsync(b => b.ID == battleId);
 			var defendingcountry = await _context.Countries.SingleOrDefaultAsync(c => c.ID == battle.DefendingCountryID);
-			var generalCount = await CountUnitsOfTypeNotAtHome(defendingcountry.ID, 5);
+			var generalCount = await CountUnitsOfTypeAtHome(defendingcountry.ID, 5);
 			var unitDatas = await _context.UnitData.ToListAsync();
 			double count = 0;
 			foreach (var unitData in unitDatas)
