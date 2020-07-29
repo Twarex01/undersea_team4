@@ -153,6 +153,10 @@ namespace StrategyGame.Bll.Services
                 output.Add(new RankDTO { CountryID = country.ID, Name = country.Name, Score = country.Score });
             }
             output.Sort((x, y) => y.Score.CompareTo(x.Score));
+            for (int i = 0; i < output.Count; i++)
+            {
+                output[i].Rank = i + 1;
+            }
             return output;
         }
         public async Task<CountryDetailsDTO> GetCountryDetailsAsync(int countryId)
