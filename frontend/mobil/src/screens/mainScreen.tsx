@@ -49,15 +49,6 @@ const MainScreen = ({navigation}: MainscreenProps) => {
   }
   const onNextRoundPressed = () => {
     dispatch(postNextRound())
-    dispatch(getRound())
-    dispatch(getCountry())
-    dispatch(getBuildings())
-    dispatch(getMyBuildings())
-    dispatch(getUnits())
-    dispatch(getMyUnits())
-    dispatch(getResources())
-    dispatch(getUpgrades())
-    dispatch(getMyUpgrades())
     showMessage({
       message: 'NextRound',
       backgroundColor: Colors.darkBlue,
