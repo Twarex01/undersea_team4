@@ -25,7 +25,8 @@ function* putUnitsActionWatcher(action: PutUnitsRequestAction) {
     action.successAction()
   } catch (error) {
     console.log(error.response)
-    const errorMessage = 'Hiba'
+    const errorMessage = error.response.data
     yield put(putUnitsFailActionCreator(errorMessage))
+    action.failAction()
   }
 }

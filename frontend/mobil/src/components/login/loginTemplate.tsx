@@ -21,6 +21,7 @@ interface Props {
   onPressButton: () => void
   onPressChange: () => void
   children: React.ReactNode
+  disabled?: boolean
 }
 
 const LoginTemplate = ({
@@ -29,6 +30,7 @@ const LoginTemplate = ({
   onPressButton,
   onPressChange,
   children,
+  disabled,
 }: Props) => {
   return (
     <ScrollView style={styles.scrollView} contentContainerStyle={{flexGrow: 1}}>
@@ -49,6 +51,7 @@ const LoginTemplate = ({
             style={[Margins.mtBig, Margins.mbBig]}
             title={title}
             onPress={onPressButton}
+            disabled={disabled}
           />
 
           <Text

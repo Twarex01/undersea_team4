@@ -28,6 +28,7 @@ import {
   putUnits,
   resetCount,
 } from '../store/putUnits/putUnits.actions'
+import {showMessage} from 'react-native-flash-message'
 
 interface BevyScreenProps {
   navigation: StackNavigationProp<any>
@@ -39,6 +40,9 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
   )
   const {myUnitsError, isMyUnitsLoading} = useSelector(
     (state: IApplicationState) => state.app.myUnit,
+  )
+  const {error, isLoading} = useSelector(
+    (state: IApplicationState) => state.app.buyUnits,
   )
 
   const unitDetailsSelector = createSelector(
@@ -94,6 +98,15 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
     dispatch(resetCount())
     refreshUnits()
   }
+  const failAction = () => {
+    if (error) {
+      showMessage({
+        message: error,
+        backgroundColor: Colors.darkBlue,
+        color: Colors.vibrantLightBlue,
+      })
+    }
+  }
 
   const onBuyPressed = () => {
     var buyUnits: PutUnitRequest = []
@@ -103,7 +116,7 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
         unitCount: u.unitCount ? u.unitCount : 0,
       }),
     )
-    dispatch(putUnits(buyUnits, successAction))
+    dispatch(putUnits(buyUnits, successAction, failAction))
   }
   const renderItem = (
     itemInfo: ListRenderItemInfo<UnitDetails & MyUnitDetails & BuyUnitDetails>,

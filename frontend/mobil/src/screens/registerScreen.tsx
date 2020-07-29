@@ -6,33 +6,61 @@ import {Margins} from '../constants/margins'
 import {Strings} from '../constants/strings'
 import {Screens} from '../constants/screens'
 import {Colors} from '../constants/colors'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {postRegister} from '../store/register/register.actions'
+import {IApplicationState} from '../../store'
+import {showMessage} from 'react-native-flash-message'
 
 interface LoninScreenProps {
   navigation: StackNavigationProp<any>
 }
 
 const RegisterScreen = ({navigation}: LoninScreenProps) => {
-  const [userName, setUsername] = useState(Strings.user_name)
-  const [password, setPassword] = useState(Strings.password)
-  const [passwordConfirmation, setPassword2] = useState(Strings.password_again)
-  const [countryName, setCountry] = useState(Strings.city_name_what_you_bulid)
+  const [userName, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [passwordConfirmation, setPassword2] = useState('')
+  const [countryName, setCountry] = useState('')
+  const [disabled, setDisabled] = useState(true)
+
+  const {register, error, isLoading} = useSelector(
+    (state: IApplicationState) => state.app.register,
+  )
 
   const dispatch = useDispatch()
 
-  useEffect(() => {})
+  useEffect(() => {
+    if (
+      userName === '' ||
+      password === '' ||
+      passwordConfirmation === '' ||
+      countryName === ''
+    ) {
+      setDisabled(true)
+    } else {
+      setDisabled(false)
+    }
+  }, [userName, password, passwordConfirmation, countryName])
 
   const onRegisterPress = () => {
     dispatch(
       postRegister(
         {userName, password, passwordConfirmation, countryName},
         successAction,
+        failAction,
       ),
     )
   }
   const successAction = () => {
     navigation.replace(Screens.Login)
+  }
+  const failAction = () => {
+    if (error) {
+      showMessage({
+        message: error,
+        backgroundColor: Colors.darkBlue,
+        color: Colors.vibrantLightBlue,
+      })
+    }
   }
 
   const onLoginPress = () => {
@@ -43,7 +71,8 @@ const RegisterScreen = ({navigation}: LoninScreenProps) => {
       title={Strings.registration}
       change={Strings.login}
       onPressButton={onRegisterPress}
-      onPressChange={onLoginPress}>
+      onPressChange={onLoginPress}
+      disabled={disabled}>
       <CustomTextInput
         placeholder={Strings.user_name}
         placeholderTextColor={Colors.darkBlue}

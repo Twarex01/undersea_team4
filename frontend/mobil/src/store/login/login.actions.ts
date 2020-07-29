@@ -7,6 +7,7 @@ export const POST_LOGIN_FAILURE = 'POST_LOGIN_FAILURE'
 export interface PostLoginRequestAction {
   type: typeof POST_LOGIN_REQUEST
   successAction: () => void
+  failAction: () => void
   loginRequest: LoginRequest
 }
 
@@ -27,9 +28,11 @@ export type LoginActions =
 export const postLogin = (
   loginRequest: LoginRequest,
   successAction: () => void,
+  failAction: () => void,
 ): PostLoginRequestAction => ({
   type: POST_LOGIN_REQUEST,
   successAction,
+  failAction,
   loginRequest,
 })
 

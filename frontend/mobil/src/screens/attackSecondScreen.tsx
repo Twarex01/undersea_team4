@@ -36,6 +36,7 @@ import {ExploreRequest} from '../model/battle/exploreRequest'
 import {resetCount} from '../store/putUnits/putUnits.actions'
 import {getFights} from '../store/fights/fights.action'
 import {getExplorations} from '../store/explorations/explorations.actions'
+import {showMessage} from 'react-native-flash-message'
 
 interface AttacSecondScreenProps {
   navigation: StackNavigationProp<any>
@@ -157,13 +158,30 @@ const AttacSecondScreen = ({navigation}: AttacSecondScreenProps) => {
         army.army.push({unitTypeID: b.unitTypeID, unitCount: b.count})
       }
     })
-    dispatch(attack(army, successAction))
-    dispatch(explore(explorers, successAction))
+    dispatch(attack(army, successAction, failAction))
+    dispatch(explore(explorers, successAction, failAction))
   }
 
   const successAction = () => {
     refreshUnits()
     dispatch(resetBattleCount())
+  }
+
+  const failAction = () => {
+    if (fightData.explorationError) {
+      showMessage({
+        message: fightData.explorationError,
+        backgroundColor: Colors.darkBlue,
+        color: Colors.vibrantLightBlue,
+      })
+    }
+    if (fightData.fightError) {
+      showMessage({
+        message: fightData.fightError,
+        backgroundColor: Colors.darkBlue,
+        color: Colors.vibrantLightBlue,
+      })
+    }
   }
 
   const renderItem = (

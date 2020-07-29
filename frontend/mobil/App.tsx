@@ -131,6 +131,7 @@ const App = () => {
       <NavigationContainer>
         <RootStackScreen />
       </NavigationContainer>
+      <FlashMessage position="top" />
     </Provider>
   )
 }

@@ -21,6 +21,7 @@ import {createSelector} from 'reselect'
 import {MyBuildingDetails} from '../model/building/myBuildingDetails'
 import TransparentButton from '../components/button/transparentButton'
 import {putBuilding} from '../store/putBuilding/putBuilding.actions'
+import {showMessage} from 'react-native-flash-message'
 
 const BuildingsScreen = () => {
   const {buildingsError, isBuildingsLoading} = useSelector(
@@ -28,6 +29,9 @@ const BuildingsScreen = () => {
   )
   const {myBuildingsError, isMyBuildingsLoading} = useSelector(
     (state: IApplicationState) => state.app.myBuilding,
+  )
+  const {error, isLoading} = useSelector(
+    (state: IApplicationState) => state.app.putBuilding,
   )
 
   const buildingsDataSelector = createSelector(
@@ -72,6 +76,21 @@ const BuildingsScreen = () => {
     setIndex(-1)
     refreshBuildings()
   }
+
+  const failAction = () => {
+    if (error) {
+      showMessage({
+        message: error,
+        backgroundColor: Colors.darkBlue,
+        color: Colors.vibrantLightBlue,
+      })
+    }
+  }
+  const onBuyPressed = () => {
+    if (!(index === -1)) {
+      dispatch(putBuilding(index, successAction, failAction))
+    }
+  }
   const [index, setIndex] = useState(-1)
   const [disabled, setDisabled] = useState(false)
 
@@ -85,12 +104,6 @@ const BuildingsScreen = () => {
       }
     })
     return temp
-  }
-
-  const onBuyPressed = () => {
-    if (!(index === -1)) {
-      dispatch(putBuilding(index, successAction))
-    }
   }
 
   const renderItem = (

@@ -10,6 +10,7 @@ export const RESET_COUNT = 'RESET_COUNT'
 export interface PutUnitsRequestAction {
   type: typeof PUT_UNITS_REQUEST
   successAction: () => void
+  failAction: () => void
   unitRequest: PutUnitRequest
 }
 
@@ -47,10 +48,12 @@ export type PutUnitsActions =
 export const putUnits = (
   unitRequest: PutUnitRequest,
   successAction: () => void,
+  failAction: () => void,
 ): PutUnitsRequestAction => ({
   type: PUT_UNITS_REQUEST,
   unitRequest,
   successAction,
+  failAction,
 })
 
 export const putUnitsSuccessActionCreator = (): PutUnitsSuccessAction => ({

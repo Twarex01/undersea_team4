@@ -28,7 +28,8 @@ function* postLoginActionWatcher(action: PostLoginRequestAction) {
     action.successAction()
   } catch (error) {
     console.log(error.response)
-    const errorMessage = 'Hiba'
+    const errorMessage = error.response.data
     yield put(postLoginFailActionCreator(errorMessage))
+    action.failAction()
   }
 }

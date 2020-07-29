@@ -69,4 +69,4 @@ const startSignalRConnection = connection =>
   connection
     .start()
     .then(() => console.info('SignalR Connected'))
-    .catch(err => console.error('SignalR Connection Error: ', err))
+    .catch(err => console.log('SignalR Connection Error: ', err))

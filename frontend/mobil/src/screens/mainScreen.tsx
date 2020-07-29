@@ -40,8 +40,7 @@ const MainScreen = ({navigation}: MainscreenProps) => {
   const onNextRoundPressed = () => {
     dispatch(postNextRound())
     showMessage({
-      message: 'NextRound',
-      description: 'description',
+      message: 'Körváltás',
       backgroundColor: Colors.darkBlue,
       color: Colors.vibrantLightBlue,
     })
@@ -68,7 +67,6 @@ const MainScreen = ({navigation}: MainscreenProps) => {
 
         <PopupMenu />
       </ImageBackground>
-      <FlashMessage />
     </View>
   )
 }

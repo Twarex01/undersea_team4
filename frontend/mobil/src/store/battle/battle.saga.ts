@@ -33,6 +33,7 @@ function* postAttackActionWatcher(action: PostAttackRequestAction) {
     console.log(error.response)
     const errorMessage = 'Hiba'
     yield put(postAttackFailActionCreator(errorMessage))
+    action.failAction()
   }
 }
 
@@ -47,5 +48,6 @@ function* postExploreActionWatcher(action: PostExploreRequestAction) {
     console.log(error.response)
     const errorMessage = 'Hiba'
     yield put(postExploreFailActionCreator(errorMessage))
+    action.failAction()
   }
 }
