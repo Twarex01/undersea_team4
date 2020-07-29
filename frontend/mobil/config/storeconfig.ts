@@ -2,6 +2,7 @@ import createSagaMiddleware from '@redux-saga/core'
 import {appRootReducer} from '../store'
 import {applyMiddleware, createStore, combineReducers} from 'redux'
 import {rootSaga} from '../saga'
+import {Config} from '../src/constants/config'
 
 export function configureStore() {
   const sagaMiddleware = createSagaMiddleware()
@@ -10,3 +11,11 @@ export function configureStore() {
   sagaMiddleware.run(rootSaga)
   return store
 }
+
+const signalRURL = `${Config.baseURL}/roundhub`
+
+// const createSignalRMiddleware = () => {
+//   return storeSignalR => {
+//     let connection
+//   }
+// }
