@@ -3,10 +3,8 @@ import {View, ImageBackground, StyleSheet, LayoutAnimation} from 'react-native'
 import {StatusBar} from 'expo-status-bar'
 import {Images} from '../constants/images'
 import {Colors} from '../constants/colors'
-import {Margins} from '../constants/margins'
 import MainHeader from '../components/main/mainHeader'
 import RoundBar from '../components/main/roundBar'
-import BottomMenu from '../components/main/bottomMenu'
 import PopupMenu from '../components/main/popupMenu'
 import {StackNavigationProp} from '@react-navigation/stack'
 import {Screens} from '../constants/screens'
@@ -15,14 +13,6 @@ import {useSelector, useDispatch} from 'react-redux'
 import {IApplicationState} from '../../store'
 import {getRound} from '../store/round/round.actions'
 import {postNextRound} from '../store/nextRound/nextRound.actions'
-import {getCountry} from '../store/country/country.actions'
-import {getBuildings} from '../store/buildings/buildings.actions'
-import {getMyBuildings} from '../store/myBuildings/myBuildings.action'
-import {getUnits} from '../store/units/units.actions'
-import {getMyUnits} from '../store/myUnits/myUnits.actions'
-import {getResources} from '../store/resources/resources.actions'
-import {getUpgrades} from '../store/upgrades/upgrades.actions'
-import {getMyUpgrades} from '../store/myUpgrades/myUpgrades.actions'
 import FlashMessage, {showMessage} from 'react-native-flash-message'
 
 interface MainscreenProps {
@@ -51,6 +41,7 @@ const MainScreen = ({navigation}: MainscreenProps) => {
     dispatch(postNextRound())
     showMessage({
       message: 'NextRound',
+      description: 'description',
       backgroundColor: Colors.darkBlue,
       color: Colors.vibrantLightBlue,
     })

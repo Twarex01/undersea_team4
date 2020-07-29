@@ -34,21 +34,12 @@ const AttackFirstScreen = ({navigation}: AttacFirstScreenProps) => {
     (state: IApplicationState) => state.app.player,
   )
 
-  // const playersSelector = createSelector(
-  //   (state: IApplicationState) => state.app.player.players,
-  //   players => {
-  //     if (username === '') {
-  //       return players
-  //     }
-  //     players.map(player => {
-  //       if (player.name === username) {
-  //         return player
-  //       }
-  //     })
-  //   },
-  // )
-
-  // const searchplayers = useSelector(playersSelector)
+  const searcPlayer = (): PlayerDetails[] => {
+    var temp: PlayerDetails[] = []
+    const player = players.find(p => p.name === username)
+    if (player) temp.push(player)
+    return temp
+  }
 
   const dispatch = useDispatch()
 
@@ -107,7 +98,7 @@ const AttackFirstScreen = ({navigation}: AttacFirstScreenProps) => {
           />
         </View>
         <FlatList
-          data={players}
+          data={username === '' ? players : searcPlayer()}
           renderItem={renderItem}
           ItemSeparatorComponent={SeparatorComponent}
           keyExtractor={keyExtractor}

@@ -90,6 +90,11 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
     dispatch(increaseCount(unitTypeID))
   }
 
+  const successAction = () => {
+    dispatch(resetCount())
+    refreshUnits()
+  }
+
   const onBuyPressed = () => {
     var buyUnits: PutUnitRequest = []
     units.map(u =>
@@ -98,9 +103,7 @@ const BevyScreen = ({navigation}: BevyScreenProps) => {
         unitCount: u.unitCount ? u.unitCount : 0,
       }),
     )
-    dispatch(putUnits(buyUnits))
-    dispatch(resetCount())
-    refreshUnits()
+    dispatch(putUnits(buyUnits, successAction))
   }
   const renderItem = (
     itemInfo: ListRenderItemInfo<UnitDetails & MyUnitDetails & BuyUnitDetails>,

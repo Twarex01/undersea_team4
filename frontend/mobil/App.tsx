@@ -13,10 +13,6 @@ import {
 import {View, UIManager, Platform, Image} from 'react-native'
 import {Screens} from './src/constants/screens'
 import MainScreen from './src/screens/mainScreen'
-import BuildingsScreen from './src/screens/buildingsScreen'
-import UpgradesScreen from './src/screens/upgradesScreen'
-import FightScreen from './src/screens/fightScreen'
-import BevyScreen from './src/screens/bevyScreen'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import ProfilScreen from './src/screens/profilScreen'
 import RankingScreen from './src/screens/rankingScreen'
@@ -29,6 +25,7 @@ import {Colors} from './src/constants/colors'
 import {Images} from './src/constants/images'
 import CityScreen from './src/screens/cityScreen'
 import UnitScreen from './src/screens/unitScreen'
+import FlashMessage from 'react-native-flash-message'
 
 const RootStack = createStackNavigator()
 const LoginStack = createStackNavigator()

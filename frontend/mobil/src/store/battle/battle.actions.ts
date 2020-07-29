@@ -13,6 +13,7 @@ export const RESET_COUNT = 'RESET_COUNT'
 
 export interface PostAttackRequestAction {
   type: typeof POST_ATTACK_REQUEST
+  successAction: () => void
   attackRequest: AttackRequest
 }
 
@@ -27,6 +28,7 @@ export interface PostAttackFailAction {
 
 export interface PostExploreRequestAction {
   type: typeof POST_EXPLORE_REQUEST
+  successAction: () => void
   exploreRequest: ExploreRequest
 }
 
@@ -67,9 +69,11 @@ export type BattleActions =
 
 export const attack = (
   attackRequest: AttackRequest,
+  successAction: () => void,
 ): PostAttackRequestAction => ({
   type: POST_ATTACK_REQUEST,
   attackRequest,
+  successAction,
 })
 
 export const postAttackSuccessActionCreator = (): PostAttackSuccessAction => ({
@@ -85,9 +89,11 @@ export const postAttackFailActionCreator = (
 
 export const explore = (
   exploreRequest: ExploreRequest,
+  successAction: () => void,
 ): PostExploreRequestAction => ({
   type: POST_EXPLORE_REQUEST,
   exploreRequest,
+  successAction,
 })
 
 export const postExploreSuccessActionCreator = (): PostExploreSuccessAction => ({

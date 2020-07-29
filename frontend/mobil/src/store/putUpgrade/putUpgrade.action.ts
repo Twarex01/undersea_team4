@@ -4,6 +4,7 @@ export const PUT_UPGRADE_FAILURE = 'PUT_UPGRADE_FAILURE'
 
 export interface PutUpgradeRequestAction {
   type: typeof PUT_UPGRADE_REQUEST
+  successAction: () => void
   upgradeID: number
 }
 
@@ -21,9 +22,13 @@ export type PutUpgradeActions =
   | PutUpgradeSuccessAction
   | PutUpgradeFailAction
 
-export const putUpgrade = (buildingID: number): PutUpgradeRequestAction => ({
+export const putUpgrade = (
+  buildingID: number,
+  successAction: () => void,
+): PutUpgradeRequestAction => ({
   type: PUT_UPGRADE_REQUEST,
   upgradeID: buildingID,
+  successAction,
 })
 
 export const putUpgradeSuccessActionCreator = (): PutUpgradeSuccessAction => ({

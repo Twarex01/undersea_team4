@@ -22,6 +22,7 @@ function* putUnitsActionWatcher(action: PutUnitsRequestAction) {
       action.unitRequest,
     )
     yield put(putUnitsSuccessActionCreator())
+    action.successAction()
   } catch (error) {
     console.log(error.response)
     const errorMessage = 'Hiba'

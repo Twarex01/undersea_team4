@@ -7,6 +7,7 @@ import {
   postAttackSuccessActionCreator,
   postAttackFailActionCreator,
   postExploreFailActionCreator,
+  postExploreSuccessActionCreator,
 } from './battle.actions'
 import {AxiosResponse} from 'axios'
 import attackService from '../../utility/services/attackService'
@@ -27,6 +28,7 @@ function* postAttackActionWatcher(action: PostAttackRequestAction) {
       action.attackRequest,
     )
     yield put(postAttackSuccessActionCreator())
+    action.successAction()
   } catch (error) {
     console.log(error.response)
     const errorMessage = 'Hiba'
@@ -39,6 +41,8 @@ function* postExploreActionWatcher(action: PostExploreRequestAction) {
     const response: AxiosResponse<string> = yield exploreService.explore(
       action.exploreRequest,
     )
+    yield put(postExploreSuccessActionCreator())
+    action.successAction()
   } catch (error) {
     console.log(error.response)
     const errorMessage = 'Hiba'

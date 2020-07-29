@@ -21,7 +21,8 @@ export const Strings = {
   attack_first_title: '1. Lépés',
   attack_first_description: 'Jelöld ki, kit szeretnél megtámadni:',
   attack_second_title: '2. Lépés',
-  attack_second_description: 'Állítsd be, kiket küldesz harcba:',
+  attack_second_description:
+    'Állítsd be, kiket küldesz harcba. Legalább egy hadvezért kell küldened:',
   bevy_title: 'Jelöld ki, amelyiket szeretnéd:',
   city_name: 'Városom neve',
   log_out: 'Kijelentkezés',

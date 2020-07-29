@@ -57,13 +57,15 @@ const BuildingsScreen = () => {
   useEffect(() => {
     dispatch(getBuildings())
     dispatch(getMyBuildings())
-    setDisabled(checkProgress())
   }, [dispatch])
+
+  useEffect(() => {
+    setDisabled(checkProgress())
+  }, [buildings])
 
   const refreshBuildings = () => {
     dispatch(getBuildings())
     dispatch(getMyBuildings())
-    setDisabled(checkProgress())
   }
 
   const successAction = () => {

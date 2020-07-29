@@ -22,6 +22,7 @@ function* putUpgradeActionWatcher(action: PutUpgradeRequestAction) {
       action.upgradeID,
     )
     yield put(putUpgradeSuccessActionCreator())
+    action.successAction()
   } catch (error) {
     console.log(error.response)
     const errorMessage = 'Hiba'

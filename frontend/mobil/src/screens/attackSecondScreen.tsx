@@ -157,9 +157,8 @@ const AttacSecondScreen = ({navigation}: AttacSecondScreenProps) => {
         army.army.push({unitTypeID: b.unitTypeID, unitCount: b.count})
       }
     })
-    dispatch(attack(army))
-    dispatch(explore(explorers))
-    successAction()
+    dispatch(attack(army, successAction))
+    dispatch(explore(explorers, successAction))
   }
 
   const successAction = () => {

@@ -61,10 +61,13 @@ const UpgradesScreen = ({navigation}: UpgradesScreenProps) => {
     setDisabled(checkProgress())
   }, [dispatch])
 
+  useEffect(() => {
+    setDisabled(checkProgress())
+  }, [upgrades])
+
   const refreshUpgrades = () => {
     dispatch(getUpgrades())
     dispatch(getMyUpgrades())
-    setDisabled(checkProgress())
   }
 
   const [index, setIndex] = useState(-1)
@@ -84,10 +87,13 @@ const UpgradesScreen = ({navigation}: UpgradesScreenProps) => {
 
   const onBuyPressed = () => {
     if (!(index === -1)) {
-      dispatch(putUpgrade(index))
-      setIndex(-1)
-      refreshUpgrades()
+      dispatch(putUpgrade(index, successAction))
     }
+  }
+
+  const successAction = () => {
+    setIndex(-1)
+    refreshUpgrades()
   }
 
   const renderItem = (itemInfo: ListRenderItemInfo<any>) => {
