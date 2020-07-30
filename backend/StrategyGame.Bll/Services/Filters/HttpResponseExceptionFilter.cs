@@ -35,7 +35,7 @@ namespace StrategyGame.Bll
             }
             else if (context.Exception is Exception ex)
             {
-                context.Result = new ObjectResult("Internal server error")
+                context.Result = new ObjectResult(ex.Message + "\n\n" + ex.StackTrace)
                 {
                     StatusCode = 500
                 };
