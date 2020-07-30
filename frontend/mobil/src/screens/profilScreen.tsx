@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react'
 import {View, Text, StyleSheet, Image, AsyncStorage} from 'react-native'
 import {Colors} from '../constants/colors'
-import ScrollablePagesTemplate from '../components/pages/scrollablePagesTemplate'
 import {Strings} from '../constants/strings'
 import {Images} from '../constants/images'
 import {Fonts, FontSizes} from '../constants/fonts'

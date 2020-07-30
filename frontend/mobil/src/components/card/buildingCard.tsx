@@ -1,22 +1,11 @@
 import React from 'react'
-import {
-  View,
-  StyleSheet,
-  ImageSourcePropType,
-  Image,
-  StyleProp,
-  ViewStyle,
-  Text,
-  ListRenderItemInfo,
-} from 'react-native'
+import {View, StyleSheet, Image, StyleProp, ViewStyle, Text} from 'react-native'
 import {Fonts, FontSizes} from '../../constants/fonts'
 import {Colors} from '../../constants/colors'
 import {Margins} from '../../constants/margins'
-import {TouchableOpacity, FlatList} from 'react-native-gesture-handler'
 import {Strings} from '../../constants/strings'
 import {Prices} from '../../model/building/buildingDetails'
 import {Config} from '../../constants/config'
-import {color} from 'react-native-reanimated'
 
 interface Props {
   style?: StyleProp<ViewStyle>

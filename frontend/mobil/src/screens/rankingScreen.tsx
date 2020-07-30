@@ -86,7 +86,6 @@ const RankingScreen = ({navigation}: RankingScreenProps) => {
         <FlatList
           data={username === '' ? players : searcPlayer()}
           renderItem={renderItem}
-          //ListHeaderComponent={renderHeaderComponent}
           ItemSeparatorComponent={SeparatorComponent}
           keyExtractor={keyExtractor}
           style={styles.flatlistPadding}

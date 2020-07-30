@@ -1,5 +1,4 @@
 import React from 'react'
-import BevyScreen from '../../screens/bevyScreen'
 import {StyleSheet, View, Image, ImageSourcePropType, Text} from 'react-native'
 import {Images} from '../../constants/images'
 import {Fonts, FontSizes} from '../../constants/fonts'
@@ -8,11 +7,6 @@ import {Colors} from '../../constants/colors'
 import {Margins} from '../../constants/margins'
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import {Config} from '../../constants/config'
-import {useDispatch} from 'react-redux'
-import {
-  decreaseCount,
-  increaseCount,
-} from '../../store/putUnits/putUnits.actions'
 
 interface Props {
   unitTypeID: number

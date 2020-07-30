@@ -4,7 +4,6 @@ import {Colors} from '../../constants/colors'
 import {Fonts, FontSizes} from '../../constants/fonts'
 import {Margins} from '../../constants/margins'
 import {Images} from '../../constants/images'
-import {TouchableOpacity} from 'react-native-gesture-handler'
 
 interface Props {
   name?: string

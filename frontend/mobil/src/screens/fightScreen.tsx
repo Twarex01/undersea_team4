@@ -11,7 +11,6 @@ import {
   RefreshControl,
 } from 'react-native'
 import {Colors} from '../constants/colors'
-import {StackNavigationProp} from '@react-navigation/stack'
 import {Fonts, FontSizes} from '../constants/fonts'
 import {UnitCount, FightDetails} from '../model/fight/fightDetails'
 import {Margins} from '../constants/margins'

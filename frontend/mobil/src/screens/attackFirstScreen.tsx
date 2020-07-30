@@ -22,7 +22,6 @@ import SeparatorComponent from '../components/separator/separatorComponent'
 import {IApplicationState} from '../../store'
 import {useSelector, useDispatch} from 'react-redux'
 import {getPlayers} from '../store/players/players.action'
-import {createSelector} from 'reselect'
 import {setId} from '../store/battle/battle.actions'
 
 interface AttacFirstScreenProps {

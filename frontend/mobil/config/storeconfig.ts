@@ -4,7 +4,6 @@ import {applyMiddleware, createStore, combineReducers} from 'redux'
 import {rootSaga} from '../saga'
 import {Config} from '../src/constants/config'
 import * as signalR from '@microsoft/signalr'
-import {useDispatch} from 'react-redux'
 import {getRound} from '../src/store/round/round.actions'
 import {getBuildings} from '../src/store/buildings/buildings.actions'
 import {getMyBuildings} from '../src/store/myBuildings/myBuildings.action'
@@ -36,6 +35,8 @@ const createSignalRMiddleware = () => {
   return storeSignalR => {
     let connection = new signalR.HubConnectionBuilder()
       .withUrl(signalRURL)
+      .configureLogging(signalR.LogLevel.Debug)
+      .withAutomaticReconnect()
       .build()
 
     connection.on('refreshinfo', data => {
@@ -53,11 +54,12 @@ const createSignalRMiddleware = () => {
       storeSignalR.dispatch(getPlayers())
     })
 
-    connection.onclose(() =>
-      setTimeout(startSignalRConnection(connection), 5000),
-    )
-
     startSignalRConnection(connection)
+
+    // connection.onclose(() => {
+    //   console.log('Disconnect')
+    //   setTimeout(startSignalRConnection(connection), 5000)
+    // })
 
     return next => action => {
       return next(action)
